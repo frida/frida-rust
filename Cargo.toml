@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "frida-gum-sys",
+    "frida-gum",
+    "examples/open"
+]

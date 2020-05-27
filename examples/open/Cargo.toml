@@ -1,0 +1,12 @@
+[package]
+name = "open"
+version = "0.1.0"
+authors = ["meme <keegan@sdf.org>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+frida-gum = { path = "../../frida-gum" }
+lazy_static = "1.4"
