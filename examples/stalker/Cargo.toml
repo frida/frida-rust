@@ -1,0 +1,9 @@
+[package]
+name = "stalker"
+version = "0.1.0"
+authors = ["meme <meme@users.noreply.github.com>"]
+edition = "2018"
+
+[dependencies]
+frida-gum = { path = "../../frida-gum" }
+lazy_static = "1.4"
