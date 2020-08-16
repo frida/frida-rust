@@ -26,5 +26,5 @@ extern "C" fn example_agent_main(_user_data: *const c_void, resident: *mut c_int
 
     let interceptor = gum::Interceptor::obtain(&GUM);
     let open_ptr = gum::Module::find_export_by_name(None, "open").unwrap();
-    interceptor.replace(open_ptr, unsafe { gum::FunctionPointer::from_fn(open) });
+    // interceptor.replace(open_ptr, unsafe { gum::NativePointer::from_fn(open) });
 }

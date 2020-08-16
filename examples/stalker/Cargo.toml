@@ -6,4 +6,5 @@ edition = "2018"
 
 [dependencies]
 frida-gum = { path = "../../frida-gum" }
+frida-gum-sys = { path = "../../frida-gum-sys" }
 lazy_static = "1.4"

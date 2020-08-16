@@ -1,3 +1,7 @@
+extern crate num;
+#[macro_use]
+extern crate num_derive;
+
 pub use frida_gum_sys;
 use std::ffi::CString;
 use std::os::raw::{c_void, c_char};
