@@ -2,5 +2,6 @@
 members = [
     "frida-gum-sys",
     "frida-gum",
-    "examples/open"
+    "examples/open",
+    "examples/stalker"
 ]
