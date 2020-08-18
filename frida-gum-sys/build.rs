@@ -28,6 +28,6 @@ fn main() {
 
     cc::Build::new()
         .file("event_sink.c")
-        // .warnings_into_errors(true)
+        .warnings_into_errors(true)
         .compile("event_sink");
 }

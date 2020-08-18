@@ -44,6 +44,8 @@ static void gum_rust_event_sink_stop (GumEventSink* sink) {
 }
 
 static void gum_rust_event_sink_iface_init (gpointer g_iface, gpointer iface_data) {
+  (void) iface_data;
+
   GumEventSinkInterface* iface = g_iface;
   iface->query_mask = gum_rust_event_sink_query_mask;
   iface->start = gum_rust_event_sink_start;
@@ -53,6 +55,7 @@ static void gum_rust_event_sink_iface_init (gpointer g_iface, gpointer iface_dat
 }
 
 static void gum_rust_event_sink_init (GumRustEventSink* self) {
+  (void) self;
 }
 
 GumEventSink* gum_rust_event_sink_new (RustVTable rust) {
@@ -63,4 +66,5 @@ GumEventSink* gum_rust_event_sink_new (RustVTable rust) {
 }
 
 void gum_rust_event_sink_reset(GumRustEventSink* self) {
+  (void) self;
 }
