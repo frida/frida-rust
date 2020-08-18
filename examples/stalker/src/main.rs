@@ -35,14 +35,11 @@ impl EventSink for SampleEventSink {
 fn main() {
     let mut stalker = Stalker::new(&GUM);
 
-    let transformer = Transformer::from_callback(&GUM, |iterator, output| unsafe {
-        use frida_gum_sys::*;
-        let mut instr: *const cs_insn = std::ptr::null_mut();
-        while gum_stalker_iterator_next(iterator.iterator, &mut instr as *mut _) != 0 {
-            gum_stalker_iterator_keep(iterator.iterator);
+    let transformer = Transformer::from_callback(&GUM, |basic_block, output| {
+        for instr in basic_block {
+            instr.put_callout(|cpu_context| {});
+            instr.keep();
         }
-
-        println!("Transformed...");
     });
 
     let mut event_sink = SampleEventSink;

@@ -1,5 +1,3 @@
-
-
 use std::marker::PhantomData;
 use std::os::raw::c_void;
 
@@ -16,31 +14,31 @@ pub enum EventMask {
     Ret = 1 << 1,
     Exec = 1 << 2,
     Block = 1 << 3,
-    Compile = 1 << 4
+    Compile = 1 << 4,
 }
 
 pub enum Event {
     Call {
         location: NativePointer,
         target: NativePointer,
-        depth: i32
+        depth: i32,
     },
     Ret {
         location: NativePointer,
         target: NativePointer,
-        depth: i32
+        depth: i32,
     },
     Exec {
-        location: NativePointer
+        location: NativePointer,
     },
     Block {
         begin: NativePointer,
-        end: NativePointer
+        end: NativePointer,
     },
     Compile {
         begin: NativePointer,
-        end: NativePointer
-    }
+        end: NativePointer,
+    },
 }
 
 impl From<GumEvent> for Event {
@@ -52,35 +50,35 @@ impl From<GumEvent> for Event {
                 Event::Call {
                     location: NativePointer(call.location),
                     target: NativePointer(call.target),
-                    depth: call.depth
+                    depth: call.depth,
                 }
-            },
+            }
             EventMask::Ret => {
                 let ret = unsafe { event.ret };
                 Event::Ret {
                     location: NativePointer(ret.location),
                     target: NativePointer(ret.target),
-                    depth: ret.depth
+                    depth: ret.depth,
                 }
-            },
+            }
             EventMask::Exec => {
                 let exec = unsafe { event.exec };
                 Event::Exec {
-                    location: NativePointer(exec.location)
+                    location: NativePointer(exec.location),
                 }
-            },
+            }
             EventMask::Block => {
                 let block = unsafe { event.block };
                 Event::Block {
                     begin: NativePointer(block.begin),
-                    end: NativePointer(block.end)
+                    end: NativePointer(block.end),
                 }
-            },
+            }
             EventMask::Compile => {
                 let compile = unsafe { event.compile };
                 Event::Compile {
                     begin: NativePointer(compile.begin),
-                    end: NativePointer(compile.end)
+                    end: NativePointer(compile.end),
                 }
             }
         }
@@ -100,7 +98,10 @@ unsafe extern "C" fn call_start<S: EventSink>(user_data: *mut c_void) {
     event_sink.start();
 }
 
-unsafe extern "C" fn call_process<S: EventSink>(user_data: *mut c_void, event: *const frida_gum_sys::GumEvent) {
+unsafe extern "C" fn call_process<S: EventSink>(
+    user_data: *mut c_void,
+    event: *const frida_gum_sys::GumEvent,
+) {
     let event_sink: &mut S = std::mem::transmute(user_data);
     event_sink.process(&(*event).into());
 }
@@ -115,7 +116,9 @@ unsafe extern "C" fn call_stop<S: EventSink>(user_data: *mut c_void) {
     event_sink.stop();
 }
 
-unsafe extern "C" fn call_query_mask<S: EventSink>(user_data: *mut c_void) -> frida_gum_sys::GumEventType {
+unsafe extern "C" fn call_query_mask<S: EventSink>(
+    user_data: *mut c_void,
+) -> frida_gum_sys::GumEventType {
     let event_sink: &mut S = std::mem::transmute(user_data);
     event_sink.query_mask() as u32
 }
@@ -133,11 +136,43 @@ fn event_sink_transform<S: EventSink>(mut event_sink: &S) -> *mut frida_gum_sys:
     unsafe { frida_gum_sys::gum_rust_event_sink_new(rust) }
 }
 
+pub struct CpuContext<'a> {
+    cpu_context: *mut frida_gum_sys::GumCpuContext,
+    phantom: PhantomData<&'a frida_gum_sys::GumCpuContext>,
+}
+
+impl<'a> CpuContext<'a> {
+    fn from_raw(cpu_context: *mut frida_gum_sys::GumCpuContext) -> CpuContext<'a> {
+        CpuContext {
+            cpu_context,
+            phantom: PhantomData,
+        }
+    }
+}
+
 pub struct StalkerIterator<'a> {
-    pub iterator: *mut frida_gum_sys::GumStalkerIterator,
+    iterator: *mut frida_gum_sys::GumStalkerIterator,
     phantom: PhantomData<&'a frida_gum_sys::GumStalkerIterator>,
 }
 
+unsafe extern "C" fn spring1<F>(
+    cpu_context: *mut frida_gum_sys::GumCpuContext,
+    user_data: *mut c_void,
+) where
+    F: FnMut(CpuContext),
+{
+    let user_data = &mut *(user_data as *mut F);
+    user_data(CpuContext::from_raw(cpu_context));
+}
+
+pub fn get_trampoline1<F>(_closure: &F) -> frida_gum_sys::GumStalkerCallout
+where
+    F: FnMut(CpuContext),
+{
+    Some(spring1::<F>)
+}
+
+// IntoIterator is what you want to implement !!!
 impl<'a> StalkerIterator<'a> {
     fn from_raw(iterator: *mut frida_gum_sys::GumStalkerIterator) -> StalkerIterator<'a> {
         StalkerIterator {
@@ -145,7 +180,88 @@ impl<'a> StalkerIterator<'a> {
             phantom: PhantomData,
         }
     }
+
+    pub fn keep_instr(&self) {
+        unsafe { frida_gum_sys::gum_stalker_iterator_keep(self.iterator) };
+    }
+
+    pub fn put_callout(&self, mut callout: impl FnMut(CpuContext)) {
+        unsafe {
+            frida_gum_sys::gum_stalker_iterator_put_callout(
+                self.iterator,
+                get_trampoline1(&callout),
+                &mut callout as *mut _ as *mut c_void,
+                None,
+            )
+        };
+    }
 }
+
+use frida_gum_sys::cs_insn;
+
+pub struct Instruction<'a> {
+    parent: *mut frida_gum_sys::GumStalkerIterator,
+    instr: *const cs_insn,
+    phantom: PhantomData<&'a *const cs_insn>,
+}
+
+impl<'a> Instruction<'a> {
+    fn from_raw(
+        parent: *mut frida_gum_sys::GumStalkerIterator,
+        instr: *const cs_insn,
+    ) -> Instruction<'a> {
+        Instruction {
+            parent,
+            instr,
+            phantom: PhantomData,
+        }
+    }
+
+    pub fn keep(&self) {
+        unsafe { frida_gum_sys::gum_stalker_iterator_keep(self.parent) };
+    }
+
+    pub fn put_callout(&self, mut callout: impl FnMut(CpuContext)) {
+        unsafe {
+            frida_gum_sys::gum_stalker_iterator_put_callout(
+                self.parent,
+                get_trampoline1(&callout),
+                &mut callout as *mut _ as *mut c_void,
+                None,
+            )
+        };
+    }
+}
+
+impl<'a> Iterator for StalkerIterator<'a> {
+    type Item = Instruction<'a>;
+
+    fn next(&mut self) -> Option<Instruction<'a>> {
+        let mut instr: *const cs_insn = std::ptr::null();
+        if unsafe { frida_gum_sys::gum_stalker_iterator_next(self.iterator, &mut instr as *mut _) }
+            != 0
+        {
+            Some(Instruction::from_raw(self.iterator, instr))
+        } else {
+            None
+        }
+    }
+}
+
+// impl<'a> Iterator for StalkerIterator<'a> {
+//     type Item = *const cs_insn;
+//
+//     fn next(&mut self) -> Option<*const cs_insn> {
+//         let mut instr: *const cs_insn = std::ptr::null();
+//         if unsafe { frida_gum_sys::gum_stalker_iterator_next(self.iterator, &mut instr as *mut _) }
+//             != 0
+//         {
+//             Some(instr)
+//         } else {
+//             None
+//         }
+//     }
+// }
 
 pub struct StalkerOutput<'a> {
     pub output: *mut frida_gum_sys::GumStalkerOutput,
@@ -261,7 +377,11 @@ impl<'a> Stalker<'a> {
 
     pub fn follow_me<S: EventSink>(&mut self, transformer: Transformer, event_sink: &mut S) {
         unsafe {
-            frida_gum_sys::gum_stalker_follow_me(self.stalker, transformer.transformer, event_sink_transform(event_sink));
+            frida_gum_sys::gum_stalker_follow_me(
+                self.stalker,
+                transformer.transformer,
+                event_sink_transform(event_sink),
+            );
         }
     }
 
