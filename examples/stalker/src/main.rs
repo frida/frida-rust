@@ -1,7 +1,6 @@
 #![feature(c_variadic)]
 use frida_gum as gum;
 use frida_gum::stalker::{Event, EventMask, EventSink, Stalker, Transformer};
-use frida_gum_sys;
 use lazy_static::lazy_static;
 
 lazy_static! {
@@ -35,9 +34,9 @@ impl EventSink for SampleEventSink {
 fn main() {
     let mut stalker = Stalker::new(&GUM);
 
-    let transformer = Transformer::from_callback(&GUM, |basic_block, output| {
+    let transformer = Transformer::from_callback(&GUM, |basic_block, _output| {
         for instr in basic_block {
-            instr.put_callout(|cpu_context| {});
+            instr.put_callout(|_cpu_context| {});
             instr.keep();
         }
     });

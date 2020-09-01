@@ -1,10 +1,8 @@
 use std::marker::PhantomData;
 use std::os::raw::c_void;
 
+use crate::Gum;
 use frida_gum_sys;
-use frida_gum_sys::_GumEvent as GumEvent;
-
-use crate::{Gum, NativePointer};
 
 mod event_sink;
 pub use event_sink::*;
@@ -77,6 +75,6 @@ impl<'a> Stalker<'a> {
 
 impl<'a> Drop for Stalker<'a> {
     fn drop(&mut self) {
-        unsafe { frida_gum_sys::_frida_g_object_unref(self.stalker as *mut c_void) };
+        unsafe { frida_gum_sys::g_object_unref(self.stalker as *mut c_void) };
     }
 }

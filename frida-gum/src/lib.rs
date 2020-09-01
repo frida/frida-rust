@@ -3,9 +3,7 @@ extern crate num;
 extern crate num_derive;
 
 pub use frida_gum_sys;
-use std::ffi::CString;
-use std::marker::PhantomData;
-use std::os::raw::{c_char, c_void};
+use std::os::raw::c_void;
 
 pub mod stalker;
 

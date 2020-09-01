@@ -2,9 +2,8 @@ use std::marker::PhantomData;
 use std::os::raw::c_void;
 
 use frida_gum_sys;
-use frida_gum_sys::_GumEvent as GumEvent;
 
-use crate::{CpuContext, Gum, NativePointer};
+use crate::{CpuContext, Gum};
 
 pub struct StalkerIterator<'a> {
     iterator: *mut frida_gum_sys::GumStalkerIterator,
@@ -57,7 +56,7 @@ use frida_gum_sys::cs_insn;
 
 pub struct Instruction<'a> {
     parent: *mut frida_gum_sys::GumStalkerIterator,
-    instr: *const cs_insn,
+    _instr: *const cs_insn,
     phantom: PhantomData<&'a *const cs_insn>,
 }
 
@@ -68,7 +67,7 @@ impl<'a> Instruction<'a> {
     ) -> Instruction<'a> {
         Instruction {
             parent,
-            instr,
+            _instr: instr,
             phantom: PhantomData,
         }
     }
@@ -184,6 +183,6 @@ impl<'a> Transformer<'a> {
 
 impl<'a> Drop for Transformer<'a> {
     fn drop(&mut self) {
-        unsafe { frida_gum_sys::_frida_g_object_unref(self.transformer as *mut c_void) }
+        unsafe { frida_gum_sys::g_object_unref(self.transformer as *mut c_void) }
     }
 }

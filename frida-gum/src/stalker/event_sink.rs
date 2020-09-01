@@ -1,10 +1,9 @@
-use std::marker::PhantomData;
 use std::os::raw::c_void;
 
 use frida_gum_sys;
 use frida_gum_sys::_GumEvent as GumEvent;
 
-use crate::{Gum, NativePointer};
+use crate::NativePointer;
 
 #[derive(FromPrimitive)]
 #[repr(u32)]
