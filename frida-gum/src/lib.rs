@@ -11,6 +11,9 @@ pub mod stalker;
 mod cpu_context;
 pub use cpu_context::*;
 
+mod memory_range;
+pub use memory_range::*;
+
 pub struct Gum;
 
 impl Gum {

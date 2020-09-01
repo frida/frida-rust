@@ -22,6 +22,7 @@ fn main() {
         .header("frida-gum.h")
         .header("event_sink.h")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
+        .generate_comments(false)
         .generate()
         .unwrap();
 
