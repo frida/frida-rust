@@ -4,6 +4,9 @@ version = "0.1.0"
 authors = ["meme <keegan@sdf.org>"]
 edition = "2018"
 
+[features]
+event-sink = ["frida-gum-sys/event-sink"]
+
 [dependencies]
 frida-gum-sys = { path = "../frida-gum-sys" }
 num = "0.2"

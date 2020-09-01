@@ -4,7 +4,9 @@ use std::os::raw::c_void;
 use crate::Gum;
 use frida_gum_sys;
 
+#[cfg(feature = "event-sink")]
 mod event_sink;
+#[cfg(feature = "event-sink")]
 pub use event_sink::*;
 
 mod transformer;
@@ -53,12 +55,24 @@ impl<'a> Stalker<'a> {
         unsafe { frida_gum_sys::gum_stalker_garbage_collect(self.stalker) != 0 }
     }
 
+    #[cfg(feature = "event-sink")]
     pub fn follow_me<S: EventSink>(&mut self, transformer: Transformer, event_sink: &mut S) {
         unsafe {
             frida_gum_sys::gum_stalker_follow_me(
                 self.stalker,
                 transformer.transformer,
                 event_sink_transform(event_sink),
+            );
+        }
+    }
+
+    #[cfg(not(feature = "event-sink"))]
+    pub fn follow_me(&mut self, transformer: Transformer) {
+        unsafe {
+            frida_gum_sys::gum_stalker_follow_me(
+                self.stalker,
+                transformer.transformer,
+                std::ptr::null_mut(),
             );
         }
     }

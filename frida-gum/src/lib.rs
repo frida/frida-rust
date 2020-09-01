@@ -1,4 +1,5 @@
 extern crate num;
+#[allow(unused_imports)]
 #[macro_use]
 extern crate num_derive;
 

@@ -5,6 +5,6 @@ authors = ["meme <meme@users.noreply.github.com>"]
 edition = "2018"
 
 [dependencies]
-frida-gum = { path = "../../frida-gum" }
+frida-gum = { path = "../../frida-gum", features = ["event-sink"] }
 frida-gum-sys = { path = "../../frida-gum-sys" }
 lazy_static = "1.4"
