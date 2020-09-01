@@ -3,8 +3,6 @@ cache: cargo
 
 rust:
   - stable
-  - beta
-  - nightly
 
 matrix:
   fast_finish: true
@@ -14,10 +12,12 @@ matrix:
         - rustup component add rustfmt
         - rustup component add clippy
       script:
-        - cargo fmt    -- --check
-        - cargo clippy -- -D clippy
+        - cd frida-gum-sys && wget https://github.com/frida/frida/releases/download/12.11.12/frida-gum-devkit-12.11.12-linux-x86_64.tar.xz -O frida-gum.tar.xz && tar xJvf frida-gum.tar.xz
+        - cargo fmt -- --check
+        - cargo clippy --all-features -- -D warnings
 
 script: |
+  cd frida-gum-sys && wget https://github.com/frida/frida/releases/download/12.11.12/frida-gum-devkit-12.11.12-linux-x86_64.tar.xz -O frida-gum.tar.xz && tar xJvf frida-gum.tar.xz &&
   cargo build --verbose &&
   cargo test  --verbose &&
   cargo doc   --verbose
