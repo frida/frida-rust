@@ -20,7 +20,7 @@ unsafe extern "C" fn spring1<F>(
     user_data(CpuContext::from_raw(cpu_context));
 }
 
-pub fn get_trampoline1<F>(_closure: &F) -> frida_gum_sys::GumStalkerCallout
+fn get_trampoline1<F>(_closure: &F) -> frida_gum_sys::GumStalkerCallout
 where
     F: FnMut(CpuContext),
 {
@@ -103,21 +103,6 @@ impl<'a> Iterator for StalkerIterator<'a> {
     }
 }
 
-// impl<'a> Iterator for StalkerIterator<'a> {
-//     type Item = *const cs_insn;
-//
-//     fn next(&mut self) -> Option<*const cs_insn> {
-//         let mut instr: *const cs_insn = std::ptr::null();
-//         if unsafe { frida_gum_sys::gum_stalker_iterator_next(self.iterator, &mut instr as *mut _) }
-//             != 0
-//         {
-//             Some(instr)
-//         } else {
-//             None
-//         }
-//     }
-// }
-
 pub struct StalkerOutput<'a> {
     pub output: *mut frida_gum_sys::GumStalkerOutput,
     phantom: PhantomData<&'a frida_gum_sys::GumStalkerOutput>,
@@ -146,7 +131,7 @@ unsafe extern "C" fn spring<F>(
     );
 }
 
-pub fn get_trampoline<F>(_closure: &F) -> frida_gum_sys::GumStalkerTransformerCallback
+fn get_trampoline<F>(_closure: &F) -> frida_gum_sys::GumStalkerTransformerCallback
 where
     F: FnMut(StalkerIterator, StalkerOutput),
 {

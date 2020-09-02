@@ -20,6 +20,7 @@ macro_rules! cpu_accesors {
     }
 }
 
+/// Platform-dependent access to processor state.
 pub struct CpuContext<'a> {
     cpu_context: *mut GumCpuContext,
     phantom: PhantomData<&'a GumCpuContext>,
@@ -33,20 +34,24 @@ impl<'a> CpuContext<'a> {
         }
     }
 
+    /// Get a numbered argument from the processor context, determined by the platform calling convention.
     pub fn get_arg(&self, n: u32) -> usize {
         unsafe { gum_sys::gum_cpu_context_get_nth_argument(self.cpu_context, n) as usize }
     }
 
+    /// Replace a numbered argument in the processor context, determined by the platform calling convention.
     pub fn replace_arg(&mut self, n: u32, value: usize) {
         unsafe {
             gum_sys::gum_cpu_context_replace_nth_argument(self.cpu_context, n, value as *mut c_void)
         };
     }
 
+    /// Get the value of the register used for the platform calling convention's return value.
     pub fn get_return(&self) -> usize {
         unsafe { gum_sys::gum_cpu_context_get_return_value(self.cpu_context) as usize }
     }
 
+    // Replace the value of the register used for the platform calling convention's return value.
     pub fn replace_return(&mut self, value: usize) {
         unsafe {
             gum_sys::gum_cpu_context_replace_return_value(self.cpu_context, value as *mut c_void)

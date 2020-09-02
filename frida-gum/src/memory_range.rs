@@ -17,10 +17,14 @@ impl MemoryRange {
         }
     }
 
+    /// Get the start address of the range
     pub fn base_address(&self) -> NativePointer {
         NativePointer(self.memory_range.base_address as *mut c_void)
     }
 
+    /// Get the size of the range.
+    /// The end address of the range can be computed by adding the [`MemoryRange::base_address()`]
+    /// to the size.
     pub fn size(&self) -> usize {
         self.memory_range.size as usize
     }
