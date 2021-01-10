@@ -168,6 +168,6 @@ impl<'a> Transformer<'a> {
 
 impl<'a> Drop for Transformer<'a> {
     fn drop(&mut self) {
-        unsafe { frida_gum_sys::g_object_unref(self.transformer as *mut c_void) }
+        unsafe { frida_gum_sys::_frida_g_object_unref(self.transformer as *mut c_void) }
     }
 }

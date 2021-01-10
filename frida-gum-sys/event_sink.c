@@ -28,7 +28,8 @@ static void gum_rust_event_sink_start (GumEventSink* sink) {
   return self->rust.start (self->rust.user_data);
 }
 
-static void gum_rust_event_sink_process (GumEventSink* sink, const GumEvent* event) {
+static void gum_rust_event_sink_process (GumEventSink* sink, const GumEvent* event, GumCpuContext *context) {
+  (void) context;
   GumRustEventSink* self = GUM_RUST_EVENT_SINK (sink);
   return self->rust.process (self->rust.user_data, event);
 }

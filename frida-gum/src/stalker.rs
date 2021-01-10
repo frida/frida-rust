@@ -160,6 +160,6 @@ impl<'a> Stalker<'a> {
 
 impl<'a> Drop for Stalker<'a> {
     fn drop(&mut self) {
-        unsafe { gum_sys::g_object_unref(self.stalker as *mut c_void) };
+        unsafe { gum_sys::_frida_g_object_unref(self.stalker as *mut c_void) };
     }
 }

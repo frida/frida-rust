@@ -1,4 +1,3 @@
-#![feature(c_variadic)]
 use frida_gum as gum;
 use frida_gum::stalker::{Event, EventMask, EventSink, Stalker, Transformer};
 use lazy_static::lazy_static;
@@ -42,6 +41,6 @@ fn main() {
     });
 
     let mut event_sink = SampleEventSink;
-    stalker.follow_me(transformer, &mut event_sink);
+    stalker.follow_me(transformer, Some(&mut event_sink));
     stalker.unfollow_me();
 }
