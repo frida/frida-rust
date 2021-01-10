@@ -1,9 +1,6 @@
+use crate::{CpuContext, Gum};
 use std::marker::PhantomData;
 use std::os::raw::c_void;
-
-use frida_gum_sys;
-
-use crate::{CpuContext, Gum};
 
 pub struct StalkerIterator<'a> {
     iterator: *mut frida_gum_sys::GumStalkerIterator,

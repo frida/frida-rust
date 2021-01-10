@@ -34,6 +34,9 @@
 //! }
 //! ```
 
+#![deny(warnings)]
+#![allow(clippy::needless_doctest_main)]
+
 extern crate num;
 #[allow(unused_imports)]
 #[macro_use]

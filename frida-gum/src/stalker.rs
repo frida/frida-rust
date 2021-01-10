@@ -59,7 +59,7 @@ impl EventSink for NoneEventSink {
         unreachable!()
     }
 
-    fn process(&mut self, event: &Event) {
+    fn process(&mut self, _event: &Event) {
         unreachable!()
     }
 

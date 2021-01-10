@@ -29,7 +29,7 @@ pub struct CpuContext<'a> {
 impl<'a> CpuContext<'a> {
     pub(crate) fn from_raw(cpu_context: *mut GumCpuContext) -> CpuContext<'a> {
         CpuContext {
-            cpu_context: cpu_context,
+            cpu_context,
             phantom: PhantomData,
         }
     }
