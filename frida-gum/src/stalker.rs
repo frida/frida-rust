@@ -13,9 +13,9 @@
 //! [`Stalker::follow_me()`]:
 //! ```
 //! # use frida_gum::Gum;
-//! # use frida_gum::stalker::{Stalker, Transformer};
+//! # use frida_gum::stalker::{Stalker, Transformer, NoneEventSink};
 //! let gum = Gum::obtain();
-//! let stalker = Stalker::new(&gum);
+//! let mut stalker = Stalker::new(&gum);
 //!
 //! let transformer = Transformer::from_callback(&gum, |basic_block, _output| {
 //!     for instr in basic_block {
@@ -24,10 +24,12 @@
 //! });
 //!
 //! #[cfg(feature = "event-sink")]
-//! stalker.follow_me(transformer, None);
+//! stalker.follow_me::<NoneEventSink>(transformer, None);
 //!
 //! #[cfg(not(feature = "event-sink"))]
 //! stalker.follow_me(transformer);
+//!
+//! stalker.unfollow_me();
 //! ```
 
 use frida_gum_sys as gum_sys;
@@ -43,6 +45,32 @@ pub use event_sink::*;
 
 mod transformer;
 pub use transformer::*;
+
+#[cfg(feature = "event-sink")]
+pub struct NoneEventSink;
+
+#[cfg(feature = "event-sink")]
+impl EventSink for NoneEventSink {
+    fn query_mask(&mut self) -> EventMask {
+        unreachable!()
+    }
+
+    fn start(&mut self) {
+        unreachable!()
+    }
+
+    fn process(&mut self, event: &Event) {
+        unreachable!()
+    }
+
+    fn flush(&mut self) {
+        unreachable!()
+    }
+
+    fn stop(&mut self) {
+        unreachable!()
+    }
+}
 
 /// Code tracing engine interface.
 pub struct Stalker<'a> {

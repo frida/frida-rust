@@ -13,11 +13,11 @@
 //! to safely ensure that Gum has been properly initialized as required. Next, you are
 //! free to use any available APIs, such as the [`stalker::Stalker`]:
 //! ```
-//! use frida_gum as gum;
+//! use frida_gum::{Gum, stalker::{Stalker, Transformer, NoneEventSink}};
 //! use lazy_static::lazy_static;
 //!
 //! lazy_static! {
-//!     static ref GUM: gum::Gum = gum::Gum::obtain();
+//!     static ref GUM: Gum = Gum::obtain();
 //! }
 //!
 //! fn main() {
@@ -29,7 +29,7 @@
 //!         }
 //!     });
 //!
-//!     stalker.follow_me(transformer, None);
+//!     stalker.follow_me::<NoneEventSink>(transformer, None);
 //!     stalker.unfollow_me();
 //! }
 //! ```
