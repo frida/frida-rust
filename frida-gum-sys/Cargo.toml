@@ -3,6 +3,9 @@ name = "frida-gum-sys"
 version = "0.1.0"
 authors = ["meme <keegan@sdf.org>"]
 edition = "2018"
+license = "wxWindows"
+repository = "https://github.com/meme/frida-rust"
+description = "Rust generated bindings for Frida Gum"
 
 [features]
 event-sink = ["cc"]
@@ -10,3 +13,6 @@ event-sink = ["cc"]
 [build-dependencies]
 bindgen = "0.53.1"
 cc = { version = "1.0", optional = true }
+
+[badges]
+maintenance = { status = "experimental" }

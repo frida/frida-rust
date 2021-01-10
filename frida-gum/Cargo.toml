@@ -3,12 +3,15 @@ name = "frida-gum"
 version = "0.1.0"
 authors = ["meme <keegan@sdf.org>"]
 edition = "2018"
+license = "wxWindows"
+repository = "https://github.com/meme/frida-rust"
+description = "Rust bindings for Frida Gum"
 
 [features]
 event-sink = ["frida-gum-sys/event-sink"]
 
 [dependencies]
-frida-gum-sys = { path = "../frida-gum-sys" }
+frida-gum-sys = { path = "../frida-gum-sys", version = "0.1.0" }
 num = "0.3.1"
 num-derive = "0.3.3"
 num-traits = "0.2.14"
@@ -18,5 +21,4 @@ paste = "1"
 lazy_static = "1"
 
 [badges]
-travis-ci = { repository = "meme/frida-rust", branch = "master" }
-maintenance = { status = "actively-developed" }
+maintenance = { status = "experimental" }
