@@ -1,6 +1,6 @@
 [package]
 name = "frida-gum"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["meme <keegan@sdf.org>"]
 edition = "2018"
 license = "wxWindows"
@@ -11,7 +11,7 @@ description = "Rust bindings for Frida Gum"
 event-sink = ["frida-gum-sys/event-sink"]
 
 [dependencies]
-frida-gum-sys = { path = "../frida-gum-sys", version = "0.1.0" }
+frida-gum-sys = { path = "../frida-gum-sys", version = "0.1.1" }
 num = "0.3.1"
 num-derive = "0.3.3"
 num-traits = "0.2.14"
