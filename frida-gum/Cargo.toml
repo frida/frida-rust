@@ -9,6 +9,7 @@ description = "Rust bindings for Frida Gum"
 
 [features]
 event-sink = ["frida-gum-sys/event-sink"]
+invocation-listener = ["frida-gum-sys/invocation-listener"]
 
 [dependencies]
 frida-gum-sys = { path = "../frida-gum-sys", version = "0.1.1" }

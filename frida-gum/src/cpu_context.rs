@@ -12,8 +12,8 @@ macro_rules! cpu_accesors {
             }
 
             paste! {
-                pub fn [<set_ $name>](&mut self, $name: $reg) {
-                    unsafe { (*self.cpu_context).$name = $name }
+                pub unsafe fn [<set_ $name>](&mut self, $name: $reg) {
+                    (*self.cpu_context).$name = $name
                 }
             }
         )*
@@ -35,27 +35,23 @@ impl<'a> CpuContext<'a> {
     }
 
     /// Get a numbered argument from the processor context, determined by the platform calling convention.
-    pub fn get_arg(&self, n: u32) -> usize {
+    pub fn arg(&self, n: u32) -> usize {
         unsafe { gum_sys::gum_cpu_context_get_nth_argument(self.cpu_context, n) as usize }
     }
 
-    /// Replace a numbered argument in the processor context, determined by the platform calling convention.
-    pub fn replace_arg(&mut self, n: u32, value: usize) {
-        unsafe {
-            gum_sys::gum_cpu_context_replace_nth_argument(self.cpu_context, n, value as *mut c_void)
-        };
+    /// Set a numbered argument in the processor context, determined by the platform calling convention.
+    pub unsafe fn set_arg(&mut self, n: u32, value: usize) {
+        gum_sys::gum_cpu_context_replace_nth_argument(self.cpu_context, n, value as *mut c_void)
     }
 
     /// Get the value of the register used for the platform calling convention's return value.
-    pub fn get_return(&self) -> usize {
+    pub fn return_value(&self) -> usize {
         unsafe { gum_sys::gum_cpu_context_get_return_value(self.cpu_context) as usize }
     }
 
-    // Replace the value of the register used for the platform calling convention's return value.
-    pub fn replace_return(&mut self, value: usize) {
-        unsafe {
-            gum_sys::gum_cpu_context_replace_return_value(self.cpu_context, value as *mut c_void)
-        };
+    /// Set the value of the register used for the platform calling convention's return value.
+    pub unsafe fn set_return_value(&mut self, value: usize) {
+        gum_sys::gum_cpu_context_replace_return_value(self.cpu_context, value as *mut c_void)
     }
 
     #[cfg(target_arch = "x86_64")]

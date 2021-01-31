@@ -1,0 +1,15 @@
+{
+  "name": "frida-rust-open-example",
+  "version": "1.0.0",
+  "license": "wxWindows",
+  "description": "",
+  "main": "inject.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "meme <keegan@sdf.org>",
+  "dependencies": {
+    "frida": "^14.2.8"
+  }
+}

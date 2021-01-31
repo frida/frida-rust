@@ -9,6 +9,7 @@ description = "Rust generated bindings for Frida Gum"
 
 [features]
 event-sink = ["cc"]
+invocation-listener = ["cc"]
 
 [build-dependencies]
 bindgen = "0.53.1"

@@ -33,7 +33,7 @@ impl EventSink for SampleEventSink {
 fn main() {
     let mut stalker = Stalker::new(&GUM);
 
-    let transformer = Transformer::from_callback(&GUM, |basic_block, _output| {
+    let transformer = Transformer::from_callback(&GUM, |basic_block, _output| unsafe {
         for instr in basic_block {
             instr.put_callout(|_cpu_context| {});
             instr.keep();
@@ -41,6 +41,6 @@ fn main() {
     });
 
     let mut event_sink = SampleEventSink;
-    stalker.follow_me(transformer, Some(&mut event_sink));
-    stalker.unfollow_me();
+    unsafe { stalker.follow_me(transformer, Some(&mut event_sink)) };
+    unsafe { stalker.unfollow_me() };
 }

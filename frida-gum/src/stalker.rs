@@ -17,19 +17,19 @@
 //! let gum = Gum::obtain();
 //! let mut stalker = Stalker::new(&gum);
 //!
-//! let transformer = Transformer::from_callback(&gum, |basic_block, _output| {
+//! let transformer = Transformer::from_callback(&gum, |basic_block, _output| unsafe {
 //!     for instr in basic_block {
 //!         instr.keep();
 //!     }
 //! });
 //!
 //! #[cfg(feature = "event-sink")]
-//! stalker.follow_me::<NoneEventSink>(transformer, None);
+//! unsafe { stalker.follow_me::<NoneEventSink>(transformer, None) };
 //!
 //! #[cfg(not(feature = "event-sink"))]
-//! stalker.follow_me(transformer);
+//! unsafe { stalker.follow_me(transformer) };
 //!
-//! stalker.unfollow_me();
+//! unsafe { stalker.unfollow_me() };
 //! ```
 
 use frida_gum_sys as gum_sys;
@@ -145,39 +145,31 @@ impl<'a> Stalker<'a> {
     /// An [`EventSink`] may be optionally specified, but this is **feature-gated** and must
     /// be specified with the `features = ["event-sink"]` as it is not provided by default.
     #[cfg(feature = "event-sink")]
-    pub fn follow_me<S: EventSink>(
+    pub unsafe fn follow_me<S: EventSink>(
         &mut self,
         transformer: Transformer,
         event_sink: Option<&mut S>,
     ) {
-        unsafe {
-            let sink = if let Some(sink) = event_sink {
-                event_sink_transform(sink)
-            } else {
-                std::ptr::null_mut()
-            };
+        let sink = if let Some(sink) = event_sink {
+            event_sink_transform(sink)
+        } else {
+            std::ptr::null_mut()
+        };
 
-            gum_sys::gum_stalker_follow_me(self.stalker, transformer.transformer, sink);
-        }
+        gum_sys::gum_stalker_follow_me(self.stalker, transformer.transformer, sink);
     }
 
     /// Begin the Stalker on the current thread.
     ///
     /// A [`Transformer`] must be specified, and will be updated with all events.
     #[cfg(not(feature = "event-sink"))]
-    pub fn follow_me(&mut self, transformer: Transformer) {
-        unsafe {
-            gum_sys::gum_stalker_follow_me(
-                self.stalker,
-                transformer.transformer,
-                std::ptr::null_mut(),
-            );
-        }
+    pub unsafe fn follow_me(&mut self, transformer: Transformer) {
+        gum_sys::gum_stalker_follow_me(self.stalker, transformer.transformer, std::ptr::null_mut());
     }
 
     /// Stop stalking the current thread.
-    pub fn unfollow_me(&mut self) {
-        unsafe { gum_sys::gum_stalker_unfollow_me(self.stalker) };
+    pub unsafe fn unfollow_me(&mut self) {
+        gum_sys::gum_stalker_unfollow_me(self.stalker);
     }
 
     /// Check if the Stalker is running on the current thread.
