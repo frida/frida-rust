@@ -1,14 +1,12 @@
 [package]
-name = "open"
+name = "hello"
 version = "0.1.0"
 authors = ["meme <keegan@sdf.org>"]
 edition = "2018"
 license = "wxWindows"
 publish = false
 
-[lib]
-crate-type = ["cdylib"]
-
 [dependencies]
-frida-gum = { path = "../../frida-gum" }
+frida = { path = "../../../frida" }
+frida-sys = { path = "../../../frida-sys" }
 lazy_static = "1.4"
