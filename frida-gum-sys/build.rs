@@ -78,7 +78,7 @@ fn main() {
         env::var("CARGO_MANIFEST_DIR").unwrap()
     );
 
-    println!("cargo:rustc-link-lib=static=frida-gum-{}-{}", env::var("CARGO_CFG_TARGET_OS").unwrap(), target_arch);
+    println!("cargo:rustc-link-lib=frida-gum-{}-{}", env::var("CARGO_CFG_TARGET_OS").unwrap(), target_arch);
     #[cfg(not(target = "android"))]
     println!("cargo:rustc-link-lib=pthread");
 
