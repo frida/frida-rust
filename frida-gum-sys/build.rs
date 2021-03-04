@@ -1,7 +1,7 @@
 extern crate bindgen;
 
 use std::env;
-use std::path::{PathBuf, Path};
+use std::path::{Path, PathBuf};
 use std::process::Command;
 
 fn download_and_uncompress_devkit(kind: &str, version: &str, target_arch: &String) {
@@ -13,7 +13,8 @@ fn download_and_uncompress_devkit(kind: &str, version: &str, target_arch: &Strin
         kind,
         version,
         env::var("CARGO_CFG_TARGET_OS").unwrap(),
-        target_arch);
+        target_arch
+    );
     let devkit_path = Path::new(&devkit);
     let devkit_tar = format!("{}.tar.xz", devkit);
 
@@ -21,7 +22,10 @@ fn download_and_uncompress_devkit(kind: &str, version: &str, target_arch: &Strin
 
     if !devkit_path.is_dir() {
         if !Path::new(&devkit_tar).is_file() {
-            println!("cargo:warning=Frida {} devkit not found, downloading...", kind);
+            println!(
+                "cargo:warning=Frida {} devkit not found, downloading...",
+                kind
+            );
             // Download devkit
             Command::new("wget")
                 .arg("-c")
@@ -46,12 +50,16 @@ fn download_and_uncompress_devkit(kind: &str, version: &str, target_arch: &Strin
         Command::new("mv")
             .current_dir(&out_dir_path)
             .arg(format!("libfrida-{}.a", kind))
-            .arg(format!("libfrida-{}-{}-{}.a", kind, env::var("CARGO_CFG_TARGET_OS").unwrap(), target_arch))
+            .arg(format!(
+                "libfrida-{}-{}-{}.a",
+                kind,
+                env::var("CARGO_CFG_TARGET_OS").unwrap(),
+                target_arch
+            ))
             .status()
             .unwrap();
     }
 }
-
 
 fn main() {
     let mut target_arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap();
@@ -78,7 +86,11 @@ fn main() {
         env::var("CARGO_MANIFEST_DIR").unwrap()
     );
 
-    println!("cargo:rustc-link-lib=frida-gum-{}-{}", env::var("CARGO_CFG_TARGET_OS").unwrap(), target_arch);
+    println!(
+        "cargo:rustc-link-lib=frida-gum-{}-{}",
+        env::var("CARGO_CFG_TARGET_OS").unwrap(),
+        target_arch
+    );
     #[cfg(not(target = "android"))]
     println!("cargo:rustc-link-lib=pthread");
 
