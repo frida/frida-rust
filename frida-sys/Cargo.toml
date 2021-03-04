@@ -8,7 +8,7 @@ repository = "https://github.com/meme/frida-rust"
 description = "Rust generated bindings for Frida"
 
 [build-dependencies]
-bindgen = "0.53.1"
+bindgen = "0.57.0"
 
 [badges]
 maintenance = { status = "experimental" }
