@@ -1,5 +1,5 @@
 use std::env;
-use std::path::{Path};
+use std::path::Path;
 use std::process::Command;
 
 pub fn download_and_use_devkit(kind: &str, version: &str) {

@@ -3,11 +3,10 @@ extern crate bindgen;
 use std::env;
 use std::path::PathBuf;
 
-#[cfg(feature  = "autodownload")]
+#[cfg(feature = "autodownload")]
 use frida_build::download_and_use_devkit;
 
 fn main() {
-
     #[cfg(feature = "event-sink")]
     {
         println!("cargo:rerun-if-changed=event_sink.c");
