@@ -8,12 +8,15 @@ repository = "https://github.com/meme/frida-rust"
 description = "Rust generated bindings for Frida Gum"
 
 [features]
+default = ["autodownload"]
+autodownload = ["frida-build"]
 event-sink = ["cc"]
 invocation-listener = ["cc"]
 
 [build-dependencies]
 bindgen = "0.57.0"
 cc = { version = "1.0", optional = true }
+frida-build = { path = "../frida-build", version = "0.1.1", optional = true }
 
 [badges]
 maintenance = { status = "experimental" }
