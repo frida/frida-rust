@@ -78,8 +78,14 @@ impl<'a> InvocationContext<'a> {
     }
 
     /// Set a numbered argument in the processor context, determined by the platform calling convention.
-    pub unsafe fn set_arg(&self, n: u32, value: usize) {
-        gum_sys::gum_invocation_context_replace_nth_argument(self.context, n, value as *mut c_void)
+    pub fn set_arg(&self, n: u32, value: usize) {
+        unsafe {
+            gum_sys::gum_invocation_context_replace_nth_argument(
+                self.context,
+                n,
+                value as *mut c_void,
+            )
+        }
     }
 
     /// Get the value of the register used for the platform calling convention's return value.
@@ -88,8 +94,10 @@ impl<'a> InvocationContext<'a> {
     }
 
     /// Set the value of the register used for the platform calling convention's return value.
-    pub unsafe fn set_return_value(&self, value: usize) {
-        gum_sys::gum_invocation_context_replace_return_value(self.context, value as *mut c_void)
+    pub fn set_return_value(&self, value: usize) {
+        unsafe {
+            gum_sys::gum_invocation_context_replace_return_value(self.context, value as *mut c_void)
+        }
     }
 
     /// Get the destination address after the function returns.

@@ -39,13 +39,15 @@ impl<'a> Interceptor<'a> {
     /// The provided address *must* point to the start of a function in a valid
     /// memory region.
     #[cfg(feature = "invocation-listener")]
-    pub unsafe fn attach<I: InvocationListener>(
+    pub fn attach<I: InvocationListener>(
         &mut self,
         f: NativePointer,
         listener: &mut I,
     ) -> NativePointer {
         let listener = invocation_listener_transform(listener);
-        gum_sys::gum_interceptor_attach(self.interceptor, f.0, listener, ptr::null_mut());
+        unsafe {
+            gum_sys::gum_interceptor_attach(self.interceptor, f.0, listener, ptr::null_mut())
+        };
         NativePointer(listener as *mut c_void)
     }
 
@@ -55,11 +57,13 @@ impl<'a> Interceptor<'a> {
     ///
     /// The listener *must* have been attached with [`Interceptor::attach()`].
     #[cfg(feature = "invocation-listener")]
-    pub unsafe fn detach(&mut self, listener: NativePointer) {
-        gum_sys::gum_interceptor_detach(
-            self.interceptor,
-            listener.0 as *mut gum_sys::GumInvocationListener,
-        );
+    pub fn detach(&mut self, listener: NativePointer) {
+        unsafe {
+            gum_sys::gum_interceptor_detach(
+                self.interceptor,
+                listener.0 as *mut gum_sys::GumInvocationListener,
+            )
+        };
     }
 
     /// Begin an [`Interceptor`] transaction. This may improve performance if
@@ -68,13 +72,13 @@ impl<'a> Interceptor<'a> {
     /// # Safety
     ///
     /// After placing hooks, the transaction must be ended with [`Interceptor::end_transaction()`].
-    pub unsafe fn begin_transaction(&mut self) {
-        gum_sys::gum_interceptor_begin_transaction(self.interceptor);
+    pub fn begin_transaction(&mut self) {
+        unsafe { gum_sys::gum_interceptor_begin_transaction(self.interceptor) };
     }
 
     /// End an [`Interceptor`] transaction. This must be called after placing hooks
     /// if in a transaction started with [`Interceptor::begin_transaction()`].
-    pub unsafe fn end_transaction(&mut self) {
-        gum_sys::gum_interceptor_end_transaction(self.interceptor);
+    pub fn end_transaction(&mut self) {
+        unsafe { gum_sys::gum_interceptor_end_transaction(self.interceptor) };
     }
 }

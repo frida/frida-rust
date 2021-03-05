@@ -7,7 +7,7 @@ use lazy_static::lazy_static;
 use std::os::raw::{c_int, c_void};
 
 lazy_static! {
-    static ref GUM: Gum = Gum::obtain();
+    static ref GUM: Gum = unsafe { Gum::obtain() };
 }
 
 struct OpenListener;
@@ -29,5 +29,5 @@ extern "C" fn example_agent_main(_user_data: *const c_void, resident: *mut c_int
     let mut interceptor = Interceptor::obtain(&GUM);
     let mut listener = OpenListener {};
     let open = Module::find_export_by_name(None, "open");
-    unsafe { interceptor.attach(open, &mut listener) };
+    interceptor.attach(open, &mut listener);
 }

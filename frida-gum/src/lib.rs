@@ -17,22 +17,20 @@
 //! use lazy_static::lazy_static;
 //!
 //! lazy_static! {
-//!     static ref GUM: Gum = Gum::obtain();
+//!     static ref GUM: Gum = unsafe { Gum::obtain() };
 //! }
 //!
 //! fn main() {
 //!     let mut stalker = Stalker::new(&GUM);
 //!
-//!     let transformer = Transformer::from_callback(&GUM, |basic_block, _output| unsafe {
+//!     let transformer = Transformer::from_callback(&GUM, |basic_block, _output| {
 //!         for instr in basic_block {
 //!             instr.keep();
 //!         }
 //!     });
 //!
-//!     unsafe {
-//!         stalker.follow_me::<NoneEventSink>(transformer, None);
-//!         stalker.unfollow_me();
-//!     }
+//!     stalker.follow_me::<NoneEventSink>(transformer, None);
+//!     stalker.unfollow_me();
 //! }
 //! ```
 
@@ -67,8 +65,8 @@ impl Gum {
     /// Obtain a Gum handle, ensuring that the runtime is properly initialized. This may
     /// be called as many times as needed, and results in a no-op if the Gum runtime is
     /// already initialized.
-    pub fn obtain() -> Gum {
-        unsafe { frida_gum_sys::gum_init_embedded() };
+    pub unsafe fn obtain() -> Gum {
+        frida_gum_sys::gum_init_embedded();
         Gum {}
     }
 }

@@ -3,7 +3,7 @@ use frida_gum::stalker::{Event, EventMask, EventSink, Stalker, Transformer};
 use lazy_static::lazy_static;
 
 lazy_static! {
-    static ref GUM: gum::Gum = gum::Gum::obtain();
+    static ref GUM: gum::Gum = unsafe { gum::Gum::obtain() };
 }
 
 struct SampleEventSink;
@@ -33,7 +33,7 @@ impl EventSink for SampleEventSink {
 fn main() {
     let mut stalker = Stalker::new(&GUM);
 
-    let transformer = Transformer::from_callback(&GUM, |basic_block, _output| unsafe {
+    let transformer = Transformer::from_callback(&GUM, |basic_block, _output| {
         for instr in basic_block {
             instr.put_callout(|_cpu_context| {});
             instr.keep();
@@ -41,6 +41,6 @@ fn main() {
     });
 
     let mut event_sink = SampleEventSink;
-    unsafe { stalker.follow_me(transformer, Some(&mut event_sink)) };
-    unsafe { stalker.unfollow_me() };
+    stalker.follow_me(transformer, Some(&mut event_sink));
+    stalker.unfollow_me();
 }

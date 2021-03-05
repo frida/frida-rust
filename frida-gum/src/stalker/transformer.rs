@@ -33,17 +33,19 @@ impl<'a> StalkerIterator<'a> {
         }
     }
 
-    pub unsafe fn keep_instr(&self) {
-        frida_gum_sys::gum_stalker_iterator_keep(self.iterator);
+    pub fn keep_instr(&self) {
+        unsafe { frida_gum_sys::gum_stalker_iterator_keep(self.iterator) };
     }
 
-    pub unsafe fn put_callout(&self, mut callout: impl FnMut(CpuContext)) {
-        frida_gum_sys::gum_stalker_iterator_put_callout(
-            self.iterator,
-            get_trampoline1(&callout),
-            &mut callout as *mut _ as *mut c_void,
-            None,
-        )
+    pub fn put_callout(&self, mut callout: impl FnMut(CpuContext)) {
+        unsafe {
+            frida_gum_sys::gum_stalker_iterator_put_callout(
+                self.iterator,
+                get_trampoline1(&callout),
+                &mut callout as *mut _ as *mut c_void,
+                None,
+            )
+        };
     }
 }
 
@@ -67,17 +69,19 @@ impl<'a> Instruction<'a> {
         }
     }
 
-    pub unsafe fn keep(&self) {
-        frida_gum_sys::gum_stalker_iterator_keep(self.parent);
+    pub fn keep(&self) {
+        unsafe { frida_gum_sys::gum_stalker_iterator_keep(self.parent) };
     }
 
-    pub unsafe fn put_callout(&self, mut callout: impl FnMut(CpuContext)) {
-        frida_gum_sys::gum_stalker_iterator_put_callout(
-            self.parent,
-            get_trampoline1(&callout),
-            &mut callout as *mut _ as *mut c_void,
-            None,
-        );
+    pub fn put_callout(&self, mut callout: impl FnMut(CpuContext)) {
+        unsafe {
+            frida_gum_sys::gum_stalker_iterator_put_callout(
+                self.parent,
+                get_trampoline1(&callout),
+                &mut callout as *mut _ as *mut c_void,
+                None,
+            )
+        };
     }
 }
 

@@ -9,8 +9,8 @@ impl Frida {
     /// Obtain a Frida handle, ensuring that the runtime is properly initialized. This may
     /// be called as many times as needed, and results in a no-op if the Frida runtime is
     /// already initialized.
-    pub fn obtain() -> Frida {
-        unsafe { frida_sys::frida_init() };
+    pub unsafe fn obtain() -> Frida {
+        frida_sys::frida_init();
         Frida {}
     }
 }
