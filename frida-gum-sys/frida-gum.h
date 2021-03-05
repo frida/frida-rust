@@ -223,7 +223,6 @@
 #define g_assertion_message_cmpstrv _frida_g_assertion_message_cmpstrv
 #define g_assertion_message_error _frida_g_assertion_message_error
 #define g_assertion_message_expr _frida_g_assertion_message_expr
-#define g_assertion_set_handler _frida_g_assertion_set_handler
 #define g_async_initable_get_type _frida_g_async_initable_get_type
 #define g_async_initable_init_async _frida_g_async_initable_init_async
 #define g_async_initable_init_finish _frida_g_async_initable_init_finish
@@ -871,6 +870,8 @@
 #define g_dbus_error_set_dbus_error_valist _frida_g_dbus_error_set_dbus_error_valist
 #define g_dbus_error_strip_remote_error _frida_g_dbus_error_strip_remote_error
 #define g_dbus_error_unregister_error _frida_g_dbus_error_unregister_error
+#define g_dbus_escape_object_path _frida_g_dbus_escape_object_path
+#define g_dbus_escape_object_path_bytestring _frida_g_dbus_escape_object_path_bytestring
 #define g_dbus_generate_guid _frida_g_dbus_generate_guid
 #define g_dbus_gvalue_to_gvariant _frida_g_dbus_gvalue_to_gvariant
 #define g_dbus_gvariant_to_gvalue _frida_g_dbus_gvariant_to_gvalue
@@ -1079,6 +1080,7 @@
 #define g_dbus_signal_info_ref _frida_g_dbus_signal_info_ref
 #define g_dbus_signal_info_unref _frida_g_dbus_signal_info_unref
 #define g_dbus_subtree_flags_get_type _frida_g_dbus_subtree_flags_get_type
+#define g_dbus_unescape_object_path _frida_g_dbus_unescape_object_path
 #define g_dcgettext _frida_g_dcgettext
 #define g_delayed_settings_backend_apply _frida_g_delayed_settings_backend_apply
 #define g_delayed_settings_backend_get_has_unapplied _frida_g_delayed_settings_backend_get_has_unapplied
@@ -1216,8 +1218,11 @@
 #define g_environ_setenv _frida_g_environ_setenv
 #define g_environ_unsetenv _frida_g_environ_unsetenv
 #define g_error_copy _frida_g_error_copy
+#define g_error_domain_register _frida_g_error_domain_register
+#define g_error_domain_register_static _frida_g_error_domain_register_static
 #define g_error_free _frida_g_error_free
 #define g_error_get_type _frida_g_error_get_type
+#define g_error_init _frida_g_error_init
 #define g_error_matches _frida_g_error_matches
 #define g_error_new _frida_g_error_new
 #define g_error_new_literal _frida_g_error_new_literal
@@ -4494,7 +4499,7 @@
 #define __GUM_H__
 
 /*
- * Copyright (C) 2008-2020 Ole André Vadla Ravnås <oleavr@nowsecure.com>
+ * Copyright (C) 2008-2021 Ole André Vadla Ravnås <oleavr@nowsecure.com>
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */
@@ -5863,6 +5868,11 @@
  */
 #undef GLIB_USING_SYSTEM_PRINTF
 
+/* Specifies that glib_init() is supported by this GLib
+ * build.
+ */
+#define GLIB_DYNAMIC_UNLOADING 1
+
 #define GLIB_STATIC_COMPILATION 1
 #define GOBJECT_STATIC_COMPILATION 1
 #define GIO_STATIC_COMPILATION 1
@@ -5956,7 +5966,7 @@ typedef unsigned long guintptr;
 
 #define GLIB_MAJOR_VERSION 2
 #define GLIB_MINOR_VERSION 67
-#define GLIB_MICRO_VERSION 1
+#define GLIB_MICRO_VERSION 2
 
 #define G_OS_UNIX
 
@@ -6316,8 +6326,16 @@ G_END_DECLS
  */
 #define GLIB_VERSION_2_68       (G_ENCODE_VERSION (2, 68))
 
-/* evaluates to the current stable version; for development cycles,
- * this means the next stable target
+/**
+ * GLIB_VERSION_CUR_STABLE:
+ *
+ * A macro that evaluates to the current stable version of GLib, in a format
+ * that can be used by the C pre-processor.
+ *
+ * During an unstable development cycle, this evaluates to the next stable
+ * (unreleased) version which will be the result of the development cycle.
+ *
+ * Since: 2.32
  */
 #if (GLIB_MINOR_VERSION % 2)
 #define GLIB_VERSION_CUR_STABLE         (G_ENCODE_VERSION (GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION + 1))
@@ -6325,7 +6343,17 @@ G_END_DECLS
 #define GLIB_VERSION_CUR_STABLE         (G_ENCODE_VERSION (GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION))
 #endif
 
-/* evaluates to the previous stable version */
+/**
+ * GLIB_VERSION_PREV_STABLE:
+ *
+ * A macro that evaluates to the previous stable version of GLib, in a format
+ * that can be used by the C pre-processor.
+ *
+ * During an unstable development cycle, this evaluates to the most recent
+ * released stable release, which preceded this development cycle.
+ *
+ * Since: 2.32
+ */
 #if (GLIB_MINOR_VERSION % 2)
 #define GLIB_VERSION_PREV_STABLE        (G_ENCODE_VERSION (GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION - 1))
 #else
@@ -8680,6 +8708,145 @@ struct _GError
   gint         code;
   gchar       *message;
 };
+
+/**
+ * G_DEFINE_EXTENDED_ERROR:
+ * @ErrorType: name to return a #GQuark for
+ * @error_type: prefix for the function name
+ *
+ * A convenience macro which defines two functions. First, returning
+ * the #GQuark for the extended error type @ErrorType; it is called
+ * `error_type_quark()`. Second, returning the private data from a
+ * passed #GError; it is called `error_type_get_private()`.
+ *
+ * For this macro to work, a type named `ErrorTypePrivate` should be
+ * defined, `error_type_private_init()`, `error_type_private_copy()`
+ * and `error_type_private_clear()` functions need to be either
+ * declared or defined. The functions should be similar to
+ * #GErrorInitFunc, #GErrorCopyFunc and #GErrorClearFunc,
+ * respectively, but they should receive the private data type instead
+ * of #GError.
+ *
+ * See [Extended #GError Domains][gerror-extended-domains] for an example.
+ *
+ * Since: 2.68
+ */
+#define G_DEFINE_EXTENDED_ERROR(ErrorType, error_type)                  \
+static inline ErrorType ## Private *                                    \
+error_type ## _get_private (const GError *error)                        \
+{                                                                       \
+  /* Copied from gtype.c (STRUCT_ALIGNMENT and ALIGN_STRUCT macros). */ \
+  const gsize sa = 2 * sizeof (gsize);                                  \
+  const gsize as = (sizeof (ErrorType ## Private) + (sa - 1)) & -sa;    \
+  g_return_val_if_fail (error != NULL, NULL);                           \
+  g_return_val_if_fail (error->domain == error_type ## _quark (), NULL); \
+  return (ErrorType ## Private *) (((guint8 *)error) - as); \
+}                                                                       \
+                                                                        \
+static void                                                             \
+g_error_with_ ## error_type ## _private_init (GError *error)            \
+{                                                                       \
+  ErrorType ## Private *priv = error_type ## _get_private (error);      \
+  error_type ## _private_init (priv);                                   \
+}                                                                       \
+                                                                        \
+static void                                                             \
+g_error_with_ ## error_type ## _private_copy (const GError *src_error,  \
+                                              GError       *dest_error) \
+{                                                                       \
+  const ErrorType ## Private *src_priv = error_type ## _get_private (src_error);  \
+  ErrorType ## Private *dest_priv = error_type ## _get_private (dest_error); \
+  error_type ## _private_copy (src_priv, dest_priv);                    \
+}                                                                       \
+                                                                        \
+static void                                                             \
+g_error_with_ ## error_type ## _private_clear (GError *error)           \
+{                                                                       \
+  ErrorType ## Private *priv = error_type ## _get_private (error);      \
+  error_type ## _private_clear (priv);                                  \
+}                                                                       \
+                                                                        \
+GQuark                                                                  \
+error_type ## _quark (void)                                             \
+{                                                                       \
+  static GQuark q;                                                      \
+  static gsize initialized = 0;                                         \
+                                                                        \
+  if (g_once_init_enter (&initialized))                                 \
+    {                                                                   \
+      q = g_error_domain_register_static (#ErrorType,                   \
+                                          sizeof (ErrorType ## Private), \
+                                          g_error_with_ ## error_type ## _private_init, \
+                                          g_error_with_ ## error_type ## _private_copy, \
+                                          g_error_with_ ## error_type ## _private_clear); \
+      g_once_init_leave (&initialized, 1);                              \
+    }                                                                   \
+                                                                        \
+  return q;                                                             \
+}
+
+/**
+ * GErrorInitFunc:
+ * @error: extended error
+ *
+ * Specifies the type of function which is called just after an
+ * extended error instance is created and its fields filled. It should
+ * only initialize the fields in the private data, which can be
+ * received with the generated `*_get_private()` function.
+ *
+ * Normally, it is better to use G_DEFINE_EXTENDED_ERROR(), as it
+ * already takes care of getting the private data from @error.
+ *
+ * Since: 2.68
+ */
+typedef void (*GErrorInitFunc) (GError *error);
+
+/**
+ * GErrorCopyFunc:
+ * @src_error: source extended error
+ * @dest_error: destination extended error
+ *
+ * Specifies the type of function which is called when an extended
+ * error instance is copied. It is passed the pointer to the
+ * destination error and source error, and should copy only the fields
+ * of the private data from @src_error to @dest_error.
+ *
+ * Normally, it is better to use G_DEFINE_EXTENDED_ERROR(), as it
+ * already takes care of getting the private data from @src_error and
+ * @dest_error.
+ *
+ * Since: 2.68
+ */
+typedef void (*GErrorCopyFunc) (const GError *src_error, GError *dest_error);
+
+/**
+ * GErrorClearFunc:
+ * @error: extended error to clear
+ *
+ * Specifies the type of function which is called when an extended
+ * error instance is freed. It is passed the error pointer about to be
+ * freed, and should free the error's private data fields.
+ *
+ * Normally, it is better to use G_DEFINE_EXTENDED_ERROR(), as it
+ * already takes care of getting the private data from @error.
+ *
+ * Since: 2.68
+ */
+typedef void (*GErrorClearFunc) (GError *error);
+
+GLIB_AVAILABLE_IN_2_68
+GQuark   g_error_domain_register_static (const char        *error_type_name,
+                                         gsize              error_type_private_size,
+                                         GErrorInitFunc     error_type_init,
+                                         GErrorCopyFunc     error_type_copy,
+                                         GErrorClearFunc    error_type_clear);
+
+GLIB_AVAILABLE_IN_2_68
+GQuark   g_error_domain_register (const char        *error_type_name,
+                                  gsize              error_type_private_size,
+                                  GErrorInitFunc     error_type_init,
+                                  GErrorCopyFunc     error_type_copy,
+                                  GErrorClearFunc    error_type_clear);
 
 GLIB_AVAILABLE_IN_ALL
 GError*  g_error_new           (GQuark         domain,
@@ -19256,8 +19423,6 @@ G_END_DECLS
 #error "Only <glib.h> can be included directly."
 #endif
 
-#if defined(__GNUC__) && defined(G_DISABLE_CHECKS)
-#endif
 
 G_BEGIN_DECLS
 
@@ -21630,17 +21795,6 @@ typedef void (*GTestFixtureFunc) (gpointer      fixture,
                                                                          #expr); \
                                         } G_STMT_END
 #endif /* !G_DISABLE_ASSERT */
-
-typedef void (*GAssertionFunc)          (const char     *domain,
-                                         const char     *file,
-                                         int             line,
-                                         const char     *func,
-                                         const char     *message,
-                                         gpointer        user_data);
-
-GLIB_AVAILABLE_IN_2_68
-void g_assertion_set_handler            (GAssertionFunc handler,
-                                         gpointer user_data);
 
 GLIB_AVAILABLE_IN_ALL
 int     g_strcmp0                       (const char     *str1,
@@ -25268,12 +25422,12 @@ guint     g_type_get_type_registration_serial (void);
 /* --- GType boilerplate --- */
 /**
  * G_DECLARE_FINAL_TYPE:
- * @ModuleObjName: The name of the new type, in camel case (like GtkWidget)
+ * @ModuleObjName: The name of the new type, in camel case (like `GtkWidget`)
  * @module_obj_name: The name of the new type in lowercase, with words
- *  separated by '_' (like 'gtk_widget')
- * @MODULE: The name of the module, in all caps (like 'GTK')
- * @OBJ_NAME: The bare name of the type, in all caps (like 'WIDGET')
- * @ParentName: the name of the parent type, in camel case (like GtkWidget)
+ *  separated by `_` (like `gtk_widget`)
+ * @MODULE: The name of the module, in all caps (like `GTK`)
+ * @OBJ_NAME: The bare name of the type, in all caps (like `WIDGET`)
+ * @ParentName: the name of the parent type, in camel case (like `GtkWidget`)
  *
  * A convenience macro for emitting the usual declarations in the header file for a type which is not (at the
  * present time) intended to be subclassed.
@@ -25298,15 +25452,15 @@ guint     g_type_get_type_registration_serial (void);
  *
  * This results in the following things happening:
  *
- * - the usual my_app_window_get_type() function is declared with a return type of #GType
+ * - the usual `my_app_window_get_type()` function is declared with a return type of #GType
  *
- * - the MyAppWindow types is defined as a typedef of struct _MyAppWindow.  The struct itself is not
+ * - the `MyAppWindow` type is defined as a `typedef` of `struct _MyAppWindow`.  The struct itself is not
  *   defined and should be defined from the .c file before G_DEFINE_TYPE() is used.
  *
- * - the MY_APP_WINDOW() cast is emitted as static inline function along with the MY_APP_IS_WINDOW() type
+ * - the `MY_APP_WINDOW()` cast is emitted as `static inline` function along with the `MY_APP_IS_WINDOW()` type
  *   checking function
  *
- * - the MyAppWindowClass type is defined as a struct containing GtkWindowClass.  This is done for the
+ * - the `MyAppWindowClass` type is defined as a struct containing `GtkWindowClass`.  This is done for the
  *   convenience of the person defining the type and should not be considered to be part of the ABI.  In
  *   particular, without a firm declaration of the instance structure, it is not possible to subclass the type
  *   and therefore the fact that the size of the class structure is exposed is not a concern and it can be
@@ -25316,10 +25470,10 @@ guint     g_type_get_type_registration_serial (void);
  *
  * You can only use this function if your parent type also supports g_autoptr().
  *
- * Because the type macro (MY_APP_TYPE_WINDOW in the above example) is not a callable, you must continue to
+ * Because the type macro (`MY_APP_TYPE_WINDOW` in the above example) is not a callable, you must continue to
  * manually define this as a macro for yourself.
  *
- * The declaration of the _get_type() function is the first thing emitted by the macro.  This allows this macro
+ * The declaration of the `_get_type()` function is the first thing emitted by the macro.  This allows this macro
  * to be used in the usual way with export control and API versioning macros.
  *
  * If you want to declare your own class structure, use G_DECLARE_DERIVABLE_TYPE().
@@ -25349,12 +25503,12 @@ guint     g_type_get_type_registration_serial (void);
 
 /**
  * G_DECLARE_DERIVABLE_TYPE:
- * @ModuleObjName: The name of the new type, in camel case (like GtkWidget)
+ * @ModuleObjName: The name of the new type, in camel case (like `GtkWidget`)
  * @module_obj_name: The name of the new type in lowercase, with words
- *  separated by '_' (like 'gtk_widget')
- * @MODULE: The name of the module, in all caps (like 'GTK')
- * @OBJ_NAME: The bare name of the type, in all caps (like 'WIDGET')
- * @ParentName: the name of the parent type, in camel case (like GtkWidget)
+ *  separated by `_` (like `gtk_widget`)
+ * @MODULE: The name of the module, in all caps (like `GTK`)
+ * @OBJ_NAME: The bare name of the type, in all caps (like `WIDGET`)
+ * @ParentName: the name of the parent type, in camel case (like `GtkWidget`)
  *
  * A convenience macro for emitting the usual declarations in the
  * header file for a type which is intended to be subclassed.
@@ -25388,26 +25542,26 @@ guint     g_type_get_type_registration_serial (void);
  *
  * This results in the following things happening:
  *
- * - the usual gtk_frobber_get_type() function is declared with a return type of #GType
+ * - the usual `gtk_frobber_get_type()` function is declared with a return type of #GType
  *
- * - the GtkFrobber struct is created with GtkWidget as the first and only item.  You are expected to use
+ * - the `GtkFrobber` struct is created with `GtkWidget` as the first and only item.  You are expected to use
  *   a private structure from your .c file to store your instance variables.
  *
- * - the GtkFrobberClass type is defined as a typedef to struct _GtkFrobberClass, which is left undefined.
+ * - the `GtkFrobberClass` type is defined as a typedef to `struct _GtkFrobberClass`, which is left undefined.
  *   You should do this from the header file directly after you use the macro.
  *
- * - the GTK_FROBBER() and GTK_FROBBER_CLASS() casts are emitted as static inline functions along with
- *   the GTK_IS_FROBBER() and GTK_IS_FROBBER_CLASS() type checking functions and GTK_FROBBER_GET_CLASS()
+ * - the `GTK_FROBBER()` and `GTK_FROBBER_CLASS()` casts are emitted as `static inline` functions along with
+ *   the `GTK_IS_FROBBER()` and `GTK_IS_FROBBER_CLASS()` type checking functions and `GTK_FROBBER_GET_CLASS()`
  *   function.
  *
  * - g_autoptr() support being added for your type, based on the type of your parent class
  *
  * You can only use this function if your parent type also supports g_autoptr().
  *
- * Because the type macro (GTK_TYPE_FROBBER in the above example) is not a callable, you must continue to
+ * Because the type macro (`GTK_TYPE_FROBBER` in the above example) is not a callable, you must continue to
  * manually define this as a macro for yourself.
  *
- * The declaration of the _get_type() function is the first thing emitted by the macro.  This allows this macro
+ * The declaration of the `_get_type()` function is the first thing emitted by the macro.  This allows this macro
  * to be used in the usual way with export control and API versioning macros.
  *
  * If you are writing a library, it is important to note that it is possible to convert a type from using
@@ -25447,14 +25601,14 @@ guint     g_type_get_type_registration_serial (void);
 
 /**
  * G_DECLARE_INTERFACE:
- * @ModuleObjName: The name of the new type, in camel case (like GtkWidget)
+ * @ModuleObjName: The name of the new type, in camel case (like `GtkWidget`)
  * @module_obj_name: The name of the new type in lowercase, with words
- *  separated by '_' (like 'gtk_widget')
- * @MODULE: The name of the module, in all caps (like 'GTK')
- * @OBJ_NAME: The bare name of the type, in all caps (like 'WIDGET')
- * @PrerequisiteName: the name of the prerequisite type, in camel case (like GtkWidget)
+ *  separated by `_` (like `gtk_widget`)
+ * @MODULE: The name of the module, in all caps (like `GTK`)
+ * @OBJ_NAME: The bare name of the type, in all caps (like `WIDGET`)
+ * @PrerequisiteName: the name of the prerequisite type, in camel case (like `GtkWidget`)
  *
- * A convenience macro for emitting the usual declarations in the header file for a GInterface type.
+ * A convenience macro for emitting the usual declarations in the header file for a #GInterface type.
  *
  * You might use it in a header as follows:
  *
@@ -25482,23 +25636,23 @@ guint     g_type_get_type_registration_serial (void);
  *
  * This results in the following things happening:
  *
- * - the usual my_model_get_type() function is declared with a return type of #GType
+ * - the usual `my_model_get_type()` function is declared with a return type of #GType
  *
- * - the MyModelInterface type is defined as a typedef to struct _MyModelInterface,
+ * - the `MyModelInterface` type is defined as a typedef to `struct _MyModelInterface`,
  *   which is left undefined. You should do this from the header file directly after
  *   you use the macro.
  *
- * - the MY_MODEL() cast is emitted as static inline functions along with
- *   the MY_IS_MODEL() type checking function and MY_MODEL_GET_IFACE() function.
+ * - the `MY_MODEL()` cast is emitted as `static inline` functions along with
+ *   the `MY_IS_MODEL()` type checking function and `MY_MODEL_GET_IFACE()` function.
  *
  * - g_autoptr() support being added for your type, based on your prerequisite type.
  *
  * You can only use this function if your prerequisite type also supports g_autoptr().
  *
- * Because the type macro (MY_TYPE_MODEL in the above example) is not a callable, you must continue to
+ * Because the type macro (`MY_TYPE_MODEL` in the above example) is not a callable, you must continue to
  * manually define this as a macro for yourself.
  *
- * The declaration of the _get_type() function is the first thing emitted by the macro.  This allows this macro
+ * The declaration of the `_get_type()` function is the first thing emitted by the macro.  This allows this macro
  * to be used in the usual way with export control and API versioning macros.
  *
  * Since: 2.44
@@ -25523,13 +25677,13 @@ guint     g_type_get_type_registration_serial (void);
  * G_DEFINE_TYPE:
  * @TN: The name of the new type, in Camel case.
  * @t_n: The name of the new type, in lowercase, with words 
- *  separated by '_'.
+ *  separated by `_`.
  * @T_P: The #GType of the parent type.
  * 
  * A convenience macro for type implementations, which declares a class
  * initialization function, an instance initialization function (see #GTypeInfo
  * for information about these) and a static variable named `t_n_parent_class`
- * pointing to the parent class. Furthermore, it defines  a *_get_type() function.
+ * pointing to the parent class. Furthermore, it defines a `*_get_type()` function.
  * See G_DEFINE_TYPE_EXTENDED() for an example.
  * 
  * Since: 2.4
@@ -25538,13 +25692,13 @@ guint     g_type_get_type_registration_serial (void);
 /**
  * G_DEFINE_TYPE_WITH_CODE:
  * @TN: The name of the new type, in Camel case.
- * @t_n: The name of the new type in lowercase, with words separated by '_'.
+ * @t_n: The name of the new type in lowercase, with words separated by `_`.
  * @T_P: The #GType of the parent type.
- * @_C_: Custom code that gets inserted in the *_get_type() function.
+ * @_C_: Custom code that gets inserted in the `*_get_type()` function.
  * 
  * A convenience macro for type implementations.  
  * Similar to G_DEFINE_TYPE(), but allows you to insert custom code into the 
- * *_get_type() function, e.g. interface implementations via G_IMPLEMENT_INTERFACE().
+ * `*_get_type()` function, e.g. interface implementations via G_IMPLEMENT_INTERFACE().
  * See G_DEFINE_TYPE_EXTENDED() for an example.
  * 
  * Since: 2.4
@@ -25554,18 +25708,18 @@ guint     g_type_get_type_registration_serial (void);
  * G_DEFINE_TYPE_WITH_PRIVATE:
  * @TN: The name of the new type, in Camel case.
  * @t_n: The name of the new type, in lowercase, with words 
- *  separated by '_'.
+ *  separated by `_`.
  * @T_P: The #GType of the parent type.
  * 
  * A convenience macro for type implementations, which declares a class
  * initialization function, an instance initialization function (see #GTypeInfo
  * for information about these), a static variable named `t_n_parent_class`
  * pointing to the parent class, and adds private instance data to the type.
- * Furthermore, it defines a *_get_type() function. See G_DEFINE_TYPE_EXTENDED()
+ * Furthermore, it defines a `*_get_type()` function. See G_DEFINE_TYPE_EXTENDED()
  * for an example.
  * 
  * Note that private structs added with this macros must have a struct
- * name of the form @TN Private.
+ * name of the form `TN ## Private`.
  *
  * The private instance data can be retrieved using the automatically generated
  * getter function `t_n_get_instance_private()`.
@@ -25579,7 +25733,7 @@ guint     g_type_get_type_registration_serial (void);
  * G_DEFINE_ABSTRACT_TYPE:
  * @TN: The name of the new type, in Camel case.
  * @t_n: The name of the new type, in lowercase, with words 
- *  separated by '_'.
+ *  separated by `_`.
  * @T_P: The #GType of the parent type.
  * 
  * A convenience macro for type implementations. 
@@ -25593,13 +25747,13 @@ guint     g_type_get_type_registration_serial (void);
  * G_DEFINE_ABSTRACT_TYPE_WITH_CODE:
  * @TN: The name of the new type, in Camel case.
  * @t_n: The name of the new type, in lowercase, with words 
- *  separated by '_'.
+ *  separated by `_`.
  * @T_P: The #GType of the parent type.
- * @_C_: Custom code that gets inserted in the @type_name_get_type() function.
+ * @_C_: Custom code that gets inserted in the `type_name_get_type()` function.
  * 
  * A convenience macro for type implementations.
  * Similar to G_DEFINE_TYPE_WITH_CODE(), but defines an abstract type and
- * allows you to insert custom code into the *_get_type() function, e.g.
+ * allows you to insert custom code into the `*_get_type()` function, e.g.
  * interface implementations  via G_IMPLEMENT_INTERFACE().
  * See G_DEFINE_TYPE_EXTENDED() for an example.
  * 
@@ -25610,7 +25764,7 @@ guint     g_type_get_type_registration_serial (void);
  * G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE:
  * @TN: The name of the new type, in Camel case.
  * @t_n: The name of the new type, in lowercase, with words 
- *  separated by '_'.
+ *  separated by `_`.
  * @T_P: The #GType of the parent type.
  *
  * Similar to G_DEFINE_TYPE_WITH_PRIVATE(), but defines an abstract type. 
@@ -25623,10 +25777,10 @@ guint     g_type_get_type_registration_serial (void);
  * G_DEFINE_TYPE_EXTENDED:
  * @TN: The name of the new type, in Camel case.
  * @t_n: The name of the new type, in lowercase, with words
- *    separated by '_'.
+ *    separated by `_`.
  * @T_P: The #GType of the parent type.
  * @_f_: #GTypeFlags to pass to g_type_register_static()
- * @_C_: Custom code that gets inserted in the *_get_type() function.
+ * @_C_: Custom code that gets inserted in the `*_get_type()` function.
  *
  * The most general convenience macro for type implementations, on which
  * G_DEFINE_TYPE(), etc are based.
@@ -25698,12 +25852,12 @@ guint     g_type_get_type_registration_serial (void);
 /**
  * G_DEFINE_INTERFACE:
  * @TN: The name of the new type, in Camel case.
- * @t_n: The name of the new type, in lowercase, with words separated by '_'.
- * @T_P: The #GType of the prerequisite type for the interface, or 0
- * (%G_TYPE_INVALID) for no prerequisite type.
+ * @t_n: The name of the new type, in lowercase, with words separated by `_`.
+ * @T_P: The #GType of the prerequisite type for the interface, or %G_TYPE_INVALID
+ * for no prerequisite type.
  *
  * A convenience macro for #GTypeInterface definitions, which declares
- * a default vtable initialization function and defines a *_get_type()
+ * a default vtable initialization function and defines a `*_get_type()`
  * function.
  *
  * The macro expects the interface initialization function to have the
@@ -25723,14 +25877,14 @@ guint     g_type_get_type_registration_serial (void);
 /**
  * G_DEFINE_INTERFACE_WITH_CODE:
  * @TN: The name of the new type, in Camel case.
- * @t_n: The name of the new type, in lowercase, with words separated by '_'.
- * @T_P: The #GType of the prerequisite type for the interface, or 0
- * (%G_TYPE_INVALID) for no prerequisite type.
- * @_C_: Custom code that gets inserted in the *_get_type() function.
+ * @t_n: The name of the new type, in lowercase, with words separated by `_`.
+ * @T_P: The #GType of the prerequisite type for the interface, or %G_TYPE_INVALID
+ * for no prerequisite type.
+ * @_C_: Custom code that gets inserted in the `*_get_type()` function.
  *
  * A convenience macro for #GTypeInterface definitions. Similar to
  * G_DEFINE_INTERFACE(), but allows you to insert custom code into the
- * *_get_type() function, e.g. additional interface implementations
+ * `*_get_type()` function, e.g. additional interface implementations
  * via G_IMPLEMENT_INTERFACE(), or additional prerequisite types. See
  * G_DEFINE_TYPE_EXTENDED() for a similar example using
  * G_DEFINE_TYPE_WITH_CODE().
@@ -25748,7 +25902,7 @@ guint     g_type_get_type_registration_serial (void);
  * of G_DEFINE_TYPE_WITH_CODE() or G_DEFINE_ABSTRACT_TYPE_WITH_CODE().
  * See G_DEFINE_TYPE_EXTENDED() for an example.
  *
- * Note that this macro can only be used together with the G_DEFINE_TYPE_*
+ * Note that this macro can only be used together with the `G_DEFINE_TYPE_*`
  * macros, since it depends on variable names from those macros.
  *
  * Since: 2.4
@@ -25783,10 +25937,10 @@ guint     g_type_get_type_registration_serial (void);
  *                            G_ADD_PRIVATE (MyObject))
  * ]|
  *
- * Will add MyObjectPrivate as the private data to any instance of the MyObject
- * type.
+ * Will add `MyObjectPrivate` as the private data to any instance of the
+ * `MyObject` type.
  *
- * G_DEFINE_TYPE_* macros will automatically create a private function
+ * `G_DEFINE_TYPE_*` macros will automatically create a private function
  * based on the arguments to this macro, which can be used to safely
  * retrieve the private data from an instance of the type; for instance:
  *
@@ -25814,7 +25968,7 @@ guint     g_type_get_type_registration_serial (void);
  *   }
  * ]|
  *
- * Note that this macro can only be used together with the G_DEFINE_TYPE_*
+ * Note that this macro can only be used together with the `G_DEFINE_TYPE_*`
  * macros, since it depends on variable names from those macros.
  *
  * Also note that private structs added with these macros must have a struct
@@ -25839,7 +25993,7 @@ guint     g_type_get_type_registration_serial (void);
  * Evaluates to the offset of the @field inside the instance private data
  * structure for @TypeName.
  *
- * Note that this macro can only be used together with the G_DEFINE_TYPE_*
+ * Note that this macro can only be used together with the `G_DEFINE_TYPE_*`
  * and G_ADD_PRIVATE() macros, since it depends on variable names from
  * those macros.
  *
@@ -25857,7 +26011,7 @@ guint     g_type_get_type_registration_serial (void);
  * Evaluates to a pointer to the @field_name inside the @inst private data
  * structure for @TypeName.
  *
- * Note that this macro can only be used together with the G_DEFINE_TYPE_*
+ * Note that this macro can only be used together with the `G_DEFINE_TYPE_*`
  * and G_ADD_PRIVATE() macros, since it depends on variable names from
  * those macros.
  *
@@ -25876,7 +26030,7 @@ guint     g_type_get_type_registration_serial (void);
  * Evaluates to the @field_name inside the @inst private data
  * structure for @TypeName.
  *
- * Note that this macro can only be used together with the G_DEFINE_TYPE_*
+ * Note that this macro can only be used together with the `G_DEFINE_TYPE_*`
  * and G_ADD_PRIVATE() macros, since it depends on variable names from
  * those macros.
  *
@@ -26001,7 +26155,7 @@ type_name##_get_type (void) \
  * G_DEFINE_BOXED_TYPE:
  * @TypeName: The name of the new type, in Camel case
  * @type_name: The name of the new type, in lowercase, with words
- *  separated by '_'
+ *  separated by `_`
  * @copy_func: the #GBoxedCopyFunc for the new type
  * @free_func: the #GBoxedFreeFunc for the new type
  *
@@ -26015,14 +26169,14 @@ type_name##_get_type (void) \
  * G_DEFINE_BOXED_TYPE_WITH_CODE:
  * @TypeName: The name of the new type, in Camel case
  * @type_name: The name of the new type, in lowercase, with words
- *  separated by '_'
+ *  separated by `_`
  * @copy_func: the #GBoxedCopyFunc for the new type
  * @free_func: the #GBoxedFreeFunc for the new type
- * @_C_: Custom code that gets inserted in the *_get_type() function
+ * @_C_: Custom code that gets inserted in the `*_get_type()` function
  *
  * A convenience macro for boxed type implementations.
  * Similar to G_DEFINE_BOXED_TYPE(), but allows to insert custom code into the
- * type_name_get_type() function, e.g. to register value transformations with
+ * `type_name_get_type()` function, e.g. to register value transformations with
  * g_value_register_transform_func(), for instance:
  *
  * |[<!-- language="C" -->
@@ -26110,10 +26264,10 @@ type_name##_get_type_once (void) \
  * G_DEFINE_POINTER_TYPE:
  * @TypeName: The name of the new type, in Camel case
  * @type_name: The name of the new type, in lowercase, with words
- *  separated by '_'
+ *  separated by `_`
  *
  * A convenience macro for pointer type implementations, which defines a
- * type_name_get_type() function registering the pointer type.
+ * `type_name_get_type()` function registering the pointer type.
  *
  * Since: 2.26
  */
@@ -26122,12 +26276,12 @@ type_name##_get_type_once (void) \
  * G_DEFINE_POINTER_TYPE_WITH_CODE:
  * @TypeName: The name of the new type, in Camel case
  * @type_name: The name of the new type, in lowercase, with words
- *  separated by '_'
- * @_C_: Custom code that gets inserted in the *_get_type() function
+ *  separated by `_`
+ * @_C_: Custom code that gets inserted in the `*_get_type()` function
  *
  * A convenience macro for pointer type implementations.
  * Similar to G_DEFINE_POINTER_TYPE(), but allows to insert
- * custom code into the type_name_get_type() function.
+ * custom code into the `type_name_get_type()` function.
  *
  * Since: 2.26
  */
@@ -32271,31 +32425,6 @@ G_END_DECLS
 #  define GUM_API
 #endif
 
-#if !defined (__arm__) && !defined (__aarch64__)
-# if GLIB_SIZEOF_VOID_P == 4
-#  define GUM_NATIVE_CPU GUM_CPU_IA32
-# else
-#  define GUM_NATIVE_CPU GUM_CPU_AMD64
-# endif
-#elif defined (__arm__) || defined (__aarch64__)
-# if GLIB_SIZEOF_VOID_P == 4
-#  define GUM_NATIVE_CPU GUM_CPU_ARM
-# else
-#  define GUM_NATIVE_CPU GUM_CPU_ARM64
-# endif
-#elif defined (__mips__)
-# define GUM_NATIVE_CPU GUM_CPU_MIPS
-#endif
-#ifdef G_OS_WIN32
-# define GUM_NATIVE_ABI            GUM_ABI_WINDOWS
-# define GUM_NATIVE_ABI_IS_WINDOWS 1
-# define GUM_NATIVE_ABI_IS_UNIX    0
-#else
-# define GUM_NATIVE_ABI            GUM_ABI_UNIX
-# define GUM_NATIVE_ABI_IS_WINDOWS 0
-# define GUM_NATIVE_ABI_IS_UNIX    1
-#endif
-
 G_BEGIN_DECLS
 
 typedef guint64 GumAddress;
@@ -32314,33 +32443,26 @@ typedef struct _GumX64CpuContext GumX64CpuContext;
 typedef struct _GumArmCpuContext GumArmCpuContext;
 typedef struct _GumArm64CpuContext GumArm64CpuContext;
 typedef struct _GumMipsCpuContext GumMipsCpuContext;
-/*
- * The only non-legacy big-endian configuration on 32-bit ARM systems is BE8.
- * In this configuration, whilst the data is in big-endian, the code stream is
- * still in little-endian. Since Capstone is disassembling the code stream, it
- * should work in little-endian even on BE8 systems.
- */
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN || defined (__arm__)
-# define GUM_DEFAULT_CS_ENDIAN CS_MODE_LITTLE_ENDIAN
-#else
-# define GUM_DEFAULT_CS_ENDIAN CS_MODE_BIG_ENDIAN
-#endif
-#if !defined (__arm__) && !defined (__aarch64__) && !defined (__mips__)
+typedef guint GumRelocationScenario;
+
+#if defined (_M_IX86) || defined (__i386__)
+# define GUM_NATIVE_CPU GUM_CPU_IA32
 # define GUM_DEFAULT_CS_ARCH CS_ARCH_X86
-# if GLIB_SIZEOF_VOID_P == 4
 /**
  * GUM_DEFAULT_CS_MODE: (skip)
  */
-#  define GUM_DEFAULT_CS_MODE CS_MODE_32
+# define GUM_DEFAULT_CS_MODE CS_MODE_32
 typedef GumIA32CpuContext GumCpuContext;
-# else
+#elif defined (_M_X64) || defined (__x86_64__)
+# define GUM_NATIVE_CPU GUM_CPU_AMD64
+# define GUM_DEFAULT_CS_ARCH CS_ARCH_X86
 /**
  * GUM_DEFAULT_CS_MODE: (skip)
  */
-#  define GUM_DEFAULT_CS_MODE CS_MODE_64
+# define GUM_DEFAULT_CS_MODE CS_MODE_64
 typedef GumX64CpuContext GumCpuContext;
-# endif
-#elif defined (__arm__) && !defined (__aarch64__)
+#elif defined (_M_ARM) || defined (__arm__)
+# define GUM_NATIVE_CPU GUM_CPU_ARM
 # define GUM_DEFAULT_CS_ARCH CS_ARCH_ARM
 /**
  * GUM_DEFAULT_CS_MODE: (skip)
@@ -32349,7 +32471,8 @@ typedef GumX64CpuContext GumCpuContext;
     ((cs_mode) (CS_MODE_ARM | CS_MODE_V8 | GUM_DEFAULT_CS_ENDIAN))
 # define GUM_PSR_T_BIT 0x20
 typedef GumArmCpuContext GumCpuContext;
-#elif defined (__aarch64__)
+#elif defined (_M_ARM64) || defined (__aarch64__)
+# define GUM_NATIVE_CPU GUM_CPU_ARM64
 # define GUM_DEFAULT_CS_ARCH CS_ARCH_ARM64
 /**
  * GUM_DEFAULT_CS_MODE: (skip)
@@ -32357,6 +32480,7 @@ typedef GumArmCpuContext GumCpuContext;
 # define GUM_DEFAULT_CS_MODE GUM_DEFAULT_CS_ENDIAN
 typedef GumArm64CpuContext GumCpuContext;
 #elif defined (__mips__)
+# define GUM_NATIVE_CPU GUM_CPU_MIPS
 # define GUM_DEFAULT_CS_ARCH CS_ARCH_MIPS
 # if GLIB_SIZEOF_VOID_P == 4
 /**
@@ -32372,8 +32496,29 @@ typedef GumArm64CpuContext GumCpuContext;
     (CS_MODE_MIPS64 | GUM_DEFAULT_CS_ENDIAN))
 # endif
 typedef GumMipsCpuContext GumCpuContext;
+#else
+# error Unsupported architecture.
 #endif
-typedef guint GumRelocationScenario;
+/*
+ * The only non-legacy big-endian configuration on 32-bit ARM systems is BE8.
+ * In this configuration, whilst the data is in big-endian, the code stream is
+ * still in little-endian. Since Capstone is disassembling the code stream, it
+ * should work in little-endian even on BE8 systems.
+ */
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN || defined (__arm__)
+# define GUM_DEFAULT_CS_ENDIAN CS_MODE_LITTLE_ENDIAN
+#else
+# define GUM_DEFAULT_CS_ENDIAN CS_MODE_BIG_ENDIAN
+#endif
+#ifdef G_OS_WIN32
+# define GUM_NATIVE_ABI            GUM_ABI_WINDOWS
+# define GUM_NATIVE_ABI_IS_WINDOWS 1
+# define GUM_NATIVE_ABI_IS_UNIX    0
+#else
+# define GUM_NATIVE_ABI            GUM_ABI_UNIX
+# define GUM_NATIVE_ABI_IS_WINDOWS 0
+# define GUM_NATIVE_ABI_IS_UNIX    1
+#endif
 
 enum _GumOS
 {
@@ -32641,27 +32786,26 @@ enum _GumRelocationScenario
 #endif
 #define GUM_RED_ZONE_SIZE 128
 
+#if defined (_M_IX86) || defined (__i386__)
+# ifdef _MSC_VER
+#  define GUM_CDECL __cdecl
+#  define GUM_STDCALL __stdcall
+#  define GUM_FASTCALL __fastcall
+# else
+#  define GUM_CDECL __attribute__ ((cdecl))
+#  define GUM_STDCALL __attribute__ ((stdcall))
+#  define GUM_FASTCALL __attribute__ ((fastcall))
+# endif
+#else
+# define GUM_CDECL
+# define GUM_STDCALL
+# define GUM_FASTCALL
+#endif
+
 #ifdef _MSC_VER
-# define GUM_CDECL __cdecl
-# define GUM_STDCALL __stdcall
-# define GUM_FASTCALL __fastcall
 # define GUM_NOINLINE __declspec (noinline)
 #else
-# ifndef __arm__
-#  if GLIB_SIZEOF_VOID_P == 4
-#   define GUM_CDECL __attribute__((cdecl))
-#   define GUM_STDCALL __attribute__((stdcall))
-#  else
-#   define GUM_CDECL
-#   define GUM_STDCALL
-#  endif
-#  define GUM_FASTCALL __attribute__((fastcall))
-# else
-#  define GUM_CDECL
-#  define GUM_STDCALL
-#  define GUM_FASTCALL
-# endif
-# define GUM_NOINLINE __attribute__((noinline))
+# define GUM_NOINLINE __attribute__ ((noinline))
 #endif
 
 #define GUM_ALIGN_POINTER(t, p, b) \
@@ -33381,7 +33525,7 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 #define GUM_TYPE_DARWIN_MODULE (gum_darwin_module_get_type ())
-G_DECLARE_FINAL_TYPE (GumDarwinModule, gum_darwin_module, GUM_DARWIN, MODULE,
+G_DECLARE_FINAL_TYPE (GumDarwinModule, gum_darwin_module, GUM, DARWIN_MODULE,
     GObject)
 
 #define GUM_DARWIN_PORT_NULL 0
@@ -33879,7 +34023,7 @@ G_END_DECLS
 
 #endif
 /*
- * Copyright (C) 2009-2020 Ole André Vadla Ravnås <oleavr@nowsecure.com>
+ * Copyright (C) 2009-2021 Ole André Vadla Ravnås <oleavr@nowsecure.com>
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */
@@ -33896,6 +34040,13 @@ G_DECLARE_INTERFACE (GumEventSink, gum_event_sink, GUM, EVENT_SINK, GObject)
 #define GUM_TYPE_DEFAULT_EVENT_SINK (gum_default_event_sink_get_type ())
 G_DECLARE_FINAL_TYPE (GumDefaultEventSink, gum_default_event_sink, GUM,
     DEFAULT_EVENT_SINK, GObject)
+
+#define GUM_TYPE_CALLBACK_EVENT_SINK (gum_callback_event_sink_get_type ())
+G_DECLARE_FINAL_TYPE (GumCallbackEventSink, gum_callback_event_sink, GUM,
+    CALLBACK_EVENT_SINK, GObject)
+
+typedef void (* GumEventSinkCallback) (const GumEvent * event,
+    GumCpuContext * cpu_context, gpointer user_data);
 
 struct _GumEventSinkInterface
 {
@@ -33917,6 +34068,8 @@ GUM_API void gum_event_sink_flush (GumEventSink * self);
 GUM_API void gum_event_sink_stop (GumEventSink * self);
 
 GUM_API GumEventSink * gum_event_sink_make_default (void);
+GUM_API GumEventSink * gum_event_sink_make_from_callback (GumEventType mask,
+    GumEventSinkCallback callback, gpointer data, GDestroyNotify data_destroy);
 
 G_END_DECLS
 
@@ -51208,6 +51361,119 @@ GUM_API void gum_stalker_unfollow (GumStalker * self, GumThreadId thread_id);
 
 GUM_API void gum_stalker_activate (GumStalker * self, gconstpointer target);
 GUM_API void gum_stalker_deactivate (GumStalker * self);
+
+/**
+ * This API is intended for use during fuzzing scenarios such as AFL forkserver.
+ * It allows for the child to feed back the addresses of instrumented blocks to
+ * the parent so that the next time a child is forked from the parent, it will
+ * already inherit the instrumented block rather than having to re-instrument
+ * every basic block again from scratch.
+ *
+ * This API has the following caveats:
+ *
+ * 1. This API MUST be called from the thread which will be executed in the
+ *    child. Since blocks are cached in the GumExecCtx which is stored on a
+ *    per-thread basis and accessed through Thread Local Storage, it is not
+ *    possible to prefetch blocks into the cache of another thread.
+ *
+ * 2. This API should be called after gum_stalker_follow_me(). It is likely that
+ *    the parent will wish to call gum_stalker_deactivate() immediately after
+ *    following. Subsequently, gum_stalker_activate() can be called within the
+ *    child after it is forked to start stalking the thread once more. The child
+ *    can then communicate newly discovered basic blocks back to the parent via
+ *    inter-process communications. The parent can then call
+ *    gum_stalker_prefetch() to instrument those blocks before forking the next
+ *    child. As a result of the fork, the child inherits a deactivated Stalker
+ *    instance, thus both parent and child should release their Stalker
+ *    instances upon completion if required.
+ *
+ * 3. Note that gum_stalker_activate() takes a `target` pointer which is used to
+ *    allow Stalker to be reactivated whilst executing in an excluded range and
+ *    guarantee that the thread is followed until the “activation target”
+ *    address is reached. Typically for e.g. a fuzzer the target would be the
+ *    function you're about to hit with inputs. When this target isn't known,
+ *    the simplest solution to this is to define an empty function (marked as
+ *    non-inlineable) and then subsequently call it immediately after activation
+ *    to return Stalker to its normal behavior. It is important that `target` is
+ *    at the beginning of a basic block, otherwise Stalker will not detect it.
+ *    Failure to do so may mean that Stalker continues to follow the thread into
+ *    code which it should not, including any calls to Stalker itself. Thus care
+ *    should be taken to ensure that the function is not inlined, or optimized
+ *    away by the compiler.
+ *
+ *    __attribute__ ((noinline))
+ *    static void
+ *    activation_target (void)
+ *    {
+        // Avoid calls being optimized out
+ *      asm ("");
+ *    }
+ *
+ * 4. Note that since both parent and child have an identical Stalker instance,
+ *    they each have the exact same Transformer. Since this Transformer will
+ *    be used both to generate blocks to execute in the child and to prefetch
+ *    blocks in the parent, care should be taken to identify in which scenario
+ *    the transformer is operating. The parent will likely also transform and
+ *    execute a few blocks even if it is deactivated immediately afterwards.
+ *    Thus care should also be taken when any callouts are executed to determine
+ *    whether they are running in the parent or child context.
+ *
+ * 5. For optimal performance, the recycle_count should be set to the same value
+ *    as gum_stalker_get_trust_threshold(). Unless the trust threshold is set to
+ *    `-1` or `0`. When adding instrumented blocks into the cache, Stalker also
+ *    retains a copy of the original bytes of the code which was instrumented.
+ *    When recalling blocks from the cache, this is compared in order to detect
+ *    self-modifying code. If the block is the same, then the recycle_count is
+ *    incremented. The trust threshold sets the limit of how many times a block
+ *    should be identical (e.g. the code has not been modified) before this
+ *    comparison can be omitted. Thus when prefetching, we can also set the
+ *    recycle_count to control whether this comparison takes place. When the
+ *    trust threshold is less than `1`, the block_recycle count has not effect.
+ *
+ * 6. This API does not change the trust threshold as it is a global setting
+ *    which affects all Stalker sessions running on all threads.
+ *
+ * 7. It is inadvisable to prefetch self-modifying code blocks, since it will
+ *    mean a single static instrumented block will always be used when it is
+ *    executed. The detection of self-modifying code in the child is left to the
+ *    user, just as the user is free to choose which blocks to prefetch by
+ *    calling the API. It may also be helpful to avoid sending the same block
+ *    address to be prefetched to the parent multiple times to reduce I/O
+ *    required via IPC, particularly if the same block is executed multiple
+ *    times. If you are fuzzing self-modifying code, then your day is probably
+ *    already going badly.
+ *
+ * The following is provided as an example workflow for initializing a fork
+ * server based fuzzer:
+ *
+ *    p -> setup IPC mechanism with child (e.g. pipe)
+ *    p -> create custom Transformer to send address of instrumented block to
+ *         parent via IPC. Transformer should be inert until latched. Callouts
+ *         should still be generated as required when not latched, but should
+ *         themselves be inert until latched.
+ *    p -> gum_stalker_follow_me ()
+ *    p -> gum_stalker_deactivate ()
+ *
+ *    BEGIN LOOP:
+ *
+ *    p -> fork ()
+ *    p -> waitpid ()
+ *
+ *    c -> set latch to trigger Transformer (note that this affects only the
+ *         child process).
+ *    c -> gum_stalker_activate (activation_target)
+ *    c -> activation_target ()
+ *    c -> <RUN CODE UNDER TEST HERE>
+ *    c -> gum_stalker_unfollow_me () or simply exit ()
+ *
+ *    p -> gum_stalker_set_trust_threshold (0)
+ *    p -> gum_stalker_prefetch (x) (n times for each)
+ *    p -> gum_stalker_set_trust_threshold (n)
+ *
+ *    END LOOP:
+ */
+GUM_API void gum_stalker_prefetch (GumStalker * self, gconstpointer address,
+    gint recycle_count);
 
 GUM_API GumProbeId gum_stalker_add_call_probe (GumStalker * self,
     gpointer target_address, GumCallProbeCallback callback, gpointer data,
