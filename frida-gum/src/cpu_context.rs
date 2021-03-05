@@ -70,7 +70,7 @@ impl<'a> CpuContext<'a> {
     cpu_accesors!(u32, cpsr, pc, sp, r8, r9, r10, r11, r12, lr);
     // TODO(meme) uint32_t r[8];
 
-    #[cfg(target_arch = "arm64")]
+    #[cfg(target_arch = "aarch64")]
     cpu_accesors!(u64, pc, sp, fp, lr);
     // TODO(meme) uint8_t q[128]; uint64_t x[29];
 }
