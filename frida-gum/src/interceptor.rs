@@ -2,10 +2,8 @@
 //!
 use frida_gum_sys as gum_sys;
 use std::marker::PhantomData;
-use std::os::raw::c_void;
-use std::ptr;
 
-use crate::{Gum, NativePointer};
+use crate::Gum;
 
 #[cfg(feature = "invocation-listener")]
 mod invocation_listener;
