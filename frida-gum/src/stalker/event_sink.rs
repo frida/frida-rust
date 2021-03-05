@@ -1,16 +1,17 @@
 use crate::NativePointer;
-use frida_gum_sys::_GumEvent as GumEvent;
+use frida_gum_sys as gum_sys;
+use gum_sys::_GumEvent as GumEvent;
 use std::os::raw::c_void;
 
 #[derive(FromPrimitive)]
 #[repr(u32)]
 pub enum EventMask {
-    None = 0,
-    Call = 1 << 0,
-    Ret = 1 << 1,
-    Exec = 1 << 2,
-    Block = 1 << 3,
-    Compile = 1 << 4,
+    None = gum_sys::_GumEventType_GUM_NOTHING,
+    Call = gum_sys::_GumEventType_GUM_CALL,
+    Ret = gum_sys::_GumEventType_GUM_RET,
+    Exec = gum_sys::_GumEventType_GUM_EXEC,
+    Block = gum_sys::_GumEventType_GUM_BLOCK,
+    Compile = gum_sys::_GumEventType_GUM_COMPILE,
 }
 
 pub enum Event {
@@ -122,7 +123,7 @@ unsafe extern "C" fn call_query_mask<S: EventSink>(
 pub(crate) fn event_sink_transform<S: EventSink>(
     mut event_sink: &S,
 ) -> *mut frida_gum_sys::GumEventSink {
-    let rust = frida_gum_sys::RustVTable {
+    let rust = frida_gum_sys::RustEventSinkVTable {
         user_data: &mut event_sink as *mut _ as *mut c_void,
         query_mask: Some(call_query_mask::<S>),
         start: Some(call_start::<S>),

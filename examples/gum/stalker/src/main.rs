@@ -3,7 +3,7 @@ use frida_gum::stalker::{Event, EventMask, EventSink, Stalker, Transformer};
 use lazy_static::lazy_static;
 
 lazy_static! {
-    static ref GUM: gum::Gum = gum::Gum::obtain();
+    static ref GUM: gum::Gum = unsafe { gum::Gum::obtain() };
 }
 
 struct SampleEventSink;

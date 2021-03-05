@@ -14,7 +14,7 @@
 //! ```
 //! # use frida_gum::Gum;
 //! # use frida_gum::stalker::{Stalker, Transformer, NoneEventSink};
-//! let gum = Gum::obtain();
+//! let gum = unsafe { Gum::obtain() };
 //! let mut stalker = Stalker::new(&gum);
 //!
 //! let transformer = Transformer::from_callback(&gum, |basic_block, _output| {
@@ -150,15 +150,13 @@ impl<'a> Stalker<'a> {
         transformer: Transformer,
         event_sink: Option<&mut S>,
     ) {
-        unsafe {
-            let sink = if let Some(sink) = event_sink {
-                event_sink_transform(sink)
-            } else {
-                std::ptr::null_mut()
-            };
+        let sink = if let Some(sink) = event_sink {
+            event_sink_transform(sink)
+        } else {
+            std::ptr::null_mut()
+        };
 
-            gum_sys::gum_stalker_follow_me(self.stalker, transformer.transformer, sink);
-        }
+        unsafe { gum_sys::gum_stalker_follow_me(self.stalker, transformer.transformer, sink) };
     }
 
     /// Begin the Stalker on the current thread.
@@ -171,8 +169,8 @@ impl<'a> Stalker<'a> {
                 self.stalker,
                 transformer.transformer,
                 std::ptr::null_mut(),
-            );
-        }
+            )
+        };
     }
 
     /// Stop stalking the current thread.

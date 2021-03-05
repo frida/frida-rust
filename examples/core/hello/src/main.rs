@@ -2,7 +2,7 @@ use frida::Frida;
 use lazy_static::lazy_static;
 
 lazy_static! {
-    static ref FRIDA: Frida = Frida::obtain();
+    static ref FRIDA: Frida = unsafe { Frida::obtain() };
 }
 
 fn main() {
