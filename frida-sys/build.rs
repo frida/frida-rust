@@ -13,10 +13,10 @@ fn main() {
     );
 
     #[cfg(feature = "autodownload")]
-    download_and_use_devkit("gum", "14.2.3");
+    download_and_use_devkit("core", include_str!("../FRIDA_VERSION").trim());
 
     #[cfg(not(feature = "autodownload"))]
-    println!("cargo:rustc-link-lib=frida-gum");
+    println!("cargo:rustc-link-lib=frida-core");
 
     #[cfg(not(target = "android"))]
     println!("cargo:rustc-link-lib=pthread");
