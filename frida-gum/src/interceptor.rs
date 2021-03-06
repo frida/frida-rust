@@ -14,6 +14,7 @@ use crate::NativePointer;
 #[cfg(feature = "invocation-listener")]
 mod invocation_listener;
 #[cfg(feature = "invocation-listener")]
+#[cfg_attr(doc_cfg, doc(cfg(feature = "invocation-listener")))]
 pub use invocation_listener::*;
 
 /// Function hooking engine interface.
@@ -43,6 +44,7 @@ impl<'a> Interceptor<'a> {
     /// The provided address *must* point to the start of a function in a valid
     /// memory region.
     #[cfg(feature = "invocation-listener")]
+    #[cfg_attr(doc_cfg, doc(cfg(feature = "invocation-listener")))]
     pub fn attach<I: InvocationListener>(
         &mut self,
         f: NativePointer,
@@ -61,6 +63,7 @@ impl<'a> Interceptor<'a> {
     ///
     /// The listener *must* have been attached with [`Interceptor::attach()`].
     #[cfg(feature = "invocation-listener")]
+    #[cfg_attr(doc_cfg, doc(cfg(feature = "invocation-listener")))]
     pub fn detach(&mut self, listener: NativePointer) {
         unsafe {
             gum_sys::gum_interceptor_detach(

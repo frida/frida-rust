@@ -34,6 +34,7 @@
 //! }
 //! ```
 
+#![cfg_attr(doc_cfg, feature(doc_cfg))]
 #![deny(warnings)]
 #![allow(clippy::needless_doctest_main)]
 #![allow(clippy::missing_safety_doc)]

@@ -47,9 +47,11 @@ mod transformer;
 pub use transformer::*;
 
 #[cfg(feature = "event-sink")]
+#[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
 pub struct NoneEventSink;
 
 #[cfg(feature = "event-sink")]
+#[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
 impl EventSink for NoneEventSink {
     fn query_mask(&mut self) -> EventMask {
         unreachable!()
@@ -142,12 +144,11 @@ impl<'a> Stalker<'a> {
     /// Begin the Stalker on the current thread.
     ///
     /// A [`Transformer`] must be specified, and will be updated with all events.
-    /// An [`EventSink`] may be optionally specified, but this is **feature-gated** and must
-    /// be specified with the `features = ["event-sink"]` as it is not provided by default.
     ///
     /// If reusing an existing [`Transformer`], make sure to call [`Stalker::garbage_collect()`]
     /// periodically.
     #[cfg(feature = "event-sink")]
+    #[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
     pub fn follow_me<S: EventSink>(
         &mut self,
         transformer: &Transformer,
@@ -169,6 +170,7 @@ impl<'a> Stalker<'a> {
     /// If reusing an existing [`Transformer`], make sure to call [`Stalker::garbage_collect()`]
     /// periodically.
     #[cfg(not(feature = "event-sink"))]
+    #[cfg_attr(doc_cfg, doc(cfg(not(feature = "event-sink"))))]
     pub fn follow_me(&mut self, transformer: &Transformer) {
         unsafe {
             gum_sys::gum_stalker_follow_me(

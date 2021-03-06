@@ -23,3 +23,7 @@ lazy_static = "1"
 
 [badges]
 maintenance = { status = "experimental" }
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "doc_cfg"]

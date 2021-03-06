@@ -1,3 +1,4 @@
+#![cfg_attr(doc_cfg, feature(doc_cfg))]
 #![deny(warnings)]
 
 use frida_sys;

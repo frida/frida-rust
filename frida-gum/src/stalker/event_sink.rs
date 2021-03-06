@@ -5,6 +5,7 @@ use std::os::raw::c_void;
 
 #[derive(FromPrimitive)]
 #[repr(u32)]
+#[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
 pub enum EventMask {
     None = gum_sys::_GumEventType_GUM_NOTHING,
     Call = gum_sys::_GumEventType_GUM_CALL,
@@ -14,6 +15,7 @@ pub enum EventMask {
     Compile = gum_sys::_GumEventType_GUM_COMPILE,
 }
 
+#[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
 pub enum Event {
     Call {
         location: NativePointer,
@@ -38,6 +40,7 @@ pub enum Event {
     },
 }
 
+#[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
 impl From<GumEvent> for Event {
     fn from(event: GumEvent) -> Event {
         match num::FromPrimitive::from_u32(unsafe { event.type_ }).unwrap() {
@@ -82,6 +85,7 @@ impl From<GumEvent> for Event {
     }
 }
 
+#[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
 pub trait EventSink {
     fn query_mask(&mut self) -> EventMask;
     fn start(&mut self);
