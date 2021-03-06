@@ -41,6 +41,6 @@ fn main() {
     });
 
     let mut event_sink = SampleEventSink;
-    stalker.follow_me(transformer, Some(&mut event_sink));
+    stalker.follow_me(&transformer, Some(&mut event_sink));
     stalker.unfollow_me();
 }

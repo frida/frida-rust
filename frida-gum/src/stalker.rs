@@ -24,10 +24,10 @@
 //! });
 //!
 //! #[cfg(feature = "event-sink")]
-//! stalker.follow_me::<NoneEventSink>(transformer, None);
+//! stalker.follow_me::<NoneEventSink>(&transformer, None);
 //!
 //! #[cfg(not(feature = "event-sink"))]
-//! stalker.follow_me(transformer);
+//! stalker.follow_me(&transformer);
 //!
 //! stalker.unfollow_me();
 //! ```
@@ -36,7 +36,7 @@ use frida_gum_sys as gum_sys;
 use std::marker::PhantomData;
 use std::os::raw::c_void;
 
-use crate::{Gum, MemoryRange};
+use crate::{Gum, MemoryRange, NativePointer};
 
 #[cfg(feature = "event-sink")]
 mod event_sink;
@@ -144,10 +144,13 @@ impl<'a> Stalker<'a> {
     /// A [`Transformer`] must be specified, and will be updated with all events.
     /// An [`EventSink`] may be optionally specified, but this is **feature-gated** and must
     /// be specified with the `features = ["event-sink"]` as it is not provided by default.
+    ///
+    /// If reusing an existing [`Transformer`], make sure to call [`Stalker::garbage_collect()`]
+    /// periodically.
     #[cfg(feature = "event-sink")]
     pub fn follow_me<S: EventSink>(
         &mut self,
-        transformer: Transformer,
+        transformer: &Transformer,
         event_sink: Option<&mut S>,
     ) {
         let sink = if let Some(sink) = event_sink {
@@ -162,8 +165,11 @@ impl<'a> Stalker<'a> {
     /// Begin the Stalker on the current thread.
     ///
     /// A [`Transformer`] must be specified, and will be updated with all events.
+    ///
+    /// If reusing an existing [`Transformer`], make sure to call [`Stalker::garbage_collect()`]
+    /// periodically.
     #[cfg(not(feature = "event-sink"))]
-    pub fn follow_me(&mut self, transformer: Transformer) {
+    pub fn follow_me(&mut self, transformer: &Transformer) {
         unsafe {
             gum_sys::gum_stalker_follow_me(
                 self.stalker,

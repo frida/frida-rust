@@ -29,7 +29,7 @@
 //!         }
 //!     });
 //!
-//!     stalker.follow_me::<NoneEventSink>(transformer, None);
+//!     stalker.follow_me::<NoneEventSink>(&transformer, None);
 //!     stalker.unfollow_me();
 //! }
 //! ```
