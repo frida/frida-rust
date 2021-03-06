@@ -182,6 +182,16 @@ impl<'a> Stalker<'a> {
     pub fn is_following_me(&mut self) -> bool {
         unsafe { gum_sys::gum_stalker_is_following_me(self.stalker) != 0 }
     }
+
+    /// Re-activate the Stalker at the specified start point.
+    pub fn activate(&mut self, start: NativePointer) {
+        unsafe { gum_sys::gum_stalker_activate(self.stalker, start.0) }
+    }
+
+    /// Pause the Stalker.
+    pub fn deactivate(&mut self) {
+        unsafe { gum_sys::gum_stalker_deactivate(self.stalker) }
+    }
 }
 
 impl<'a> Drop for Stalker<'a> {
