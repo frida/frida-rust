@@ -7,24 +7,21 @@ pub struct StalkerIterator<'a> {
     phantom: PhantomData<&'a frida_gum_sys::GumStalkerIterator>,
 }
 
-unsafe extern "C" fn spring1<F>(
+extern "C" fn put_callout_callback(
     cpu_context: *mut frida_gum_sys::GumCpuContext,
     user_data: *mut c_void,
-) where
-    F: FnMut(CpuContext),
-{
-    let user_data = &mut *(user_data as *mut F);
-    user_data(CpuContext::from_raw(cpu_context));
+) {
+    let mut f = unsafe { Box::from_raw(user_data as *mut Box<dyn FnMut(CpuContext)>) };
+    f(CpuContext::from_raw(cpu_context));
+    // Leak the box again, we want to destruct it in the data_destroy callback.
+    //
+    Box::leak(f);
 }
 
-fn get_trampoline1<F>(_closure: &F) -> frida_gum_sys::GumStalkerCallout
-where
-    F: FnMut(CpuContext),
-{
-    Some(spring1::<F>)
+unsafe extern "C" fn put_callout_destroy(user_data: *mut c_void) {
+    let _ = Box::from_raw(user_data as *mut Box<dyn FnMut(CpuContext)>);
 }
 
-// IntoIterator is what you want to implement !!!
 impl<'a> StalkerIterator<'a> {
     fn from_raw(iterator: *mut frida_gum_sys::GumStalkerIterator) -> StalkerIterator<'a> {
         StalkerIterator {
@@ -37,13 +34,16 @@ impl<'a> StalkerIterator<'a> {
         unsafe { frida_gum_sys::gum_stalker_iterator_keep(self.iterator) };
     }
 
-    pub fn put_callout(&self, mut callout: impl FnMut(CpuContext)) {
+    pub fn put_callout(&self, callout: impl FnMut(CpuContext)) {
         unsafe {
+            let user_data = Box::leak(Box::new(Box::new(callout) as Box<dyn FnMut(CpuContext)>))
+                as *mut _ as *mut c_void;
+
             frida_gum_sys::gum_stalker_iterator_put_callout(
                 self.iterator,
-                get_trampoline1(&callout),
-                &mut callout as *mut _ as *mut c_void,
-                None,
+                Some(put_callout_callback),
+                user_data,
+                Some(put_callout_destroy),
             )
         };
     }
@@ -73,13 +73,16 @@ impl<'a> Instruction<'a> {
         unsafe { frida_gum_sys::gum_stalker_iterator_keep(self.parent) };
     }
 
-    pub fn put_callout(&self, mut callout: impl FnMut(CpuContext)) {
+    pub fn put_callout(&self, callout: impl FnMut(CpuContext)) {
         unsafe {
+            let user_data = Box::leak(Box::new(Box::new(callout) as Box<dyn FnMut(CpuContext)>))
+                as *mut _ as *mut c_void;
+
             frida_gum_sys::gum_stalker_iterator_put_callout(
                 self.parent,
-                get_trampoline1(&callout),
-                &mut callout as *mut _ as *mut c_void,
-                None,
+                Some(put_callout_callback),
+                user_data,
+                Some(put_callout_destroy),
             )
         };
     }
@@ -114,25 +117,24 @@ impl<'a> StalkerOutput<'a> {
     }
 }
 
-unsafe extern "C" fn spring<F>(
+extern "C" fn transformer_callback(
     iterator: *mut frida_gum_sys::GumStalkerIterator,
     output: *mut frida_gum_sys::GumStalkerOutput,
     user_data: *mut c_void,
-) where
-    F: FnMut(StalkerIterator, StalkerOutput),
-{
-    let user_data = &mut *(user_data as *mut F);
-    user_data(
+) {
+    let mut f =
+        unsafe { Box::from_raw(user_data as *mut Box<dyn FnMut(StalkerIterator, StalkerOutput)>) };
+    f(
         StalkerIterator::from_raw(iterator),
         StalkerOutput::from_raw(output),
     );
+    // Leak the box again, we want to destruct it in the data_destroy callback.
+    //
+    Box::leak(f);
 }
 
-fn get_trampoline<F>(_closure: &F) -> frida_gum_sys::GumStalkerTransformerCallback
-where
-    F: FnMut(StalkerIterator, StalkerOutput),
-{
-    Some(spring::<F>)
+unsafe extern "C" fn transformer_destroy(user_data: *mut c_void) {
+    let _ = Box::from_raw(user_data as *mut Box<dyn FnMut(StalkerIterator, StalkerOutput)>);
 }
 
 pub struct Transformer<'a> {
@@ -140,22 +142,24 @@ pub struct Transformer<'a> {
     phantom: PhantomData<&'a frida_gum_sys::GumStalkerTransformer>,
 }
 
-// FIXME(keegan) the FnMut should be Send + Sync and have a lifetime of the
-// Transformer
 impl<'a> Transformer<'a> {
     pub fn from_callback<'b>(
         _gum: &'b Gum,
-        mut callback: impl FnMut(StalkerIterator, StalkerOutput),
+        callback: impl FnMut(StalkerIterator, StalkerOutput),
     ) -> Transformer<'a>
     where
         'b: 'a,
     {
+        let user_data = Box::leak(Box::new(
+            Box::new(callback) as Box<dyn FnMut(StalkerIterator, StalkerOutput)>
+        )) as *mut _ as *mut c_void;
+
         Transformer {
             transformer: unsafe {
                 frida_gum_sys::gum_stalker_transformer_make_from_callback(
-                    get_trampoline(&callback),
-                    &mut callback as *mut _ as *mut c_void,
-                    None,
+                    Some(transformer_callback),
+                    user_data,
+                    Some(transformer_destroy),
                 )
             },
             phantom: PhantomData,
