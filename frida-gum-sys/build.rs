@@ -25,7 +25,7 @@ fn main() {
     );
 
     #[cfg(feature = "auto-download")]
-    download_and_use_devkit("gum", include_str!("../FRIDA_VERSION").trim());
+    download_and_use_devkit("gum", include_str!("FRIDA_VERSION").trim());
 
     #[cfg(not(feature = "auto-download"))]
     println!("cargo:rustc-link-lib=frida-gum");
