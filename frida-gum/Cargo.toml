@@ -12,7 +12,6 @@ auto-download = ["frida-gum-sys/auto-download"]
 event-sink = ["frida-gum-sys/event-sink"]
 invocation-listener = ["frida-gum-sys/invocation-listener"]
 
-
 [dependencies]
 frida-gum-sys = { path = "../frida-gum-sys", version = "0.2.0" }
 num = "0.3.1"
@@ -27,5 +26,5 @@ lazy_static = "1"
 maintenance = { status = "experimental" }
 
 [package.metadata.docs.rs]
-all-features = true
+features = ["event-sink", "invocation-listener"]
 rustdoc-args = ["--cfg", "doc_cfg"]

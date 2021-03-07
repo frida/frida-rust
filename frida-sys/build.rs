@@ -18,10 +18,17 @@ fn main() {
     #[cfg(not(feature = "auto-download"))]
     println!("cargo:rustc-link-lib=frida-core");
 
-    #[cfg(not(target = "android"))]
-    println!("cargo:rustc-link-lib=pthread");
-    #[cfg(not(target = "android"))]
-    println!("cargo:rustc-link-lib=resolv");
+    #[cfg(target_os = "linux")]
+    {
+        println!("cargo:rustc-link-lib=pthread");
+        println!("cargo:rustc-link-lib=resolv");
+    }
+
+    #[cfg(target_os = "macos")]
+    {
+        println!("cargo:rustc-link-lib=pthread");
+        println!("cargo:rustc-link-lib=framework=AppKit");
+    }
 
     let bindings = bindgen::Builder::default()
         .header("frida-core.h")

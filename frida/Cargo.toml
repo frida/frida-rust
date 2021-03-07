@@ -9,6 +9,7 @@ description = "Rust bindings for Frida"
 
 [features]
 auto-download = ["frida-sys/auto-download"]
+
 [dependencies]
 frida-sys = { path = "../frida-sys", version = "0.1.0" }
 
@@ -19,5 +20,5 @@ lazy_static = "1"
 maintenance = { status = "experimental" }
 
 [package.metadata.docs.rs]
-all-features = true
+features = []
 rustdoc-args = ["--cfg", "doc_cfg"]
