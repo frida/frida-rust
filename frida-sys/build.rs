@@ -3,7 +3,7 @@ extern crate bindgen;
 use std::env;
 use std::path::PathBuf;
 
-#[cfg(feature = "autodownload")]
+#[cfg(feature = "auto-download")]
 use frida_build::download_and_use_devkit;
 
 fn main() {
@@ -12,10 +12,10 @@ fn main() {
         env::var("CARGO_MANIFEST_DIR").unwrap()
     );
 
-    #[cfg(feature = "autodownload")]
+    #[cfg(feature = "auto-download")]
     download_and_use_devkit("core", include_str!("../FRIDA_VERSION").trim());
 
-    #[cfg(not(feature = "autodownload"))]
+    #[cfg(not(feature = "auto-download"))]
     println!("cargo:rustc-link-lib=frida-core");
 
     #[cfg(not(target = "android"))]

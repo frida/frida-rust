@@ -8,8 +8,7 @@ repository = "https://github.com/meme/frida-rust"
 description = "Rust generated bindings for Frida"
 
 [features]
-default = ["autodownload"]
-autodownload = ["frida-build"]
+auto-download = ["frida-build"]
 
 [build-dependencies]
 bindgen = "0.57.0"

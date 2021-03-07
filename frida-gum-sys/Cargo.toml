@@ -8,8 +8,7 @@ repository = "https://github.com/meme/frida-rust"
 description = "Rust generated bindings for Frida Gum"
 
 [features]
-default = ["autodownload"]
-autodownload = ["frida-build"]
+auto-download = ["frida-build"]
 event-sink = ["cc"]
 invocation-listener = ["cc"]
 

@@ -8,8 +8,10 @@ repository = "https://github.com/meme/frida-rust"
 description = "Rust bindings for Frida Gum"
 
 [features]
+auto-download = ["frida-gum-sys/auto-download"]
 event-sink = ["frida-gum-sys/event-sink"]
 invocation-listener = ["frida-gum-sys/invocation-listener"]
+
 
 [dependencies]
 frida-gum-sys = { path = "../frida-gum-sys", version = "0.2.0" }
