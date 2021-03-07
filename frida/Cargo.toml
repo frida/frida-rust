@@ -1,6 +1,6 @@
 [package]
 name = "frida"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["meme <keegan@sdf.org>"]
 edition = "2018"
 license = "wxWindows"
@@ -11,7 +11,7 @@ description = "Rust bindings for Frida"
 auto-download = ["frida-sys/auto-download"]
 
 [dependencies]
-frida-sys = { path = "../frida-sys", version = "0.1.0" }
+frida-sys = { path = "../frida-sys", version = "0.1.1" }
 
 [dev-dependencies]
 lazy_static = "1"
