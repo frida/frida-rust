@@ -14,7 +14,8 @@ jobs:
           toolchain: stable
           override: true
       - run: |
-          cd frida-gum-sys && wget https://github.com/frida/frida/releases/download/14.2.13/frida-gum-devkit-14.2.13-linux-x86_64.tar.xz -O frida-gum.tar.xz && tar xJvf frida-gum.tar.xz && cd ..
+          cd frida-gum-sys && wget https://github.com/frida/frida/releases/download/14.2.13/frida-gum-devkit-14.2.13-linux-x86_64.tar.xz -O frida-gum.tar.xz && tar xJvf frida-gum.tar.xz
+          cd ..
           cd frida-sys && wget https://github.com/frida/frida/releases/download/14.2.13/frida-core-devkit-14.2.13-linux-x86_64.tar.xz -O frida-core.tar.xz && tar xJvf frida-core.tar.xz
       - run: rustup component add rustfmt clippy
       - uses: actions-rs/cargo@v1

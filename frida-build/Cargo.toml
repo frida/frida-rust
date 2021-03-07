@@ -1,0 +1,8 @@
+[package]
+name = "frida-build"
+version = "0.1.1"
+authors = ["meme <keegan@sdf.org>"]
+edition = "2018"
+license = "wxWindows"
+repository = "https://github.com/meme/frida-rust"
+description = "Build scripts for Frida rust bindings"

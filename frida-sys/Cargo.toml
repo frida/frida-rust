@@ -7,8 +7,12 @@ license = "wxWindows"
 repository = "https://github.com/meme/frida-rust"
 description = "Rust generated bindings for Frida"
 
+[features]
+auto-download = ["frida-build"]
+
 [build-dependencies]
-bindgen = "0.53.1"
+bindgen = "0.57.0"
+frida-build = { path = "../frida-build", version = "0.1.1", optional = true }
 
 [badges]
 maintenance = { status = "experimental" }

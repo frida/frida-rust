@@ -7,6 +7,8 @@ license = "wxWindows"
 repository = "https://github.com/meme/frida-rust"
 description = "Rust bindings for Frida"
 
+[features]
+auto-download = ["frida-sys/auto-download"]
 [dependencies]
 frida-sys = { path = "../frida-sys", version = "0.1.0" }
 

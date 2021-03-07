@@ -3,14 +3,24 @@ extern crate bindgen;
 use std::env;
 use std::path::PathBuf;
 
+#[cfg(feature = "auto-download")]
+use frida_build::download_and_use_devkit;
+
 fn main() {
     println!(
         "cargo:rustc-link-search={}",
         env::var("CARGO_MANIFEST_DIR").unwrap()
     );
 
+    #[cfg(feature = "auto-download")]
+    download_and_use_devkit("core", include_str!("../FRIDA_VERSION").trim());
+
+    #[cfg(not(feature = "auto-download"))]
     println!("cargo:rustc-link-lib=frida-core");
+
+    #[cfg(not(target = "android"))]
     println!("cargo:rustc-link-lib=pthread");
+    #[cfg(not(target = "android"))]
     println!("cargo:rustc-link-lib=resolv");
 
     let bindings = bindgen::Builder::default()

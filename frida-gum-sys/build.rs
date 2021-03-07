@@ -3,6 +3,9 @@ extern crate bindgen;
 use std::env;
 use std::path::PathBuf;
 
+#[cfg(feature = "auto-download")]
+use frida_build::download_and_use_devkit;
+
 fn main() {
     #[cfg(feature = "event-sink")]
     {
@@ -21,7 +24,12 @@ fn main() {
         env::var("CARGO_MANIFEST_DIR").unwrap()
     );
 
+    #[cfg(feature = "auto-download")]
+    download_and_use_devkit("gum", include_str!("../FRIDA_VERSION").trim());
+    #[cfg(not(feature = "auto-download"))]
     println!("cargo:rustc-link-lib=frida-gum");
+
+    #[cfg(not(target = "android"))]
     println!("cargo:rustc-link-lib=pthread");
 
     let bindings = bindgen::Builder::default()
@@ -41,6 +49,7 @@ fn main() {
     #[cfg(feature = "event-sink")]
     cc::Build::new()
         .file("event_sink.c")
+        .opt_level(3)
         .warnings_into_errors(true)
         .compile("event_sink");
 
