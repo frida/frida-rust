@@ -149,6 +149,10 @@ impl<'a> Instruction<'a> {
             )
         };
     }
+
+    pub fn get_instruction(&self) -> *const cs_insn {
+        self._instr
+    }
 }
 
 impl<'a> Iterator for StalkerIterator<'a> {
