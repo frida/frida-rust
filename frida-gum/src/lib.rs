@@ -44,7 +44,8 @@ extern crate num;
 #[macro_use]
 extern crate num_derive;
 
-use std::os::raw::c_void;
+use std::ffi::c_void;
+use std::fmt;
 
 pub mod stalker;
 
@@ -58,6 +59,9 @@ pub use cpu_context::*;
 
 mod memory_range;
 pub use memory_range::*;
+
+mod range_details;
+pub use range_details::*;
 
 /// Context required for instantiation of all structures under the Gum namespace.
 pub struct Gum;
@@ -79,3 +83,11 @@ impl Drop for Gum {
 }
 
 pub struct NativePointer(pub *mut c_void);
+
+impl fmt::Debug for NativePointer {
+     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("NativePointer")
+         .field("value", &self.0)
+         .finish()
+    }
+}
