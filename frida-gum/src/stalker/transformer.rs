@@ -1,12 +1,13 @@
 use crate::{CpuContext, Gum};
 use std::marker::PhantomData;
 use std::collections::HashMap;
+//use dashmap::DashMap;
+//use contrie:ConMap;
+//use chashmap::CHashMap;
 use std::ffi::c_void;
 
-//use std::rc::Rc;
 use std::cell::RefCell;
 
-//use lazy_static::lazy_static;
 
 struct ClosureMap {
     cache: HashMap<*const c_void, *mut c_void>,
@@ -33,14 +34,6 @@ impl ClosureMap {
 
 }
 
-//unsafe impl Sync for ClosureMap {}
-//unsafe impl Send for ClosureMap {}
-
-
-
-//lazy_static!{
-    //static ref CLOSURE_MAP: ClosureMap<HashMap<*const c_void, *mut c_void>> = ClosureMap { cache: HashMap::new() };
-//}
 static mut CLOSURE_MAP: Option<RefCell<ClosureMap>> = None;
 
 pub struct StalkerIterator<'a> {
@@ -52,18 +45,10 @@ extern "C" fn put_callout_callback(
     cpu_context: *mut frida_gum_sys::GumCpuContext,
     user_data: *mut c_void,
 ) {
-    //let mut f = unsafe { Box::from_raw(user_data as *mut Box<dyn FnMut(CpuContext)>) };
     unsafe {
         (*(user_data as *mut Box<dyn FnMut(CpuContext)>))(CpuContext::from_raw(cpu_context));
     }
-    // Leak the box again, we want to destruct it in the data_destroy callback.
-    //
-    //Box::leak(f);
 }
-
-//unsafe extern "C" fn put_callout_destroy(_user_data: *mut c_void) {
-    ////let _ = Box::from_raw(user_data as *mut Box<dyn FnMut(CpuContext)>);
-//}
 
 impl<'a> StalkerIterator<'a> {
     fn from_raw(iterator: *mut frida_gum_sys::GumStalkerIterator) -> StalkerIterator<'a> {
@@ -96,7 +81,6 @@ impl<'a> StalkerIterator<'a> {
                 Some(put_callout_callback),
                 user_data,
                 None,
-                //Some(put_callout_destroy),
             )
         };
     }
