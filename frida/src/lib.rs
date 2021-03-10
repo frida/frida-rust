@@ -15,9 +15,3 @@ impl Frida {
         Frida {}
     }
 }
-
-impl Drop for Frida {
-    fn drop(&mut self) {
-        unsafe { frida_sys::frida_deinit() };
-    }
-}
