@@ -60,6 +60,9 @@ pub use cpu_context::*;
 mod memory_range;
 pub use memory_range::*;
 
+mod instruction_writer;
+pub use instruction_writer::*;
+
 mod range_details;
 pub use range_details::*;
 

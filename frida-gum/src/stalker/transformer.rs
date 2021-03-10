@@ -1,4 +1,4 @@
-use crate::{CpuContext, Gum};
+use crate::{CpuContext, Gum, TargetInstructionWriter};
 use std::marker::PhantomData;
 use std::collections::HashMap;
 //use dashmap::DashMap;
@@ -166,6 +166,18 @@ impl<'a> StalkerOutput<'a> {
             phantom: PhantomData,
         }
     }
+
+    pub fn writer(&self) -> TargetInstructionWriter
+    {
+        unsafe {
+            #[cfg(target_arch = "x86_64")]
+            let writer = TargetInstructionWriter::from_raw((*self.output).writer.x86);
+            #[cfg(target_arch = "aarch64")]
+            let writer = TargetInstructionWriter::from_raw((*self.output).writer.arm64);
+
+            writer
+        }
+    }
 }
 
 extern "C" fn transformer_callback(
@@ -180,7 +192,7 @@ extern "C" fn transformer_callback(
         StalkerOutput::from_raw(output),
     );
     // Leak the box again, we want to destruct it in the data_destroy callback.
-    //
+
     Box::leak(f);
 }
 
