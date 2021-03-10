@@ -5,7 +5,7 @@ use frida_gum_sys as gum_sys;
 use std::ffi::CString;
 use std::os::raw::c_void;
 
-use crate::{NativePointer, RangeDetails};
+use crate::{NativePointer, PageProtection, RangeDetails};
 
 pub struct Module;
 
@@ -17,7 +17,7 @@ struct EnumerateRangesUserDataWrapper<'a> {
 unsafe extern "C" fn enumerate_ranges_thunk(details: *const gum_sys::_GumRangeDetails, user_data: *mut c_void) -> i32 {
     let user_data_box = Box::from_raw(user_data as *mut Box<&mut EnumerateRangesUserDataWrapper>);
 
-    let ret = (user_data_box.func)(RangeDetails::new_from_raw(*details), user_data_box.user_data);
+    let ret = (user_data_box.func)(RangeDetails::from_raw(*details), user_data_box.user_data);
     Box::leak(user_data_box);
     ret
 }
@@ -47,7 +47,7 @@ impl Module {
 
     pub fn enumerate_ranges(
         module_name: &str,
-        prot: gum_sys::GumPageProtection,
+        prot: PageProtection,
         mut func: impl FnMut(RangeDetails, *mut c_void) -> i32,
         user_data: *mut c_void) {
 
@@ -61,7 +61,7 @@ impl Module {
 
             gum_sys::gum_module_enumerate_ranges(
                 module_name.as_ptr(),
-                prot,
+                prot as u32,
                 Some(enumerate_ranges_thunk),
                 Box::into_raw(Box::new(Box::new(&mut user_data_wrapper))) as *mut _ as *mut c_void)
         }
