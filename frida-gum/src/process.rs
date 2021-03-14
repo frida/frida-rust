@@ -40,7 +40,7 @@ impl Process {
                 user_data,
             );
 
-            let _ = Box::from_raw(user_data as *mut Box<dyn FnMut(RangeDetails)>);
+            let _ = Box::from_raw(user_data as *mut Box<dyn FnMut(RangeDetails) -> bool>);
         }
     }
 }
