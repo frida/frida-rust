@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2020-2021 meme <keegan@sdf.org>
+ *
+ * Licence: wxWindows Library Licence, Version 3.1
+ */
+
 use frida_gum_sys as gum_sys;
 use std::marker::PhantomData;
 use std::os::raw::c_void;

@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2020-2021 meme <keegan@sdf.org>
+ *
+ * Licence: wxWindows Library Licence, Version 3.1
+ */
+
 //! Gum bindings for Rust
 //!
 //! Gum provides a number of utilities for instrumenting binary applications,

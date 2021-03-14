@@ -1,3 +1,5 @@
+/* This example is in the public domain */
+
 use frida::Frida;
 use lazy_static::lazy_static;
 

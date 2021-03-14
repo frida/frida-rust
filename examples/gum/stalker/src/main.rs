@@ -1,3 +1,5 @@
+/* This example is in the public domain */
+
 use frida_gum as gum;
 use frida_gum::stalker::{Event, EventMask, EventSink, Stalker, Transformer};
 use lazy_static::lazy_static;

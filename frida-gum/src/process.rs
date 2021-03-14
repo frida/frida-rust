@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) 2021 meme <keegan@sdf.org>
+ * Copyright (C) 2021 S Rubenstein <s1341@shmarya.net>
+ *
+ * Licence: wxWindows Library Licence, Version 3.1
+ */
+
 //! Process helpers.
 //!
 

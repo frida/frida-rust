@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2020-2021 meme <keegan@sdf.org>
+ *
+ * Licence: wxWindows Library Licence, Version 3.1
+ */
+
 #include "invocation_listener.h"
 
 static void gum_rust_invocation_listener_iface_init(gpointer g_iface, gpointer iface_data);

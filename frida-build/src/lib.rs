@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2021 S Rubenstein <s1341@shmarya.net>
+ *
+ * Licence: wxWindows Library Licence, Version 3.1
+ */
+
 use std::env;
 use std::path::Path;
 use std::process::Command;

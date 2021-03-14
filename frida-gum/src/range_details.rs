@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) 2021 meme <keegan@sdf.org>
+ * Copyright (C) 2021 S Rubenstein <s1341@shmarya.net>
+ *
+ * Licence: wxWindows Library Licence, Version 3.1
+ */
+
 use frida_gum_sys as gum_sys;
 use std::ffi::CStr;
 use std::marker::PhantomData;

@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2020-2021 meme <keegan@sdf.org>
+ *
+ * Licence: wxWindows Library Licence, Version 3.1
+ */
+
 //! Module helpers.
 //!
 

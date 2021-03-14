@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2020-2021 meme <keegan@sdf.org>
+ *
+ * Licence: wxWindows Library Licence, Version 3.1
+ */
+
 //! Code tracing engine.
 //!
 //! More details about the Frida Stalker can be found on the [Stalker page](https://frida.re/docs/stalker/)
