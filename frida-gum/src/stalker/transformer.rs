@@ -53,7 +53,7 @@ use frida_gum_sys::cs_insn;
 
 pub struct Instruction<'a> {
     parent: *mut frida_gum_sys::GumStalkerIterator,
-    _instr: *const cs_insn,
+    instr: *const cs_insn,
     phantom: PhantomData<&'a *const cs_insn>,
 }
 
@@ -64,7 +64,7 @@ impl<'a> Instruction<'a> {
     ) -> Instruction<'a> {
         Instruction {
             parent,
-            _instr: instr,
+            instr: instr,
             phantom: PhantomData,
         }
     }
@@ -85,6 +85,10 @@ impl<'a> Instruction<'a> {
                 Some(put_callout_destroy),
             )
         };
+    }
+
+    pub fn instr(&self) -> *const cs_insn {
+        self.instr
     }
 }
 
