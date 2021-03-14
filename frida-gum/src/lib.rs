@@ -59,6 +59,9 @@ pub use cpu_context::*;
 mod memory_range;
 pub use memory_range::*;
 
+mod range_details;
+pub use range_details::*;
+
 /// Context required for instantiation of all structures under the Gum namespace.
 pub struct Gum;
 

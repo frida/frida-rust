@@ -8,6 +8,12 @@ pub struct MemoryRange {
 }
 
 impl MemoryRange {
+    pub(crate) fn from_raw(memory_range: *const gum_sys::GumMemoryRange) -> MemoryRange {
+        MemoryRange {
+            memory_range: unsafe { *memory_range },
+        }
+    }
+
     pub fn new(base_address: NativePointer, size: usize) -> MemoryRange {
         MemoryRange {
             memory_range: gum_sys::GumMemoryRange {
