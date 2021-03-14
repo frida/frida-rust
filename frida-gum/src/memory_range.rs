@@ -23,7 +23,7 @@ impl MemoryRange {
         }
     }
 
-    /// Get the start address of the range
+    /// Get the start address of the range.
     pub fn base_address(&self) -> NativePointer {
         NativePointer(self.memory_range.base_address as *mut c_void)
     }

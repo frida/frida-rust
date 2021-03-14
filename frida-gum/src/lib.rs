@@ -53,6 +53,9 @@ pub mod interceptor;
 mod module;
 pub use module::*;
 
+mod process;
+pub use process::*;
+
 mod cpu_context;
 pub use cpu_context::*;
 
@@ -82,3 +85,10 @@ impl Drop for Gum {
 }
 
 pub struct NativePointer(pub *mut c_void);
+
+impl NativePointer {
+    /// Check if the pointer is NULL.
+    pub fn is_null(&self) -> bool {
+        self.0.is_null()
+    }
+}

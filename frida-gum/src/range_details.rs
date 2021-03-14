@@ -4,6 +4,7 @@ use std::marker::PhantomData;
 
 use crate::MemoryRange;
 
+/// The memory protection of an unassociated page.
 #[derive(FromPrimitive)]
 #[repr(u32)]
 pub enum PageProtection {
@@ -20,6 +21,7 @@ pub enum PageProtection {
         | gum_sys::_GumPageProtection_GUM_PAGE_EXECUTE,
 }
 
+/// The file association to a page.
 pub struct FileMapping<'a> {
     file_mapping: *const gum_sys::GumFileMapping,
     phantom: PhantomData<&'a gum_sys::GumFileMapping>,
@@ -33,19 +35,23 @@ impl<'a> FileMapping<'a> {
         }
     }
 
+    /// The path of the file mapping on disk.
     pub fn path(&self) -> &str {
         unsafe { CStr::from_ptr((*self.file_mapping).path).to_str().unwrap() }
     }
 
+    /// The offset into the file mapping.
     pub fn offset(&self) -> u64 {
         unsafe { (*self.file_mapping).offset }
     }
 
+    /// The size of the mapping.
     pub fn size(&self) -> u64 {
         unsafe { (*self.file_mapping).size }
     }
 }
 
+/// Details a range of virtual memory.
 pub struct RangeDetails<'a> {
     range_details: *const gum_sys::GumRangeDetails,
     phantom: PhantomData<&'a gum_sys::GumRangeDetails>,
@@ -59,15 +65,18 @@ impl<'a> RangeDetails<'a> {
         }
     }
 
+    /// The range of memory that is detailed.
     pub fn memory_range(&self) -> MemoryRange {
         unsafe { MemoryRange::from_raw((*self.range_details).range) }
     }
 
+    /// The page protection of the range.
     pub fn protection(&self) -> PageProtection {
         let protection = unsafe { (*self.range_details).protection };
         num::FromPrimitive::from_u32(protection).unwrap()
     }
 
+    /// The associated file mapping.
     pub fn file_mapping(&self) -> FileMapping {
         unsafe { FileMapping::from_raw((*self.range_details).file) }
     }
