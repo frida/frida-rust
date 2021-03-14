@@ -76,8 +76,12 @@ impl<'a> RangeDetails<'a> {
         num::FromPrimitive::from_u32(protection).unwrap()
     }
 
-    /// The associated file mapping.
-    pub fn file_mapping(&self) -> FileMapping {
-        unsafe { FileMapping::from_raw((*self.range_details).file) }
+    /// The associated file mapping, if present.
+    pub fn file_mapping(&self) -> Option<FileMapping> {
+        if self.range_details.is_null() {
+            None
+        } else {
+            Some(unsafe { FileMapping::from_raw((*self.range_details).file) })
+        }
     }
 }
