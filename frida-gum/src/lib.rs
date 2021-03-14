@@ -50,6 +50,8 @@ pub mod stalker;
 
 pub mod interceptor;
 
+pub mod instruction_writer;
+
 mod module;
 pub use module::*;
 

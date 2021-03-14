@@ -1,4 +1,4 @@
-use crate::{CpuContext, Gum};
+use crate::{instruction_writer::TargetInstructionWriter, CpuContext, Gum};
 use std::marker::PhantomData;
 use std::os::raw::c_void;
 
@@ -117,6 +117,18 @@ impl<'a> StalkerOutput<'a> {
         StalkerOutput {
             output,
             phantom: PhantomData,
+        }
+    }
+
+    /// Obtain an [`crate::instruction_writer::InstructionWriter`] for inserting into the stream.
+    pub fn writer(&self) -> TargetInstructionWriter {
+        unsafe {
+            #[cfg(target_arch = "x86_64")]
+            let writer = TargetInstructionWriter::from_raw((*self.output).writer.x86);
+            #[cfg(target_arch = "aarch64")]
+            let writer = TargetInstructionWriter::from_raw((*self.output).writer.arm64);
+
+            writer
         }
     }
 }
