@@ -1,6 +1,6 @@
 [package]
 name = "frida-gum"
-version = "0.2.3"
+version = "0.3.0"
 authors = ["meme <keegan@sdf.org>"]
 edition = "2018"
 license = "wxWindows"
