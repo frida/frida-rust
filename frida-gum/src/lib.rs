@@ -61,9 +61,6 @@ pub mod instruction_writer;
 mod module;
 pub use module::*;
 
-mod process;
-pub use process::*;
-
 mod cpu_context;
 pub use cpu_context::*;
 
