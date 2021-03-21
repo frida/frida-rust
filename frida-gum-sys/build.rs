@@ -36,8 +36,10 @@ fn main() {
     #[cfg(not(feature = "auto-download"))]
     println!("cargo:rustc-link-lib=frida-gum");
 
-    #[cfg(any(target_os = "linux", target_os = "macos"))]
-    println!("cargo:rustc-link-lib=pthread");
+    if env::var("CARGO_CFG_TARGET_OS").unwrap() != "android" {
+        #[cfg(any(target_os = "linux", target_os = "macos"))]
+        println!("cargo:rustc-link-lib=pthread");
+    }
 
     let bindings = bindgen::Builder::default()
         .header("frida-gum.h")
