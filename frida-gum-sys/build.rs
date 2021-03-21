@@ -36,7 +36,7 @@ fn main() {
     #[cfg(not(feature = "auto-download"))]
     println!("cargo:rustc-link-lib=frida-gum");
 
-     if env::var("CARGO_CFG_TARGET_OS").unwrap() != "android" {
+    if env::var("CARGO_CFG_TARGET_OS").unwrap() != "android" {
         #[cfg(any(target_os = "linux", target_os = "macos"))]
         println!("cargo:rustc-link-lib=pthread");
     }
