@@ -37,11 +37,11 @@ pub enum Event {
         location: NativePointer,
     },
     Block {
-        begin: NativePointer,
+        start: NativePointer,
         end: NativePointer,
     },
     Compile {
-        begin: NativePointer,
+        start: NativePointer,
         end: NativePointer,
     },
 }
@@ -76,14 +76,14 @@ impl From<GumEvent> for Event {
             EventMask::Block => {
                 let block = unsafe { event.block };
                 Event::Block {
-                    begin: NativePointer(block.begin),
+                    start: NativePointer(block.start),
                     end: NativePointer(block.end),
                 }
             }
             EventMask::Compile => {
                 let compile = unsafe { event.compile };
                 Event::Compile {
-                    begin: NativePointer(compile.begin),
+                    start: NativePointer(compile.start),
                     end: NativePointer(compile.end),
                 }
             }
