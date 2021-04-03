@@ -1,6 +1,6 @@
 [package]
 name = "frida-sys"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["meme <keegan@sdf.org>"]
 edition = "2018"
 license = "wxWindows"
