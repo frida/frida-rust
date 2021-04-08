@@ -16,7 +16,7 @@ pub type TargetInstructionWriter = X86InstructionWriter;
 #[cfg(target_arch = "aarch64")]
 pub type TargetInstructionWriter = Aarch64InstructionWriter;
 
-#[derive(FromPrimitive)]
+#[derive(FromPrimitive, PartialEq, Clone, Copy)]
 #[repr(u32)]
 pub enum X86Register {
     Eax = gum_sys::_GumCpuReg_GUM_REG_EAX,
@@ -75,7 +75,7 @@ pub enum X86Register {
     None = gum_sys::_GumCpuReg_GUM_REG_NONE,
 }
 
-#[derive(FromPrimitive)]
+#[derive(FromPrimitive, PartialEq, Clone, Copy)]
 #[repr(u32)]
 pub enum Aarch64Register {
     Ffr = gum_sys::arm64_reg_ARM64_REG_FFR,
@@ -516,13 +516,8 @@ impl InstructionWriter for Aarch64InstructionWriter {
     }
 
     fn can_branch_directly_between(&self, source: u64, target: u64) -> bool {
-        if unsafe {
-            gum_sys::gum_arm64_writer_can_branch_directly_between(self.writer, source, target)
-        } != 0
-        {
-            true
-        } else {
-            false
+        unsafe {
+            gum_sys::gum_arm64_writer_can_branch_directly_between(self.writer, source, target) != 0
         }
     }
 
@@ -548,8 +543,13 @@ impl Aarch64InstructionWriter {
         unsafe { gum_sys::gum_arm64_writer_put_b_label(self.writer, id as *const c_void) };
     }
 
+    /// Insert a `brk #i` instruction.
+    pub fn put_brk_imm(&self, imm: u16) {
+        unsafe { gum_sys::gum_arm64_writer_put_brk_imm(self.writer, imm) };
+    }
+
     /// Insert a `sub d, l, r` instruction.
-    pub fn pub_sub_reg_reg_imm(
+    pub fn put_sub_reg_reg_imm(
         &self,
         dst_reg: Aarch64Register,
         left_reg: Aarch64Register,
@@ -566,7 +566,7 @@ impl Aarch64InstructionWriter {
     }
 
     /// Insert a `add d, l, r` instruction.
-    pub fn pub_add_reg_reg_imm(
+    pub fn put_add_reg_reg_imm(
         &self,
         dst_reg: Aarch64Register,
         left_reg: Aarch64Register,
@@ -580,6 +580,38 @@ impl Aarch64InstructionWriter {
                 right_value,
             )
         };
+    }
+
+    /// Insert a `add d, l, r` instruction.
+    pub fn put_add_reg_reg_reg(
+        &self,
+        dst_reg: Aarch64Register,
+        left_reg: Aarch64Register,
+        right_reg: Aarch64Register,
+    ) {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_add_reg_reg_reg(
+                self.writer,
+                dst_reg as u32,
+                left_reg as u32,
+                right_reg as u32,
+            )
+        };
+    }
+
+    /// Insert a `mov d, s` instruction.
+    pub fn put_mov_reg_reg(
+        &self,
+        dst_reg: Aarch64Register,
+        src_reg: Aarch64Register,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_mov_reg_reg(
+                self.writer,
+                dst_reg as u32,
+                src_reg as u32,
+            ) == 1
+        }
     }
 
     /// Insert a `stp reg, reg, [reg + o]` instruction.
@@ -602,6 +634,24 @@ impl Aarch64InstructionWriter {
             )
         };
     }
+
+    /// Insert a `ldr reg, [reg + o]` instruction.
+    pub fn put_ldr_reg_reg_offset(
+        &self,
+        reg_a: Aarch64Register,
+        reg_src: Aarch64Register,
+        offset: u64,
+    ) {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_ldr_reg_reg_offset(
+                self.writer,
+                reg_a as u32,
+                reg_src as u32,
+                offset,
+            )
+        };
+    }
+
 
     /// Insert a `ldp reg, reg, [reg + o]` instruction.
     pub fn put_ldp_reg_reg_reg_offset(
