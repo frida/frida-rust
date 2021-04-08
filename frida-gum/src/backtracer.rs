@@ -10,6 +10,8 @@
 
 use frida_gum_sys as gum_sys;
 
+// The following function is not exposed through the frida-gum.h header, so we don't have an
+// auto-generated binding for it. This may change in a future version.
 extern "C" {
     fn gum_linux_parse_ucontext(context: *const libc::ucontext_t, cpu_context: *mut gum_sys::GumCpuContext);
 }
