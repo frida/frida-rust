@@ -70,6 +70,9 @@ pub use memory_range::*;
 mod range_details;
 pub use range_details::*;
 
+mod backtracer;
+pub use backtracer::*;
+
 /// Context required for instantiation of all structures under the Gum namespace.
 pub struct Gum;
 
