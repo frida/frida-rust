@@ -600,17 +600,10 @@ impl Aarch64InstructionWriter {
     }
 
     /// Insert a `mov d, s` instruction.
-    pub fn put_mov_reg_reg(
-        &self,
-        dst_reg: Aarch64Register,
-        src_reg: Aarch64Register,
-    ) -> bool {
+    pub fn put_mov_reg_reg(&self, dst_reg: Aarch64Register, src_reg: Aarch64Register) -> bool {
         unsafe {
-            gum_sys::gum_arm64_writer_put_mov_reg_reg(
-                self.writer,
-                dst_reg as u32,
-                src_reg as u32,
-            ) == 1
+            gum_sys::gum_arm64_writer_put_mov_reg_reg(self.writer, dst_reg as u32, src_reg as u32)
+                == 1
         }
     }
 
@@ -651,7 +644,6 @@ impl Aarch64InstructionWriter {
             )
         };
     }
-
 
     /// Insert a `ldp reg, reg, [reg + o]` instruction.
     pub fn put_ldp_reg_reg_reg_offset(
