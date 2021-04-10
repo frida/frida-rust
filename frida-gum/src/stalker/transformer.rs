@@ -5,6 +5,7 @@
  */
 
 use crate::{instruction_writer::TargetInstructionWriter, CpuContext, Gum};
+use capstone::Insn;
 use std::marker::PhantomData;
 use std::os::raw::c_void;
 
@@ -59,7 +60,7 @@ use frida_gum_sys::cs_insn;
 
 pub struct Instruction<'a> {
     parent: *mut frida_gum_sys::GumStalkerIterator,
-    instr: *const cs_insn,
+    instr: Insn<'a>,
     phantom: PhantomData<&'a *const cs_insn>,
 }
 
@@ -70,7 +71,7 @@ impl<'a> Instruction<'a> {
     ) -> Instruction<'a> {
         Instruction {
             parent,
-            instr: instr,
+            instr: unsafe { Insn::from_raw(instr as *const capstone_sys::cs_insn) },
             phantom: PhantomData,
         }
     }
@@ -93,8 +94,8 @@ impl<'a> Instruction<'a> {
         };
     }
 
-    pub fn instr(&self) -> *const cs_insn {
-        self.instr
+    pub fn instr(&self) -> &Insn {
+        &self.instr
     }
 }
 
