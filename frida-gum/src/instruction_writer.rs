@@ -408,10 +408,10 @@ pub trait InstructionWriter {
     }
 
     /// Add the bytes specified to the instruction stream.
-    fn put_bytes(&self, bytes: &[u8]);
+    fn put_bytes(&self, bytes: &[u8]) -> bool;
 
     /// Add a label at the curent point in the instruction stream.
-    fn put_label(&self, id: u64);
+    fn put_label(&self, id: u64) -> bool;
 }
 
 /// The x86/x86_64 instruction writer.
@@ -438,15 +438,15 @@ impl InstructionWriter for X86InstructionWriter {
         }
     }
 
-    fn put_bytes(&self, bytes: &[u8]) {
+    fn put_bytes(&self, bytes: &[u8]) -> bool {
         println!("put_bytes: {:?}", bytes);
         unsafe {
-            gum_sys::gum_x86_writer_put_bytes(self.writer, bytes.as_ptr(), bytes.len() as u32)
+            gum_sys::gum_x86_writer_put_bytes(self.writer, bytes.as_ptr(), bytes.len() as u32) != 0
         }
     }
 
-    fn put_label(&self, id: u64) {
-        unsafe { gum_sys::gum_x86_writer_put_label(self.writer, id as *const c_void) };
+    fn put_label(&self, id: u64) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_label(self.writer, id as *const c_void) != 0 }
     }
 }
 
@@ -457,8 +457,8 @@ impl X86InstructionWriter {
     }
 
     /// Insert a `jmp` near to a label. The label is specified by `id`.
-    pub fn put_jmp_near_label(&self, id: u64) {
-        unsafe { gum_sys::gum_x86_writer_put_jmp_near_label(self.writer, id as *const c_void) };
+    pub fn put_jmp_near_label(&self, id: u64) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_jmp_near_label(self.writer, id as *const c_void) != 0 }
     }
 
     /// Insert a `lea d, [s + o]` instruction.
@@ -467,35 +467,35 @@ impl X86InstructionWriter {
         dst_reg: X86Register,
         src_reg: X86Register,
         src_offset: i32,
-    ) {
+    ) -> bool {
         unsafe {
             gum_sys::gum_x86_writer_put_lea_reg_reg_offset(
                 self.writer,
                 dst_reg as u32,
                 src_reg as u32,
                 src_offset as i64,
-            )
-        };
+            ) != 0
+        }
     }
 
     /// Insert a `push R` instruction.
-    pub fn put_push_reg(&self, reg: X86Register) {
-        unsafe { gum_sys::gum_x86_writer_put_push_reg(self.writer, reg as u32) };
+    pub fn put_push_reg(&self, reg: X86Register) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_push_reg(self.writer, reg as u32) != 0 }
     }
 
     /// Insert a `pop R` instruction.
-    pub fn put_pop_reg(&self, reg: X86Register) {
-        unsafe { gum_sys::gum_x86_writer_put_pop_reg(self.writer, reg as u32) };
+    pub fn put_pop_reg(&self, reg: X86Register) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_pop_reg(self.writer, reg as u32) != 0 }
     }
 
     /// Insert a `mov R, [address]` instruction.
-    pub fn put_mov_reg_address(&self, reg: X86Register, address: u64) {
-        unsafe { gum_sys::gum_x86_writer_put_mov_reg_address(self.writer, reg as u32, address) };
+    pub fn put_mov_reg_address(&self, reg: X86Register, address: u64) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_mov_reg_address(self.writer, reg as u32, address) != 0 }
     }
 
     /// Insert a call address instruction.
-    pub fn put_call_address(&self, address: u64) {
-        unsafe { gum_sys::gum_x86_writer_put_call_address(self.writer, address) };
+    pub fn put_call_address(&self, address: u64) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_call_address(self.writer, address) != 0 }
     }
 }
 
@@ -521,14 +521,14 @@ impl InstructionWriter for Aarch64InstructionWriter {
         }
     }
 
-    fn put_bytes(&self, bytes: &[u8]) {
+    fn put_bytes(&self, bytes: &[u8]) -> bool {
         unsafe {
-            gum_sys::gum_arm64_writer_put_bytes(self.writer, bytes.as_ptr(), bytes.len() as u32)
-        };
+            gum_sys::gum_arm64_writer_put_bytes(self.writer, bytes.as_ptr(), bytes.len() as u32) != 0
+        }
     }
 
-    fn put_label(&self, id: u64) {
-        unsafe { gum_sys::gum_arm64_writer_put_label(self.writer, id as *const c_void) };
+    fn put_label(&self, id: u64) -> bool {
+        unsafe { gum_sys::gum_arm64_writer_put_label(self.writer, id as *const c_void) != 0 }
     }
 }
 
@@ -540,12 +540,12 @@ impl Aarch64InstructionWriter {
 
     /// Insert a `b` to a label. The label is specified by `id`.
     pub fn put_b_label(&self, id: u64) {
-        unsafe { gum_sys::gum_arm64_writer_put_b_label(self.writer, id as *const c_void) };
+        unsafe { gum_sys::gum_arm64_writer_put_b_label(self.writer, id as *const c_void) }
     }
 
     /// Insert a `brk #i` instruction.
     pub fn put_brk_imm(&self, imm: u16) {
-        unsafe { gum_sys::gum_arm64_writer_put_brk_imm(self.writer, imm) };
+        unsafe { gum_sys::gum_arm64_writer_put_brk_imm(self.writer, imm) }
     }
 
     /// Insert a `sub d, l, r` instruction.
@@ -554,15 +554,15 @@ impl Aarch64InstructionWriter {
         dst_reg: Aarch64Register,
         left_reg: Aarch64Register,
         right_value: u64,
-    ) {
+    ) -> bool {
         unsafe {
             gum_sys::gum_arm64_writer_put_sub_reg_reg_imm(
                 self.writer,
                 dst_reg as u32,
                 left_reg as u32,
                 right_value,
-            )
-        };
+            ) != 0
+        }
     }
 
     /// Insert a `add d, l, r` instruction.
@@ -571,15 +571,15 @@ impl Aarch64InstructionWriter {
         dst_reg: Aarch64Register,
         left_reg: Aarch64Register,
         right_value: u64,
-    ) {
+    ) -> bool {
         unsafe {
             gum_sys::gum_arm64_writer_put_add_reg_reg_imm(
                 self.writer,
                 dst_reg as u32,
                 left_reg as u32,
                 right_value,
-            )
-        };
+            ) != 0
+        }
     }
 
     /// Insert a `add d, l, r` instruction.
@@ -588,22 +588,22 @@ impl Aarch64InstructionWriter {
         dst_reg: Aarch64Register,
         left_reg: Aarch64Register,
         right_reg: Aarch64Register,
-    ) {
+    ) -> bool {
         unsafe {
             gum_sys::gum_arm64_writer_put_add_reg_reg_reg(
                 self.writer,
                 dst_reg as u32,
                 left_reg as u32,
                 right_reg as u32,
-            )
-        };
+            ) != 0
+        }
     }
 
     /// Insert a `mov d, s` instruction.
     pub fn put_mov_reg_reg(&self, dst_reg: Aarch64Register, src_reg: Aarch64Register) -> bool {
         unsafe {
             gum_sys::gum_arm64_writer_put_mov_reg_reg(self.writer, dst_reg as u32, src_reg as u32)
-                == 1
+                 != 0
         }
     }
 
@@ -615,7 +615,7 @@ impl Aarch64InstructionWriter {
         reg_dst: Aarch64Register,
         offset: i64,
         mode: IndexMode,
-    ) {
+    ) -> bool {
         unsafe {
             gum_sys::gum_arm64_writer_put_stp_reg_reg_reg_offset(
                 self.writer,
@@ -624,8 +624,8 @@ impl Aarch64InstructionWriter {
                 reg_dst as u32,
                 offset,
                 mode as u32,
-            )
-        };
+            ) != 0
+        }
     }
 
     /// Insert a `ldr reg, [reg + o]` instruction.
@@ -634,15 +634,15 @@ impl Aarch64InstructionWriter {
         reg_a: Aarch64Register,
         reg_src: Aarch64Register,
         offset: u64,
-    ) {
+    ) -> bool {
         unsafe {
             gum_sys::gum_arm64_writer_put_ldr_reg_reg_offset(
                 self.writer,
                 reg_a as u32,
                 reg_src as u32,
                 offset,
-            )
-        };
+            ) != 0
+        }
     }
 
     /// Insert a `ldp reg, reg, [reg + o]` instruction.
@@ -653,7 +653,7 @@ impl Aarch64InstructionWriter {
         reg_src: Aarch64Register,
         offset: i64,
         mode: IndexMode,
-    ) {
+    ) -> bool {
         unsafe {
             gum_sys::gum_arm64_writer_put_ldp_reg_reg_reg_offset(
                 self.writer,
@@ -662,17 +662,17 @@ impl Aarch64InstructionWriter {
                 reg_src as u32,
                 offset,
                 mode as u32,
-            )
-        };
+            ) != 0
+        }
     }
 
     /// Insert a `mov reg, u64` instruction.
-    pub fn put_ldr_reg_u64(&self, reg: Aarch64Register, address: u64) {
-        unsafe { gum_sys::gum_arm64_writer_put_ldr_reg_u64(self.writer, reg as u32, address) };
+    pub fn put_ldr_reg_u64(&self, reg: Aarch64Register, address: u64) -> bool {
+        unsafe { gum_sys::gum_arm64_writer_put_ldr_reg_u64(self.writer, reg as u32, address) != 0 }
     }
 
     /// Insert a `bl imm` instruction.
-    pub fn put_bl_imm(&self, address: u64) {
-        unsafe { gum_sys::gum_arm64_writer_put_bl_imm(self.writer, address) };
+    pub fn put_bl_imm(&self, address: u64) -> bool {
+        unsafe { gum_sys::gum_arm64_writer_put_bl_imm(self.writer, address) != 0 }
     }
 }
