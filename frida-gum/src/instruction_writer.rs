@@ -458,7 +458,9 @@ impl X86InstructionWriter {
 
     /// Insert a `jmp` near to a label. The label is specified by `id`.
     pub fn put_jmp_near_label(&self, id: u64) -> bool {
-        unsafe { gum_sys::gum_x86_writer_put_jmp_near_label(self.writer, id as *const c_void); }
+        unsafe {
+            gum_sys::gum_x86_writer_put_jmp_near_label(self.writer, id as *const c_void);
+        }
         true
     }
 
@@ -491,7 +493,9 @@ impl X86InstructionWriter {
 
     /// Insert a `mov R, [address]` instruction.
     pub fn put_mov_reg_address(&self, reg: X86Register, address: u64) -> bool {
-        unsafe { gum_sys::gum_x86_writer_put_mov_reg_address(self.writer, reg as u32, address); }
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_reg_address(self.writer, reg as u32, address);
+        }
         true
     }
 
@@ -525,7 +529,8 @@ impl InstructionWriter for Aarch64InstructionWriter {
 
     fn put_bytes(&self, bytes: &[u8]) -> bool {
         unsafe {
-            gum_sys::gum_arm64_writer_put_bytes(self.writer, bytes.as_ptr(), bytes.len() as u32) != 0
+            gum_sys::gum_arm64_writer_put_bytes(self.writer, bytes.as_ptr(), bytes.len() as u32)
+                != 0
         }
     }
 
@@ -605,7 +610,7 @@ impl Aarch64InstructionWriter {
     pub fn put_mov_reg_reg(&self, dst_reg: Aarch64Register, src_reg: Aarch64Register) -> bool {
         unsafe {
             gum_sys::gum_arm64_writer_put_mov_reg_reg(self.writer, dst_reg as u32, src_reg as u32)
-                 != 0
+                != 0
         }
     }
 
