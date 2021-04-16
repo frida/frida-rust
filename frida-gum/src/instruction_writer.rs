@@ -439,9 +439,9 @@ impl InstructionWriter for X86InstructionWriter {
     }
 
     fn put_bytes(&self, bytes: &[u8]) -> bool {
-        println!("put_bytes: {:?}", bytes);
         unsafe {
-            gum_sys::gum_x86_writer_put_bytes(self.writer, bytes.as_ptr(), bytes.len() as u32) != 0
+            gum_sys::gum_x86_writer_put_bytes(self.writer, bytes.as_ptr(), bytes.len() as u32);
+            true
         }
     }
 
@@ -458,7 +458,8 @@ impl X86InstructionWriter {
 
     /// Insert a `jmp` near to a label. The label is specified by `id`.
     pub fn put_jmp_near_label(&self, id: u64) -> bool {
-        unsafe { gum_sys::gum_x86_writer_put_jmp_near_label(self.writer, id as *const c_void) != 0 }
+        unsafe { gum_sys::gum_x86_writer_put_jmp_near_label(self.writer, id as *const c_void); }
+        true
     }
 
     /// Insert a `lea d, [s + o]` instruction.
@@ -490,7 +491,8 @@ impl X86InstructionWriter {
 
     /// Insert a `mov R, [address]` instruction.
     pub fn put_mov_reg_address(&self, reg: X86Register, address: u64) -> bool {
-        unsafe { gum_sys::gum_x86_writer_put_mov_reg_address(self.writer, reg as u32, address) != 0 }
+        unsafe { gum_sys::gum_x86_writer_put_mov_reg_address(self.writer, reg as u32, address); }
+        true
     }
 
     /// Insert a call address instruction.
