@@ -70,6 +70,13 @@ pub use memory_range::*;
 mod range_details;
 pub use range_details::*;
 
+#[cfg(feature = "backtrace")]
+#[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
+mod backtracer;
+#[cfg(feature = "backtrace")]
+#[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
+pub use backtracer::*;
+
 /// Context required for instantiation of all structures under the Gum namespace.
 pub struct Gum;
 
