@@ -412,6 +412,12 @@ pub trait InstructionWriter {
 
     /// Add a label at the curent point in the instruction stream.
     fn put_label(&self, id: u64) -> bool;
+
+    /// Reset the writer to the given code address
+    fn reset(&self, code_address: u64);
+
+    /// Add a branch to an immediate address
+    fn put_branch_address(&self, address: u64) -> bool;
 }
 
 /// The x86/x86_64 instruction writer.
@@ -447,6 +453,14 @@ impl InstructionWriter for X86InstructionWriter {
 
     fn put_label(&self, id: u64) -> bool {
         unsafe { gum_sys::gum_x86_writer_put_label(self.writer, id as *const c_void) != 0 }
+    }
+
+    fn reset(&self, code_address: u64) {
+        unsafe { gum_sys::gum_x86_writer_reset(self.writer, code_address as *mut c_void) }
+    }
+
+    fn put_branch_address(&self, address: u64) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_jmp_address(self.writer, address) != 0 }
     }
 }
 
@@ -536,6 +550,14 @@ impl InstructionWriter for Aarch64InstructionWriter {
 
     fn put_label(&self, id: u64) -> bool {
         unsafe { gum_sys::gum_arm64_writer_put_label(self.writer, id as *const c_void) != 0 }
+    }
+
+    fn reset(&self, code_address: u64) {
+        unsafe { gum_sys::gum_arm64_writer_reset(self.writer, code_address as *mut c_void) }
+    }
+
+    fn put_branch_address(&self, address: u64) -> bool {
+        unsafe { gum_sys::gum_arm64_writer_put_b_imm(self.writer, address) != 0 }
     }
 }
 
