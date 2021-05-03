@@ -23,12 +23,20 @@ pub fn download_and_use_devkit(kind: &str, version: &str) {
 
     let cwd = env::current_dir().unwrap().to_string_lossy().to_string();
 
+    let os = env::var("CARGO_CFG_TARGET_OS").unwrap();
+
+    let (lib_prefix, lib_suffix) = if os == "windows" {
+        ("", ".lib")
+    } else {
+        ("lib", ".a")
+    };
+
     let devkit = format!(
         "{}/frida-{}-devkit-{}-{}-{}",
         env::var("CARGO_MANIFEST_DIR").unwrap(),
         kind,
         version,
-        env::var("CARGO_CFG_TARGET_OS").unwrap(),
+        os,
         target_arch
     );
     let devkit_path = Path::new(&devkit);
@@ -38,21 +46,25 @@ pub fn download_and_use_devkit(kind: &str, version: &str) {
 
     if !devkit_path.is_dir() {
         if !Path::new(&devkit_tar).is_file() {
-            println!(
-                "cargo:warning=Frida {} devkit not found, downloading...",
-                kind
-            );
-            // Download devkit
-            let mut resp = reqwest::blocking::get(format!(
+            let frida_url = format!(
                 "https://github.com/frida/frida/releases/download/{}/frida-{}-devkit-{}-{}-{}.tar.xz",
                 version,
                 kind,
                 version,
                 env::var("CARGO_CFG_TARGET_OS").unwrap(),
-                target_arch)).expect("devkit download request failed");
+                target_arch);
+
+            println!(
+                "cargo:warning=Frida {} devkit not found, downloading from {}...",
+                kind, &frida_url,
+            );
+            // Download devkit
+            let mut resp =
+                reqwest::blocking::get(&frida_url).expect("devkit download request failed");
             let mut out = File::create(&devkit_tar).expect("failed to create devkit tar file");
             io::copy(&mut resp, &mut out).expect("failed to copy devkit tar content");
         }
+        println!("unpacking {:#?}", &devkit_tar);
         let tar_xz = File::open(&devkit_tar).expect("failed to open devkit tar.xz for extraction");
         let tar = XzDecoder::new(tar_xz);
         let mut archive = Archive::new(tar);
@@ -61,15 +73,17 @@ pub fn download_and_use_devkit(kind: &str, version: &str) {
             .expect("cannot extract the devkit tar.gz");
 
         let mut src_a = PathBuf::from(&out_dir_path);
-        src_a.push(format!("libfrida-{}.a", kind));
+        src_a.push(format!("{}frida-{}{}", lib_prefix, kind, lib_suffix));
         let mut dst_a = PathBuf::from(&out_dir_path);
         dst_a.push(format!(
-            "libfrida-{}-{}-{}.a",
+            "{}frida-{}-{}-{}{}",
+            lib_prefix,
             kind,
             env::var("CARGO_CFG_TARGET_OS").unwrap(),
-            target_arch
+            target_arch,
+            lib_suffix
         ));
-        fs::rename(src_a, dst_a).expect("failed to move libfrida.a");
+        fs::rename(src_a, dst_a).expect("failed to move libfrida");
     }
 
     println!(
