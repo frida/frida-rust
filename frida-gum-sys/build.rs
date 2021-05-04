@@ -6,13 +6,15 @@
 
 extern crate bindgen;
 
-use std::env;
 use std::path::PathBuf;
+use std::{env, fs};
 
 #[cfg(feature = "auto-download")]
 use frida_build::download_and_use_devkit;
 
 fn main() {
+    let out_path = PathBuf::from(env::var_os("OUT_DIR").unwrap());
+
     #[cfg(feature = "event-sink")]
     {
         println!("cargo:rerun-if-changed=event_sink.c");
@@ -31,6 +33,8 @@ fn main() {
     );
 
     #[cfg(feature = "auto-download")]
+    download_and_use_devkit("core", include_str!("FRIDA_VERSION").trim());
+    #[cfg(feature = "auto-download")]
     download_and_use_devkit("gum", include_str!("FRIDA_VERSION").trim());
 
     #[cfg(not(feature = "auto-download"))]
@@ -41,18 +45,39 @@ fn main() {
         println!("cargo:rustc-link-lib=pthread");
     }
 
-    let bindings = bindgen::Builder::default().header("frida-gum.h");
+    let header = "frida-gum.h";
+
+    let bindings = bindgen::Builder::default();
+
+    // If we auto-download, the header files are in the build directory.
+    let bindings = if cfg!(feature = "auto-download") {
+        let header_dir = out_path.join(header);
+        let header_path = header_dir.as_os_str().to_string_lossy();
+        println!("bindgen for autodownloaded header file {}", &header_path);
+        bindings.header(header_path)
+    } else {
+        bindings.header(header)
+    };
+
+    let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
+
+    fs::copy("event_sink.h", &out_path.join("event_sink.h")).unwrap();
+    fs::copy(
+        "invocation_listener.h",
+        &out_path.join("invocation_listener.h"),
+    )
+    .unwrap();
+
     #[cfg(feature = "event-sink")]
-    let bindings = bindings.header("event_sink.h");
+    let bindings = bindings.header(out_path.join("event_sink.h").to_string_lossy());
     #[cfg(feature = "invocation-listener")]
-    let bindings = bindings.header("invocation_listener.h");
+    let bindings = bindings.header(out_path.join("invocation_listener.h").to_string_lossy());
     let bindings = bindings
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate_comments(false)
         .generate()
         .unwrap();
 
-    let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
     bindings
         .write_to_file(out_path.join("bindings.rs"))
         .unwrap();
@@ -66,5 +91,8 @@ fn main() {
     #[cfg(feature = "invocation-listener")]
     let build = build.file("invocation_listener.c");
     #[cfg(any(feature = "event-sink", feature = "invocation-listener"))]
-    build.opt_level(3).compile("frida-gum-sys");
+    build
+        .include(out_path)
+        .opt_level(3)
+        .compile("frida-gum-sys");
 }

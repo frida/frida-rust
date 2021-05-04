@@ -81,8 +81,7 @@ pub enum Aarch64Register {
     Ffr = gum_sys::arm64_reg_ARM64_REG_FFR as u32,
     Fp = gum_sys::arm64_reg_ARM64_REG_FP as u32,
     Lr = gum_sys::arm64_reg_ARM64_REG_LR as u32,
-    #[cfg(not(windows))]
-    Nzcv = gum_sys::arm64_reg_ARM64_REG_NZV as u32,
+    Nzcv = gum_sys::arm64_reg_ARM64_REG_NZCV as u32,
     Sp = gum_sys::arm64_reg_ARM64_REG_SP as u32,
     Wsp = gum_sys::arm64_reg_ARM64_REG_WSP as u32,
     Wzr = gum_sys::arm64_reg_ARM64_REG_WZR as u32,

@@ -27,7 +27,7 @@ pub fn download_and_use_devkit(kind: &str, version: &str) {
     let (lib_prefix, lib_suffix) = if os == "windows" {
         ("", "") // technically, suffix is .lib, but cargo adds it, apparently.
     } else {
-        ("lib", ".a")
+        ("", "")
     };
 
     let devkit_name = format!("frida-{}-devkit-{}-{}-{}", kind, version, os, target_arch,);
@@ -68,9 +68,11 @@ pub fn download_and_use_devkit(kind: &str, version: &str) {
         println!("Got lib at {:?}", lib_path);
     }
 
-    println!("cargo:rustcargo:rustc-link-search={:?}", out_dir);
+    println!("cargo:include={}", out_dir.to_string_lossy());
+
+    println!("cargo:rustc-link-search={}", out_dir.to_string_lossy());
     println!(
-        "cargo:rustc-link-lib={}frida-{}{}",
+        "cargo:rustc-link-lib=static={}frida-{}{}",
         lib_prefix, kind, lib_suffix,
     );
 }

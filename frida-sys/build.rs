@@ -36,8 +36,24 @@ fn main() {
         println!("cargo:rustc-link-lib=framework=AppKit");
     }
 
-    let bindings = bindgen::Builder::default()
-        .header("frida-core.h")
+    let header = "frida-core.h";
+
+    let bindings = bindgen::Builder::default();
+
+    // If we auto-download, the header files are in the build directory.
+    let bindings = if cfg!(feature = "auto-download") {
+        let out_dir = env::var_os("OUT_DIR").unwrap();
+        bindings.header(
+            PathBuf::from(out_dir)
+                .join(header)
+                .as_os_str()
+                .to_string_lossy(),
+        )
+    } else {
+        bindings.header(header)
+    };
+
+    let bindings = bindings
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate_comments(false)
         .generate()
