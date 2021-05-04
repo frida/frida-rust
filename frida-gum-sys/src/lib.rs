@@ -16,5 +16,5 @@ mod bindings {
 
 pub use bindings::*;
 
-#[cfg(not(any(target_os = "macos", target_os = "ios")))]
+#[cfg(not(any(target_os = "macos", target_os = "ios", windows)))]
 pub use _frida_g_object_unref as g_object_unref;

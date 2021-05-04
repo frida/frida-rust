@@ -64,10 +64,12 @@ pub enum PointCut {
 
 impl From<gum_sys::GumPointCut> for PointCut {
     fn from(point_cut: gum_sys::GumPointCut) -> PointCut {
-        match point_cut {
-            gum_sys::_GumPointCut_GUM_POINT_ENTER => PointCut::Enter,
-            gum_sys::_GumPointCut_GUM_POINT_LEAVE => PointCut::Leave,
-            _ => unreachable!(),
+        if point_cut == gum_sys::_GumPointCut_GUM_POINT_ENTER as u32 {
+            PointCut::Enter
+        } else if point_cut == gum_sys::_GumPointCut_GUM_POINT_LEAVE as u32 {
+            PointCut::Leave
+        } else {
+            unreachable!()
         }
     }
 }

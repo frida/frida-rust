@@ -5,11 +5,9 @@
  */
 
 use std::env;
-use std::fs;
 use std::fs::File;
 use std::io;
 use std::path::Path;
-use std::path::PathBuf;
 
 use tar::Archive;
 use xz::read::XzDecoder;
@@ -17,42 +15,34 @@ use xz::read::XzDecoder;
 pub fn download_and_use_devkit(kind: &str, version: &str) {
     let mut target_arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap();
 
+    let out_dir = env::var_os("OUT_DIR").unwrap();
+    let out_dir_path = Path::new(&out_dir);
+
     if target_arch == "aarch64" {
         target_arch = "arm64".to_string();
     }
 
-    let cwd = env::current_dir().unwrap().to_string_lossy().to_string();
-
     let os = env::var("CARGO_CFG_TARGET_OS").unwrap();
 
     let (lib_prefix, lib_suffix) = if os == "windows" {
-        ("", ".lib")
+        ("", "") // technically, suffix is .lib, but cargo adds it, apparently.
     } else {
         ("lib", ".a")
     };
 
-    let devkit = format!(
-        "{}/frida-{}-devkit-{}-{}-{}",
-        env::var("CARGO_MANIFEST_DIR").unwrap(),
-        kind,
-        version,
-        os,
-        target_arch
-    );
-    let devkit_path = Path::new(&devkit);
-    let devkit_tar = format!("{}.tar.xz", devkit);
+    let devkit_name = format!("frida-{}-devkit-{}-{}-{}", kind, version, os, target_arch,);
 
-    let out_dir_path = Path::new(&cwd);
+    let devkit_path = out_dir_path.join(&devkit_name);
+    let devkit_tar = out_dir_path.join(format!("{}.tar.xz", &devkit_name));
+
+    println!("Checking for devkit at {:?}", &devkit_path);
 
     if !devkit_path.is_dir() {
-        if !Path::new(&devkit_tar).is_file() {
+        if !devkit_tar.is_file() {
             let frida_url = format!(
-                "https://github.com/frida/frida/releases/download/{}/frida-{}-devkit-{}-{}-{}.tar.xz",
-                version,
-                kind,
-                version,
-                env::var("CARGO_CFG_TARGET_OS").unwrap(),
-                target_arch);
+                "https://github.com/frida/frida/releases/download/{}/{}.tar.xz",
+                version, devkit_name,
+            );
 
             println!(
                 "cargo:warning=Frida {} devkit not found, downloading from {}...",
@@ -71,25 +61,16 @@ pub fn download_and_use_devkit(kind: &str, version: &str) {
         archive
             .unpack(&out_dir_path)
             .expect("cannot extract the devkit tar.gz");
+    }
+    let lib_path = out_dir_path.join(format!("{}frida-{}{}", lib_prefix, kind, lib_suffix));
 
-        let mut src_a = PathBuf::from(&out_dir_path);
-        src_a.push(format!("{}frida-{}{}", lib_prefix, kind, lib_suffix));
-        let mut dst_a = PathBuf::from(&out_dir_path);
-        dst_a.push(format!(
-            "{}frida-{}-{}-{}{}",
-            lib_prefix,
-            kind,
-            env::var("CARGO_CFG_TARGET_OS").unwrap(),
-            target_arch,
-            lib_suffix
-        ));
-        fs::rename(src_a, dst_a).expect("failed to move libfrida");
+    if kind == "core" {
+        println!("Got lib at {:?}", lib_path);
     }
 
+    println!("cargo:rustcargo:rustc-link-search={:?}", out_dir);
     println!(
-        "cargo:rustc-link-lib=frida-{}-{}-{}",
-        kind,
-        env::var("CARGO_CFG_TARGET_OS").unwrap(),
-        target_arch
+        "cargo:rustc-link-lib={}frida-{}{}",
+        lib_prefix, kind, lib_suffix,
     );
 }

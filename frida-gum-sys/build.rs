@@ -41,10 +41,12 @@ fn main() {
         println!("cargo:rustc-link-lib=pthread");
     }
 
-    let bindings = bindgen::Builder::default()
-        .header("frida-gum.h")
-        .header("event_sink.h")
-        .header("invocation_listener.h")
+    let bindings = bindgen::Builder::default().header("frida-gum.h");
+    #[cfg(feature = "event-sink")]
+    let bindings = bindings.header("event_sink.h");
+    #[cfg(feature = "invocation-listener")]
+    let bindings = bindings.header("invocation_listener.h");
+    let bindings = bindings
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate_comments(false)
         .generate()
@@ -55,16 +57,14 @@ fn main() {
         .write_to_file(out_path.join("bindings.rs"))
         .unwrap();
 
+    #[cfg(any(feature = "event-sink", feature = "invocation-listener"))]
+    let mut build = cc::Build::new();
+    #[cfg(not(windows))]
+    let build = build.warnings_into_errors(true);
     #[cfg(feature = "event-sink")]
-    cc::Build::new()
-        .file("event_sink.c")
-        .opt_level(3)
-        .warnings_into_errors(true)
-        .compile("event_sink");
-
+    let build = build.file("event_sink.c");
     #[cfg(feature = "invocation-listener")]
-    cc::Build::new()
-        .file("invocation_listener.c")
-        .warnings_into_errors(true)
-        .compile("invocation_listener");
+    let build = build.file("invocation_listener.c");
+    #[cfg(any(feature = "event-sink", feature = "invocation-listener"))]
+    build.opt_level(3).compile("frida-gum-sys");
 }
