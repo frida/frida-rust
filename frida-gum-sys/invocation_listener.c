@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020-2021 meme <keegan@sdf.org>
+ * Copyright © 2020-2021 Keegan Saunders
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */

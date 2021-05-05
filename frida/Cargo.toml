@@ -1,7 +1,7 @@
 [package]
 name = "frida"
 version = "0.1.3"
-authors = ["meme <keegan@sdf.org>"]
+authors = ["Keegan Saunders <keegan@undefinedbehaviour.org>"]
 edition = "2018"
 license = "wxWindows"
 repository = "https://github.com/meme/frida-rust"

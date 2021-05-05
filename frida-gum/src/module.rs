@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020-2021 meme <keegan@sdf.org>
- * Copyright (C) 2021 S Rubenstein <s1341@shmarya.net>
+ * Copyright © 2020-2021 Keegan Saunders
+ * Copyright © 2021 S Rubenstein
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */

@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "meme <keegan@sdf.org>",
+  "author": "Keegan Saunders <keegan@undefinedbehaviour.org>",
   "dependencies": {
     "frida": "^14.2.8"
   }
