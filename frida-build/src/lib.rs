@@ -24,12 +24,6 @@ pub fn download_and_use_devkit(kind: &str, version: &str) {
 
     let os = env::var("CARGO_CFG_TARGET_OS").unwrap();
 
-    let (lib_prefix, lib_suffix) = if os == "windows" {
-        ("", "") // technically, suffix is .lib, but cargo adds it, apparently.
-    } else {
-        ("", "")
-    };
-
     let devkit_name = format!("frida-{}-devkit-{}-{}-{}", kind, version, os, target_arch,);
 
     let devkit_path = out_dir_path.join(&devkit_name);
@@ -62,7 +56,7 @@ pub fn download_and_use_devkit(kind: &str, version: &str) {
             .unpack(&out_dir_path)
             .expect("cannot extract the devkit tar.gz");
     }
-    let lib_path = out_dir_path.join(format!("{}frida-{}{}", lib_prefix, kind, lib_suffix));
+    let lib_path = out_dir_path.join(format!("frida-{}", kind));
 
     if kind == "core" {
         println!("Got lib at {:?}", lib_path);
@@ -71,8 +65,5 @@ pub fn download_and_use_devkit(kind: &str, version: &str) {
     println!("cargo:include={}", out_dir.to_string_lossy());
 
     println!("cargo:rustc-link-search={}", out_dir.to_string_lossy());
-    println!(
-        "cargo:rustc-link-lib=static={}frida-{}{}",
-        lib_prefix, kind, lib_suffix,
-    );
+    println!("cargo:rustc-link-lib=static=frida-{}", kind,);
 }
