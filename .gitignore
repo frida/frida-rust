@@ -1,5 +1,2 @@
-frida-*-devkit-*.tar.xz
-frida-*.lib
-libfrida-*.a
 /target
 Cargo.lock
