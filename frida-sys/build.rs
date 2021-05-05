@@ -63,4 +63,14 @@ fn main() {
     bindings
         .write_to_file(out_path.join("bindings.rs"))
         .unwrap();
+
+    #[cfg(windows)]
+    &[
+        "dnsapi", "iphlpapi", "psapi", "winmm", "ws2_32", "advapi32", "crypt32", "gdi32",
+        "kernel32", "ole32", "secur32", "shell32", "shlwapi", "user32",
+    ]
+    .iter()
+    .for_each(|lib| {
+        println!("cargo:rustc-link-lib=dylib={}", lib);
+    });
 }
