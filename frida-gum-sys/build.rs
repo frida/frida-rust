@@ -72,13 +72,13 @@ fn main() {
         let mut builder = cc::Build::new();
 
         #[cfg(feature = "auto-download")]
-        let builder = builder.include(include_dir.clone());
+        let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
         let builder = if let Ok(_) = std::env::var("DOCS_RS") {
             builder.include("include")
         } else {
-            builder
+            &mut builder
         };
 
         builder
@@ -92,13 +92,13 @@ fn main() {
         let mut builder = cc::Build::new();
 
         #[cfg(feature = "auto-download")]
-        let builder = builder.include(include_dir);
+        let mut builder = builder.include(include_dir);
 
         #[cfg(not(feature = "auto-download"))]
         let builder = if let Ok(_) = std::env::var("DOCS_RS") {
             builder.include("include")
         } else {
-            builder
+            &mut builder
         };
 
         builder
