@@ -106,4 +106,14 @@ fn main() {
             .opt_level(3)
             .compile("invocation_listener");
     }
+
+    #[cfg(target_os = "windows")]
+    &[
+        "dnsapi", "iphlpapi", "psapi", "winmm", "ws2_32", "advapi32", "crypt32", "gdi32",
+        "kernel32", "ole32", "secur32", "shell32", "shlwapi", "user32",
+    ]
+    .iter()
+    .for_each(|lib| {
+        println!("cargo:rustc-link-lib=dylib={}", lib);
+    });
 }
