@@ -1,4 +1,5 @@
 /*
+ * Copyright © 2021 Keegan Saunders
  * Copyright © 2021 S Rubenstein
  *
  * Licence: wxWindows Library Licence, Version 3.1
@@ -29,8 +30,6 @@ pub fn download_and_use_devkit(kind: &str, version: &str) {
     let devkit_path = out_dir_path.join(&devkit_name);
     let devkit_tar = out_dir_path.join(format!("{}.tar.xz", &devkit_name));
 
-    println!("Checking for devkit at {:?}", &devkit_path);
-
     if !devkit_path.is_dir() {
         if !devkit_tar.is_file() {
             let frida_url = format!(
@@ -48,7 +47,6 @@ pub fn download_and_use_devkit(kind: &str, version: &str) {
             let mut out = File::create(&devkit_tar).expect("failed to create devkit tar file");
             io::copy(&mut resp, &mut out).expect("failed to copy devkit tar content");
         }
-        println!("unpacking {:#?}", &devkit_tar);
         let tar_xz = File::open(&devkit_tar).expect("failed to open devkit tar.xz for extraction");
         let tar = XzDecoder::new(tar_xz);
         let mut archive = Archive::new(tar);
@@ -56,14 +54,8 @@ pub fn download_and_use_devkit(kind: &str, version: &str) {
             .unpack(&out_dir_path)
             .expect("cannot extract the devkit tar.gz");
     }
-    let lib_path = out_dir_path.join(format!("frida-{}", kind));
-
-    if kind == "core" {
-        println!("Got lib at {:?}", lib_path);
-    }
 
     println!("cargo:include={}", out_dir.to_string_lossy());
-
     println!("cargo:rustc-link-search={}", out_dir.to_string_lossy());
     println!("cargo:rustc-link-lib=static=frida-{}", kind,);
 }
