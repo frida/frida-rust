@@ -42,14 +42,14 @@ fn main() {
     let bindings = bindings.clang_arg(format!("-I{}", include_dir));
 
     #[cfg(not(feature = "auto-download"))]
-    let bindings = if let Ok(_) = std::env::var("DOCS_RS") {
+    let bindings = if std::env::var("DOCS_RS").is_ok() {
         bindings.clang_arg("-Iinclude")
     } else {
         bindings
     };
 
     let bindings = bindings
-        .header_contents("core.h", "#include <frida-core.h>")
+        .header_contents("core.h", "#include \"frida-core.h\"")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate_comments(false)
         .generate()

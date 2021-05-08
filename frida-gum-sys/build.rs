@@ -47,14 +47,14 @@ fn main() {
     let bindings = bindings.clang_arg(format!("-I{}", include_dir));
 
     #[cfg(not(feature = "auto-download"))]
-    let bindings = if let Ok(_) = std::env::var("DOCS_RS") {
+    let bindings = if std::env::var("DOCS_RS").is_ok() {
         bindings.clang_arg("-Iinclude")
     } else {
         bindings
     };
 
     let bindings = bindings
-        .header_contents("gum.h", "#include <frida-gum.h>")
+        .header_contents("gum.h", "#include \"frida-gum.h\"")
         .header("event_sink.h")
         .header("invocation_listener.h")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
@@ -72,10 +72,11 @@ fn main() {
         let mut builder = cc::Build::new();
 
         #[cfg(feature = "auto-download")]
+        #[allow(unused_mut)]
         let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if let Ok(_) = std::env::var("DOCS_RS") {
+        let builder = if std::env::var("DOCS_RS").is_ok() {
             builder.include("include")
         } else {
             &mut builder
@@ -92,10 +93,11 @@ fn main() {
         let mut builder = cc::Build::new();
 
         #[cfg(feature = "auto-download")]
+        #[allow(unused_mut)]
         let mut builder = builder.include(include_dir);
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if let Ok(_) = std::env::var("DOCS_RS") {
+        let builder = if std::env::var("DOCS_RS").is_ok() {
             builder.include("include")
         } else {
             &mut builder

@@ -437,11 +437,7 @@ impl InstructionWriter for X86InstructionWriter {
     }
 
     fn can_branch_directly_between(&self, source: u64, target: u64) -> bool {
-        if unsafe { gum_sys::gum_x86_writer_can_branch_directly_between(source, target) } != 0 {
-            true
-        } else {
-            false
-        }
+        unsafe { gum_sys::gum_x86_writer_can_branch_directly_between(source, target) != 0 }
     }
 
     fn put_bytes(&self, bytes: &[u8]) -> bool {

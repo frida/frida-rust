@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <frida-gum.h>
+#include "frida-gum.h"
 
 G_BEGIN_DECLS
 

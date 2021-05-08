@@ -6,8 +6,7 @@
 
 #![cfg_attr(doc_cfg, feature(doc_cfg))]
 #![deny(warnings)]
-
-use frida_sys;
+#![allow(clippy::missing_safety_doc)]
 
 /// Context required for instantiation of all structures under the Frida namespace.
 pub struct Frida;
