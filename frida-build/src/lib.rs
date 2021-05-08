@@ -13,7 +13,7 @@ use std::path::Path;
 use tar::Archive;
 use xz::read::XzDecoder;
 
-pub fn download_and_use_devkit(kind: &str, version: &str) {
+pub fn download_and_use_devkit(kind: &str, version: &str) -> String {
     let mut target_arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap();
 
     let out_dir = env::var_os("OUT_DIR").unwrap();
@@ -55,7 +55,8 @@ pub fn download_and_use_devkit(kind: &str, version: &str) {
             .expect("cannot extract the devkit tar.gz");
     }
 
-    println!("cargo:include={}", out_dir.to_string_lossy());
     println!("cargo:rustc-link-search={}", out_dir.to_string_lossy());
-    println!("cargo:rustc-link-lib=static=frida-{}", kind,);
+    println!("cargo:rustc-link-lib=static=frida-{}", kind);
+
+    out_dir.to_string_lossy().to_string()
 }
