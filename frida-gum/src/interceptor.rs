@@ -23,6 +23,28 @@ mod invocation_listener;
 #[cfg_attr(doc_cfg, doc(cfg(feature = "invocation-listener")))]
 pub use invocation_listener::*;
 
+pub struct InvocationContext {
+    context: *mut gum_sys::GumInvocationContext,
+}
+
+impl InvocationContext {
+    pub(crate) fn from_ptr(context: *mut gum_sys::GumInvocationContext) -> Self {
+        Self {
+            context,
+        }
+    }
+
+    /// Get the return address for the current [`InvocationContext`]
+    pub fn return_address(&self) -> usize {
+        unsafe { gum_sys::gum_invocation_context_get_return_address(self.context) as usize }
+    }
+
+    /// Get the 'replacement_data' passed at replace time.
+    pub fn replacement_data(&mut self) -> *mut c_void {
+        unsafe { gum_sys::gum_invocation_context_get_replacement_data(self.context) }
+    }
+}
+
 /// Function hooking engine interface.
 pub struct Interceptor<'a> {
     interceptor: *mut gum_sys::GumInterceptor,
@@ -77,6 +99,52 @@ impl<'a> Interceptor<'a> {
                 listener.0 as *mut gum_sys::GumInvocationListener,
             )
         };
+    }
+
+    /// Replace a function with another function. The new function should have the same signature
+    /// as the old one.
+    ///
+    /// # Safety
+    ///
+    /// Assumes that the provided function and replacement addresses are valid and point to the
+    /// start of valid functions
+    pub fn replace(&mut self, function: NativePointer, replacement: NativePointer, replacement_data: NativePointer) -> Result<(), String> {
+        unsafe {
+            println!("replacing {:?} with {:?}", function.0, replacement.0);
+            match gum_sys::gum_interceptor_replace(
+                self.interceptor,
+                function.0,
+                replacement.0,
+                replacement_data.0) {
+                gum_sys::GumReplaceReturn_GUM_REPLACE_OK => Ok(()),
+                gum_sys::GumReplaceReturn_GUM_REPLACE_WRONG_SIGNATURE => Err("Wrong signature".to_string()),
+                gum_sys::GumReplaceReturn_GUM_REPLACE_ALREADY_REPLACED => Err("Target function has already been replaced".to_string()),
+                gum_sys::GumReplaceReturn_GUM_REPLACE_POLICY_VIOLATION => Err("Policy violation".to_string()),
+                _ => Err("Unknown gum_interceptor_replace error".to_string()),
+            }
+        }
+    }
+
+    /// Reverts a function replacement for the given function, such that the implementation is the
+    /// original function.
+    ///
+    /// # Safety
+    ///
+    /// Assumes that function is the start of a real function previously replaced uisng
+    /// [`Interceptor::replace`].
+    pub fn revert(&mut self, function: NativePointer) {
+        unsafe {
+            gum_sys::gum_interceptor_revert(self.interceptor, function.0);
+        }
+    }
+
+    /// Retrieve the current [`InvocationContext`].
+    ///
+    /// # Safety
+    ///
+    /// Should only be called from within a hook or replacement function.
+    pub fn current_invocation() -> InvocationContext {
+        InvocationContext::from_ptr(unsafe { gum_sys::gum_interceptor_get_current_invocation() })
     }
 
     /// Begin an [`Interceptor`] transaction. This may improve performance if
