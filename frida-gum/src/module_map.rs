@@ -166,6 +166,12 @@ impl ModuleMap {
     }
 }
 
+impl Default for ModuleMap {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Drop for ModuleMap {
     fn drop(&mut self) {
         unsafe { gum_sys::g_object_unref(self.module_map as *mut c_void) }
