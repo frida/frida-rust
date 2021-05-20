@@ -33,7 +33,7 @@ impl ModuleDetails {
 
         unsafe extern "C" fn save_module_details_by_name(details: *const gum_sys::GumModuleDetails, context: *mut c_void) -> i32 {
             let mut context = &mut *(context as *mut SaveModuleDetailsByNameContext);
-            let path_string = CStr::from_ptr((*details).path as *const u8).to_string_lossy().to_string();
+            let path_string = CStr::from_ptr((*details).path as *const _).to_string_lossy().to_string();
             if (context.name.starts_with('/') && path_string.eq(&context.name)) ||
                 (context.name.contains('/') && Path::new(&path_string).file_name().unwrap_or_default().to_string_lossy().eq(&context.name)) {
 
@@ -110,7 +110,6 @@ impl ModuleMap {
     pub fn new_from_names(names: &[&str]) -> Self {
         Self::new_with_filter(&mut |details: ModuleDetails| {
             for name in names {
-                println!("name: {}, details.name: {}", name, details.name());
                 if (name.starts_with('/') && details.path().eq(name)) ||
                     (name.contains('/') && details.name().eq(Path::new(name).file_name().unwrap().to_str().unwrap())) ||
                     (details.name().eq(name)
