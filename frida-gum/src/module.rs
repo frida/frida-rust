@@ -29,7 +29,10 @@ pub struct Module;
 impl Module {
     /// The absolute address of the export. In the event that no such export
     /// could be found, returns NULL.
-    pub fn find_export_by_name(module_name: Option<&str>, symbol_name: &str) -> Option<NativePointer> {
+    pub fn find_export_by_name(
+        module_name: Option<&str>,
+        symbol_name: &str,
+    ) -> Option<NativePointer> {
         let symbol_name = CString::new(symbol_name).unwrap();
 
         let ptr = match module_name {

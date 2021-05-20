@@ -29,9 +29,7 @@ pub struct InvocationContext {
 
 impl InvocationContext {
     pub(crate) fn from_ptr(context: *mut gum_sys::GumInvocationContext) -> Self {
-        Self {
-            context,
-        }
+        Self { context }
     }
 
     /// Get the return address for the current [`InvocationContext`]
@@ -108,18 +106,30 @@ impl<'a> Interceptor<'a> {
     ///
     /// Assumes that the provided function and replacement addresses are valid and point to the
     /// start of valid functions
-    pub fn replace(&mut self, function: NativePointer, replacement: NativePointer, replacement_data: NativePointer) -> Result<(), String> {
+    pub fn replace(
+        &mut self,
+        function: NativePointer,
+        replacement: NativePointer,
+        replacement_data: NativePointer,
+    ) -> Result<(), String> {
         unsafe {
             println!("replacing {:?} with {:?}", function.0, replacement.0);
             match gum_sys::gum_interceptor_replace(
                 self.interceptor,
                 function.0,
                 replacement.0,
-                replacement_data.0) {
+                replacement_data.0,
+            ) {
                 gum_sys::GumReplaceReturn_GUM_REPLACE_OK => Ok(()),
-                gum_sys::GumReplaceReturn_GUM_REPLACE_WRONG_SIGNATURE => Err("Wrong signature".to_string()),
-                gum_sys::GumReplaceReturn_GUM_REPLACE_ALREADY_REPLACED => Err("Target function has already been replaced".to_string()),
-                gum_sys::GumReplaceReturn_GUM_REPLACE_POLICY_VIOLATION => Err("Policy violation".to_string()),
+                gum_sys::GumReplaceReturn_GUM_REPLACE_WRONG_SIGNATURE => {
+                    Err("Wrong signature".to_string())
+                }
+                gum_sys::GumReplaceReturn_GUM_REPLACE_ALREADY_REPLACED => {
+                    Err("Target function has already been replaced".to_string())
+                }
+                gum_sys::GumReplaceReturn_GUM_REPLACE_POLICY_VIOLATION => {
+                    Err("Policy violation".to_string())
+                }
                 _ => Err("Unknown gum_interceptor_replace error".to_string()),
             }
         }
