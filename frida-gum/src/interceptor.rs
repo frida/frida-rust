@@ -23,26 +23,6 @@ mod invocation_listener;
 #[cfg_attr(doc_cfg, doc(cfg(feature = "invocation-listener")))]
 pub use invocation_listener::*;
 
-pub struct InvocationContext {
-    context: *mut gum_sys::GumInvocationContext,
-}
-
-impl InvocationContext {
-    pub(crate) fn from_ptr(context: *mut gum_sys::GumInvocationContext) -> Self {
-        Self { context }
-    }
-
-    /// Get the return address for the current [`InvocationContext`]
-    pub fn return_address(&self) -> usize {
-        unsafe { gum_sys::gum_invocation_context_get_return_address(self.context) as usize }
-    }
-
-    /// Get the 'replacement_data' passed at replace time.
-    pub fn replacement_data(&mut self) -> *mut c_void {
-        unsafe { gum_sys::gum_invocation_context_get_replacement_data(self.context) }
-    }
-}
-
 /// Function hooking engine interface.
 pub struct Interceptor<'a> {
     interceptor: *mut gum_sys::GumInterceptor,
@@ -153,8 +133,10 @@ impl<'a> Interceptor<'a> {
     /// # Safety
     ///
     /// Should only be called from within a hook or replacement function.
-    pub fn current_invocation() -> InvocationContext {
-        InvocationContext::from_ptr(unsafe { gum_sys::gum_interceptor_get_current_invocation() })
+    #[cfg(feature = "invocation-listener")]
+    #[cfg_attr(doc_cfg, doc(cfg(feature = "invocation-listener")))]
+    pub fn current_invocation() -> InvocationContext<'a> {
+        InvocationContext::from_raw(unsafe { gum_sys::gum_interceptor_get_current_invocation() })
     }
 
     /// Begin an [`Interceptor`] transaction. This may improve performance if
