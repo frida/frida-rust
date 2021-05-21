@@ -93,7 +93,6 @@ impl<'a> Interceptor<'a> {
         replacement_data: NativePointer,
     ) -> Result<(), String> {
         unsafe {
-            println!("replacing {:?} with {:?}", function.0, replacement.0);
             match gum_sys::gum_interceptor_replace(
                 self.interceptor,
                 function.0,

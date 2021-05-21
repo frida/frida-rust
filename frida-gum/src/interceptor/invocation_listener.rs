@@ -7,6 +7,7 @@
 use frida_gum_sys as gum_sys;
 use std::marker::PhantomData;
 use std::os::raw::c_void;
+use crate::NativePointer;
 
 /// Represents a pair of listeners attached to a function.
 pub trait InvocationListener {
@@ -115,9 +116,14 @@ impl<'a> InvocationContext<'a> {
         unsafe { gum_sys::gum_invocation_context_get_return_address(self.context) as usize }
     }
 
-    /// Get the 'replacement_data' passed at replace time.
-    pub fn replacement_data(&mut self) -> *mut c_void {
-        unsafe { gum_sys::gum_invocation_context_get_replacement_data(self.context) }
+    /// Get the `replacement_data` passed at replace time.
+    pub fn replacement_data(&mut self) -> Option<NativePointer> {
+        let replacement_data = unsafe { gum_sys::gum_invocation_context_get_replacement_data(self.context) };
+        if replacement_data.is_null() {
+            None
+        } else {
+            Some(NativePointer(replacement_data))
+        }
     }
 
     /// Get the thread ID of the currently executing function.

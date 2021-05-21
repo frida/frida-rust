@@ -10,6 +10,34 @@ use std::{ffi::CStr, os::raw::c_void, path::Path};
 
 use crate::MemoryRange;
 
+struct SaveModuleDetailsByNameContext {
+    name: String,
+    details: *mut gum_sys::GumModuleDetails,
+}
+
+unsafe extern "C" fn save_module_details_by_name(
+    details: *const gum_sys::GumModuleDetails,
+    context: *mut c_void,
+) -> i32 {
+    let mut context = &mut *(context as *mut SaveModuleDetailsByNameContext);
+    let path_string = CStr::from_ptr((*details).path as *const _)
+        .to_string_lossy()
+        .to_string();
+    if (context.name.starts_with('/') && path_string.eq(&context.name))
+        || (context.name.contains('/')
+            && Path::new(&path_string)
+                .file_name()
+                .unwrap_or_default()
+                .to_string_lossy()
+                .eq(&context.name))
+    {
+        context.details = gum_sys::gum_module_details_copy(details);
+        return 0;
+    }
+
+    1
+}
+
 pub struct ModuleDetails {
     module_details: *const gum_sys::GumModuleDetails,
 }
@@ -24,34 +52,6 @@ impl ModuleDetails {
     /// be a full path, in which case the matching module must have the same full path, or a
     /// file name, in which case only the file name portion of the module must match.
     pub fn with_name(name: String) -> Option<Self> {
-        struct SaveModuleDetailsByNameContext {
-            name: String,
-            details: *mut gum_sys::GumModuleDetails,
-        }
-
-        unsafe extern "C" fn save_module_details_by_name(
-            details: *const gum_sys::GumModuleDetails,
-            context: *mut c_void,
-        ) -> i32 {
-            let mut context = &mut *(context as *mut SaveModuleDetailsByNameContext);
-            let path_string = CStr::from_ptr((*details).path as *const _)
-                .to_string_lossy()
-                .to_string();
-            if (context.name.starts_with('/') && path_string.eq(&context.name))
-                || (context.name.contains('/')
-                    && Path::new(&path_string)
-                        .file_name()
-                        .unwrap_or_default()
-                        .to_string_lossy()
-                        .eq(&context.name))
-            {
-                context.details = gum_sys::gum_module_details_copy(details);
-                return 0;
-            }
-
-            1
-        }
-
         let mut context = SaveModuleDetailsByNameContext {
             name,
             details: std::ptr::null_mut(),
