@@ -4,10 +4,10 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
+use crate::NativePointer;
 use frida_gum_sys as gum_sys;
 use std::marker::PhantomData;
 use std::os::raw::c_void;
-use crate::NativePointer;
 
 /// Represents a pair of listeners attached to a function.
 pub trait InvocationListener {
@@ -118,7 +118,8 @@ impl<'a> InvocationContext<'a> {
 
     /// Get the `replacement_data` passed at replace time.
     pub fn replacement_data(&mut self) -> Option<NativePointer> {
-        let replacement_data = unsafe { gum_sys::gum_invocation_context_get_replacement_data(self.context) };
+        let replacement_data =
+            unsafe { gum_sys::gum_invocation_context_get_replacement_data(self.context) };
         if replacement_data.is_null() {
             None
         } else {
