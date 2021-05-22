@@ -4,6 +4,7 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
+use crate::NativePointer;
 use frida_gum_sys as gum_sys;
 use std::marker::PhantomData;
 use std::os::raw::c_void;
@@ -21,10 +22,7 @@ unsafe extern "C" fn call_on_enter<I: InvocationListener>(
     context: *mut gum_sys::GumInvocationContext,
 ) {
     let listener: &mut I = &mut *(user_data as *mut I);
-    listener.on_enter(InvocationContext {
-        context,
-        phantom: PhantomData,
-    });
+    listener.on_enter(InvocationContext::from_raw(context));
 }
 
 unsafe extern "C" fn call_on_leave<I: InvocationListener>(
@@ -32,10 +30,7 @@ unsafe extern "C" fn call_on_leave<I: InvocationListener>(
     context: *mut gum_sys::GumInvocationContext,
 ) {
     let listener: &mut I = &mut *(user_data as *mut I);
-    listener.on_leave(InvocationContext {
-        context,
-        phantom: PhantomData,
-    });
+    listener.on_leave(InvocationContext::from_raw(context));
 }
 
 pub(crate) fn invocation_listener_transform<I: InvocationListener>(
@@ -75,6 +70,14 @@ impl From<gum_sys::GumPointCut> for PointCut {
 }
 
 impl<'a> InvocationContext<'a> {
+    /// Get an [`InvocationContext`] from a raw GumInvocationContext pointer
+    pub(crate) fn from_raw(context: *mut gum_sys::GumInvocationContext) -> Self {
+        Self {
+            context,
+            phantom: PhantomData,
+        }
+    }
+
     /// Point at which the [`InvocationContext`] exists.
     pub fn point_cut(&self) -> PointCut {
         unsafe { gum_sys::gum_invocation_context_get_point_cut(self.context) }.into()
@@ -111,6 +114,17 @@ impl<'a> InvocationContext<'a> {
     /// Get the destination address after the function returns.
     pub fn return_addr(&self) -> usize {
         unsafe { gum_sys::gum_invocation_context_get_return_address(self.context) as usize }
+    }
+
+    /// Get the `replacement_data` passed at replace time.
+    pub fn replacement_data(&mut self) -> Option<NativePointer> {
+        let replacement_data =
+            unsafe { gum_sys::gum_invocation_context_get_replacement_data(self.context) };
+        if replacement_data.is_null() {
+            None
+        } else {
+            Some(NativePointer(replacement_data))
+        }
     }
 
     /// Get the thread ID of the currently executing function.

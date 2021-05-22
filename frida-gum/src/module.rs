@@ -29,10 +29,13 @@ pub struct Module;
 impl Module {
     /// The absolute address of the export. In the event that no such export
     /// could be found, returns NULL.
-    pub fn find_export_by_name(module_name: Option<&str>, symbol_name: &str) -> NativePointer {
+    pub fn find_export_by_name(
+        module_name: Option<&str>,
+        symbol_name: &str,
+    ) -> Option<NativePointer> {
         let symbol_name = CString::new(symbol_name).unwrap();
 
-        NativePointer(match module_name {
+        let ptr = match module_name {
             None => unsafe {
                 gum_sys::gum_module_find_export_by_name(std::ptr::null_mut(), symbol_name.as_ptr())
             },
@@ -40,7 +43,13 @@ impl Module {
                 let module_name = CString::new(name).unwrap();
                 gum_sys::gum_module_find_export_by_name(module_name.as_ptr(), symbol_name.as_ptr())
             },
-        } as *mut c_void)
+        } as *mut c_void;
+
+        if ptr.is_null() {
+            None
+        } else {
+            Some(NativePointer(ptr))
+        }
     }
 
     /// Returns the base address of the specified module. In the event that no
