@@ -33347,6 +33347,8 @@ typedef gboolean (* GumFoundRangeFunc) (const GumRangeDetails * details,
     gpointer user_data);
 typedef gboolean (* GumFoundMallocRangeFunc) (
     const GumMallocRangeDetails * details, gpointer user_data);
+typedef GumAddress (* GumResolveExportFunc) (const char * module_name,
+    const char * symbol_name, gpointer user_data);
 
 GUM_API GumOS gum_process_get_native_os (void);
 GUM_API GumCodeSigningPolicy gum_process_get_code_signing_policy (void);
@@ -56697,7 +56699,7 @@ GUM_API GumAddress gum_darwin_module_resolve_symbol_address (
 GUM_API gboolean gum_darwin_module_get_lacks_exports_for_reexports (
     GumDarwinModule * self);
 GUM_API void gum_darwin_module_enumerate_imports (GumDarwinModule * self,
-    GumFoundImportFunc func, gpointer user_data);
+    GumFoundImportFunc func, GumResolveExportFunc resolver, gpointer user_data);
 GUM_API void gum_darwin_module_enumerate_exports (GumDarwinModule * self,
     GumFoundDarwinExportFunc func, gpointer user_data);
 GUM_API void gum_darwin_module_enumerate_symbols (GumDarwinModule * self,
@@ -72406,7 +72408,7 @@ typedef struct cs_mos65xx_op {
 	union {
 		mos65xx_reg reg;	///< register value for REG operand
 		uint16_t imm;		///< immediate value for IMM operand
-		uint32_t mem;		///< base/index/scale/disp value for MEM operand
+		uint32_t mem;		///< address for MEM operand
 	};
 } cs_mos65xx_op;
 
