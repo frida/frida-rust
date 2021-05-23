@@ -13,9 +13,9 @@ use std::os::raw::c_void;
 #[cfg(feature = "invocation-listener")]
 use std::ptr;
 
-use crate::Gum;
 #[cfg(feature = "invocation-listener")]
 use crate::NativePointer;
+use crate::{Error, Gum, Result};
 
 #[cfg(feature = "invocation-listener")]
 mod invocation_listener;
@@ -91,7 +91,7 @@ impl<'a> Interceptor<'a> {
         function: NativePointer,
         replacement: NativePointer,
         replacement_data: NativePointer,
-    ) -> Result<(), String> {
+    ) -> Result<()> {
         unsafe {
             match gum_sys::gum_interceptor_replace(
                 self.interceptor,
@@ -101,15 +101,15 @@ impl<'a> Interceptor<'a> {
             ) {
                 gum_sys::GumReplaceReturn_GUM_REPLACE_OK => Ok(()),
                 gum_sys::GumReplaceReturn_GUM_REPLACE_WRONG_SIGNATURE => {
-                    Err("Wrong signature".to_string())
+                    Err(Error::InterceptorBadSignature)
                 }
                 gum_sys::GumReplaceReturn_GUM_REPLACE_ALREADY_REPLACED => {
-                    Err("Target function has already been replaced".to_string())
+                    Err(Error::InterceptorAlreadyReplaced)
                 }
                 gum_sys::GumReplaceReturn_GUM_REPLACE_POLICY_VIOLATION => {
-                    Err("Policy violation".to_string())
+                    Err(Error::PolicyViolation)
                 }
-                _ => Err("Unknown gum_interceptor_replace error".to_string()),
+                _ => Err(Error::InterceptorError),
             }
         }
     }

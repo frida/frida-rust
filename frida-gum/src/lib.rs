@@ -64,6 +64,9 @@ pub use module::*;
 mod module_map;
 pub use module_map::*;
 
+mod error;
+pub use error::Error;
+
 mod cpu_context;
 pub use cpu_context::*;
 
@@ -79,6 +82,9 @@ mod backtracer;
 #[cfg(feature = "backtrace")]
 #[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
 pub use backtracer::*;
+
+#[doc(hidden)]
+pub type Result<T> = std::result::Result<T, error::Error>;
 
 /// Context required for instantiation of all structures under the Gum namespace.
 pub struct Gum;
