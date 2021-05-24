@@ -4,7 +4,7 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
-use crate::NativePointer;
+use crate::{CpuContext, NativePointer};
 use frida_gum_sys as gum_sys;
 use std::marker::PhantomData;
 use std::os::raw::c_void;
@@ -135,5 +135,10 @@ impl<'a> InvocationContext<'a> {
     /// Get the number of recursive interceptor invocations.
     pub fn depth(&self) -> u32 {
         unsafe { gum_sys::gum_invocation_context_get_depth(self.context) as u32 }
+    }
+
+    /// Get the [`CpuContext`] at the time of invocation.
+    pub fn cpu_context(&self) -> CpuContext {
+        CpuContext::from_raw(unsafe { (*self.context).cpu_context })
     }
 }

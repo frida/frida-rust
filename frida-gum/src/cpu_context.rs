@@ -79,4 +79,18 @@ impl<'a> CpuContext<'a> {
     #[cfg(target_arch = "aarch64")]
     cpu_accesors!(u64, pc, sp, fp, lr);
     // TODO(meme) uint8_t q[128]; uint64_t x[29];
+
+    #[cfg(target_arch = "aarch64")]
+    /// Get the value of the specified general purpose register.
+    pub fn reg(&self, index: usize) -> u64 {
+        assert!(index < 29);
+        unsafe { (*self.cpu_context).x[index] }
+    }
+
+    #[cfg(target_arch = "aarch64")]
+    /// Set the value of the specified general purpose register.
+    pub fn set_reg(&mut self, index: usize, value: u64) {
+        assert!(index < 29);
+        unsafe { (*self.cpu_context).x[index] = value };
+    }
 }
