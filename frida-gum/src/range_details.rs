@@ -6,7 +6,7 @@
  */
 
 use frida_gum_sys as gum_sys;
-use std::ffi::CStr;
+use std::ffi::{c_void, CStr};
 use std::marker::PhantomData;
 
 use crate::MemoryRange;
@@ -58,6 +58,27 @@ impl<'a> FileMapping<'a> {
     }
 }
 
+struct SaveRangeDetailsByAddressContext {
+    address: u64,
+    details: *const gum_sys::GumRangeDetails,
+}
+
+unsafe extern "C" fn save_range_details_by_address(
+    details: *const gum_sys::GumRangeDetails,
+    context: *mut c_void,
+) -> i32 {
+    let mut context = &mut *(context as *mut SaveRangeDetailsByAddressContext);
+    let range = (*details).range;
+    let start = (*range).base_address as u64;
+    let end = start + (*range).size;
+    if start <= context.address && context.address < end {
+        context.details = details;
+        return 0;
+    }
+
+    1
+}
+
 /// Details a range of virtual memory.
 pub struct RangeDetails<'a> {
     range_details: *const gum_sys::GumRangeDetails,
@@ -69,6 +90,27 @@ impl<'a> RangeDetails<'a> {
         Self {
             range_details,
             phantom: PhantomData,
+        }
+    }
+
+    /// Get a [`RangeDetails`] for the range containing the given address.
+    pub fn with_address(address: u64) -> Option<RangeDetails<'a>> {
+        let mut context = SaveRangeDetailsByAddressContext {
+            address,
+            details: std::ptr::null_mut(),
+        };
+        unsafe {
+            gum_sys::gum_process_enumerate_ranges(
+                gum_sys::_GumPageProtection_GUM_PAGE_NO_ACCESS,
+                Some(save_range_details_by_address),
+                &mut context as *mut _ as *mut c_void,
+            );
+        }
+
+        if !context.details.is_null() {
+            Some(RangeDetails::from_raw(context.details))
+        } else {
+            None
         }
     }
 
