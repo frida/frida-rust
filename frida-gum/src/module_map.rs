@@ -51,10 +51,6 @@ unsafe extern "C" fn save_module_details_by_address(
     let range = (*details).range;
     let start = (*range).base_address as u64;
     let end = start + (*range).size;
-    println!(
-        "checking {:#x}-{:#x} for {:#x}",
-        start, end, context.address
-    );
     if start <= context.address && context.address < end {
         context.details = gum_sys::gum_module_details_copy(details);
         return 0;
