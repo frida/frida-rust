@@ -79,6 +79,18 @@ unsafe extern "C" fn save_range_details_by_address(
     1
 }
 
+unsafe extern "C" fn enumerate_ranges_stub(
+    details: *const gum_sys::GumRangeDetails,
+    context: *mut c_void,
+) -> i32 {
+    if !(*(context as *mut Box<&mut dyn FnMut(&RangeDetails) -> bool>))(&RangeDetails::from_raw(
+        details,
+    )) {
+        return 0;
+    }
+    1
+}
+
 /// Details a range of virtual memory.
 pub struct RangeDetails<'a> {
     range_details: *const gum_sys::GumRangeDetails,
@@ -111,6 +123,19 @@ impl<'a> RangeDetails<'a> {
             Some(RangeDetails::from_raw(context.details))
         } else {
             None
+        }
+    }
+
+    pub fn enumerate_with_prot(
+        prot: PageProtection,
+        callback: &mut dyn FnMut(&RangeDetails) -> bool,
+    ) {
+        unsafe {
+            gum_sys::gum_process_enumerate_ranges(
+                prot as u32,
+                Some(enumerate_ranges_stub),
+                &mut Box::new(callback) as *mut _ as *mut c_void,
+            );
         }
     }
 
