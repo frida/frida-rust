@@ -160,6 +160,17 @@ impl ModuleMap {
             Some(ModuleDetails::from_raw(res))
         }
     }
+
+    /// Get an array of the [`ModuleDetails`] which make up this [`ModuleMap`]
+    pub fn modules(&self) -> Vec<ModuleDetails> {
+        unsafe {
+            let array = gum_sys::gum_module_map_get_values(self.module_map);
+            let raw_module_details = std::slice::from_raw_parts((*array).data as *mut gum_sys::_GumModuleDetails, (*array).len as usize);
+
+            raw_module_details.iter().map(|raw| ModuleDetails::from_raw(raw)).collect::<Vec<_>>()
+        }
+    }
+
     /// Update the [`ModuleMap`]. This function must be called before using find.
     pub fn update(&mut self) {
         unsafe { gum_sys::gum_module_map_update(self.module_map) }
