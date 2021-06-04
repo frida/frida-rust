@@ -126,6 +126,8 @@ impl<'a> RangeDetails<'a> {
         }
     }
 
+    /// Enumerate all ranges which match the given [`PageProtection`], calling the callback
+    /// function for each such range.
     pub fn enumerate_with_prot(
         prot: PageProtection,
         callback: &mut dyn FnMut(&RangeDetails) -> bool,
