@@ -15,6 +15,11 @@ struct SaveModuleDetailsByNameContext {
     details: *mut gum_sys::GumModuleDetails,
 }
 
+struct SaveModuleDetailsByAddressContext {
+    address: u64,
+    details: *mut gum_sys::GumModuleDetails,
+}
+
 unsafe extern "C" fn save_module_details_by_name(
     details: *const gum_sys::GumModuleDetails,
     context: *mut c_void,
@@ -31,6 +36,22 @@ unsafe extern "C" fn save_module_details_by_name(
                 .to_string_lossy()
                 .eq(&context.name))
     {
+        context.details = gum_sys::gum_module_details_copy(details);
+        return 0;
+    }
+
+    1
+}
+
+unsafe extern "C" fn save_module_details_by_address(
+    details: *const gum_sys::GumModuleDetails,
+    context: *mut c_void,
+) -> i32 {
+    let mut context = &mut *(context as *mut SaveModuleDetailsByAddressContext);
+    let range = (*details).range;
+    let start = (*range).base_address as u64;
+    let end = start + (*range).size;
+    if start <= context.address && context.address < end {
         context.details = gum_sys::gum_module_details_copy(details);
         return 0;
     }
@@ -60,6 +81,27 @@ impl ModuleDetails {
         unsafe {
             gum_sys::gum_process_enumerate_modules(
                 Some(save_module_details_by_name),
+                &mut context as *mut _ as *mut c_void,
+            );
+        }
+
+        if context.details.is_null() {
+            None
+        } else {
+            Some(Self::from_raw(context.details))
+        }
+    }
+
+    /// Get a new [`ModuleDetails`] instance for the module containing the given address.
+    pub fn with_address(address: u64) -> Option<Self> {
+        let mut context = SaveModuleDetailsByAddressContext {
+            address,
+            details: std::ptr::null_mut(),
+        };
+
+        unsafe {
+            gum_sys::gum_process_enumerate_modules(
+                Some(save_module_details_by_address),
                 &mut context as *mut _ as *mut c_void,
             );
         }
@@ -160,6 +202,23 @@ impl ModuleMap {
             Some(ModuleDetails::from_raw(res))
         }
     }
+
+    /// Get an array of the [`ModuleDetails`] which make up this [`ModuleMap`]
+    pub fn values(&self) -> Vec<ModuleDetails> {
+        unsafe {
+            let array = gum_sys::gum_module_map_get_values(self.module_map);
+            let raw_module_details = std::slice::from_raw_parts(
+                (*array).data as *mut gum_sys::_GumModuleDetails,
+                (*array).len as usize,
+            );
+
+            raw_module_details
+                .iter()
+                .map(|raw| ModuleDetails::from_raw(raw))
+                .collect::<Vec<_>>()
+        }
+    }
+
     /// Update the [`ModuleMap`]. This function must be called before using find.
     pub fn update(&mut self) {
         unsafe { gum_sys::gum_module_map_update(self.module_map) }
