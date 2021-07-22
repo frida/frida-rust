@@ -1174,11 +1174,13 @@
 #define g_dtls_connection_emit_accept_certificate _frida_g_dtls_connection_emit_accept_certificate
 #define g_dtls_connection_get_certificate _frida_g_dtls_connection_get_certificate
 #define g_dtls_connection_get_channel_binding_data _frida_g_dtls_connection_get_channel_binding_data
+#define g_dtls_connection_get_ciphersuite_name _frida_g_dtls_connection_get_ciphersuite_name
 #define g_dtls_connection_get_database _frida_g_dtls_connection_get_database
 #define g_dtls_connection_get_interaction _frida_g_dtls_connection_get_interaction
 #define g_dtls_connection_get_negotiated_protocol _frida_g_dtls_connection_get_negotiated_protocol
 #define g_dtls_connection_get_peer_certificate _frida_g_dtls_connection_get_peer_certificate
 #define g_dtls_connection_get_peer_certificate_errors _frida_g_dtls_connection_get_peer_certificate_errors
+#define g_dtls_connection_get_protocol_version _frida_g_dtls_connection_get_protocol_version
 #define g_dtls_connection_get_rehandshake_mode _frida_g_dtls_connection_get_rehandshake_mode
 #define g_dtls_connection_get_require_close_notify _frida_g_dtls_connection_get_require_close_notify
 #define g_dtls_connection_get_type _frida_g_dtls_connection_get_type
@@ -1317,6 +1319,7 @@
 #define g_file_info_clear_status _frida_g_file_info_clear_status
 #define g_file_info_copy_into _frida_g_file_info_copy_into
 #define g_file_info_dup _frida_g_file_info_dup
+#define g_file_info_get_access_date_time _frida_g_file_info_get_access_date_time
 #define g_file_info_get_attribute_as_string _frida_g_file_info_get_attribute_as_string
 #define g_file_info_get_attribute_boolean _frida_g_file_info_get_attribute_boolean
 #define g_file_info_get_attribute_byte_string _frida_g_file_info_get_attribute_byte_string
@@ -1331,6 +1334,7 @@
 #define g_file_info_get_attribute_uint32 _frida_g_file_info_get_attribute_uint32
 #define g_file_info_get_attribute_uint64 _frida_g_file_info_get_attribute_uint64
 #define g_file_info_get_content_type _frida_g_file_info_get_content_type
+#define g_file_info_get_creation_date_time _frida_g_file_info_get_creation_date_time
 #define g_file_info_get_deletion_date _frida_g_file_info_get_deletion_date
 #define g_file_info_get_display_name _frida_g_file_info_get_display_name
 #define g_file_info_get_edit_name _frida_g_file_info_get_edit_name
@@ -1353,6 +1357,7 @@
 #define g_file_info_list_attributes _frida_g_file_info_list_attributes
 #define g_file_info_new _frida_g_file_info_new
 #define g_file_info_remove_attribute _frida_g_file_info_remove_attribute
+#define g_file_info_set_access_date_time _frida_g_file_info_set_access_date_time
 #define g_file_info_set_attribute _frida_g_file_info_set_attribute
 #define g_file_info_set_attribute_boolean _frida_g_file_info_set_attribute_boolean
 #define g_file_info_set_attribute_byte_string _frida_g_file_info_set_attribute_byte_string
@@ -1366,6 +1371,7 @@
 #define g_file_info_set_attribute_uint32 _frida_g_file_info_set_attribute_uint32
 #define g_file_info_set_attribute_uint64 _frida_g_file_info_set_attribute_uint64
 #define g_file_info_set_content_type _frida_g_file_info_set_content_type
+#define g_file_info_set_creation_date_time _frida_g_file_info_set_creation_date_time
 #define g_file_info_set_display_name _frida_g_file_info_set_display_name
 #define g_file_info_set_edit_name _frida_g_file_info_set_edit_name
 #define g_file_info_set_file_type _frida_g_file_info_set_file_type
@@ -2053,6 +2059,7 @@
 #define g_mem_profile _frida_g_mem_profile
 #define g_mem_set_vtable _frida_g_mem_set_vtable
 #define g_memdup _frida_g_memdup
+#define g_memdup2 _frida_g_memdup2
 #define g_memory_input_stream_add_bytes _frida_g_memory_input_stream_add_bytes
 #define g_memory_input_stream_add_data _frida_g_memory_input_stream_add_data
 #define g_memory_input_stream_get_type _frida_g_memory_input_stream_get_type
@@ -2489,8 +2496,12 @@
 #define g_pattern_match _frida_g_pattern_match
 #define g_pattern_match_simple _frida_g_pattern_match_simple
 #define g_pattern_match_string _frida_g_pattern_match_string
+#define g_pattern_spec_copy _frida_g_pattern_spec_copy
 #define g_pattern_spec_equal _frida_g_pattern_spec_equal
 #define g_pattern_spec_free _frida_g_pattern_spec_free
+#define g_pattern_spec_get_type _frida_g_pattern_spec_get_type
+#define g_pattern_spec_match _frida_g_pattern_spec_match
+#define g_pattern_spec_match_string _frida_g_pattern_spec_match_string
 #define g_pattern_spec_new _frida_g_pattern_spec_new
 #define g_permission_acquire _frida_g_permission_acquire
 #define g_permission_acquire_async _frida_g_permission_acquire_async
@@ -2529,6 +2540,7 @@
 #define g_pollfd_get_type _frida_g_pollfd_get_type
 #define g_portal_notification_backend_get_type _frida_g_portal_notification_backend_get_type
 #define g_prefix_error _frida_g_prefix_error
+#define g_prefix_error_literal _frida_g_prefix_error_literal
 #define g_print _frida_g_print
 #define g_printerr _frida_g_printerr
 #define g_printf _frida_g_printf
@@ -2916,6 +2928,7 @@
 #define g_settings_range_check _frida_g_settings_range_check
 #define g_settings_reset _frida_g_settings_reset
 #define g_settings_revert _frida_g_settings_revert
+#define g_settings_schema_get_child_schema _frida_g_settings_schema_get_child_schema
 #define g_settings_schema_get_gettext_domain _frida_g_settings_schema_get_gettext_domain
 #define g_settings_schema_get_id _frida_g_settings_schema_get_id
 #define g_settings_schema_get_key _frida_g_settings_schema_get_key
@@ -3292,6 +3305,7 @@
 #define g_spawn_async _frida_g_spawn_async
 #define g_spawn_async_with_fds _frida_g_spawn_async_with_fds
 #define g_spawn_async_with_pipes _frida_g_spawn_async_with_pipes
+#define g_spawn_async_with_pipes_and_fds _frida_g_spawn_async_with_pipes_and_fds
 #define g_spawn_check_exit_status _frida_g_spawn_check_exit_status
 #define g_spawn_close_pid _frida_g_spawn_close_pid
 #define g_spawn_command_line_async _frida_g_spawn_command_line_async
@@ -3396,6 +3410,7 @@
 #define g_string_prepend_len _frida_g_string_prepend_len
 #define g_string_prepend_unichar _frida_g_string_prepend_unichar
 #define g_string_printf _frida_g_string_printf
+#define g_string_replace _frida_g_string_replace
 #define g_string_set_size _frida_g_string_set_size
 #define g_string_sized_new _frida_g_string_sized_new
 #define g_string_truncate _frida_g_string_truncate
@@ -3419,6 +3434,8 @@
 #define g_strtod _frida_g_strtod
 #define g_strup _frida_g_strup
 #define g_strv_builder_add _frida_g_strv_builder_add
+#define g_strv_builder_add_many _frida_g_strv_builder_add_many
+#define g_strv_builder_addv _frida_g_strv_builder_addv
 #define g_strv_builder_end _frida_g_strv_builder_end
 #define g_strv_builder_new _frida_g_strv_builder_new
 #define g_strv_builder_ref _frida_g_strv_builder_ref
@@ -3549,6 +3566,7 @@
 #define g_test_failed _frida_g_test_failed
 #define g_test_get_dir _frida_g_test_get_dir
 #define g_test_get_filename _frida_g_test_get_filename
+#define g_test_get_path _frida_g_test_get_path
 #define g_test_get_root _frida_g_test_get_root
 #define g_test_incomplete _frida_g_test_incomplete
 #define g_test_init _frida_g_test_init
@@ -3693,6 +3711,10 @@
 #define g_tls_backend_supports_tls _frida_g_tls_backend_supports_tls
 #define g_tls_certificate_flags_get_type _frida_g_tls_certificate_flags_get_type
 #define g_tls_certificate_get_issuer _frida_g_tls_certificate_get_issuer
+#define g_tls_certificate_get_issuer_name _frida_g_tls_certificate_get_issuer_name
+#define g_tls_certificate_get_not_valid_after _frida_g_tls_certificate_get_not_valid_after
+#define g_tls_certificate_get_not_valid_before _frida_g_tls_certificate_get_not_valid_before
+#define g_tls_certificate_get_subject_name _frida_g_tls_certificate_get_subject_name
 #define g_tls_certificate_get_type _frida_g_tls_certificate_get_type
 #define g_tls_certificate_is_same _frida_g_tls_certificate_is_same
 #define g_tls_certificate_list_new_from_file _frida_g_tls_certificate_list_new_from_file
@@ -3718,11 +3740,13 @@
 #define g_tls_connection_emit_accept_certificate _frida_g_tls_connection_emit_accept_certificate
 #define g_tls_connection_get_certificate _frida_g_tls_connection_get_certificate
 #define g_tls_connection_get_channel_binding_data _frida_g_tls_connection_get_channel_binding_data
+#define g_tls_connection_get_ciphersuite_name _frida_g_tls_connection_get_ciphersuite_name
 #define g_tls_connection_get_database _frida_g_tls_connection_get_database
 #define g_tls_connection_get_interaction _frida_g_tls_connection_get_interaction
 #define g_tls_connection_get_negotiated_protocol _frida_g_tls_connection_get_negotiated_protocol
 #define g_tls_connection_get_peer_certificate _frida_g_tls_connection_get_peer_certificate
 #define g_tls_connection_get_peer_certificate_errors _frida_g_tls_connection_get_peer_certificate_errors
+#define g_tls_connection_get_protocol_version _frida_g_tls_connection_get_protocol_version
 #define g_tls_connection_get_rehandshake_mode _frida_g_tls_connection_get_rehandshake_mode
 #define g_tls_connection_get_require_close_notify _frida_g_tls_connection_get_require_close_notify
 #define g_tls_connection_get_type _frida_g_tls_connection_get_type
@@ -3779,6 +3803,7 @@
 #define g_tls_password_set_value _frida_g_tls_password_set_value
 #define g_tls_password_set_value_full _frida_g_tls_password_set_value_full
 #define g_tls_password_set_warning _frida_g_tls_password_set_warning
+#define g_tls_protocol_version_get_type _frida_g_tls_protocol_version_get_type
 #define g_tls_rehandshake_mode_get_type _frida_g_tls_rehandshake_mode_get_type
 #define g_tls_server_connection_get_type _frida_g_tls_server_connection_get_type
 #define g_tls_server_connection_new _frida_g_tls_server_connection_new
@@ -3813,6 +3838,7 @@
 #define g_tree_node_value _frida_g_tree_node_value
 #define g_tree_ref _frida_g_tree_ref
 #define g_tree_remove _frida_g_tree_remove
+#define g_tree_remove_all _frida_g_tree_remove_all
 #define g_tree_replace _frida_g_tree_replace
 #define g_tree_replace_node _frida_g_tree_replace_node
 #define g_tree_search _frida_g_tree_search
@@ -4699,6 +4725,12 @@
  */
 #include <stddef.h>
 
+/*
+ * Note: Clang (but not clang-cl) defines __GNUC__ and __GNUC_MINOR__.
+ * Both Clang 11.1 on current Arch Linux and Apple's Clang 12.0 define
+ * __GNUC__ = 4 and __GNUC_MINOR__ = 2. So G_GNUC_CHECK_VERSION(4, 2) on
+ * current Clang will be 1.
+ */
 #ifdef __GNUC__
 #define G_GNUC_CHECK_VERSION(major, minor) \
     ((__GNUC__ > (major)) || \
@@ -4712,7 +4744,7 @@
  * where this is valid. This allows for warningless compilation of
  * "long long" types even in the presence of '-ansi -pedantic'. 
  */
-#if     __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ >= 8)
+#if G_GNUC_CHECK_VERSION(2, 8)
 #define G_GNUC_EXTENSION __extension__
 #else
 #define G_GNUC_EXTENSION
@@ -4767,6 +4799,39 @@
 #else
 #  define G_INLINE_FUNC static inline GLIB_DEPRECATED_MACRO_IN_2_48_FOR(static inline)
 #endif /* G_IMPLEMENT_INLINES */
+
+/*
+ * Attribute support detection. Works on clang and GCC >= 5
+ * https://clang.llvm.org/docs/LanguageExtensions.html#has-attribute
+ * https://gcc.gnu.org/onlinedocs/cpp/_005f_005fhas_005fattribute.html
+ */
+
+#ifdef __has_attribute
+#define g_macro__has_attribute __has_attribute
+#else
+
+/*
+ * Fallback for GCC < 5 and other compilers not supporting __has_attribute.
+ */
+#define g_macro__has_attribute(x) g_macro__has_attribute_##x
+
+#define g_macro__has_attribute___pure__ G_GNUC_CHECK_VERSION (2, 96)
+#define g_macro__has_attribute___malloc__ G_GNUC_CHECK_VERSION (2, 96)
+#define g_macro__has_attribute___noinline__ G_GNUC_CHECK_VERSION (2, 96)
+#define g_macro__has_attribute___sentinel__ G_GNUC_CHECK_VERSION (4, 0)
+#define g_macro__has_attribute___alloc_size__ G_GNUC_CHECK_VERSION (4, 3)
+#define g_macro__has_attribute___format__ G_GNUC_CHECK_VERSION (2, 4)
+#define g_macro__has_attribute___format_arg__ G_GNUC_CHECK_VERSION (2, 4)
+#define g_macro__has_attribute___noreturn__ (G_GNUC_CHECK_VERSION (2, 8) || (0x5110 <= __SUNPRO_C))
+#define g_macro__has_attribute___const__ G_GNUC_CHECK_VERSION (2, 4)
+#define g_macro__has_attribute___unused__ G_GNUC_CHECK_VERSION (2, 4)
+#define g_macro__has_attribute___no_instrument_function__ G_GNUC_CHECK_VERSION (2, 4)
+#define g_macro__has_attribute_fallthrough G_GNUC_CHECK_VERSION (6, 0)
+#define g_macro__has_attribute___deprecated__ G_GNUC_CHECK_VERSION (3, 1)
+#define g_macro__has_attribute_may_alias G_GNUC_CHECK_VERSION (3, 3)
+#define g_macro__has_attribute_warn_unused_result G_GNUC_CHECK_VERSION (3, 4)
+
+#endif
 
 /* Provide macros to feature the GCC function attribute.
  */
@@ -4850,14 +4915,27 @@
  *
  * Since: 2.58
  */
+/* Note: We can’t annotate this with GLIB_AVAILABLE_MACRO_IN_2_58 because it’s
+ * used within the GLib headers in function declarations which are always
+ * evaluated when a header is included. This results in warnings in third party
+ * code which includes glib.h, even if the third party code doesn’t use the new
+ * macro itself. */
 
-#if    __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ >= 96)
+#if g_macro__has_attribute(__pure__)
 #define G_GNUC_PURE __attribute__((__pure__))
-#define G_GNUC_MALLOC __attribute__((__malloc__))
-#define G_GNUC_NO_INLINE __attribute__((noinline))
 #else
 #define G_GNUC_PURE
+#endif
+
+#if g_macro__has_attribute(__malloc__)
+#define G_GNUC_MALLOC __attribute__ ((__malloc__))
+#else
 #define G_GNUC_MALLOC
+#endif
+
+#if g_macro__has_attribute(__noinline__)
+#define G_GNUC_NO_INLINE __attribute__ ((__noinline__))
+#else
 #define G_GNUC_NO_INLINE
 #endif
 
@@ -4880,7 +4958,7 @@
  *
  * Since: 2.8
  */
-#if     __GNUC__ >= 4
+#if g_macro__has_attribute(__sentinel__)
 #define G_GNUC_NULL_TERMINATED __attribute__((__sentinel__))
 #else
 #define G_GNUC_NULL_TERMINATED
@@ -4894,10 +4972,18 @@
  * This symbol is private.
  */
 #undef glib_typeof
-#if !defined(__cplusplus) && \
-     ((defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8))) || \
-      defined(__clang__))
+#if !defined(__cplusplus) && (G_GNUC_CHECK_VERSION(4, 8) || defined(__clang__))
 #define glib_typeof(t) __typeof__ (t)
+#elif defined(__cplusplus) && __cplusplus >= 201103L
+/* C++11 decltype() is close enough for our usage */
+/* This needs `#include <type_traits>`, but we have guarded this feature with a
+ * `GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68` check, and such a check
+ * cannot be enforced in this header due to include ordering requirements.
+ * Within GLib itself, which use `glib_typeof` need to add the include
+ * themselves. See other examples in GLib for how to do this.
+ */
+#define glib_typeof(t) typename std::remove_reference<decltype (t)>::type
+#define glib_typeof_2_68
 #endif
 
 /*
@@ -4910,12 +4996,6 @@
  * So we define it to 0 to satisfy the pre-processor.
  */
 
-#ifdef __has_attribute
-#define g_macro__has_attribute __has_attribute
-#else
-#define g_macro__has_attribute(x) 0
-#endif
-
 #ifdef __has_feature
 #define g_macro__has_feature __has_feature
 #else
@@ -4926,6 +5006,12 @@
 #define g_macro__has_builtin __has_builtin
 #else
 #define g_macro__has_builtin(x) 0
+#endif
+
+#ifdef __has_extension
+#define g_macro__has_extension __has_extension
+#else
+#define g_macro__has_extension(x) 0
 #endif
 
 /**
@@ -4971,8 +5057,7 @@
  *
  * Since: 2.18
  */
-#if     (!defined(__clang__) && ((__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 3))) || \
-        (defined(__clang__) && g_macro__has_attribute(__alloc_size__))
+#if g_macro__has_attribute(__alloc_size__)
 #define G_GNUC_ALLOC_SIZE(x) __attribute__((__alloc_size__(x)))
 #define G_GNUC_ALLOC_SIZE2(x,y) __attribute__((__alloc_size__(x,y)))
 #else
@@ -5158,46 +5243,73 @@
  * See the [GNU C documentation](https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-no_005finstrument_005ffunction-function-attribute) for more details.
  */
 
-#if     __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ > 4)
+#if g_macro__has_attribute(__format__)
+
 #if !defined (__clang__) && G_GNUC_CHECK_VERSION (4, 4)
 #define G_GNUC_PRINTF( format_idx, arg_idx )    \
   __attribute__((__format__ (gnu_printf, format_idx, arg_idx)))
 #define G_GNUC_SCANF( format_idx, arg_idx )     \
   __attribute__((__format__ (gnu_scanf, format_idx, arg_idx)))
 #define G_GNUC_STRFTIME( format_idx )    \
-  __attribute__((__format__ (gnu_strftime, format_idx, 0)))
+  __attribute__((__format__ (gnu_strftime, format_idx, 0))) \
+  GLIB_AVAILABLE_MACRO_IN_2_60
 #else
 #define G_GNUC_PRINTF( format_idx, arg_idx )    \
   __attribute__((__format__ (__printf__, format_idx, arg_idx)))
 #define G_GNUC_SCANF( format_idx, arg_idx )     \
   __attribute__((__format__ (__scanf__, format_idx, arg_idx)))
 #define G_GNUC_STRFTIME( format_idx )    \
-  __attribute__((__format__ (__strftime__, format_idx, 0)))
+  __attribute__((__format__ (__strftime__, format_idx, 0))) \
+  GLIB_AVAILABLE_MACRO_IN_2_60
 #endif
-#define G_GNUC_FORMAT( arg_idx )                \
-  __attribute__((__format_arg__ (arg_idx)))
-#define G_GNUC_NORETURN                         \
-  __attribute__((__noreturn__))
-#define G_GNUC_CONST                            \
-  __attribute__((__const__))
-#define G_GNUC_UNUSED                           \
-  __attribute__((__unused__))
-#define G_GNUC_NO_INSTRUMENT			\
-  __attribute__((__no_instrument_function__))
-#else   /* !__GNUC__ */
+
+#else
+
 #define G_GNUC_PRINTF( format_idx, arg_idx )
 #define G_GNUC_SCANF( format_idx, arg_idx )
-#define G_GNUC_STRFTIME( format_idx )
+#define G_GNUC_STRFTIME( format_idx ) \
+  GLIB_AVAILABLE_MACRO_IN_2_60
+
+#endif
+
+#if g_macro__has_attribute(__format_arg__)
+#define G_GNUC_FORMAT(arg_idx) \
+  __attribute__ ((__format_arg__ (arg_idx)))
+#else
 #define G_GNUC_FORMAT( arg_idx )
+#endif
+
+#if g_macro__has_attribute(__noreturn__)
+#define G_GNUC_NORETURN \
+  __attribute__ ((__noreturn__))
+#else
 /* NOTE: MSVC has __declspec(noreturn) but unlike GCC __attribute__,
  * __declspec can only be placed at the start of the function prototype
  * and not at the end, so we can't use it without breaking API.
  */
 #define G_GNUC_NORETURN
+#endif
+
+#if g_macro__has_attribute(__const__)
+#define G_GNUC_CONST \
+  __attribute__ ((__const__))
+#else
 #define G_GNUC_CONST
+#endif
+
+#if g_macro__has_attribute(__unused__)
+#define G_GNUC_UNUSED \
+  __attribute__ ((__unused__))
+#else
 #define G_GNUC_UNUSED
+#endif
+
+#if g_macro__has_attribute(__no_instrument_function__)
+#define G_GNUC_NO_INSTRUMENT \
+  __attribute__ ((__no_instrument_function__))
+#else
 #define G_GNUC_NO_INSTRUMENT
-#endif  /* !__GNUC__ */
+#endif
 
 /**
  * G_GNUC_FALLTHROUGH:
@@ -5227,13 +5339,13 @@
  *
  * Since: 2.60
  */
-#if    __GNUC__ > 6
-#define G_GNUC_FALLTHROUGH __attribute__((fallthrough))
-#elif g_macro__has_attribute (fallthrough)
-#define G_GNUC_FALLTHROUGH __attribute__((fallthrough))
+#if g_macro__has_attribute(fallthrough)
+#define G_GNUC_FALLTHROUGH __attribute__((fallthrough)) \
+  GLIB_AVAILABLE_MACRO_IN_2_60
 #else
-#define G_GNUC_FALLTHROUGH
-#endif /* __GNUC__ */
+#define G_GNUC_FALLTHROUGH \
+  GLIB_AVAILABLE_MACRO_IN_2_60
+#endif
 
 /**
  * G_GNUC_DEPRECATED:
@@ -5253,7 +5365,7 @@
  *
  * Since: 2.2
  */
-#if    __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1) || defined (__clang__)
+#if g_macro__has_attribute(__deprecated__)
 #define G_GNUC_DEPRECATED __attribute__((__deprecated__))
 #else
 #define G_GNUC_DEPRECATED
@@ -5282,11 +5394,13 @@
  *
  * Since: 2.26
  */
-#if    __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5) || defined (__clang__)
+#if G_GNUC_CHECK_VERSION(4, 5) || defined(__clang__)
 #define G_GNUC_DEPRECATED_FOR(f)                        \
-  __attribute__((deprecated("Use " #f " instead")))
+  __attribute__((deprecated("Use " #f " instead")))     \
+  GLIB_AVAILABLE_MACRO_IN_2_26
 #else
-#define G_GNUC_DEPRECATED_FOR(f)        G_GNUC_DEPRECATED
+#define G_GNUC_DEPRECATED_FOR(f)      G_GNUC_DEPRECATED \
+  GLIB_AVAILABLE_MACRO_IN_2_26
 #endif /* __GNUC__ */
 
 #ifdef __ICC
@@ -5295,7 +5409,7 @@
   _Pragma ("warning (disable:1478)")
 #define G_GNUC_END_IGNORE_DEPRECATIONS			\
   _Pragma ("warning (pop)")
-#elif    __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6)
+#elif G_GNUC_CHECK_VERSION(4, 6)
 #define G_GNUC_BEGIN_IGNORE_DEPRECATIONS		\
   _Pragma ("GCC diagnostic push")			\
   _Pragma ("GCC diagnostic ignored \"-Wdeprecated-declarations\"")
@@ -5329,7 +5443,7 @@
  *
  * Since: 2.14
  */
-#if     __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 3)
+#if g_macro__has_attribute(may_alias)
 #define G_GNUC_MAY_ALIAS __attribute__((may_alias))
 #else
 #define G_GNUC_MAY_ALIAS
@@ -5353,7 +5467,7 @@
  *
  * Since: 2.10
  */
-#if    __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 4)
+#if g_macro__has_attribute(warn_unused_result)
 #define G_GNUC_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
 #else
 #define G_GNUC_WARN_UNUSED_RESULT
@@ -5395,6 +5509,9 @@
 #if g_macro__has_feature(attribute_analyzer_noreturn) && defined(__clang_analyzer__)
 #define G_ANALYZER_ANALYZING 1
 #define G_ANALYZER_NORETURN __attribute__((analyzer_noreturn))
+#elif defined(__COVERITY__)
+#define G_ANALYZER_ANALYZING 1
+#define G_ANALYZER_NORETURN __attribute__((noreturn))
 #else
 #define G_ANALYZER_ANALYZING 0
 #define G_ANALYZER_NORETURN
@@ -5406,7 +5523,8 @@
 #ifndef __GI_SCANNER__ /* The static assert macro really confuses the introspection parser */
 #define G_PASTE_ARGS(identifier1,identifier2) identifier1 ## identifier2
 #define G_PASTE(identifier1,identifier2)      G_PASTE_ARGS (identifier1, identifier2)
-#if !defined(__cplusplus) && defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
+#if !defined(__cplusplus) && defined(__STDC_VERSION__) && \
+    (__STDC_VERSION__ >= 201112L || g_macro__has_feature(c_static_assert) || g_macro__has_extension(c_static_assert))
 #define G_STATIC_ASSERT(expr) _Static_assert (expr, "Expression evaluates to false")
 #elif (defined(__cplusplus) && __cplusplus >= 201103L) || \
       (defined(__cplusplus) && defined (_MSC_VER) && (_MSC_VER >= 1600)) || \
@@ -5500,7 +5618,7 @@
  * fields through their offsets.
  */
 
-#if (defined(__GNUC__)  && __GNUC__ >= 4) || defined (_MSC_VER)
+#if G_GNUC_CHECK_VERSION(4, 0) || defined(_MSC_VER)
 #define G_STRUCT_OFFSET(struct_type, member) \
       ((glong) offsetof (struct_type, member))
 #else
@@ -5559,9 +5677,11 @@
  * Since: 2.60
  */
 #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L && !defined(__cplusplus)
-#define G_ALIGNOF(type) _Alignof (type)
+#define G_ALIGNOF(type) _Alignof (type) \
+  GLIB_AVAILABLE_MACRO_IN_2_60
 #else
-#define G_ALIGNOF(type) (G_STRUCT_OFFSET (struct { char a; type b; }, b))
+#define G_ALIGNOF(type) (G_STRUCT_OFFSET (struct { char a; type b; }, b)) \
+  GLIB_AVAILABLE_MACRO_IN_2_60
 #endif
 
 /**
@@ -5608,18 +5728,18 @@
  * evaluated when a header is included. This results in warnings in third party
  * code which includes glib.h, even if the third party code doesn’t use the new
  * macro itself. */
-#if (3 <= __GNUC__ || (__GNUC__ == 2 && 8 <= __GNUC_MINOR__)) || (0x5110 <= __SUNPRO_C)
+#if g_macro__has_attribute(__noreturn__)
   /* For compatibility with G_NORETURN_FUNCPTR on clang, use
      __attribute__((__noreturn__)), not _Noreturn.  */
 # define G_NORETURN __attribute__ ((__noreturn__))
-#elif 1200 <= _MSC_VER
+#elif defined (_MSC_VER) && (1200 <= _MSC_VER)
   /* Use MSVC specific syntax.  */
 # define G_NORETURN __declspec (noreturn)
   /* Use ISO C++11 syntax when the compiler supports it.  */
-#elif (__cplusplus >= 201103 && !(__GNUC__ == 4 && __GNUC_MINOR__ == 7)) || (_MSC_VER >= 1900)
+#elif defined (__cplusplus) && __cplusplus >= 201103
 # define G_NORETURN [[noreturn]]
   /* Use ISO C11 syntax when the compiler supports it.  */
-#elif __STDC_VERSION__ >= 201112 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7)
+#elif defined (__STDC_VERSION__) && __STDC_VERSION__ >= 201112
 # define G_NORETURN _Noreturn
 #else
 # define G_NORETURN /* empty */
@@ -5647,7 +5767,7 @@
  *
  * Since: 2.68
  */
-#if (3 <= __GNUC__ || (__GNUC__ == 2 && 8 <= __GNUC_MINOR__)) || (0x5110 <= __SUNPRO_C)
+#if g_macro__has_attribute(__noreturn__)
 # define G_NORETURN_FUNCPTR __attribute__ ((__noreturn__))      \
   GLIB_AVAILABLE_MACRO_IN_2_68
 #else
@@ -5663,7 +5783,7 @@
  * The _G_BOOLEAN_EXPR macro is intended to trigger a gcc warning when
  * putting assignments in g_return_if_fail ().  
  */
-#if defined(__GNUC__) && (__GNUC__ > 2) && defined(__OPTIMIZE__)
+#if G_GNUC_CHECK_VERSION(2, 0) && defined(__OPTIMIZE__)
 #define _G_BOOLEAN_EXPR(expr)                   \
  G_GNUC_EXTENSION ({                            \
    int _g_boolean_var_;                         \
@@ -5680,7 +5800,7 @@
 #define G_UNLIKELY(expr) (expr)
 #endif
 
-#if    __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1) || defined (__clang__)
+#if G_GNUC_CHECK_VERSION(3, 1) || defined(__clang__)
 #define G_DEPRECATED __attribute__((__deprecated__))
 #elif defined(_MSC_VER) && (_MSC_VER >= 1300)
 #define G_DEPRECATED __declspec(deprecated)
@@ -5688,7 +5808,7 @@
 #define G_DEPRECATED
 #endif
 
-#if    __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5) || defined (__clang__)
+#if G_GNUC_CHECK_VERSION(4, 5) || defined(__clang__)
 #define G_DEPRECATED_FOR(f) __attribute__((__deprecated__("Use '" #f "' instead")))
 #elif defined(_MSC_FULL_VER) && (_MSC_FULL_VER > 140050320)
 #define G_DEPRECATED_FOR(f) __declspec(deprecated("is deprecated. Use '" #f "' instead"))
@@ -5696,7 +5816,7 @@
 #define G_DEPRECATED_FOR(f) G_DEPRECATED
 #endif
 
-#if    __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5) || defined (__clang__)
+#if G_GNUC_CHECK_VERSION(4, 5) || defined(__clang__)
 #define G_UNAVAILABLE(maj,min) __attribute__((deprecated("Not available before " #maj "." #min)))
 #elif defined(_MSC_FULL_VER) && (_MSC_FULL_VER > 140050320)
 #define G_UNAVAILABLE(maj,min) __declspec(deprecated("is not available before " #maj "." #min))
@@ -5727,12 +5847,14 @@
 #endif
 
 #if !defined(GLIB_DISABLE_DEPRECATION_WARNINGS) && \
-    (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6) || \
+    (G_GNUC_CHECK_VERSION(4, 6) ||                 \
      __clang_major__ > 3 || (__clang_major__ == 3 && __clang_minor__ >= 4))
 #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
 #define GLIB_DEPRECATED_MACRO _GLIB_GNUC_DO_PRAGMA(GCC warning "Deprecated pre-processor symbol")
-#define GLIB_DEPRECATED_MACRO_FOR(f) _GLIB_GNUC_DO_PRAGMA(GCC warning "Deprecated pre-processor symbol, replace with " #f)
-#define GLIB_UNAVAILABLE_MACRO(maj,min) _GLIB_GNUC_DO_PRAGMA(GCC warning "Not available before " #maj "." #min)
+#define GLIB_DEPRECATED_MACRO_FOR(f) \
+  _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+#define GLIB_UNAVAILABLE_MACRO(maj,min) \
+  _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Not available before maj.min))
 #else
 #define GLIB_DEPRECATED_MACRO
 #define GLIB_DEPRECATED_MACRO_FOR(f)
@@ -5740,7 +5862,7 @@
 #endif
 
 #if !defined(GLIB_DISABLE_DEPRECATION_WARNINGS) && \
-    ((defined (__GNUC__) && (__GNUC__ > 6 || (__GNUC__ == 6 && __GNUC_MINOR__ >= 1))) || \
+    (G_GNUC_CHECK_VERSION(6, 1) ||                 \
      (defined (__clang_major__) && (__clang_major__ > 3 || (__clang_major__ == 3 && __clang_minor__ >= 0))))
 #define GLIB_DEPRECATED_ENUMERATOR G_DEPRECATED
 #define GLIB_DEPRECATED_ENUMERATOR_FOR(f) G_DEPRECATED_FOR(f)
@@ -5752,7 +5874,7 @@
 #endif
 
 #if !defined(GLIB_DISABLE_DEPRECATION_WARNINGS) && \
-    ((defined (__GNUC__) && (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1))) || \
+    (G_GNUC_CHECK_VERSION(3, 1) ||                 \
      (defined (__clang_major__) && (__clang_major__ > 3 || (__clang_major__ == 3 && __clang_minor__ >= 0))))
 #define GLIB_DEPRECATED_TYPE G_DEPRECATED
 #define GLIB_DEPRECATED_TYPE_FOR(f) G_DEPRECATED_FOR(f)
@@ -5965,8 +6087,8 @@ typedef unsigned long guintptr;
 #define G_GUINTPTR_FORMAT       "lu"
 
 #define GLIB_MAJOR_VERSION 2
-#define GLIB_MINOR_VERSION 67
-#define GLIB_MICRO_VERSION 2
+#define GLIB_MINOR_VERSION 69
+#define GLIB_MICRO_VERSION 0
 
 #define G_OS_UNIX
 
@@ -6325,6 +6447,16 @@ G_END_DECLS
  * Since: 2.68
  */
 #define GLIB_VERSION_2_68       (G_ENCODE_VERSION (2, 68))
+
+/**
+ * GLIB_VERSION_2_70:
+ *
+ * A macro that evaluates to the 2.70 version of GLib, in a format
+ * that can be used by the C pre-processor.
+ *
+ * Since: 2.70
+ */
+#define GLIB_VERSION_2_70       (G_ENCODE_VERSION (2, 70))
 
 /**
  * GLIB_VERSION_CUR_STABLE:
@@ -7147,6 +7279,40 @@ G_END_DECLS
 # define GLIB_AVAILABLE_TYPE_IN_2_68
 #endif
 
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_70
+# define GLIB_DEPRECATED_IN_2_70                GLIB_DEPRECATED
+# define GLIB_DEPRECATED_IN_2_70_FOR(f)         GLIB_DEPRECATED_FOR(f)
+# define GLIB_DEPRECATED_MACRO_IN_2_70          GLIB_DEPRECATED_MACRO
+# define GLIB_DEPRECATED_MACRO_IN_2_70_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
+# define GLIB_DEPRECATED_ENUMERATOR_IN_2_70          GLIB_DEPRECATED_ENUMERATOR
+# define GLIB_DEPRECATED_ENUMERATOR_IN_2_70_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
+# define GLIB_DEPRECATED_TYPE_IN_2_70           GLIB_DEPRECATED_TYPE
+# define GLIB_DEPRECATED_TYPE_IN_2_70_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#else
+# define GLIB_DEPRECATED_IN_2_70                _GLIB_EXTERN
+# define GLIB_DEPRECATED_IN_2_70_FOR(f)         _GLIB_EXTERN
+# define GLIB_DEPRECATED_MACRO_IN_2_70
+# define GLIB_DEPRECATED_MACRO_IN_2_70_FOR(f)
+# define GLIB_DEPRECATED_ENUMERATOR_IN_2_70
+# define GLIB_DEPRECATED_ENUMERATOR_IN_2_70_FOR(f)
+# define GLIB_DEPRECATED_TYPE_IN_2_70
+# define GLIB_DEPRECATED_TYPE_IN_2_70_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_70
+# define GLIB_AVAILABLE_IN_2_70                 GLIB_UNAVAILABLE(2, 70)
+# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_70   GLIB_UNAVAILABLE_STATIC_INLINE(2, 70)
+# define GLIB_AVAILABLE_MACRO_IN_2_70           GLIB_UNAVAILABLE_MACRO(2, 70)
+# define GLIB_AVAILABLE_ENUMERATOR_IN_2_70      GLIB_UNAVAILABLE_ENUMERATOR(2, 70)
+# define GLIB_AVAILABLE_TYPE_IN_2_70            GLIB_UNAVAILABLE_TYPE(2, 70)
+#else
+# define GLIB_AVAILABLE_IN_2_70                 _GLIB_EXTERN
+# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_70
+# define GLIB_AVAILABLE_MACRO_IN_2_70
+# define GLIB_AVAILABLE_ENUMERATOR_IN_2_70
+# define GLIB_AVAILABLE_TYPE_IN_2_70
+#endif
+
 #endif /*  __G_VERSION_MACROS_H__ */
 #include <time.h>
 
@@ -7746,6 +7912,11 @@ G_END_DECLS
  *   way as out of stack space situations from infinite function recursion, i.e.
  *   with a segmentation fault.
  *
+ * - Allowing @size to be specified by an untrusted party would allow for them
+ *   to trigger a segmentation fault by specifying a large size, leading to a
+ *   denial of service vulnerability. @size must always be entirely under the
+ *   control of the program.
+ *
  * - Special care has to be taken when mixing alloca() with GNU C variable sized arrays.
  *   Stack space allocated with alloca() in the same scope as a variable sized array
  *   will be freed together with the variable sized array upon exit of that scope, and
@@ -7761,6 +7932,12 @@ G_END_DECLS
  * 
  * Wraps g_alloca() in a more typesafe manner.
  * 
+ * As mentioned in the documentation for g_alloca(), @n_structs must always be
+ * entirely under the control of the program, or you may introduce a denial of
+ * service vulnerability. In addition, the multiplication of @struct_type by
+ * @n_structs is not checked, so an overflow may lead to a remote code execution
+ * vulnerability.
+ *
  * Returns: Pointer to stack space for @n_structs chunks of type @struct_type
  */
 #define g_newa(struct_type, n_structs)	((struct_type*) g_alloca (sizeof (struct_type) * (gsize) (n_structs)))
@@ -8135,6 +8312,11 @@ G_END_DECLS
 #endif
 
 
+#if defined(glib_typeof_2_68) && GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68
+/* for glib_typeof */
+#include <type_traits>
+#endif
+
 G_BEGIN_DECLS
 
 GLIB_AVAILABLE_IN_ALL
@@ -8214,7 +8396,7 @@ G_END_DECLS
     __atomic_store ((gint *)(atomic), &gais_temp, __ATOMIC_SEQ_CST);         \
   }))
 
-#if defined(glib_typeof)
+#if defined(glib_typeof) && (!defined(glib_typeof_2_68) || GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68)
 #undef g_atomic_pointer_get
 #define g_atomic_pointer_get(atomic)                                       \
   (G_GNUC_EXTENSION ({                                                     \
@@ -8233,7 +8415,7 @@ G_END_DECLS
     (void) (0 ? (gpointer) * (atomic) : NULL);                              \
     __atomic_store (gaps_temp_atomic, &gaps_temp_newval, __ATOMIC_SEQ_CST); \
   }))
-#else /* if !defined(glib_typeof) */
+#else /* if !(defined(glib_typeof) && (!defined(glib_typeof_2_68) || GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68)) */
 #undef g_atomic_pointer_get
 #define g_atomic_pointer_get(atomic) \
   (G_GNUC_EXTENSION ({                                                       \
@@ -8252,7 +8434,7 @@ G_END_DECLS
     (void) (0 ? (gpointer) *(atomic) : NULL);                                \
     __atomic_store (gaps_temp_atomic, &gaps_temp_newval, __ATOMIC_SEQ_CST);  \
   }))
-#endif /* !defined(glib_typeof) */
+#endif /* if defined(glib_typeof) && (!defined(glib_typeof_2_68) || GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68) */
 
 #undef g_atomic_int_inc
 #define g_atomic_int_inc(atomic) \
@@ -8305,17 +8487,25 @@ G_END_DECLS
     (guint) __atomic_fetch_xor ((atomic), (val), __ATOMIC_SEQ_CST);          \
   }))
 
-#if defined(glib_typeof)
+#if defined(glib_typeof) && defined(__cplusplus) && __cplusplus >= 201103L
+/* This is typesafe because we check we can assign oldval to the type of
+ * (*atomic). Unfortunately it can only be done in C++ because gcc/clang warn
+ * when atomic is volatile and not oldval, or when atomic is gsize* and oldval
+ * is NULL. Note that clang++ force us to be typesafe because it is an error if the 2nd
+ * argument of __atomic_compare_exchange_n() has a different type than the
+ * first.
+ * https://gitlab.gnome.org/GNOME/glib/-/merge_requests/1919
+ * https://gitlab.gnome.org/GNOME/glib/-/merge_requests/1715#note_1024120. */
 #undef g_atomic_pointer_compare_and_exchange
 #define g_atomic_pointer_compare_and_exchange(atomic, oldval, newval) \
   (G_GNUC_EXTENSION ({                                                       \
     G_STATIC_ASSERT (sizeof (oldval) == sizeof (gpointer));                  \
-    glib_typeof ((oldval)) gapcae_oldval = (oldval);                         \
+    glib_typeof (*(atomic)) gapcae_oldval = (oldval);                        \
     G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gpointer));                 \
     (void) (0 ? (gpointer) *(atomic) : NULL);                                \
     __atomic_compare_exchange_n ((atomic), &gapcae_oldval, (newval), FALSE, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ? TRUE : FALSE; \
   }))
-#else /* if !defined(glib_typeof) */
+#else /* if !(defined(glib_typeof) && defined(__cplusplus) && __cplusplus >= 201103L) */
 #undef g_atomic_pointer_compare_and_exchange
 #define g_atomic_pointer_compare_and_exchange(atomic, oldval, newval) \
   (G_GNUC_EXTENSION ({                                                       \
@@ -8425,7 +8615,7 @@ G_END_DECLS
     __asm__ __volatile__ ("" : : : "memory");                                \
     gapg_result;                                                             \
   }))
-#if defined(glib_typeof)
+#if defined(glib_typeof) && (!defined(glib_typeof_2_68) || GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68)
 #undef g_atomic_pointer_set
 #define g_atomic_pointer_set(atomic, newval) \
   (G_GNUC_EXTENSION ({                                                       \
@@ -8435,7 +8625,7 @@ G_END_DECLS
     __asm__ __volatile__ ("" : : : "memory");                                \
     *(atomic) = (glib_typeof (*(atomic))) (gsize) (newval);                  \
   }))
-#else /* if !defined(glib_typeof) */
+#else /* if !(defined(glib_typeof) && (!defined(glib_typeof_2_68) || GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68)) */
 #undef g_atomic_pointer_set
 #define g_atomic_pointer_set(atomic, newval) \
   (G_GNUC_EXTENSION ({                                                       \
@@ -8445,7 +8635,7 @@ G_END_DECLS
     __asm__ __volatile__ ("" : : : "memory");                                \
     *(atomic) = (gpointer) (gsize) (newval);                                         \
   }))
-#endif /* defined(glib_typeof) */
+#endif /* if defined(glib_typeof) && (!defined(glib_typeof_2_68) || GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68) */
 
 #undef g_atomic_int_inc
 #define g_atomic_int_inc(atomic) \
@@ -8569,12 +8759,27 @@ G_END_DECLS
 #define g_atomic_int_dec_and_test(atomic) \
   (_frida_g_atomic_int_dec_and_test ((gint *) (atomic)))
 
+#if defined(glib_typeof) && (!defined(glib_typeof_2_68) || GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68)
+  /* The (void *) cast in the middle *looks* redundant, because
+   * g_atomic_pointer_get returns void * already, but it's to silence
+   * -Werror=bad-function-cast when we're doing something like:
+   * guintptr a, b; ...; a = g_atomic_pointer_get (&b);
+   * which would otherwise be assigning the void * result of
+   * g_atomic_pointer_get directly to the pointer-sized but
+   * non-pointer-typed result. */
+#undef g_atomic_pointer_get
+#define g_atomic_pointer_get(atomic)                                       \
+  (glib_typeof (*(atomic))) (void *) ((_frida_g_atomic_pointer_get) ((void *) atomic))
+#else /* !(defined(glib_typeof) && (!defined(glib_typeof_2_68) || GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68)) */
 #undef g_atomic_pointer_get
 #define g_atomic_pointer_get(atomic) \
   (_frida_g_atomic_pointer_get (atomic))
+#endif
+
 #undef g_atomic_pointer_set
 #define g_atomic_pointer_set(atomic, newval) \
   (_frida_g_atomic_pointer_set ((atomic), (gpointer) (newval)))
+
 #undef g_atomic_pointer_compare_and_exchange
 #define g_atomic_pointer_compare_and_exchange(atomic, oldval, newval) \
   (_frida_g_atomic_pointer_compare_and_exchange ((atomic), (gpointer) (oldval), (gpointer) (newval)))
@@ -8905,6 +9110,11 @@ GLIB_AVAILABLE_IN_ALL
 void     g_prefix_error               (GError       **err,
                                        const gchar   *format,
                                        ...) G_GNUC_PRINTF (2, 3);
+
+/* if (err) prefix the string to the ->message */
+GLIB_AVAILABLE_IN_2_70
+void     g_prefix_error_literal       (GError       **err,
+                                       const gchar   *prefix);
 
 /* g_propagate_error then g_error_prefix on dest */
 GLIB_AVAILABLE_IN_ALL
@@ -12321,6 +12531,11 @@ G_END_DECLS
 #endif
 
 
+#if defined(glib_typeof_2_68) && GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68
+/* for glib_typeof */
+#include <type_traits>
+#endif
+
 G_BEGIN_DECLS
 
 /**
@@ -12398,7 +12613,7 @@ gpointer g_try_realloc_n  (gpointer	 mem,
 			   gsize	 n_blocks,
 			   gsize	 n_block_bytes) G_GNUC_WARN_UNUSED_RESULT;
 
-#if defined(glib_typeof) && GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_58
+#if defined(glib_typeof) && GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_58 && (!defined(glib_typeof_2_68) || GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68)
 #undef g_clear_pointer
 #define g_clear_pointer(pp, destroy)                     \
   G_STMT_START                                           \
@@ -12503,7 +12718,7 @@ g_steal_pointer (gpointer pp)
 }
 
 /* type safety */
-#if defined(glib_typeof) && GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_58
+#if defined(glib_typeof) && GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_58 && (!defined(glib_typeof_2_68) || GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68)
 #define g_steal_pointer(pp) ((glib_typeof (*pp)) (g_steal_pointer) (pp))
 #else  /* __GNUC__ */
 /* This version does not depend on gcc extensions, but gcc does not warn
@@ -14192,8 +14407,8 @@ typedef void (*GSourceDummyMarshal) (void);
 struct _GSourceFuncs
 {
   gboolean (*prepare)  (GSource    *source,
-                        gint       *timeout_);
-  gboolean (*check)    (GSource    *source);
+                        gint       *timeout_);/* Can be NULL */
+  gboolean (*check)    (GSource    *source);/* Can be NULL */
   gboolean (*dispatch) (GSource    *source,
                         GSourceFunc callback,
                         gpointer    user_data);
@@ -14709,6 +14924,15 @@ GLIB_AVAILABLE_IN_ALL
 void     g_main_context_invoke      (GMainContext   *context,
                                      GSourceFunc     function,
                                      gpointer        data);
+
+GLIB_AVAILABLE_STATIC_INLINE_IN_2_70
+static inline int
+g_steal_fd (int *fd_ptr)
+{
+  int fd = *fd_ptr;
+  *fd_ptr = -1;
+  return fd;
+}
 
 /* Hook for GClosure / GSource integration. Don't touch */
 GLIB_VAR GSourceFuncs g_timeout_funcs;
@@ -15784,6 +16008,11 @@ GLIB_AVAILABLE_IN_ALL
 GString*     g_string_erase             (GString         *string,
                                          gssize           pos,
                                          gssize           len);
+GLIB_AVAILABLE_IN_2_68
+guint         g_string_replace          (GString         *string,
+                                         const gchar     *find,
+                                         const gchar     *replace,
+                                         guint            limit);
 GLIB_AVAILABLE_IN_ALL
 GString*     g_string_ascii_down        (GString         *string);
 GLIB_AVAILABLE_IN_ALL
@@ -18719,6 +18948,24 @@ struct _GOptionEntry
  */
 #define G_OPTION_REMAINING ""
 
+/**
+ * G_OPTION_ENTRY_NULL:
+ *
+ * A #GOptionEntry array requires a %NULL terminator, this macro can
+ * be used as terminator instead of an explicit `{ 0 }` but it cannot
+ * be assigned to a variable.
+ *
+ * |[
+ *   GOptionEntry option[] = { G_OPTION_ENTRY_NULL };
+ * ]|
+ *
+ * Since: 2.70
+ */
+#define G_OPTION_ENTRY_NULL    \
+  GLIB_AVAILABLE_MACRO_IN_2_70 \
+  { NULL, 0, 0, 0, NULL, NULL, NULL }
+
+
 GLIB_AVAILABLE_IN_ALL
 GOptionContext *g_option_context_new              (const gchar         *parameter_string);
 GLIB_AVAILABLE_IN_ALL
@@ -18853,15 +19100,25 @@ GLIB_AVAILABLE_IN_ALL
 GPatternSpec* g_pattern_spec_new       (const gchar  *pattern);
 GLIB_AVAILABLE_IN_ALL
 void          g_pattern_spec_free      (GPatternSpec *pspec);
+GLIB_AVAILABLE_IN_2_70
+GPatternSpec *g_pattern_spec_copy (GPatternSpec *pspec);
 GLIB_AVAILABLE_IN_ALL
 gboolean      g_pattern_spec_equal     (GPatternSpec *pspec1,
 					GPatternSpec *pspec2);
-GLIB_AVAILABLE_IN_ALL
+GLIB_AVAILABLE_IN_2_70
+gboolean g_pattern_spec_match (GPatternSpec *pspec,
+                               gsize string_length,
+                               const gchar *string,
+                               const gchar *string_reversed);
+GLIB_AVAILABLE_IN_2_70
+gboolean g_pattern_spec_match_string (GPatternSpec *pspec,
+                                      const gchar *string);
+GLIB_DEPRECATED_IN_2_70_FOR (g_pattern_spec_match)
 gboolean      g_pattern_match          (GPatternSpec *pspec,
 					guint         string_length,
 					const gchar  *string,
 					const gchar  *string_reversed);
-GLIB_AVAILABLE_IN_ALL
+GLIB_DEPRECATED_IN_2_70_FOR (g_pattern_spec_match_string)
 gboolean      g_pattern_match_string   (GPatternSpec *pspec,
 					const gchar  *string);
 GLIB_AVAILABLE_IN_ALL
@@ -19332,6 +19589,11 @@ G_END_DECLS
 #endif
 
 
+#if defined(glib_typeof_2_68) && GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68
+/* for glib_typeof */
+#include <type_traits>
+#endif
+
 G_BEGIN_DECLS
 
 GLIB_AVAILABLE_IN_2_58
@@ -19379,7 +19641,7 @@ gsize           g_atomic_rc_box_get_size        (gpointer        mem_block);
 #define g_atomic_rc_box_new0(type) \
   ((type *) g_atomic_rc_box_alloc0 (sizeof (type)))
 
-#ifdef glib_typeof
+#if defined(glib_typeof) && (!defined(glib_typeof_2_68) || GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68)
 /* Type check to avoid assigning references to different types */
 #undef g_rc_box_acquire
 #define g_rc_box_acquire(mem_block) \
@@ -21042,6 +21304,25 @@ gboolean g_spawn_async_with_pipes (const gchar          *working_directory,
                                    gint                 *standard_error,
                                    GError              **error);
 
+GLIB_AVAILABLE_IN_2_68
+gboolean g_spawn_async_with_pipes_and_fds (const gchar          *working_directory,
+                                           const gchar * const  *argv,
+                                           const gchar * const  *envp,
+                                           GSpawnFlags           flags,
+                                           GSpawnChildSetupFunc  child_setup,
+                                           gpointer              user_data,
+                                           gint                  stdin_fd,
+                                           gint                  stdout_fd,
+                                           gint                  stderr_fd,
+                                           const gint           *source_fds,
+                                           const gint           *target_fds,
+                                           gsize                 n_fds,
+                                           GPid                 *child_pid_out,
+                                           gint                 *stdin_pipe_out,
+                                           gint                 *stdout_pipe_out,
+                                           gint                 *stderr_pipe_out,
+                                           GError              **error);
+
 /* Lets you provide fds for stdin/stdout/stderr */
 GLIB_AVAILABLE_IN_2_58
 gboolean g_spawn_async_with_fds (const gchar          *working_directory,
@@ -21344,9 +21625,13 @@ GLIB_AVAILABLE_IN_ALL
 gchar*                g_strescape      (const gchar *source,
 					const gchar *exceptions) G_GNUC_MALLOC;
 
-GLIB_AVAILABLE_IN_ALL
-gpointer              g_memdup	       (gconstpointer mem,
-					guint	       byte_size) G_GNUC_ALLOC_SIZE(2);
+GLIB_DEPRECATED_IN_2_68_FOR (g_memdup2)
+gpointer              g_memdup         (gconstpointer mem,
+                                        guint         byte_size) G_GNUC_ALLOC_SIZE(2);
+
+GLIB_AVAILABLE_IN_2_68
+gpointer              g_memdup2        (gconstpointer mem,
+                                        gsize         byte_size) G_GNUC_ALLOC_SIZE(2);
 
 /* NULL terminated string arrays.
  * g_strsplit(), g_strsplit_set() split up string into max_tokens tokens
@@ -21509,6 +21794,7 @@ G_END_DECLS
 #endif /* __G_STRING_H__ */
 /*
  * Copyright © 2020 Canonical Ltd.
+ * Copyright © 2021 Alexandros Theodotou
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21536,7 +21822,7 @@ G_BEGIN_DECLS
 
 /**
  * GStrvBuilder:
- * 
+ *
  * A helper object to build a %NULL-terminated string array
  * by appending. See g_strv_builder_new().
  *
@@ -21556,6 +21842,14 @@ GStrvBuilder *g_strv_builder_ref (GStrvBuilder *builder);
 GLIB_AVAILABLE_IN_2_68
 void g_strv_builder_add (GStrvBuilder *builder,
                          const char *value);
+
+GLIB_AVAILABLE_IN_2_70
+void g_strv_builder_addv (GStrvBuilder *builder,
+                          const char **value);
+
+GLIB_AVAILABLE_IN_2_70
+void g_strv_builder_add_many (GStrvBuilder *builder,
+                              ...) G_GNUC_NULL_TERMINATED;
 
 GLIB_AVAILABLE_IN_2_68
 GStrv g_strv_builder_end (GStrvBuilder *builder);
@@ -21900,6 +22194,10 @@ void    g_test_add_data_func_full       (const char     *testpath,
                                          gpointer        test_data,
                                          GTestDataFunc   test_func,
                                          GDestroyNotify  data_free_func);
+
+/* tell about currently run test */
+GLIB_AVAILABLE_IN_2_68
+const char * g_test_get_path            (void);
 
 /* tell about failure */
 GLIB_AVAILABLE_IN_2_30
@@ -22586,6 +22884,10 @@ void     g_tree_replace         (GTree            *tree,
 GLIB_AVAILABLE_IN_ALL
 gboolean g_tree_remove          (GTree            *tree,
                                  gconstpointer     key);
+
+GLIB_AVAILABLE_IN_2_70
+void     g_tree_remove_all      (GTree            *tree);
+
 GLIB_AVAILABLE_IN_ALL
 gboolean g_tree_steal           (GTree            *tree,
                                  gconstpointer     key);
@@ -22736,7 +23038,7 @@ typedef enum {
   G_URI_FLAGS_ENCODED_QUERY   = 1 << 5,
   G_URI_FLAGS_ENCODED_PATH    = 1 << 6,
   G_URI_FLAGS_ENCODED_FRAGMENT = 1 << 7,
-  G_URI_FLAGS_SCHEME_NORMALIZE = 1 << 8,
+  G_URI_FLAGS_SCHEME_NORMALIZE GLIB_AVAILABLE_ENUMERATOR_IN_2_68 = 1 << 8,
 } GUriFlags;
 
 GLIB_AVAILABLE_IN_2_66
@@ -23772,7 +24074,11 @@ void     g_thread_foreach      (GFunc             thread_func,
 #endif
 
 #define g_static_mutex_get_mutex g_static_mutex_get_mutex_impl GLIB_DEPRECATED_MACRO_IN_2_32
+#ifndef G_OS_WIN32
+#define G_STATIC_MUTEX_INIT { NULL, PTHREAD_MUTEX_INITIALIZER } GLIB_DEPRECATED_MACRO_IN_2_32_FOR(g_mutex_init)
+#else
 #define G_STATIC_MUTEX_INIT { NULL } GLIB_DEPRECATED_MACRO_IN_2_32_FOR(g_mutex_init)
+#endif
 typedef struct
 {
   GMutex *mutex;
@@ -26196,7 +26502,7 @@ type_name##_get_type (void) \
 /* Only use this in non-C++ on GCC >= 2.7, except for Darwin/ppc64.
  * See https://bugzilla.gnome.org/show_bug.cgi?id=647145
  */
-#if !defined (__cplusplus) && (__GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ >= 7)) && !(defined (__APPLE__) && defined (__ppc64__))
+#if !defined (__cplusplus) && (G_GNUC_CHECK_VERSION(2, 7)) && !(defined (__APPLE__) && defined (__ppc64__))
 #define _G_DEFINE_BOXED_TYPE_BEGIN(TypeName, type_name, copy_func, free_func) \
 static GType type_name##_get_type_once (void); \
 \
@@ -27938,8 +28244,11 @@ typedef gboolean (*GSignalEmissionHook) (GSignalInvocationHint *ihint,
  * value returned by the last callback.
  * 
  * Returns: The accumulator function returns whether the signal emission
- *  should be aborted. Returning %FALSE means to abort the
- *  current emission and %TRUE is returned for continuation.
+ *  should be aborted. Returning %TRUE will continue with
+ *  the signal emission. Returning %FALSE will abort the current emission.
+ *  Since 2.62, returning %FALSE will skip to the CLEANUP stage. In this case,
+ *  emission will occur as normal in the CLEANUP stage and the handler's
+ *  return value will be accumulated.
  */
 typedef gboolean (*GSignalAccumulator)	(GSignalInvocationHint *ihint,
 					 GValue		       *return_accu,
@@ -28303,13 +28612,14 @@ void	 g_clear_signal_handler		      (gulong            *handler_id_ptr,
 #undef g_clear_signal_handler
 #define  g_clear_signal_handler(handler_id_ptr, instance)           \
   G_STMT_START {                                                    \
-    G_STATIC_ASSERT (sizeof *(handler_id_ptr) == sizeof (gulong));  \
-    gulong _handler_id = *(handler_id_ptr);                         \
+    gpointer const _instance      = (instance);                     \
+    gulong *const _handler_id_ptr = (handler_id_ptr);               \
+    const gulong _handler_id      = *_handler_id_ptr;               \
                                                                     \
     if (_handler_id > 0)                                            \
       {                                                             \
-        g_signal_handler_disconnect ((instance), _handler_id);      \
-        *(handler_id_ptr) = 0;                                      \
+        *_handler_id_ptr = 0;                                       \
+        g_signal_handler_disconnect (_instance, _handler_id);       \
       }                                                             \
   } G_STMT_END                                                      \
   GLIB_AVAILABLE_MACRO_IN_2_62
@@ -28823,6 +29133,15 @@ typedef gsize GType;
  */
 #define G_TYPE_TREE (g_tree_get_type ())
 
+/**
+ * G_TYPE_PATTERN_SPEC:
+ *
+ * The #GType for #GPatternSpec.
+ *
+ * Since: 2.70
+ */
+#define G_TYPE_PATTERN_SPEC (g_pattern_spec_get_type ())
+
 GLIB_AVAILABLE_IN_ALL
 GType   g_date_get_type            (void) G_GNUC_CONST;
 GLIB_AVAILABLE_IN_ALL
@@ -28883,6 +29202,8 @@ GLIB_AVAILABLE_IN_2_66
 GType   g_uri_get_type             (void) G_GNUC_CONST;
 GLIB_AVAILABLE_IN_2_68
 GType   g_tree_get_type            (void) G_GNUC_CONST;
+GLIB_AVAILABLE_IN_2_70
+GType g_pattern_spec_get_type (void) G_GNUC_CONST;
 
 GLIB_DEPRECATED_FOR('G_TYPE_VARIANT')
 GType   g_variant_get_gtype        (void) G_GNUC_CONST;
@@ -28985,6 +29306,11 @@ GType   g_value_get_type           (void) G_GNUC_CONST;
 G_END_DECLS
 
 #endif  /* __G_BOXED_H__ */
+
+#if defined(glib_typeof_2_68) && GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68
+/* for glib_typeof */
+#include <type_traits>
+#endif
 
 G_BEGIN_DECLS
 
@@ -29471,7 +29797,7 @@ GLIB_AVAILABLE_IN_ALL
 void        g_object_remove_weak_pointer      (GObject        *object, 
                                                gpointer       *weak_pointer_location);
 
-#if defined(glib_typeof) && GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_56
+#if defined(glib_typeof) && GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_56 && (!defined(glib_typeof_2_68) || GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68)
 /* Make reference APIs type safe with macros */
 #undef g_object_ref
 #define g_object_ref(Obj) ((glib_typeof (Obj)) (_frida_g_object_ref) (Obj))
@@ -32944,6 +33270,7 @@ G_END_DECLS
 #endif
 /*
  * Copyright (C) 2008-2018 Ole André Vadla Ravnås <oleavr@nowsecure.com>
+ * Copyright (C) 2021 Francesco Tamagni <mrmacete@protonmail.ch>
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */
@@ -33003,7 +33330,7 @@ struct _GumBacktracerInterface
   GTypeInterface parent;
 
   void (* generate) (GumBacktracer * self, const GumCpuContext * cpu_context,
-      GumReturnAddressArray * return_addresses);
+      GumReturnAddressArray * return_addresses, guint limit);
 };
 
 GUM_API GumBacktracer * gum_backtracer_make_accurate (void);
@@ -33012,6 +33339,9 @@ GUM_API GumBacktracer * gum_backtracer_make_fuzzy (void);
 GUM_API void gum_backtracer_generate (GumBacktracer * self,
     const GumCpuContext * cpu_context,
     GumReturnAddressArray * return_addresses);
+GUM_API void gum_backtracer_generate_with_limit (GumBacktracer * self,
+    const GumCpuContext * cpu_context,
+    GumReturnAddressArray * return_addresses, guint limit);
 
 G_END_DECLS
 
@@ -34789,6 +35119,8 @@ typedef enum
  * message bus. This means that the Hello() method will be invoked as part of the connection setup.
  * @G_DBUS_CONNECTION_FLAGS_DELAY_MESSAGE_PROCESSING: If set, processing of D-Bus messages is
  * delayed until g_dbus_connection_start_message_processing() is called.
+ * @G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER: When authenticating
+ * as a server, require the UID of the peer to be the same as the UID of the server. (Since: 2.68)
  *
  * Flags used when creating a new #GDBusConnection.
  *
@@ -34800,7 +35132,8 @@ typedef enum {
   G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_SERVER = (1<<1),
   G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS = (1<<2),
   G_DBUS_CONNECTION_FLAGS_MESSAGE_BUS_CONNECTION = (1<<3),
-  G_DBUS_CONNECTION_FLAGS_DELAY_MESSAGE_PROCESSING = (1<<4)
+  G_DBUS_CONNECTION_FLAGS_DELAY_MESSAGE_PROCESSING = (1<<4),
+  G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER GLIB_AVAILABLE_ENUMERATOR_IN_2_68 = (1<<5)
 } GDBusConnectionFlags;
 
 /**
@@ -34951,6 +35284,8 @@ typedef enum
  * details).
  * @G_DBUS_SERVER_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS: Allow the anonymous
  * authentication method.
+ * @G_DBUS_SERVER_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER: Require the UID of the
+ * peer to be the same as the UID of the server when authenticating. (Since: 2.68)
  *
  * Flags used when creating a #GDBusServer.
  *
@@ -34960,7 +35295,8 @@ typedef enum
 {
   G_DBUS_SERVER_FLAGS_NONE = 0,
   G_DBUS_SERVER_FLAGS_RUN_IN_THREAD = (1<<0),
-  G_DBUS_SERVER_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS = (1<<1)
+  G_DBUS_SERVER_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS = (1<<1),
+  G_DBUS_SERVER_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER GLIB_AVAILABLE_ENUMERATOR_IN_2_68 = (1<<2)
 } GDBusServerFlags;
 
 /**
@@ -35280,6 +35616,12 @@ typedef enum {
  *    wrong many times, and the user may not have many chances left.
  * @G_TLS_PASSWORD_FINAL_TRY: Hint to the user that this is the last try to get
  *    this password right.
+ * @G_TLS_PASSWORD_PKCS11_USER: For PKCS #11, the user PIN is required.
+ *    Since: 2.70.
+ * @G_TLS_PASSWORD_PKCS11_SECURITY_OFFICER: For PKCS #11, the security officer
+ *    PIN is required. Since: 2.70.
+ * @G_TLS_PASSWORD_PKCS11_CONTEXT_SPECIFIC: For PKCS #11, the context-specific
+ *    PIN is required. Since: 2.70.
  *
  * Various flags for the password.
  *
@@ -35291,7 +35633,10 @@ typedef enum _GTlsPasswordFlags
   G_TLS_PASSWORD_NONE = 0,
   G_TLS_PASSWORD_RETRY = 1 << 1,
   G_TLS_PASSWORD_MANY_TRIES = 1 << 2,
-  G_TLS_PASSWORD_FINAL_TRY = 1 << 3
+  G_TLS_PASSWORD_FINAL_TRY = 1 << 3,
+  G_TLS_PASSWORD_PKCS11_USER = 1 << 4,
+  G_TLS_PASSWORD_PKCS11_SECURITY_OFFICER = 1 << 5,
+  G_TLS_PASSWORD_PKCS11_CONTEXT_SPECIFIC = 1 << 6
 } GTlsPasswordFlags;
 
 /**
@@ -35392,6 +35737,40 @@ typedef enum {
 typedef enum {
   G_TLS_CERTIFICATE_REQUEST_NONE = 0
 } GTlsCertificateRequestFlags;
+
+/**
+ * GTlsProtocolVersion:
+ * @G_TLS_PROTOCOL_VERSION_UNKNOWN: No protocol version or unknown protocol version
+ * @G_TLS_PROTOCOL_VERSION_SSL_3_0: SSL 3.0, which is insecure and should not be used
+ * @G_TLS_PROTOCOL_VERSION_TLS_1_0: TLS 1.0, which is insecure and should not be used
+ * @G_TLS_PROTOCOL_VERSION_TLS_1_1: TLS 1.1, which is insecure and should not be used
+ * @G_TLS_PROTOCOL_VERSION_TLS_1_2: TLS 1.2, defined by [RFC 5246](https://datatracker.ietf.org/doc/html/rfc5246)
+ * @G_TLS_PROTOCOL_VERSION_TLS_1_3: TLS 1.3, defined by [RFC 8446](https://datatracker.ietf.org/doc/html/rfc8446)
+ * @G_TLS_PROTOCOL_VERSION_DTLS_1_0: DTLS 1.0, which is insecure and should not be used
+ * @G_TLS_PROTOCOL_VERSION_DTLS_1_2: DTLS 1.2, defined by [RFC 6347](https://datatracker.ietf.org/doc/html/rfc6347)
+ *
+ * The TLS or DTLS protocol version used by a #GTlsConnection or
+ * #GDtlsConnection. The integer values of these versions are sequential
+ * to ensure newer known protocol versions compare greater than older
+ * known versions. Any known DTLS protocol version will compare greater
+ * than any SSL or TLS protocol version. The protocol version may be
+ * %G_TLS_PROTOCOL_VERSION_UNKNOWN if the TLS backend supports a newer
+ * protocol version that GLib does not yet know about. This means that
+ * it's possible for an unknown DTLS protocol version to compare less
+ * than the TLS protocol versions.
+ *
+ * Since: 2.70
+ */
+typedef enum {
+  G_TLS_PROTOCOL_VERSION_UNKNOWN = 0,
+  G_TLS_PROTOCOL_VERSION_SSL_3_0 = 1,
+  G_TLS_PROTOCOL_VERSION_TLS_1_0 = 2,
+  G_TLS_PROTOCOL_VERSION_TLS_1_1 = 3,
+  G_TLS_PROTOCOL_VERSION_TLS_1_2 = 4,
+  G_TLS_PROTOCOL_VERSION_TLS_1_3 = 5,
+  G_TLS_PROTOCOL_VERSION_DTLS_1_0 = 201,
+  G_TLS_PROTOCOL_VERSION_DTLS_1_2 = 202,
+} GTlsProtocolVersion;
 
 /**
  * GIOModuleScopeFlags:
@@ -39256,7 +39635,7 @@ gboolean         g_credentials_set_unix_user      (GCredentials    *credentials,
 
 G_END_DECLS
 
-#endif /* __G_DBUS_PROXY_H__ */
+#endif /* __G_CREDENTIALS_H__ */
 /*
  * Copyright 2015 Collabora Ltd.
  *
@@ -43202,6 +43581,12 @@ gboolean              g_dtls_connection_get_channel_binding_data    (GDtlsConnec
                                                                      GError                 **error);
 G_GNUC_END_IGNORE_DEPRECATIONS
 
+GLIB_AVAILABLE_IN_2_70
+GTlsProtocolVersion   g_dtls_connection_get_protocol_version        (GDtlsConnection       *conn);
+
+GLIB_AVAILABLE_IN_2_70
+gchar *               g_dtls_connection_get_ciphersuite_name        (GDtlsConnection       *conn);
+
 G_END_DECLS
 
 #endif /* __G_DTLS_CONNECTION_H__ */
@@ -46202,6 +46587,10 @@ void              g_file_info_get_modification_time  (GFileInfo         *info,
 G_GNUC_END_IGNORE_DEPRECATIONS
 GLIB_AVAILABLE_IN_2_62
 GDateTime *       g_file_info_get_modification_date_time (GFileInfo     *info);
+GLIB_AVAILABLE_IN_2_70
+GDateTime *       g_file_info_get_access_date_time (GFileInfo     *info);
+GLIB_AVAILABLE_IN_2_70
+GDateTime *       g_file_info_get_creation_date_time (GFileInfo     *info);
 GLIB_AVAILABLE_IN_ALL
 const char *      g_file_info_get_symlink_target     (GFileInfo         *info);
 GLIB_AVAILABLE_IN_ALL
@@ -46254,6 +46643,12 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 GLIB_AVAILABLE_IN_2_62
 void              g_file_info_set_modification_date_time (GFileInfo     *info,
                                                           GDateTime     *mtime);
+GLIB_AVAILABLE_IN_2_70
+void              g_file_info_set_access_date_time (GFileInfo *info,
+                                                    GDateTime *atime);
+GLIB_AVAILABLE_IN_2_70
+void              g_file_info_set_creation_date_time (GFileInfo *info,
+                                                      GDateTime *creation_time);
 GLIB_AVAILABLE_IN_ALL
 void              g_file_info_set_symlink_target     (GFileInfo         *info,
 						      const char        *symlink_target);
@@ -47515,6 +47910,8 @@ GLIB_AVAILABLE_IN_ALL GType g_tls_database_lookup_flags_get_type (void) G_GNUC_C
 #define G_TYPE_TLS_DATABASE_LOOKUP_FLAGS (g_tls_database_lookup_flags_get_type ())
 GLIB_AVAILABLE_IN_ALL GType g_tls_certificate_request_flags_get_type (void) G_GNUC_CONST;
 #define G_TYPE_TLS_CERTIFICATE_REQUEST_FLAGS (g_tls_certificate_request_flags_get_type ())
+GLIB_AVAILABLE_IN_ALL GType g_tls_protocol_version_get_type (void) G_GNUC_CONST;
+#define G_TYPE_TLS_PROTOCOL_VERSION (g_tls_protocol_version_get_type ())
 GLIB_AVAILABLE_IN_ALL GType g_io_module_scope_flags_get_type (void) G_GNUC_CONST;
 #define G_TYPE_IO_MODULE_SCOPE_FLAGS (g_io_module_scope_flags_get_type ())
 GLIB_AVAILABLE_IN_ALL GType g_socket_client_event_get_type (void) G_GNUC_CONST;
@@ -54659,6 +55056,18 @@ GLIB_AVAILABLE_IN_2_34
 gboolean              g_tls_certificate_is_same            (GTlsCertificate     *cert_one,
                                                             GTlsCertificate     *cert_two);
 
+GLIB_AVAILABLE_IN_2_70
+GDateTime            *g_tls_certificate_get_not_valid_before (GTlsCertificate     *cert);
+
+GLIB_AVAILABLE_IN_2_70
+GDateTime            *g_tls_certificate_get_not_valid_after  (GTlsCertificate     *cert);
+
+GLIB_AVAILABLE_IN_2_70
+gchar                *g_tls_certificate_get_subject_name     (GTlsCertificate     *cert);
+
+GLIB_AVAILABLE_IN_2_70
+gchar                *g_tls_certificate_get_issuer_name      (GTlsCertificate     *cert);
+
 G_END_DECLS
 
 #endif /* __G_TLS_CERTIFICATE_H__ */
@@ -54842,6 +55251,12 @@ GLIB_AVAILABLE_IN_ALL
 gboolean              g_tls_connection_handshake_finish            (GTlsConnection       *conn,
 								    GAsyncResult         *result,
 								    GError              **error);
+
+GLIB_AVAILABLE_IN_2_70
+GTlsProtocolVersion   g_tls_connection_get_protocol_version        (GTlsConnection       *conn);
+
+GLIB_AVAILABLE_IN_2_70
+gchar *               g_tls_connection_get_ciphersuite_name        (GTlsConnection       *conn);
 
 /**
  * G_TLS_ERROR:
@@ -56732,6 +57147,8 @@ GUM_API void gum_darwin_module_enumerate_function_starts (
     gpointer user_data);
 GUM_API const gchar * gum_darwin_module_get_dependency_by_ordinal (
     GumDarwinModule * self, gint ordinal);
+GUM_API gboolean gum_darwin_module_ensure_image_loaded (GumDarwinModule * self,
+    GError ** error);
 
 GUM_API void gum_darwin_threaded_item_parse (guint64 value,
     GumDarwinThreadedItem * result);
