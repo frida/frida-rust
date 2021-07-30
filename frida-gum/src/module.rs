@@ -12,7 +12,9 @@ use frida_gum_sys as gum_sys;
 use std::ffi::CString;
 use std::os::raw::c_void;
 
-use crate::{NativePointer, PageProtection, RangeDetails};
+use frida_gum_sys::{GumExportDetails, gpointer, gboolean, GumModuleDetails, GumSymbolDetails};
+
+use crate::{NativePointer, PageProtection, RangeDetails, ExportDetails, ModuleDetails, FromCString, SymbolDetails};
 
 extern "C" fn enumerate_ranges_callout(
     range_details: *const gum_sys::_GumRangeDetails,
@@ -84,5 +86,84 @@ impl Module {
 
             let _ = Box::from_raw(user_data as *mut Box<dyn FnMut(RangeDetails) -> bool>);
         }
+    }
+
+    /// Enumerates modules.
+    pub fn enumerate_modules() -> Vec<ModuleDetails> {
+
+        let  result: Vec<ModuleDetails> = vec![];
+
+        unsafe extern "C" fn callback(details: *const GumModuleDetails, _user_data: gpointer) -> gboolean
+        {
+            let res =  &mut *(_user_data as *mut Vec<ModuleDetails>);
+
+            let name = String::from_c_string((*details).name);
+            let path = String::from_c_string((*details).path);
+            let range = (*details).range;
+            let base_addr = (*range).base_address as usize;
+            let size = (*range).size as usize;
+            let mi = ModuleDetails {name,path, base_addr, size };
+            res.push(mi);
+
+            1
+        }
+
+        unsafe {
+            frida_gum_sys::gum_process_enumerate_modules(Some(callback), &result as * const _ as *mut std::ffi::c_void);
+
+        }
+        result
+    }
+
+    /// Enumerates exports in module.
+    pub fn enumerate_exports(module_name: &str) -> Vec<ExportDetails> {
+
+        let result: Vec<ExportDetails> = vec![];
+
+        unsafe extern "C"  fn callback(details: *const GumExportDetails, user_data: gpointer) -> gboolean
+        {
+            let res =   &mut *(user_data as *mut Vec<ExportDetails>) ;
+            let name = String::from_c_string((*details).name);
+
+            let address = (*details).address as usize;
+            let type_ = (*details).type_ as u32;
+            let info = ExportDetails{type_, name, address};
+            res.push(info);
+            1
+        }
+
+        let module_name = CString::new(module_name).unwrap();
+
+        unsafe {
+            frida_gum_sys::gum_module_enumerate_exports(module_name.as_ptr(),Some(callback),&result as * const _ as *mut std::ffi::c_void );
+        }
+        result
+    }
+
+    /// Enumerates symbols in module.
+    pub fn enumerate_symbols(module_name: &str) -> Vec<SymbolDetails> {
+
+        let  result: Vec<SymbolDetails> = vec![];
+        unsafe extern "C"  fn callback(details: *const GumSymbolDetails, user_data: gpointer) -> gboolean
+        {
+
+            let res =  &mut *(user_data as *mut Vec<SymbolDetails>);
+
+            let name = String::from_c_string((*details).name);
+            let address = (*details).address as usize;
+            let size = (*details).size as usize;
+
+            let info = SymbolDetails{name,address,size};
+            res.push(info);
+
+            1
+        }
+
+        let module_name = CString::new(module_name).unwrap();
+
+        unsafe {
+            frida_gum_sys::gum_module_enumerate_symbols(module_name.as_ptr(),Some(callback),&result as * const _ as *mut std::ffi::c_void );
+        }
+        result
     }
 }

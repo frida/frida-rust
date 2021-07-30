@@ -50,7 +50,7 @@ extern crate num;
 #[macro_use]
 extern crate num_derive;
 
-use std::os::raw::c_void;
+use std::os::raw::{c_void, c_char};
 
 pub mod stalker;
 
@@ -82,6 +82,7 @@ mod backtracer;
 #[cfg(feature = "backtrace")]
 #[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
 pub use backtracer::*;
+use std::ffi::CStr;
 
 #[doc(hidden)]
 pub type Result<T> = std::result::Result<T, error::Error>;
@@ -113,3 +114,38 @@ impl NativePointer {
         self.0.is_null()
     }
 }
+
+
+pub trait FromCString{
+    unsafe fn from_c_string(ptr: *const c_char) -> Self;
+}
+
+impl FromCString for String {
+    #[inline]
+    unsafe fn from_c_string(ptr: *const c_char) -> Self {
+        assert!(!ptr.is_null());
+        Self::from_utf8_lossy(CStr::from_ptr(ptr).to_bytes()).into_owned()
+    }
+}
+
+#[derive(Debug)]
+pub struct SymbolDetails {
+    pub name: String,
+    pub address: usize,
+    pub size: usize
+}
+#[derive(Debug)]
+pub struct ExportDetails {
+    pub type_: u32,
+    pub name: String,
+    pub address: usize,
+}
+
+#[derive(Debug)]
+pub struct ModuleDetails {
+    pub name: String,
+    pub path: String,
+    pub base_addr: usize,
+    pub size: usize
+}
+
