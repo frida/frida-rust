@@ -24,4 +24,8 @@ pub enum Error {
     /// Other Interceptor error
     #[error("Interceptor error")]
     InterceptorError,
+
+    /// Memory access error
+    #[error("Memory access error")]
+    MemoryAccessError,
 }

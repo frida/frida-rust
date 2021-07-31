@@ -50,7 +50,8 @@ extern crate num;
 #[macro_use]
 extern crate num_derive;
 
-use std::os::raw::c_void;
+use std::convert::TryFrom;
+use std::os::raw::{c_char, c_void};
 
 pub mod stalker;
 
@@ -82,6 +83,7 @@ mod backtracer;
 #[cfg(feature = "backtrace")]
 #[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
 pub use backtracer::*;
+use std::ffi::CStr;
 
 #[doc(hidden)]
 pub type Result<T> = std::result::Result<T, error::Error>;
@@ -111,5 +113,22 @@ impl NativePointer {
     /// Check if the pointer is NULL.
     pub fn is_null(&self) -> bool {
         self.0.is_null()
+    }
+}
+
+impl TryFrom<NativePointer> for String {
+    type Error = Error;
+
+    fn try_from(ptr: NativePointer) -> Result<Self> {
+        if ptr.is_null() {
+            Err(Error::MemoryAccessError)
+        } else {
+            unsafe {
+                Ok(
+                    Self::from_utf8_lossy(CStr::from_ptr(ptr.0 as *const c_char).to_bytes())
+                        .into_owned(),
+                )
+            }
+        }
     }
 }
