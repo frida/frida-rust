@@ -33,7 +33,7 @@ extern "C" fn example_agent_main(_user_data: *const c_void, resident: *mut c_int
 
     let modules = Module::enumerate_modules();
     for module in modules {
-        println!("find module: {:?}",module);
+        println!("find module: {:?}", module);
     }
 
     let open = Module::find_export_by_name(None, "open").unwrap();

@@ -50,7 +50,7 @@ extern crate num;
 #[macro_use]
 extern crate num_derive;
 
-use std::os::raw::{c_void, c_char};
+use std::os::raw::{c_char, c_void};
 
 pub mod stalker;
 
@@ -115,8 +115,7 @@ impl NativePointer {
     }
 }
 
-
-pub trait FromCString{
+pub trait FromCString {
     unsafe fn from_c_string(ptr: *const c_char) -> Self;
 }
 
@@ -132,7 +131,7 @@ impl FromCString for String {
 pub struct SymbolDetails {
     pub name: String,
     pub address: usize,
-    pub size: usize
+    pub size: usize,
 }
 #[derive(Debug)]
 pub struct ExportDetails {
@@ -146,6 +145,5 @@ pub struct ModuleDetails {
     pub name: String,
     pub path: String,
     pub base_addr: usize,
-    pub size: usize
+    pub size: usize,
 }
-
