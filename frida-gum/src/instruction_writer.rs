@@ -766,7 +766,7 @@ impl Drop for Aarch64InstructionWriter {
 pub trait Relocator {
     /// Create a new [`Relocator`] for the input code address, outputting to the specified
     /// [`InstrcutionWriter`]
-    fn new(input_code: *const c_void, output: &mut TargetInstructionWriter) -> Self;
+    fn new(input_code: u64, output: &mut TargetInstructionWriter) -> Self;
 
     /// Read one instruction from the input stream
     fn read_one(&mut self) -> (u32, Insn);
@@ -788,20 +788,14 @@ pub struct X86Relocator {
 
 #[cfg(target_arch = "x86_64")]
 impl Relocator for X86Relocator {
-    fn new(input_code: *const c_void, output: &mut X86InstructionWriter) -> Self {
+    fn new(input_code: u64, output: &mut X86InstructionWriter) -> Self {
         extern "C" {
             fn gum_x86_relocator_new(input_code: *const c_void, output: *mut c_void)
                 -> *mut c_void;
-            fn gum_x86_relocator_ref(relocator: *const c_void) -> *mut c_void;
         }
-        let res = Self {
-            inner: unsafe { gum_x86_relocator_new(input_code, output.writer as *mut c_void) },
-        };
-
-        unsafe {
-            gum_x86_relocator_ref(res.inner);
+        Self {
+            inner: unsafe { gum_x86_relocator_new(input_code as *const c_void, output.writer as *mut c_void) },
         }
-        res
     }
 
     fn read_one(&mut self) -> (u32, Insn) {
@@ -860,22 +854,16 @@ pub struct Aarch64Relocator {
 
 #[cfg(target_arch = "aarch64")]
 impl Relocator for Aarch64Relocator {
-    fn new(input_code: *const c_void, output: &mut Aarch64InstructionWriter) -> Self {
+    fn new(input_code: u64, output: &mut Aarch64InstructionWriter) -> Self {
         extern "C" {
             fn gum_arm64_relocator_new(
                 input_code: *const c_void,
                 output: *mut c_void,
             ) -> *mut c_void;
-            fn gum_arm64_relocator_ref(relocator: *const c_void) -> *mut c_void;
         }
-        let res = Self {
-            inner: unsafe { gum_arm64_relocator_new(input_code, output.writer as *mut c_void) },
-        };
-
-        unsafe {
-            gum_arm64_relocator_ref(res.inner);
+        Self {
+            inner: unsafe { gum_arm64_relocator_new(input_code as *const c_void, output.writer as *mut c_void) },
         }
-        res
     }
 
     fn read_one(&mut self) -> (u32, Insn) {
