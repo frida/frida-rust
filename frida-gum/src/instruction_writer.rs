@@ -10,11 +10,18 @@
 use frida_gum_sys as gum_sys;
 use std::ffi::c_void;
 
+use capstone::Insn;
+use capstone_sys::cs_insn;
+
 #[cfg(target_arch = "x86_64")]
 pub type TargetInstructionWriter = X86InstructionWriter;
+#[cfg(target_arch = "x86_64")]
+pub type TargetRelocator = X86Relocator;
 
 #[cfg(target_arch = "aarch64")]
 pub type TargetInstructionWriter = Aarch64InstructionWriter;
+#[cfg(target_arch = "aarch64")]
+pub type TargetRelocator = Aarch64Relocator;
 
 #[derive(FromPrimitive, PartialEq, Clone, Copy)]
 #[repr(u32)]
@@ -753,5 +760,160 @@ impl Drop for Aarch64InstructionWriter {
         if self.is_from_new {
             unsafe { gum_sys::gum_arm64_writer_unref(self.writer) }
         }
+    }
+}
+
+pub trait Relocator {
+    /// Create a new [`Relocator`] for the input code address, outputting to the specified
+    /// [`InstrcutionWriter`]
+    fn new(input_code: *const c_void, output: &mut TargetInstructionWriter) -> Self;
+
+    /// Read one instruction from the input stream
+    fn read_one(&mut self) -> (u32, Insn);
+
+    /// Check if the relocator has reached the end of input
+    fn eoi(&mut self) -> bool;
+
+    /// Relocate and write all instructions to the output [`InstructionWriter`]
+    fn write_all(&mut self);
+
+    /// Relocate and write one instruction to the output [`InstructionWriter`]
+    fn write_one(&mut self) -> bool;
+}
+
+#[cfg(target_arch = "x86_64")]
+pub struct X86Relocator {
+    inner: *mut c_void,
+}
+
+#[cfg(target_arch = "x86_64")]
+impl Relocator for X86Relocator {
+    fn new(input_code: *const c_void, output: &mut X86InstructionWriter) -> Self {
+        extern "C" {
+            fn gum_x86_relocator_new(input_code: *const c_void, output: *mut c_void) -> *mut c_void;
+            fn gum_x86_relocator_ref(relocator: *const c_void) -> *mut c_void;
+        }
+        let res = Self {
+            inner: unsafe { gum_x86_relocator_new(input_code, output.writer as *mut c_void) },
+        };
+
+        unsafe {
+            gum_x86_relocator_ref(res.inner);
+        }
+        res
+    }
+
+    fn read_one(&mut self) -> (u32, Insn) {
+        extern "C" {
+            fn gum_x86_relocator_read_one(relocator: *mut c_void, instruction: *mut *const cs_insn) -> u32;
+        }
+
+        let mut insn_addr: *const cs_insn = std::ptr::null_mut();
+        let ret = unsafe { gum_x86_relocator_read_one(self.inner, &mut insn_addr as *mut _) };
+        (ret, unsafe { Insn::from_raw(insn_addr) })
+    }
+
+    fn eoi(&mut self) -> bool {
+        extern "C" {
+            fn gum_x86_relocator_eoi(relocator: *mut c_void) -> u32;
+        }
+
+        unsafe { gum_x86_relocator_eoi(self.inner) != 0 }
+    }
+
+    fn write_all(&mut self) {
+        extern "C" {
+            fn gum_x86_relocator_write_all(relocator: *mut c_void);
+        }
+
+        unsafe { gum_x86_relocator_write_all(self.inner) }
+    }
+
+    fn write_one(&mut self) -> bool {
+        extern "C" {
+            fn gum_x86_relocator_write_one(relocator: *mut c_void) -> i32;
+        }
+
+        unsafe { gum_x86_relocator_write_one(self.inner) != 0 }
+    }
+}
+
+#[cfg(target_arch = "x86_64")]
+impl Drop for X86Relocator {
+    fn drop(&mut self) {
+        extern "C" {
+            fn gum_x86_relocator_unref(relocator: *mut c_void);
+        }
+
+        unsafe { gum_x86_relocator_unref(self.inner) }
+    }
+}
+
+
+#[cfg(target_arch = "aarch64")]
+pub struct Aarch64Relocator {
+    inner: *mut c_void,
+}
+
+#[cfg(target_arch = "aarch64")]
+impl Relocator for Aarch64Relocator {
+    fn new(input_code: *const c_void, output: &mut Aarch64InstructionWriter) -> Self {
+        extern "C" {
+            fn gum_arm64_relocator_new(input_code: *const c_void, output: *mut c_void) -> *mut c_void;
+            fn gum_arm64_relocator_ref(relocator: *const c_void) -> *mut c_void;
+        }
+        let res = Self {
+            inner: unsafe { gum_arm64_relocator_new(input_code, output.writer as *mut c_void) },
+        };
+
+        unsafe {
+            gum_arm64_relocator_ref(res.inner);
+        }
+        res
+    }
+
+    fn read_one(&mut self) -> (u32, Insn) {
+        extern "C" {
+            fn gum_arm64_relocator_read_one(relocator: *mut c_void, instruction: *mut *const cs_insn) -> u32;
+        }
+
+        let mut insn_addr: *const cs_insn = std::ptr::null_mut();
+        let ret = unsafe { gum_arm64_relocator_read_one(self.inner, &mut insn_addr as *mut _) };
+        (ret, unsafe { Insn::from_raw(insn_addr) })
+    }
+
+    fn eoi(&mut self) -> bool {
+        extern "C" {
+            fn gum_arm64_relocator_eoi(relocator: *mut c_void) -> u32;
+        }
+
+        unsafe { gum_arm64_relocator_eoi(self.inner) != 0 }
+    }
+
+    fn write_all(&mut self) {
+        extern "C" {
+            fn gum_arm64_relocator_write_all(relocator: *mut c_void);
+        }
+
+        unsafe { gum_arm64_relocator_write_all(self.inner) }
+    }
+
+    fn write_one(&mut self) -> bool {
+        extern "C" {
+            fn gum_arm64_relocator_write_one(relocator: *mut c_void) -> i32;
+        }
+
+        unsafe { gum_arm64_relocator_write_one(self.inner) != 0 }
+    }
+}
+
+#[cfg(target_arch = "aarch64")]
+impl Drop for Aarch64Relocator {
+    fn drop(&mut self) {
+        extern "C" {
+            fn gum_arm64_relocator_unref(relocator: *mut c_void);
+        }
+
+        unsafe { gum_arm64_relocator_unref(self.inner) }
     }
 }
