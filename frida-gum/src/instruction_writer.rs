@@ -794,7 +794,9 @@ impl Relocator for X86Relocator {
                 -> *mut c_void;
         }
         Self {
-            inner: unsafe { gum_x86_relocator_new(input_code as *const c_void, output.writer as *mut c_void) },
+            inner: unsafe {
+                gum_x86_relocator_new(input_code as *const c_void, output.writer as *mut c_void)
+            },
         }
     }
 
@@ -862,7 +864,9 @@ impl Relocator for Aarch64Relocator {
             ) -> *mut c_void;
         }
         Self {
-            inner: unsafe { gum_arm64_relocator_new(input_code as *const c_void, output.writer as *mut c_void) },
+            inner: unsafe {
+                gum_arm64_relocator_new(input_code as *const c_void, output.writer as *mut c_void)
+            },
         }
     }
 
