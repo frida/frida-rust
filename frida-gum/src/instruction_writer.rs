@@ -790,7 +790,8 @@ pub struct X86Relocator {
 impl Relocator for X86Relocator {
     fn new(input_code: *const c_void, output: &mut X86InstructionWriter) -> Self {
         extern "C" {
-            fn gum_x86_relocator_new(input_code: *const c_void, output: *mut c_void) -> *mut c_void;
+            fn gum_x86_relocator_new(input_code: *const c_void, output: *mut c_void)
+                -> *mut c_void;
             fn gum_x86_relocator_ref(relocator: *const c_void) -> *mut c_void;
         }
         let res = Self {
@@ -805,7 +806,10 @@ impl Relocator for X86Relocator {
 
     fn read_one(&mut self) -> (u32, Insn) {
         extern "C" {
-            fn gum_x86_relocator_read_one(relocator: *mut c_void, instruction: *mut *const cs_insn) -> u32;
+            fn gum_x86_relocator_read_one(
+                relocator: *mut c_void,
+                instruction: *mut *const cs_insn,
+            ) -> u32;
         }
 
         let mut insn_addr: *const cs_insn = std::ptr::null_mut();
@@ -849,7 +853,6 @@ impl Drop for X86Relocator {
     }
 }
 
-
 #[cfg(target_arch = "aarch64")]
 pub struct Aarch64Relocator {
     inner: *mut c_void,
@@ -859,7 +862,10 @@ pub struct Aarch64Relocator {
 impl Relocator for Aarch64Relocator {
     fn new(input_code: *const c_void, output: &mut Aarch64InstructionWriter) -> Self {
         extern "C" {
-            fn gum_arm64_relocator_new(input_code: *const c_void, output: *mut c_void) -> *mut c_void;
+            fn gum_arm64_relocator_new(
+                input_code: *const c_void,
+                output: *mut c_void,
+            ) -> *mut c_void;
             fn gum_arm64_relocator_ref(relocator: *const c_void) -> *mut c_void;
         }
         let res = Self {
@@ -874,7 +880,10 @@ impl Relocator for Aarch64Relocator {
 
     fn read_one(&mut self) -> (u32, Insn) {
         extern "C" {
-            fn gum_arm64_relocator_read_one(relocator: *mut c_void, instruction: *mut *const cs_insn) -> u32;
+            fn gum_arm64_relocator_read_one(
+                relocator: *mut c_void,
+                instruction: *mut *const cs_insn,
+            ) -> u32;
         }
 
         let mut insn_addr: *const cs_insn = std::ptr::null_mut();
