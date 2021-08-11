@@ -542,9 +542,7 @@ impl X86InstructionWriter {
 impl Drop for X86InstructionWriter {
     fn drop(&mut self) {
         if self.is_from_new {
-            unsafe {
-                gum_sys::gum_x86_writer_unref(self.writer)
-            }
+            unsafe { gum_sys::gum_x86_writer_unref(self.writer) }
         }
     }
 }
@@ -757,9 +755,7 @@ impl Aarch64InstructionWriter {
 impl Drop for Aarch64InstructionWriter {
     fn drop(&mut self) {
         if self.is_from_new {
-            unsafe {
-                gum_sys::gum_arm64_writer_unref(self.writer)
-            }
+            unsafe { gum_sys::gum_arm64_writer_unref(self.writer) }
         }
     }
 }
