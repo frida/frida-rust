@@ -393,7 +393,7 @@ pub enum IndexMode {
 /// A trait all [`InstructionWriter`]s share.
 pub trait InstructionWriter {
     /// Create a new [`InstructionWriter`] to write code to the given address
-    fn new(code_address: *mut c_void) -> Self;
+    fn new(code_address: u64) -> Self;
 
     /// Retrieve the writer's current program counter.
     fn pc(&self) -> u64;
@@ -435,13 +435,11 @@ pub struct X86InstructionWriter {
 
 #[cfg(target_arch = "x86_64")]
 impl InstructionWriter for X86InstructionWriter {
-    fn new(code_address: *mut c_void) -> Self {
-        let res = Self {
-            writer: unsafe { gum_sys::gum_x86_writer_new(code_address) },
+    fn new(code_address: u64) -> Self {
+        Self {
+            writer: unsafe { gum_sys::gum_x86_writer_new(code_address as *mut c_void) },
             is_from_new: true,
-        };
-
-        res
+        }
     }
 
     fn code_offset(&self) -> u64 {
@@ -556,13 +554,11 @@ pub struct Aarch64InstructionWriter {
 
 #[cfg(target_arch = "aarch64")]
 impl InstructionWriter for Aarch64InstructionWriter {
-    fn new(code_address: *mut c_void) -> Self {
-        let res = Self {
-            writer: unsafe { gum_sys::gum_arm64_writer_new(code_address) },
+    fn new(code_address: u64) -> Self {
+        Self {
+            writer: unsafe { gum_sys::gum_arm64_writer_new(code_address as *mut c_void) },
             is_from_new: true,
-        };
-
-        res
+        }
     }
 
     fn code_offset(&self) -> u64 {
