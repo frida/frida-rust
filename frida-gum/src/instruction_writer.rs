@@ -392,6 +392,9 @@ pub enum IndexMode {
 
 /// A trait all [`InstructionWriter`]s share.
 pub trait InstructionWriter {
+    /// Create a new [`InstructionWriter`] to write code to the given address
+    fn new(code_address: u64) -> Self;
+
     /// Retrieve the writer's current program counter.
     fn pc(&self) -> u64;
 
@@ -418,16 +421,27 @@ pub trait InstructionWriter {
 
     /// Add a branch to an immediate address
     fn put_branch_address(&self, address: u64) -> bool;
+
+    /// Flush the writer, outputing any pending ldr-immediates
+    fn flush(&self) -> bool;
 }
 
 /// The x86/x86_64 instruction writer.
 #[cfg(target_arch = "x86_64")]
 pub struct X86InstructionWriter {
     writer: *mut gum_sys::_GumX86Writer,
+    is_from_new: bool,
 }
 
 #[cfg(target_arch = "x86_64")]
 impl InstructionWriter for X86InstructionWriter {
+    fn new(code_address: u64) -> Self {
+        Self {
+            writer: unsafe { gum_sys::gum_x86_writer_new(code_address as *mut c_void) },
+            is_from_new: true,
+        }
+    }
+
     fn code_offset(&self) -> u64 {
         unsafe { (*self.writer).code as u64 }
     }
@@ -458,12 +472,19 @@ impl InstructionWriter for X86InstructionWriter {
     fn put_branch_address(&self, address: u64) -> bool {
         unsafe { gum_sys::gum_x86_writer_put_jmp_address(self.writer, address) != 0 }
     }
+
+    fn flush(&self) -> bool {
+        unsafe { gum_sys::gum_x86_writer_flush(self.writer) != 0 }
+    }
 }
 
 #[cfg(target_arch = "x86_64")]
 impl X86InstructionWriter {
     pub(crate) fn from_raw(writer: *mut gum_sys::_GumX86Writer) -> Self {
-        Self { writer }
+        Self {
+            writer,
+            is_from_new: false,
+        }
     }
 
     /// Insert a `jmp` near to a label. The label is specified by `id`.
@@ -515,14 +536,31 @@ impl X86InstructionWriter {
     }
 }
 
+#[cfg(target_arch = "x86_64")]
+impl Drop for X86InstructionWriter {
+    fn drop(&mut self) {
+        if self.is_from_new {
+            unsafe { gum_sys::gum_x86_writer_unref(self.writer) }
+        }
+    }
+}
+
 /// The Aarch64 instruction writer.
+#[cfg(target_arch = "aarch64")]
 pub struct Aarch64InstructionWriter {
-    #[cfg(target_arch = "aarch64")]
     writer: *mut gum_sys::_GumArm64Writer,
+    is_from_new: bool,
 }
 
 #[cfg(target_arch = "aarch64")]
 impl InstructionWriter for Aarch64InstructionWriter {
+    fn new(code_address: u64) -> Self {
+        Self {
+            writer: unsafe { gum_sys::gum_arm64_writer_new(code_address as *mut c_void) },
+            is_from_new: true,
+        }
+    }
+
     fn code_offset(&self) -> u64 {
         unsafe { (*self.writer).code as u64 }
     }
@@ -555,12 +593,19 @@ impl InstructionWriter for Aarch64InstructionWriter {
     fn put_branch_address(&self, address: u64) -> bool {
         unsafe { gum_sys::gum_arm64_writer_put_b_imm(self.writer, address) != 0 }
     }
+
+    fn flush(&self) -> bool {
+        unsafe { gum_sys::gum_arm64_writer_flush(self.writer) != 0 }
+    }
 }
 
 #[cfg(target_arch = "aarch64")]
 impl Aarch64InstructionWriter {
     pub(crate) fn from_raw(writer: *mut gum_sys::_GumArm64Writer) -> Self {
-        Self { writer }
+        Self {
+            writer,
+            is_from_new: false,
+        }
     }
 
     /// Insert a `b` to a label. The label is specified by `id`.
@@ -699,5 +744,14 @@ impl Aarch64InstructionWriter {
     /// Insert a `bl imm` instruction.
     pub fn put_bl_imm(&self, address: u64) -> bool {
         unsafe { gum_sys::gum_arm64_writer_put_bl_imm(self.writer, address) != 0 }
+    }
+}
+
+#[cfg(target_arch = "aarch64")]
+impl Drop for Aarch64InstructionWriter {
+    fn drop(&mut self) {
+        if self.is_from_new {
+            unsafe { gum_sys::gum_arm64_writer_unref(self.writer) }
+        }
     }
 }
