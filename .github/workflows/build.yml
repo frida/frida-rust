@@ -36,14 +36,9 @@ jobs:
   tests:
     strategy:
       matrix:
-          os: [ubuntu-latest, windows-latest, macOS-latest]
+          os: [ubuntu-latest, macOS-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Install LLVM and Clang
-        if: matrix.config.os == 'windows-latest'
-        uses: KyleMayes/install-llvm-action@v1
-        with:
-          version: "11.0"
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
@@ -52,5 +47,5 @@ jobs:
       - name: Test gum
         run: cd frida-gum && cargo test --features=auto-download
       - name: Test gum with all features
-        run: cd frida-gum && cargo test --features=auto-download,event-sink,invocation-listener
+        run: cd frida-gum && cargo test --features=auto-download,event-sink,invocation-listener,backtrace
 
