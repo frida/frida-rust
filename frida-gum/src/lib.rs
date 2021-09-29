@@ -19,7 +19,9 @@
 //! to safely ensure that Gum has been properly initialized as required. Next, you are
 //! free to use any available APIs, such as the [`stalker::Stalker`]:
 //! ```
-//! use frida_gum::{Gum, stalker::{Stalker, Transformer, NoneEventSink}};
+//! use frida_gum::{Gum, stalker::{Stalker, Transformer}};
+//! #[cfg(feature = "event-sink")]
+//! use frida_gum::stalker::NoneEventSink;
 //! use lazy_static::lazy_static;
 //!
 //! lazy_static! {
@@ -35,7 +37,10 @@
 //!         }
 //!     });
 //!
+//!     #[cfg(feature = "event-sink")]
 //!     stalker.follow_me::<NoneEventSink>(&transformer, None);
+//!     #[cfg(not(feature = "event-sink"))]
+//!     stalker.follow_me(&transformer);
 //!     stalker.unfollow_me();
 //! }
 //! ```

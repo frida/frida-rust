@@ -113,7 +113,7 @@ impl<'a> RangeDetails<'a> {
         };
         unsafe {
             gum_sys::gum_process_enumerate_ranges(
-                gum_sys::_GumPageProtection_GUM_PAGE_NO_ACCESS,
+                gum_sys::_GumPageProtection_GUM_PAGE_NO_ACCESS as u32,
                 Some(save_range_details_by_address),
                 &mut context as *mut _ as *mut c_void,
             );

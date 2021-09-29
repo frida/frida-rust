@@ -19,7 +19,9 @@
 //! [`Stalker::follow_me()`]:
 //! ```
 //! # use frida_gum::Gum;
-//! # use frida_gum::stalker::{Stalker, Transformer, NoneEventSink};
+//! # use frida_gum::stalker::{Stalker, Transformer};
+//! #[cfg(feature = "event-sink")]
+//! use frida_gum::stalker::NoneEventSink;
 //! let gum = unsafe { Gum::obtain() };
 //! let mut stalker = Stalker::new(&gum);
 //!

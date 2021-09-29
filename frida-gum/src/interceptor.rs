@@ -13,7 +13,6 @@ use std::os::raw::c_void;
 #[cfg(feature = "invocation-listener")]
 use std::ptr;
 
-#[cfg(feature = "invocation-listener")]
 use crate::NativePointer;
 use crate::{Error, Gum, Result};
 
