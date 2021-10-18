@@ -577,7 +577,20 @@ impl X86InstructionWriter {
         }
         true
     }
-}
+
+    pub fn put_pushfx(&self) -> bool {
+        unsafe{
+            gum_sys::gum_x86_writer_pushfx(self.writer);
+        }
+        true
+    }
+
+    pub fn put_popfx(&self) -> bool {
+        unsafe{
+            gum_sys::gum_x86_writer_popfx(self.writer);
+        }
+        true
+    }
 
 #[cfg(target_arch = "x86_64")]
 impl Drop for X86InstructionWriter {
