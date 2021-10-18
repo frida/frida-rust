@@ -570,6 +570,13 @@ impl X86InstructionWriter {
         }
         true
     }
+
+    pub fn put_nop(&self) -> bool {
+        unsafe{
+            gum_sys::gum_x86_writer_put_nop(self.writer);
+        }
+        true
+    }
 }
 
 #[cfg(target_arch = "x86_64")]
