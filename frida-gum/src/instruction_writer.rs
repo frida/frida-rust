@@ -591,6 +591,13 @@ impl X86InstructionWriter {
         }
         true
     }
+
+    pub fn put_jmp_address(&self, address: u64) -> bool {
+        unsafe{
+            gum_sys::gum_x86_writer_put_jmp_address(self.writer, address);
+        }
+        true
+    }
 }
 
 #[cfg(target_arch = "x86_64")]
