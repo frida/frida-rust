@@ -544,56 +544,56 @@ impl X86InstructionWriter {
 
     /// Insert a `mov R, R` instruction
     pub fn put_mov_reg_reg(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
-        unsafe{
+        unsafe {
             gum_sys::gum_x86_writer_put_mov_reg_reg(self.writer, dst_reg as u32, src_reg as u32);
         }
         true
     }
-    
+
     pub fn put_shl_reg_u8(&self, dst_reg: X86Register, imm: i32) -> bool {
-        unsafe{
+        unsafe {
             gum_sys::gum_x86_writer_put_shl_reg_u8(self.writer, dst_reg as u32, imm as u8);
         }
         true
     }
-    
+
     pub fn put_xor_reg_reg(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
         unsafe {
             gum_sys::gum_x86_writer_put_xor_reg_reg(self.writer, dst_reg as u32, src_reg as u32);
         }
         true
     }
-    
+
     pub fn put_add_reg_reg(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
-        unsafe{
+        unsafe {
             gum_sys::gum_x86_writer_put_add_reg_reg(self.writer, dst_reg as u32, src_reg as u32);
         }
         true
     }
 
     pub fn put_nop(&self) -> bool {
-        unsafe{
+        unsafe {
             gum_sys::gum_x86_writer_put_nop(self.writer);
         }
         true
     }
 
     pub fn put_pushfx(&self) -> bool {
-        unsafe{
+        unsafe {
             gum_sys::gum_x86_writer_put_pushfx(self.writer);
         }
         true
     }
 
     pub fn put_popfx(&self) -> bool {
-        unsafe{
+        unsafe {
             gum_sys::gum_x86_writer_put_popfx(self.writer);
         }
         true
     }
 
     pub fn put_jmp_address(&self, address: u64) -> bool {
-        unsafe{
+        unsafe {
             gum_sys::gum_x86_writer_put_jmp_address(self.writer, address);
         }
         true
