@@ -61,7 +61,7 @@ fn main() {
         .unwrap();
 
     #[cfg(target_os = "windows")]
-    &[
+    let _ = &[
         "dnsapi", "iphlpapi", "psapi", "winmm", "ws2_32", "advapi32", "crypt32", "gdi32",
         "kernel32", "ole32", "secur32", "shell32", "shlwapi", "user32",
     ]

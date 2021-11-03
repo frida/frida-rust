@@ -110,7 +110,7 @@ fn main() {
     }
 
     #[cfg(target_os = "windows")]
-    &[
+    [
         "dnsapi", "iphlpapi", "psapi", "winmm", "ws2_32", "advapi32", "crypt32", "gdi32",
         "kernel32", "ole32", "secur32", "shell32", "shlwapi", "user32",
     ]
