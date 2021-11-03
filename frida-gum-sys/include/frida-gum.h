@@ -32738,6 +32738,8 @@ GType gum_replace_return_get_type (void) G_GNUC_CONST;
 /* Enumerations from "gumprocess.h" */
 GType gum_code_signing_policy_get_type (void) G_GNUC_CONST;
 #define GUM_TYPE_CODE_SIGNING_POLICY (gum_code_signing_policy_get_type ())
+GType gum_thread_state_get_type (void) G_GNUC_CONST;
+#define GUM_TYPE_THREAD_STATE (gum_thread_state_get_type ())
 G_END_DECLS
 
 #endif /* __GUM_ENUM_TYPES_H__ */
@@ -33517,7 +33519,7 @@ G_END_DECLS
 
 #endif
 /*
- * Copyright (C) 2008-2020 Ole André Vadla Ravnås <oleavr@nowsecure.com>
+ * Copyright (C) 2008-2021 Ole André Vadla Ravnås <oleavr@nowsecure.com>
  * Copyright (C) 2020 Francesco Tamagni <mrmacete@protonmail.ch>
  *
  * Licence: wxWindows Library Licence, Version 3.1
@@ -33535,7 +33537,6 @@ G_BEGIN_DECLS
 
 typedef guint GumProcessId;
 typedef gsize GumThreadId;
-typedef guint GumThreadState;
 typedef struct _GumThreadDetails GumThreadDetails;
 typedef struct _GumModuleDetails GumModuleDetails;
 typedef guint GumImportType;
@@ -33554,14 +33555,13 @@ typedef enum {
   GUM_CODE_SIGNING_REQUIRED
 } GumCodeSigningPolicy;
 
-enum _GumThreadState
-{
+typedef enum {
   GUM_THREAD_RUNNING = 1,
   GUM_THREAD_STOPPED,
   GUM_THREAD_WAITING,
   GUM_THREAD_UNINTERRUPTIBLE,
   GUM_THREAD_HALTED
-};
+} GumThreadState;
 
 struct _GumThreadDetails
 {
@@ -57308,7 +57308,7 @@ G_END_DECLS
 
 #endif
 /*
- * Copyright (C) 2015-2018 Ole André Vadla Ravnås <oleavr@nowsecure.com>
+ * Copyright (C) 2015-2021 Ole André Vadla Ravnås <oleavr@nowsecure.com>
  * Copyright (C) 2020 Francesco Tamagni <mrmacete@protonmail.ch>
  *
  * Licence: wxWindows Library Licence, Version 3.1
@@ -57388,6 +57388,8 @@ struct _GumExceptorScope
   GumExceptorScope * next;
 };
 
+GUM_API void gum_exceptor_disable (void);
+
 GUM_API GumExceptor * gum_exceptor_obtain (void);
 
 GUM_API void gum_exceptor_add (GumExceptor * self, GumExceptionHandler func,
@@ -57449,7 +57451,7 @@ G_END_DECLS
 
 #endif
 /*
- * Copyright (C) 2008-2019 Ole André Vadla Ravnås <oleavr@nowsecure.com>
+ * Copyright (C) 2008-2021 Ole André Vadla Ravnås <oleavr@nowsecure.com>
  * Copyright (C) 2008 Christian Berentsen <jc.berentsen@gmail.com>
  *
  * Licence: wxWindows Library Licence, Version 3.1
@@ -57639,6 +57641,8 @@ GUM_API GumInvocationStack * gum_interceptor_get_current_stack (void);
 
 GUM_API void gum_interceptor_ignore_current_thread (GumInterceptor * self);
 GUM_API void gum_interceptor_unignore_current_thread (GumInterceptor * self);
+GUM_API gboolean gum_interceptor_maybe_unignore_current_thread (
+    GumInterceptor * self);
 
 GUM_API void gum_interceptor_ignore_other_threads (GumInterceptor * self);
 GUM_API void gum_interceptor_unignore_other_threads (GumInterceptor * self);
@@ -74539,8 +74543,16 @@ G_DECLARE_FINAL_TYPE (GumCallbackStalkerTransformer,
     gum_callback_stalker_transformer, GUM, CALLBACK_STALKER_TRANSFORMER,
     GObject)
 
+#define GUM_TYPE_STALKER_OBSERVER (gum_stalker_observer_get_type ())
+G_DECLARE_INTERFACE (GumStalkerObserver, gum_stalker_observer, GUM,
+    STALKER_OBSERVER, GObject)
+
 typedef struct _GumStalkerIterator GumStalkerIterator;
 typedef struct _GumStalkerOutput GumStalkerOutput;
+typedef struct _GumBackpatch GumBackpatch;
+typedef void (* GumStalkerIncrementFunc) (GumStalkerObserver * self);
+typedef void (* GumStalkerNotifyBackpatchFunc) (GumStalkerObserver * self,
+    const GumBackpatch * backpatch, gsize size);
 typedef union _GumStalkerWriter GumStalkerWriter;
 typedef void (* GumStalkerTransformerCallback) (GumStalkerIterator * iterator,
     GumStalkerOutput * output, gpointer user_data);
@@ -74558,6 +74570,59 @@ struct _GumStalkerTransformerInterface
 
   void (* transform_block) (GumStalkerTransformer * self,
       GumStalkerIterator * iterator, GumStalkerOutput * output);
+};
+
+struct _GumStalkerObserverInterface
+{
+  GTypeInterface parent;
+
+  /* Common */
+  GumStalkerIncrementFunc increment_total;
+
+  GumStalkerIncrementFunc increment_call_imm;
+  GumStalkerIncrementFunc increment_call_reg;
+
+  /* x86 only */
+  GumStalkerIncrementFunc increment_call_mem;
+
+  /* Arm64 only */
+  GumStalkerIncrementFunc increment_excluded_call_reg;
+
+  /* x86 only */
+  GumStalkerIncrementFunc increment_ret_slow_path;
+
+  /* Arm64 only */
+  GumStalkerIncrementFunc increment_ret;
+
+  /* Common */
+  GumStalkerIncrementFunc increment_post_call_invoke;
+  GumStalkerIncrementFunc increment_excluded_call_imm;
+
+  /* Common */
+  GumStalkerIncrementFunc increment_jmp_imm;
+  GumStalkerIncrementFunc increment_jmp_reg;
+
+  /* x86 only */
+  GumStalkerIncrementFunc increment_jmp_mem;
+  GumStalkerIncrementFunc increment_jmp_cond_imm;
+  GumStalkerIncrementFunc increment_jmp_cond_mem;
+  GumStalkerIncrementFunc increment_jmp_cond_reg;
+  GumStalkerIncrementFunc increment_jmp_cond_jcxz;
+
+  /* Arm64 only */
+  GumStalkerIncrementFunc increment_jmp_cond_cc;
+  GumStalkerIncrementFunc increment_jmp_cond_cbz;
+  GumStalkerIncrementFunc increment_jmp_cond_cbnz;
+  GumStalkerIncrementFunc increment_jmp_cond_tbz;
+  GumStalkerIncrementFunc increment_jmp_cond_tbnz;
+
+  /* Common */
+  GumStalkerIncrementFunc increment_jmp_continuation;
+
+  /* x86 only */
+  GumStalkerIncrementFunc increment_sysenter_slow_path;
+
+  GumStalkerNotifyBackpatchFunc notify_backpatch;
 };
 
 union _GumStalkerWriter
@@ -74610,6 +74675,9 @@ GUM_API void gum_stalker_unfollow (GumStalker * self, GumThreadId thread_id);
 
 GUM_API void gum_stalker_activate (GumStalker * self, gconstpointer target);
 GUM_API void gum_stalker_deactivate (GumStalker * self);
+
+GUM_API void gum_stalker_set_observer (GumStalker * self,
+    GumStalkerObserver * observer);
 
 /**
  * This API is intended for use during fuzzing scenarios such as AFL forkserver.
@@ -74723,6 +74791,8 @@ GUM_API void gum_stalker_deactivate (GumStalker * self);
  */
 GUM_API void gum_stalker_prefetch (GumStalker * self, gconstpointer address,
     gint recycle_count);
+GUM_API void gum_stalker_prefetch_backpatch (GumStalker * self,
+    const GumBackpatch * notification);
 
 GUM_API void gum_stalker_invalidate (GumStalker * self, gconstpointer address);
 GUM_API void gum_stalker_invalidate_for_thread (GumStalker * self,
@@ -74743,14 +74813,53 @@ GUM_API void gum_stalker_transformer_transform_block (
     GumStalkerTransformer * self, GumStalkerIterator * iterator,
     GumStalkerOutput * output);
 
+#define GUM_DECLARE_OBSERVER_INCREMENT(name) \
+    GUM_API void gum_stalker_observer_increment_##name ( \
+        GumStalkerObserver * observer);
+
+GUM_DECLARE_OBSERVER_INCREMENT (total)
+
+GUM_DECLARE_OBSERVER_INCREMENT (call_imm)
+GUM_DECLARE_OBSERVER_INCREMENT (call_reg)
+
+GUM_DECLARE_OBSERVER_INCREMENT (call_mem)
+
+GUM_DECLARE_OBSERVER_INCREMENT (excluded_call_reg)
+
+GUM_DECLARE_OBSERVER_INCREMENT (ret_slow_path)
+
+GUM_DECLARE_OBSERVER_INCREMENT (ret)
+
+GUM_DECLARE_OBSERVER_INCREMENT (post_call_invoke)
+GUM_DECLARE_OBSERVER_INCREMENT (excluded_call_imm)
+
+GUM_DECLARE_OBSERVER_INCREMENT (jmp_imm)
+GUM_DECLARE_OBSERVER_INCREMENT (jmp_reg)
+
+GUM_DECLARE_OBSERVER_INCREMENT (jmp_mem)
+GUM_DECLARE_OBSERVER_INCREMENT (jmp_cond_imm)
+GUM_DECLARE_OBSERVER_INCREMENT (jmp_cond_mem)
+GUM_DECLARE_OBSERVER_INCREMENT (jmp_cond_reg)
+GUM_DECLARE_OBSERVER_INCREMENT (jmp_cond_jcxz)
+
+GUM_DECLARE_OBSERVER_INCREMENT (jmp_cond_cc)
+GUM_DECLARE_OBSERVER_INCREMENT (jmp_cond_cbz)
+GUM_DECLARE_OBSERVER_INCREMENT (jmp_cond_cbnz)
+GUM_DECLARE_OBSERVER_INCREMENT (jmp_cond_tbz)
+GUM_DECLARE_OBSERVER_INCREMENT (jmp_cond_tbnz)
+
+GUM_DECLARE_OBSERVER_INCREMENT (jmp_continuation)
+
+GUM_DECLARE_OBSERVER_INCREMENT (sysenter_slow_path)
+
+GUM_API void gum_stalker_observer_notify_backpatch (
+    GumStalkerObserver * observer, const GumBackpatch * backpatch, gsize size);
+
 GUM_API gboolean gum_stalker_iterator_next (GumStalkerIterator * self,
     const cs_insn ** insn);
 GUM_API void gum_stalker_iterator_keep (GumStalkerIterator * self);
 GUM_API void gum_stalker_iterator_put_callout (GumStalkerIterator * self,
     GumStalkerCallout callout, gpointer data, GDestroyNotify data_destroy);
-
-GUM_API void gum_stalker_set_counters_enabled (gboolean enabled);
-GUM_API void gum_stalker_dump_counters (void);
 
 G_END_DECLS
 
