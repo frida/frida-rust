@@ -27,6 +27,8 @@ fn main() {
         env::var("CARGO_MANIFEST_DIR").unwrap()
     );
 
+    println!("cargo:rustc-link-lib=dylib=stdc++");
+
     #[cfg(feature = "auto-download")]
     let include_dir = {
         use frida_build::download_and_use_devkit;
@@ -83,7 +85,6 @@ fn main() {
         };
 
         builder
-            .cpp(true)
             .file("event_sink.c")
             .opt_level(3)
             .compile("event_sink");
@@ -105,7 +106,6 @@ fn main() {
         };
 
         builder
-            .cpp(true)
             .file("invocation_listener.c")
             .opt_level(3)
             .compile("invocation_listener");
