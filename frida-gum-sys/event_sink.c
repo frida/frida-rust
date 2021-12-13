@@ -69,7 +69,7 @@ gum_rust_event_sink_iface_init(gpointer g_iface, gpointer iface_data)
 {
   (void) iface_data;
 
-  GumEventSinkInterface *iface = g_iface;
+  GumEventSinkInterface *iface = (GumEventSinkInterface *) g_iface;
   iface->query_mask = gum_rust_event_sink_query_mask;
   iface->start = gum_rust_event_sink_start;
   iface->process = gum_rust_event_sink_process;
@@ -87,7 +87,7 @@ GumEventSink*
 gum_rust_event_sink_new (RustEventSinkVTable rust)
 {
   GumRustEventSink *sink;
-  sink = g_object_new(GUM_TYPE_RUST_EVENT_SINK, NULL);
+  sink = (GumRustEventSink *) g_object_new(GUM_TYPE_RUST_EVENT_SINK, NULL);
   memcpy(&sink->rust, &rust, sizeof(sink->rust));
   return GUM_EVENT_SINK(sink);
 }

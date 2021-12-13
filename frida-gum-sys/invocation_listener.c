@@ -47,7 +47,7 @@ gum_rust_invocation_listener_iface_init(gpointer g_iface, gpointer iface_data)
 {
   (void) iface_data;
 
-  GumInvocationListenerInterface *iface = g_iface;
+  GumInvocationListenerInterface *iface = (GumInvocationListenerInterface *) g_iface;
   iface->on_enter = gum_rust_invocation_listener_on_enter;
   iface->on_leave = gum_rust_invocation_listener_on_leave;
 }
@@ -62,7 +62,7 @@ GumInvocationListener*
 gum_rust_invocation_listener_new(RustInvocationListenerVTable rust)
 {
   GumRustInvocationListener *listener;
-  listener = g_object_new(GUM_TYPE_RUST_INVOCATION_LISTENER, NULL);
+  listener = (GumRustInvocationListener *) g_object_new(GUM_TYPE_RUST_INVOCATION_LISTENER, NULL);
   memcpy(&listener->rust, &rust, sizeof(listener->rust));
   return GUM_INVOCATION_LISTENER(listener);
 }

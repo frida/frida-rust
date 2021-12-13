@@ -83,6 +83,7 @@ fn main() {
         };
 
         builder
+            .cpp(true)
             .file("event_sink.c")
             .opt_level(3)
             .compile("event_sink");
@@ -104,6 +105,7 @@ fn main() {
         };
 
         builder
+            .cpp(true)
             .file("invocation_listener.c")
             .opt_level(3)
             .compile("invocation_listener");
