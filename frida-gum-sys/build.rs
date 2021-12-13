@@ -27,8 +27,6 @@ fn main() {
         env::var("CARGO_MANIFEST_DIR").unwrap()
     );
 
-    println!("cargo:rustc-link-lib=dylib=stdc++");
-
     #[cfg(feature = "auto-download")]
     let include_dir = {
         use frida_build::download_and_use_devkit;

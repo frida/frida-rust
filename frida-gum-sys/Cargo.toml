@@ -12,6 +12,9 @@ auto-download = ["frida-build"]
 event-sink = ["cc"]
 invocation-listener = ["cc"]
 
+[dependencies]
+link-cplusplus = "1.0"
+
 [build-dependencies]
 bindgen = "0.57.0"
 cc = { version = "1.0", optional = true }

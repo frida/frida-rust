@@ -9,6 +9,8 @@
 #![allow(non_snake_case)]
 #![allow(improper_ctypes)]
 
+extern crate link_cplusplus;
+
 #[allow(clippy::all)]
 mod bindings {
     include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
