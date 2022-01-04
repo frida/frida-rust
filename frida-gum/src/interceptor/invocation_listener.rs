@@ -34,10 +34,10 @@ unsafe extern "C" fn call_on_leave<I: InvocationListener>(
 }
 
 pub(crate) fn invocation_listener_transform<I: InvocationListener>(
-    mut invocation_listener: &I,
+    invocation_listener: &mut I,
 ) -> *mut frida_gum_sys::GumInvocationListener {
     let rust = frida_gum_sys::RustInvocationListenerVTable {
-        user_data: &mut invocation_listener as *mut _ as *mut c_void,
+        user_data: invocation_listener as *mut _ as *mut c_void,
         on_enter: Some(call_on_enter::<I>),
         on_leave: Some(call_on_leave::<I>),
     };
