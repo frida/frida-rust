@@ -8,7 +8,7 @@
 //! Instruction writer interface.
 
 use frida_gum_sys as gum_sys;
-use std::{ffi::c_void};
+use std::ffi::c_void;
 
 use capstone::Insn;
 use capstone_sys::cs_insn;
@@ -596,7 +596,8 @@ impl X86InstructionWriter {
 
     pub fn put_and_reg_reg(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
         unsafe {
-            gum_sys::gum_x86_writer_put_and_reg_reg(self.writer, dst_reg as u32, src_reg as u32) != 0
+            gum_sys::gum_x86_writer_put_and_reg_reg(self.writer, dst_reg as u32, src_reg as u32)
+                != 0
         }
     }
 
