@@ -8,7 +8,7 @@
 //! Instruction writer interface.
 
 use frida_gum_sys as gum_sys;
-use std::ffi::c_void;
+use std::{ffi::c_void};
 
 use capstone::Insn;
 use capstone_sys::cs_insn;
@@ -494,12 +494,239 @@ impl X86InstructionWriter {
         }
     }
 
+    pub fn put_leave(&self) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_leave(self.writer);
+        }
+        true
+    }
+
+    pub fn put_ret(&self) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_ret(self.writer);
+        }
+        true
+    }
+
+    pub fn put_ret_imm(&self, imm: u16) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_ret_imm(self.writer, imm);
+        }
+        true
+    }
+
+    pub fn put_jmp_address(&self, address: u64) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_jmp_address(self.writer, address) != 0 }
+    }
+
+    pub fn put_jmp_short_label(&self, id: u64) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_jmp_short_label(self.writer, id as *const c_void);
+        }
+        true
+    }
+
     /// Insert a `jmp` near to a label. The label is specified by `id`.
     pub fn put_jmp_near_label(&self, id: u64) -> bool {
         unsafe {
             gum_sys::gum_x86_writer_put_jmp_near_label(self.writer, id as *const c_void);
         }
         true
+    }
+
+    pub fn put_jmp_reg(&self, reg: X86Register) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_jmp_reg(self.writer, reg as u32) != 0 }
+    }
+
+    pub fn put_jmp_reg_ptr(&self, reg: X86Register) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_jmp_reg_ptr(self.writer, reg as u32) != 0 }
+    }
+
+    pub fn put_jmp_reg_offset_ptr(&self, reg: X86Register, offset: i64) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_jmp_reg_offset_ptr(self.writer, reg as u32, offset) != 0
+        }
+    }
+
+    pub fn put_jmp_near_ptr(&self, address: u64) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_jmp_near_ptr(self.writer, address) != 0 }
+    }
+
+    pub fn put_add_reg_imm(&self, reg: X86Register, imm: i64) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_add_reg_imm(self.writer, reg as u32, imm) != 0 }
+    }
+
+    pub fn put_add_reg_reg(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_add_reg_reg(self.writer, dst_reg as u32, src_reg as u32)
+                != 0
+        }
+    }
+
+    pub fn put_add_reg_near_ptr(&self, dst_reg: X86Register, address: u64) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_add_reg_near_ptr(self.writer, dst_reg as u32, address) != 0
+        }
+    }
+
+    pub fn put_sub_reg_imm(&self, dst_reg: X86Register, imm: i64) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_sub_reg_imm(self.writer, dst_reg as u32, imm) != 0 }
+    }
+
+    pub fn put_sub_reg_reg(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_sub_reg_reg(self.writer, dst_reg as u32, src_reg as u32)
+                != 0
+        }
+    }
+
+    pub fn put_sub_reg_near_ptr(&self, dst_reg: X86Register, address: u64) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_sub_reg_near_ptr(self.writer, dst_reg as u32, address) != 0
+        }
+    }
+
+    pub fn put_inc_reg(&self, reg: X86Register) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_inc_reg(self.writer, reg as u32) != 0 }
+    }
+
+    pub fn put_dec_reg(&self, reg: X86Register) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_dec_reg(self.writer, reg as u32) != 0 }
+    }
+
+    pub fn put_and_reg_reg(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_and_reg_reg(self.writer, dst_reg as u32, src_reg as u32) != 0
+        }
+    }
+
+    pub fn put_and_reg_u32(&self, reg: X86Register, imm: u32) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_and_reg_u32(self.writer, reg as u32, imm) != 0 }
+    }
+
+    pub fn put_shl_reg_u8(&self, dst_reg: X86Register, imm: u8) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_shl_reg_u8(self.writer, dst_reg as u32, imm) != 0 }
+    }
+
+    pub fn put_shr_reg_u8(&self, dst_reg: X86Register, imm: u8) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_shr_reg_u8(self.writer, dst_reg as u32, imm) != 0 }
+    }
+
+    pub fn put_xor_reg_reg(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_xor_reg_reg(self.writer, dst_reg as u32, src_reg as u32)
+                != 0
+        }
+    }
+
+    pub fn put_mov_reg_reg(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_reg_reg(self.writer, dst_reg as u32, src_reg as u32)
+                != 0
+        }
+    }
+
+    pub fn put_mov_reg_u32(&self, dst_reg: X86Register, imm: u32) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_mov_reg_u32(self.writer, dst_reg as u32, imm) != 0 }
+    }
+
+    pub fn put_mov_reg_u64(&self, dst_reg: X86Register, imm: u64) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_mov_reg_u64(self.writer, dst_reg as u32, imm) != 0 }
+    }
+
+    pub fn put_mov_reg_address(&self, dst_reg: X86Register, address: u64) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_reg_address(self.writer, dst_reg as u32, address);
+        }
+        true
+    }
+
+    pub fn put_mov_reg_ptr_u32(&self, dst_reg: X86Register, imm: u32) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_reg_ptr_u32(self.writer, dst_reg as u32, imm);
+        }
+        true
+    }
+
+    pub fn put_mov_reg_offset_ptr_u32(&self, dst_reg: X86Register, offset: i64, imm: u32) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_reg_offset_ptr_u32(
+                self.writer,
+                dst_reg as u32,
+                offset,
+                imm,
+            ) != 0
+        }
+    }
+
+    pub fn put_mov_reg_ptr_reg(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_reg_ptr_reg(
+                self.writer,
+                dst_reg as u32,
+                src_reg as u32,
+            );
+        }
+        true
+    }
+
+    pub fn put_mov_reg_offset_ptr_reg(
+        &self,
+        dst_reg: X86Register,
+        offset: i64,
+        src_reg: X86Register,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_reg_offset_ptr_reg(
+                self.writer,
+                dst_reg as u32,
+                offset,
+                src_reg as u32,
+            ) != 0
+        }
+    }
+
+    pub fn put_mov_reg_reg_ptr(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_reg_reg_ptr(self.writer, dst_reg as u32, src_reg as u32)
+        }
+        true
+    }
+
+    pub fn put_mov_reg_reg_offset_ptr(
+        &self,
+        dst_reg: X86Register,
+        src_reg: X86Register,
+        offset: i64,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_reg_reg_offset_ptr(
+                self.writer,
+                dst_reg as u32,
+                src_reg as u32,
+                offset,
+            ) != 0
+        }
+    }
+
+    pub fn put_mov_reg_base_index_scale_offset_ptr(
+        &self,
+        dst_reg: X86Register,
+        base_reg: X86Register,
+        index_reg: X86Register,
+        scale: u8,
+        offset: i64,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_reg_base_index_scale_offset_ptr(
+                self.writer,
+                dst_reg as u32,
+                base_reg as u32,
+                index_reg as u32,
+                scale,
+                offset,
+            ) != 0
+        }
     }
 
     /// Insert a `lea d, [s + o]` instruction.
@@ -519,6 +746,17 @@ impl X86InstructionWriter {
         }
     }
 
+    pub fn put_push_u32(&self, imm: u32) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_push_u32(self.writer, imm);
+        }
+        true
+    }
+
+    pub fn put_push_near_ptr(&self, address: u64) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_push_near_ptr(self.writer, address) != 0 }
+    }
+
     /// Insert a `push R` instruction.
     pub fn put_push_reg(&self, reg: X86Register) -> bool {
         unsafe { gum_sys::gum_x86_writer_put_push_reg(self.writer, reg as u32) != 0 }
@@ -529,46 +767,9 @@ impl X86InstructionWriter {
         unsafe { gum_sys::gum_x86_writer_put_pop_reg(self.writer, reg as u32) != 0 }
     }
 
-    /// Insert a `mov R, [address]` instruction.
-    pub fn put_mov_reg_address(&self, reg: X86Register, address: u64) -> bool {
-        unsafe {
-            gum_sys::gum_x86_writer_put_mov_reg_address(self.writer, reg as u32, address);
-        }
-        true
-    }
-
     /// Insert a call address instruction.
     pub fn put_call_address(&self, address: u64) -> bool {
         unsafe { gum_sys::gum_x86_writer_put_call_address(self.writer, address) != 0 }
-    }
-
-    /// Insert a `mov R, R` instruction
-    pub fn put_mov_reg_reg(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
-        unsafe {
-            gum_sys::gum_x86_writer_put_mov_reg_reg(self.writer, dst_reg as u32, src_reg as u32);
-        }
-        true
-    }
-
-    pub fn put_shl_reg_u8(&self, dst_reg: X86Register, imm: i32) -> bool {
-        unsafe {
-            gum_sys::gum_x86_writer_put_shl_reg_u8(self.writer, dst_reg as u32, imm as u8);
-        }
-        true
-    }
-
-    pub fn put_xor_reg_reg(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
-        unsafe {
-            gum_sys::gum_x86_writer_put_xor_reg_reg(self.writer, dst_reg as u32, src_reg as u32);
-        }
-        true
-    }
-
-    pub fn put_add_reg_reg(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
-        unsafe {
-            gum_sys::gum_x86_writer_put_add_reg_reg(self.writer, dst_reg as u32, src_reg as u32);
-        }
-        true
     }
 
     pub fn put_nop(&self) -> bool {
@@ -588,13 +789,6 @@ impl X86InstructionWriter {
     pub fn put_popfx(&self) -> bool {
         unsafe {
             gum_sys::gum_x86_writer_put_popfx(self.writer);
-        }
-        true
-    }
-
-    pub fn put_jmp_address(&self, address: u64) -> bool {
-        unsafe {
-            gum_sys::gum_x86_writer_put_jmp_address(self.writer, address);
         }
         true
     }
