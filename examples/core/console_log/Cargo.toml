@@ -1,0 +1,10 @@
+[package]
+name = "console_log"
+version = "0.1.0"
+edition = "2021"
+license = "wxWindows"
+publish = false
+
+[dependencies]
+frida = { path = "../../../frida" }
+lazy_static = "1.4"

@@ -12,6 +12,7 @@ auto-download = ["frida-sys/auto-download"]
 
 [dependencies]
 frida-sys = { path = "../frida-sys", version = "0.2.2" }
+thiserror = "1"
 
 [dev-dependencies]
 lazy_static = "1"
