@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021-2022 Jean Marchand
+ * Copyright © 2022 Jean Marchand
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */
@@ -12,9 +12,11 @@ pub struct DeviceManager {
 }
 
 impl DeviceManager {
-    /// Creates a new instance device manager
-    pub fn new(manager_ptr: *mut _FridaDeviceManager) -> Self {
-        DeviceManager { manager_ptr }
+    /// Obtains a new instance device manager.
+    pub fn obtain() -> Self {
+        DeviceManager {
+            manager_ptr: unsafe { frida_sys::frida_device_manager_new() },
+        }
     }
 
     /// Obtains all devices

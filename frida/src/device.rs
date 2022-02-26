@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021-2022 Jean Marchand
+ * Copyright © 2022 Jean Marchand
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */

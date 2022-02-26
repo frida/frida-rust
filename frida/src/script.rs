@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021-2022 Jean Marchand
+ * Copyright © 2022 Jean Marchand
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */
@@ -67,6 +67,8 @@ impl Script {
     ///
     /// # Example
     /// ```
+    /// use frida::script::ScriptHandler;
+    ///
     /// struct Handler;
     ///
     /// impl ScriptHandler for Handler {
@@ -102,20 +104,18 @@ impl Drop for Script {
 }
 
 /// The javascript runtime of frida.
-pub enum FridaScriptRuntime {
+pub enum ScriptRuntime {
     Default,
     QJS,
     V8,
 }
 
-impl FridaScriptRuntime {
+impl ScriptRuntime {
     fn to_frida(&self) -> frida_sys::FridaScriptRuntime {
         match self {
-            FridaScriptRuntime::Default => {
-                frida_sys::FridaScriptRuntime_FRIDA_SCRIPT_RUNTIME_DEFAULT
-            }
-            FridaScriptRuntime::QJS => frida_sys::FridaScriptRuntime_FRIDA_SCRIPT_RUNTIME_QJS,
-            FridaScriptRuntime::V8 => frida_sys::FridaScriptRuntime_FRIDA_SCRIPT_RUNTIME_V8,
+            ScriptRuntime::Default => frida_sys::FridaScriptRuntime_FRIDA_SCRIPT_RUNTIME_DEFAULT,
+            ScriptRuntime::QJS => frida_sys::FridaScriptRuntime_FRIDA_SCRIPT_RUNTIME_QJS,
+            ScriptRuntime::V8 => frida_sys::FridaScriptRuntime_FRIDA_SCRIPT_RUNTIME_V8,
         }
     }
 }
@@ -140,7 +140,7 @@ impl ScriptOption {
         self
     }
 
-    pub fn set_runtime(self, runtime: FridaScriptRuntime) -> Self {
+    pub fn set_runtime(self, runtime: ScriptRuntime) -> Self {
         unsafe { frida_sys::frida_script_options_set_runtime(self.ptr, runtime.to_frida()) };
         self
     }

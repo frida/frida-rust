@@ -1,5 +1,6 @@
 use frida::{
-    script::{FridaScriptRuntime, ScriptHandler, ScriptOption},
+    device_manager::DeviceManager,
+    script::{ScriptHandler, ScriptOption, ScriptRuntime},
     Frida,
 };
 use lazy_static::lazy_static;
@@ -16,7 +17,7 @@ fn main() {
         return;
     }
 
-    let device_manager = FRIDA.obtain_device_manager();
+    let device_manager = DeviceManager::obtain();
     let pid: u32 = args[1].parse().unwrap();
 
     if let Some(device) = device_manager.enumerate_all_devices().first() {
@@ -29,7 +30,7 @@ fn main() {
 
             let mut script_option = ScriptOption::new()
                 .set_name("example")
-                .set_runtime(FridaScriptRuntime::QJS);
+                .set_runtime(ScriptRuntime::QJS);
             let script = session
                 .create_script("console.log('Log test');", &mut script_option)
                 .unwrap();

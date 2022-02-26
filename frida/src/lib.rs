@@ -1,6 +1,6 @@
 /*
  * Copyright © 2020-2021 Keegan Saunders
- * Copyright © 2021-2022 Jean Marchand
+ * Copyright © 2022 Jean Marchand
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */
@@ -15,7 +15,6 @@ pub mod process;
 pub mod script;
 pub mod session;
 
-use device_manager::DeviceManager;
 use std::ffi::CStr;
 /// Context required for instantiation of all structures under the Frida namespace.
 pub struct Frida;
@@ -27,11 +26,6 @@ impl Frida {
     pub unsafe fn obtain() -> Frida {
         frida_sys::frida_init();
         Frida {}
-    }
-
-    /// Obtains a new instance of device manager
-    pub fn obtain_device_manager(&self) -> DeviceManager {
-        unsafe { DeviceManager::new(frida_sys::frida_device_manager_new()) }
     }
 
     /// Gets the current version of frida core
