@@ -17,7 +17,7 @@ fn main() {
         return;
     }
 
-    let device_manager = DeviceManager::obtain();
+    let device_manager = DeviceManager::obtain(&FRIDA);
     let pid: u32 = args[1].parse().unwrap();
 
     if let Some(device) = device_manager.enumerate_all_devices().first() {

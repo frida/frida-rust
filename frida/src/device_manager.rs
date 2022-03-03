@@ -5,17 +5,24 @@
  */
 
 use crate::device::Device;
+use crate::Frida;
 use frida_sys::_FridaDeviceManager;
+use std::marker::PhantomData;
 
-pub struct DeviceManager {
+pub struct DeviceManager<'a> {
     manager_ptr: *mut _FridaDeviceManager,
+    phantom: PhantomData<&'a _FridaDeviceManager>,
 }
 
-impl DeviceManager {
+impl<'a> DeviceManager<'a> {
     /// Obtains a new instance device manager.
-    pub fn obtain() -> Self {
+    pub fn obtain<'b>(_frida: &'b Frida) -> Self
+    where
+        'b: 'a,
+    {
         DeviceManager {
             manager_ptr: unsafe { frida_sys::frida_device_manager_new() },
+            phantom: PhantomData,
         }
     }
 
@@ -48,7 +55,7 @@ impl DeviceManager {
     }
 }
 
-impl Drop for DeviceManager {
+impl<'a> Drop for DeviceManager<'a> {
     /// Destroys the ptr to the manager when DeviceManager doesn't exist anymore
     fn drop(&mut self) {
         unsafe { frida_sys::frida_unref(self.manager_ptr as _) }
