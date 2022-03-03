@@ -82,7 +82,7 @@ impl Script {
         unsafe {
             let callback = Some(std::mem::transmute(call_on_message::<I> as *mut c_void));
 
-            frida_sys::g_signal_connect_data(
+            frida_sys::_frida_g_signal_connect_data(
                 self.script_ptr as _,
                 message.as_ptr(),
                 callback,
@@ -160,7 +160,7 @@ impl Drop for ScriptOption {
     /// Clears the option object of the script when we drop the struct.
     fn drop(&mut self) {
         unsafe {
-            frida_sys::g_clear_object(
+            frida_sys::_frida_g_clear_object(
                 &mut self.ptr as *mut *mut frida_sys::_FridaScriptOptions as _,
             )
         }
