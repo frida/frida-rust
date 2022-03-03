@@ -4,10 +4,11 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
-use crate::device::Device;
-use crate::Frida;
 use frida_sys::_FridaDeviceManager;
 use std::marker::PhantomData;
+
+use crate::device::Device;
+use crate::Frida;
 
 pub struct DeviceManager<'a> {
     manager_ptr: *mut _FridaDeviceManager,

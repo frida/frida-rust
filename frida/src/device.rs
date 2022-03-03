@@ -4,11 +4,12 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
-use crate::error::FridaCoreError;
-use crate::process::Process;
-use crate::session::Session;
 use frida_sys::_FridaDevice;
 use std::ffi::CStr;
+
+use crate::{Error, Result};
+use crate::process::Process;
+use crate::session::Session;
 
 pub struct Device {
     device_ptr: *mut _FridaDevice,
@@ -62,7 +63,7 @@ impl Device {
     }
 
     /// Creates [`Session`] and attaches the device to the current PID.
-    pub fn attach(&self, pid: u32) -> Result<Session, FridaCoreError> {
+    pub fn attach(&self, pid: u32) -> Result<Session> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         let session = unsafe {
             frida_sys::frida_device_attach_sync(
@@ -77,7 +78,7 @@ impl Device {
         if error.is_null() {
             Ok(Session::new(session))
         } else {
-            Err(FridaCoreError::DeviceAttachError)
+            Err(Error::DeviceAttachError)
         }
     }
 }

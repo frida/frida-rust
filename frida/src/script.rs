@@ -8,10 +8,9 @@ use std::{
     ffi::{c_void, CStr, CString},
     ptr::null_mut,
 };
-
 use frida_sys::{FridaScriptOptions, _FridaScript};
 
-use crate::error::FridaCoreError;
+use crate::{Error, Result};
 
 unsafe extern "C" fn call_on_message<I: ScriptHandler>(
     _script_ptr: *mut _FridaScript,
@@ -40,26 +39,26 @@ impl Script {
     }
 
     /// Loads the script into the process.
-    pub fn load(&self) -> Result<(), FridaCoreError> {
+    pub fn load(&self) -> Result<()> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         unsafe { frida_sys::frida_script_load_sync(self.script_ptr, null_mut(), &mut error) };
 
         if error.is_null() {
             Ok(())
         } else {
-            Err(FridaCoreError::LoadingFailed)
+            Err(Error::LoadingFailed)
         }
     }
 
     /// Unloads the script into the process.
-    pub fn unload(&self) -> Result<(), FridaCoreError> {
+    pub fn unload(&self) -> Result<()> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         unsafe { frida_sys::frida_script_unload_sync(self.script_ptr, null_mut(), &mut error) };
 
         if error.is_null() {
             Ok(())
         } else {
-            Err(FridaCoreError::UnloadingFailed)
+            Err(Error::UnloadingFailed)
         }
     }
 
@@ -77,8 +76,8 @@ impl Script {
     ///     }
     /// }
     /// ```
-    pub fn handle_message<I: ScriptHandler>(&self, handler: &mut I) -> Result<(), FridaCoreError> {
-        let message = CString::new("message").map_err(|_| FridaCoreError::CStringFailed)?;
+    pub fn handle_message<I: ScriptHandler>(&self, handler: &mut I) -> Result<()> {
+        let message = CString::new("message").map_err(|_| Error::CStringFailed)?;
         unsafe {
             let callback = Some(std::mem::transmute(call_on_message::<I> as *mut c_void));
 

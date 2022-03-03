@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2021 Keegan Saunders
+ * Copyright © 2020-2022 Keegan Saunders
  * Copyright © 2022 Jean Marchand
  *
  * Licence: wxWindows Library Licence, Version 3.1
@@ -8,14 +8,21 @@
 #![deny(warnings)]
 #![allow(clippy::missing_safety_doc)]
 
+use std::ffi::CStr;
+
 pub mod device;
 pub mod device_manager;
-pub mod error;
+
+mod error;
+pub use error::Error;
+
 pub mod process;
 pub mod script;
 pub mod session;
 
-use std::ffi::CStr;
+#[doc(hidden)]
+pub type Result<T> = std::result::Result<T, error::Error>;
+
 /// Context required for instantiation of all structures under the Frida namespace.
 pub struct Frida;
 

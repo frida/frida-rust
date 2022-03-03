@@ -7,8 +7,8 @@
 use frida_sys::_FridaSession;
 use std::ptr::null_mut;
 
+use crate::{Error, Result};
 use crate::{
-    error::FridaCoreError,
     script::{Script, ScriptOption},
 };
 
@@ -32,7 +32,7 @@ impl Session {
         &self,
         source: &str,
         option: &mut ScriptOption,
-    ) -> Result<Script, FridaCoreError> {
+    ) -> Result<Script> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         let script = unsafe {
             frida_sys::frida_session_create_script_sync(
@@ -47,12 +47,12 @@ impl Session {
         if error.is_null() {
             Ok(Script::new(script))
         } else {
-            Err(FridaCoreError::ScriptCreationError)
+            Err(Error::ScriptCreationError)
         }
     }
 
     /// Detaches the current session.
-    pub fn detach(&self) -> Result<(), FridaCoreError> {
+    pub fn detach(&self) -> Result<()> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         unsafe {
             frida_sys::frida_session_detach_sync(self.session_ptr, std::ptr::null_mut(), &mut error)
@@ -61,7 +61,7 @@ impl Session {
         if error.is_null() {
             Ok(())
         } else {
-            Err(FridaCoreError::SessionDetachError)
+            Err(Error::SessionDetachError)
         }
     }
 }
