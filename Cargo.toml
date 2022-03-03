@@ -7,4 +7,5 @@ members = [
     "examples/gum/open",
     "examples/gum/stalker",
     "examples/core/hello",
+    "examples/core/console_log",
 ]
