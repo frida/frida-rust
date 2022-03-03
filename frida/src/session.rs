@@ -5,34 +5,40 @@
  */
 
 use frida_sys::_FridaSession;
+use std::marker::PhantomData;
 use std::ptr::null_mut;
 
+use crate::script::{Script, ScriptOption};
 use crate::{Error, Result};
-use crate::{
-    script::{Script, ScriptOption},
-};
 
-pub struct Session {
+/// Represents a Frida session.
+pub struct Session<'a> {
     session_ptr: *mut _FridaSession,
+    phantom: PhantomData<&'a _FridaSession>,
 }
 
-impl Session {
-    /// Creates new instance of session.
-    pub fn new(session_ptr: *mut _FridaSession) -> Self {
-        Session { session_ptr }
+impl<'a> Session<'a> {
+    pub(crate) fn from_raw(session_ptr: *mut _FridaSession) -> Session<'a> {
+        Session {
+            session_ptr,
+            phantom: PhantomData,
+        }
     }
 
-    /// Checks if the session is detached or not.
+    /// Returns if the session is detached or not.
     pub fn is_detached(&self) -> bool {
         unsafe { frida_sys::frida_session_is_detached(self.session_ptr) == 1 }
     }
 
-    /// Creates a [`Script`] struct attached to current session.
-    pub fn create_script(
-        &self,
+    /// Creates a [`Script`] attached to current session.
+    pub fn create_script<'b>(
+        &'a self,
         source: &str,
         option: &mut ScriptOption,
-    ) -> Result<Script> {
+    ) -> Result<Script<'b>>
+    where
+        'a: 'b,
+    {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         let script = unsafe {
             frida_sys::frida_session_create_script_sync(
@@ -45,7 +51,7 @@ impl Session {
         };
 
         if error.is_null() {
-            Ok(Script::new(script))
+            Ok(Script::from_raw(script))
         } else {
             Err(Error::ScriptCreationError)
         }
@@ -66,8 +72,7 @@ impl Session {
     }
 }
 
-impl Drop for Session {
-    /// Destroy the ptr to the session when Session doesn't exist anymore
+impl<'a> Drop for Session<'a> {
     fn drop(&mut self) {
         unsafe { frida_sys::frida_unref(self.session_ptr as _) }
     }

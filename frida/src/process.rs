@@ -6,18 +6,23 @@
 
 use frida_sys::_FridaProcess;
 use std::ffi::CStr;
+use std::marker::PhantomData;
 
-pub struct Process {
+/// Process management in Frida.
+pub struct Process<'a> {
     process_ptr: *mut _FridaProcess,
+    phantom: PhantomData<&'a _FridaProcess>,
 }
 
-impl Process {
-    /// Creates new instance of a process.
-    pub fn new(process_ptr: *mut _FridaProcess) -> Self {
-        Process { process_ptr }
+impl<'a> Process<'a> {
+    pub(crate) fn from_raw(process_ptr: *mut _FridaProcess) -> Process<'a> {
+        Process {
+            process_ptr,
+            phantom: PhantomData,
+        }
     }
 
-    /// Gets the name of the process.
+    /// Returns the name of the process.
     pub fn get_name(&self) -> &str {
         let process_name =
             unsafe { CStr::from_ptr(frida_sys::frida_process_get_name(self.process_ptr) as _) };
@@ -25,14 +30,13 @@ impl Process {
         process_name.to_str().unwrap_or_default()
     }
 
-    /// Gets the pid of the process.
+    /// Returns the process ID of the process.
     pub fn get_pid(&self) -> u32 {
         unsafe { frida_sys::frida_process_get_pid(self.process_ptr) }
     }
 }
 
-impl Drop for Process {
-    /// Destroys the ptr to the process when Process doesn't exist anymore.
+impl<'a> Drop for Process<'a> {
     fn drop(&mut self) {
         unsafe { frida_sys::frida_unref(self.process_ptr as _) }
     }

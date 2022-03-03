@@ -4,21 +4,33 @@
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */
+
+//! Frida bindings for Rust.
+
 #![cfg_attr(doc_cfg, feature(doc_cfg))]
 #![deny(warnings)]
+#![deny(missing_docs)]
 #![allow(clippy::missing_safety_doc)]
 
 use std::ffi::CStr;
 
-pub mod device;
-pub mod device_manager;
+mod device;
+pub use device::*;
+
+mod device_manager;
+pub use device_manager::*;
 
 mod error;
 pub use error::Error;
 
-pub mod process;
-pub mod script;
-pub mod session;
+mod process;
+pub use process::*;
+
+mod script;
+pub use script::*;
+
+mod session;
+pub use session::*;
 
 #[doc(hidden)]
 pub type Result<T> = std::result::Result<T, error::Error>;

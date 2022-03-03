@@ -1,8 +1,4 @@
-use frida::{
-    device_manager::DeviceManager,
-    script::{ScriptHandler, ScriptOption, ScriptRuntime},
-    Frida,
-};
+use frida::{DeviceManager, Frida, ScriptHandler, ScriptOption, ScriptRuntime};
 use lazy_static::lazy_static;
 
 lazy_static! {
@@ -46,7 +42,7 @@ fn main() {
             session.detach().unwrap();
             println!("[*] Session detached");
         }
-    }
+    };
 }
 
 struct Handler;

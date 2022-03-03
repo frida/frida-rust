@@ -4,11 +4,12 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
+use frida_sys::{FridaScriptOptions, _FridaScript};
+use std::marker::PhantomData;
 use std::{
     ffi::{c_void, CStr, CString},
     ptr::null_mut,
 };
-use frida_sys::{FridaScriptOptions, _FridaScript};
 
 use crate::{Error, Result};
 
@@ -23,19 +24,24 @@ unsafe extern "C" fn call_on_message<I: ScriptHandler>(
     handler.on_message(CStr::from_ptr(message).to_str().unwrap_or_default());
 }
 
-/// A trait to handle script signals.
+/// Represents a script signal handler.
 pub trait ScriptHandler {
+    /// Handler called when a message is shared from JavaScript to Rust.
     fn on_message(&mut self, message: &str);
 }
 
-pub struct Script {
+/// Reprents a Frida script.
+pub struct Script<'a> {
     script_ptr: *mut _FridaScript,
+    phantom: PhantomData<&'a _FridaScript>,
 }
 
-impl Script {
-    /// Creates new instance of script.
-    pub fn new(script_ptr: *mut _FridaScript) -> Self {
-        Script { script_ptr }
+impl<'a> Script<'a> {
+    pub(crate) fn from_raw(script_ptr: *mut _FridaScript) -> Script<'a> {
+        Script {
+            script_ptr,
+            phantom: PhantomData,
+        }
     }
 
     /// Loads the script into the process.
@@ -50,7 +56,7 @@ impl Script {
         }
     }
 
-    /// Unloads the script into the process.
+    /// Unloads the script from the process.
     pub fn unload(&self) -> Result<()> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         unsafe { frida_sys::frida_script_unload_sync(self.script_ptr, null_mut(), &mut error) };
@@ -62,9 +68,10 @@ impl Script {
         }
     }
 
-    /// Handles the `message` signal for the script and wrap into [`ScriptHandler`].
+    /// Handles the `message` signal for the script and wraps into [`ScriptHandler`].
     ///
     /// # Example
+    ///
     /// ```
     /// use frida::script::ScriptHandler;
     ///
@@ -95,23 +102,25 @@ impl Script {
     }
 }
 
-impl Drop for Script {
-    /// Destroys the ptr to the script when Script doesn't exist anymore
+impl<'a> Drop for Script<'a> {
     fn drop(&mut self) {
         unsafe { frida_sys::frida_unref(self.script_ptr as _) }
     }
 }
 
-/// The javascript runtime of frida.
+/// The JavaScript runtime of Frida.
 pub enum ScriptRuntime {
+    /// Default Frida runtime.
     Default,
+    /// QuickJS runtime.
     QJS,
+    /// Google V8 runtime.
     V8,
 }
 
-impl ScriptRuntime {
-    fn to_frida(&self) -> frida_sys::FridaScriptRuntime {
-        match self {
+impl From<ScriptRuntime> for frida_sys::FridaScriptRuntime {
+    fn from(runtime: ScriptRuntime) -> Self {
+        match runtime {
             ScriptRuntime::Default => frida_sys::FridaScriptRuntime_FRIDA_SCRIPT_RUNTIME_DEFAULT,
             ScriptRuntime::QJS => frida_sys::FridaScriptRuntime_FRIDA_SCRIPT_RUNTIME_QJS,
             ScriptRuntime::V8 => frida_sys::FridaScriptRuntime_FRIDA_SCRIPT_RUNTIME_V8,
@@ -119,28 +128,33 @@ impl ScriptRuntime {
     }
 }
 
+/// Represents options passed to the Frida script registrar.
 pub struct ScriptOption {
     ptr: *mut FridaScriptOptions,
 }
 
 impl ScriptOption {
+    /// Create a new set of script options.
     pub fn new() -> Self {
         let ptr = unsafe { frida_sys::frida_script_options_new() };
         Self { ptr }
     }
 
+    /// Get the name of the script.
     pub fn get_name(&self) -> &'static str {
         let name = unsafe { CStr::from_ptr(frida_sys::frida_script_options_get_name(self.ptr)) };
         name.to_str().unwrap_or_default()
     }
 
+    /// Set the name of the script.
     pub fn set_name(self, name: &str) -> Self {
         unsafe { frida_sys::frida_script_options_set_name(self.ptr, name.as_ptr() as _) };
         self
     }
 
+    /// Set the runtime of the script.
     pub fn set_runtime(self, runtime: ScriptRuntime) -> Self {
-        unsafe { frida_sys::frida_script_options_set_runtime(self.ptr, runtime.to_frida()) };
+        unsafe { frida_sys::frida_script_options_set_runtime(self.ptr, runtime.into()) };
         self
     }
 
@@ -156,7 +170,6 @@ impl Default for ScriptOption {
 }
 
 impl Drop for ScriptOption {
-    /// Clears the option object of the script when we drop the struct.
     fn drop(&mut self) {
         unsafe {
             frida_sys::_frida_g_clear_object(

@@ -10,13 +10,15 @@ use std::marker::PhantomData;
 use crate::device::Device;
 use crate::Frida;
 
+/// Platform-independent device manager abstraction access.
 pub struct DeviceManager<'a> {
     manager_ptr: *mut _FridaDeviceManager,
     phantom: PhantomData<&'a _FridaDeviceManager>,
 }
 
 impl<'a> DeviceManager<'a> {
-    /// Obtains a new instance device manager.
+    /// Obtain an DeviceManager handle, ensuring that the runtime is properly initialized. This may be called as many
+    /// times as needed, and results in a no-op if the DeviceManager is already initialized.
     pub fn obtain<'b>(_frida: &'b Frida) -> Self
     where
         'b: 'a,
@@ -27,8 +29,11 @@ impl<'a> DeviceManager<'a> {
         }
     }
 
-    /// Obtains all devices
-    pub fn enumerate_all_devices(&self) -> Vec<Device> {
+    /// Returns all devices.
+    pub fn enumerate_all_devices<'b>(&'a self) -> Vec<Device<'b>>
+    where
+        'a: 'b,
+    {
         let mut devices = Vec::new();
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
 
@@ -46,7 +51,7 @@ impl<'a> DeviceManager<'a> {
 
             for i in 0..num_devices {
                 let device =
-                    Device::new(unsafe { frida_sys::frida_device_list_get(devices_ptr, i) });
+                    Device::from_raw(unsafe { frida_sys::frida_device_list_get(devices_ptr, i) });
                 devices.push(device);
             }
         }
@@ -57,7 +62,6 @@ impl<'a> DeviceManager<'a> {
 }
 
 impl<'a> Drop for DeviceManager<'a> {
-    /// Destroys the ptr to the manager when DeviceManager doesn't exist anymore
     fn drop(&mut self) {
         unsafe { frida_sys::frida_unref(self.manager_ptr as _) }
     }
