@@ -1017,7 +1017,7 @@ impl Drop for Aarch64InstructionWriter {
 
 pub trait Relocator {
     /// Create a new [`Relocator`] for the input code address, outputting to the specified
-    /// [`InstrcutionWriter`]
+    /// [`InstructionWriter`]
     fn new(input_code: u64, output: &mut TargetInstructionWriter) -> Self;
 
     /// Read one instruction from the input stream
