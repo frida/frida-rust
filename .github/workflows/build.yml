@@ -49,3 +49,15 @@ jobs:
       - name: Test gum with all features
         run: cd frida-gum && cargo test --features=auto-download,event-sink,invocation-listener,backtrace
 
+  tests-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+      - name: Test gum
+        run: cd frida-gum && cargo test --features=auto-download
+      - name: Test gum with all features
+        run: cd frida-gum && cargo test --features=auto-download,event-sink,invocation-listener,backtrace
