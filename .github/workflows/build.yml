@@ -4,7 +4,7 @@ name: CI
 
 jobs:
   check:
-    name: Check & Test Suite
+    name: Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -33,10 +33,11 @@ jobs:
         with:
           command: clippy
           args: -- -D warnings
-  tests:
+  test-gum:
+    name: Test Gum
     strategy:
       matrix:
-          os: [ubuntu-latest, macOS-latest]
+          os: [ubuntu-latest, macOS-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -44,8 +45,23 @@ jobs:
         with:
           profile: minimal
           toolchain: stable
-      - name: Test gum
+      - name: Test Gum
         run: cd frida-gum && cargo test --features=auto-download
-      - name: Test gum with all features
-        run: cd frida-gum && cargo test --features=auto-download,event-sink,invocation-listener,backtrace
-
+      - name: Test Gum with all features
+        run: cd frida-gum && cargo test --all-features
+  test-frida:
+    name: Test Frida
+    strategy:
+      matrix:
+          os: [ubuntu-latest, macOS-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+      - name: Test Frida
+        run: cd frida && cargo test --features=auto-download
+      - name: Test Frida with all features
+        run: cd frida && cargo test --all-features

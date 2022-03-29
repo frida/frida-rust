@@ -56,6 +56,7 @@ extern crate num;
 extern crate num_derive;
 
 use std::convert::TryFrom;
+use std::ffi::CStr;
 use std::os::raw::{c_char, c_void};
 
 pub mod stalker;
@@ -82,13 +83,12 @@ pub use memory_range::*;
 mod range_details;
 pub use range_details::*;
 
-#[cfg(feature = "backtrace")]
+#[cfg(all(feature = "backtrace", not(target_os = "windows")))]
 #[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
 mod backtracer;
-#[cfg(feature = "backtrace")]
+#[cfg(all(feature = "backtrace", not(target_os = "windows")))]
 #[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
 pub use backtracer::*;
-use std::ffi::CStr;
 
 #[doc(hidden)]
 pub type Result<T> = std::result::Result<T, error::Error>;
