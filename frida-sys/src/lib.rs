@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2021 Keegan Saunders
+ * Copyright © 2020-2022 Keegan Saunders
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */
@@ -15,3 +15,9 @@ mod bindings {
 }
 
 pub use bindings::*;
+
+#[cfg(not(any(target_os = "macos", target_os = "ios", target_os = "windows")))]
+pub use _frida_g_signal_connect_data as g_signal_connect_data;
+
+#[cfg(not(any(target_os = "macos", target_os = "ios", target_os = "windows")))]
+pub use _frida_g_clear_object as g_clear_object;
