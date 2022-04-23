@@ -1,0 +1,14 @@
+[package]
+name = "hook-open"
+version = "0.1.0"
+authors = ["Aviram Hassan <aviramyhassan@gmail.com>"]
+edition = "2018"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+frida-gum = { path = "../../../frida-gum"}
+lazy_static = "1.4"
+ctor = "0.1"
