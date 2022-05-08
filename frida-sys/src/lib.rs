@@ -16,8 +16,8 @@ mod bindings {
 
 pub use bindings::*;
 
-#[cfg(not(any(target_os = "macos", target_os = "ios", target_os = "windows")))]
+#[cfg(not(any(target_os = "macos", target_os = "ios", target_os = "windows", target_os = "android")))]
 pub use _frida_g_signal_connect_data as g_signal_connect_data;
 
-#[cfg(not(any(target_os = "macos", target_os = "ios", target_os = "windows")))]
+#[cfg(not(any(target_os = "macos", target_os = "ios", target_os = "windows", target_os = "android")))]
 pub use _frida_g_clear_object as g_clear_object;
