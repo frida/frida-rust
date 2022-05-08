@@ -15,7 +15,10 @@ use crate::{Error, Result};
 
 unsafe extern "C" fn call_on_message<I: ScriptHandler>(
     _script_ptr: *mut _FridaScript,
+    #[cfg(not(target_arch = "aarch64"))]
     message: *const i8,
+    #[cfg(target_arch = "aarch64")]
+    message: *const u8,
     _data: &frida_sys::_GBytes,
     user_data: *mut c_void,
 ) {
