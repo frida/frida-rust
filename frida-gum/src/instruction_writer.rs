@@ -6,8 +6,12 @@
  */
 
 //! Instruction writer interface.
-
+#[allow(unused_imports)]
+use std::convert::TryInto;
 use frida_gum_sys as gum_sys;
+use gum_sys::GumArgument;
+#[cfg(target_arch = "x86_64")]
+use gum_sys::GumBranchHint;
 use std::ffi::c_void;
 
 use capstone::Insn;
@@ -23,7 +27,16 @@ pub type TargetInstructionWriter = Aarch64InstructionWriter;
 #[cfg(target_arch = "aarch64")]
 pub type TargetRelocator = Aarch64Relocator;
 
-#[derive(FromPrimitive, PartialEq, Clone, Copy)]
+#[cfg(target_arch = "x86_64")]
+pub type TargetRegister = X86Register;
+#[cfg(target_arch = "aarch64")]
+pub type TargetRegister = Aarch64Register;
+pub enum Argument {
+    Register(TargetRegister),
+    Address(u64),
+}
+
+#[derive(FromPrimitive, PartialEq, Clone, Copy, Debug)]
 #[repr(u32)]
 pub enum X86Register {
     Eax = gum_sys::_GumX86Reg_GUM_X86_EAX as u32,
@@ -82,7 +95,7 @@ pub enum X86Register {
     None = gum_sys::_GumX86Reg_GUM_X86_NONE as u32,
 }
 
-#[derive(FromPrimitive, PartialEq, Clone, Copy)]
+#[derive(FromPrimitive, PartialEq, Clone, Copy, Debug)]
 #[repr(u32)]
 pub enum Aarch64Register {
     Ffr = gum_sys::arm64_reg_ARM64_REG_FFR as u32,
@@ -552,6 +565,92 @@ impl X86InstructionWriter {
         unsafe { gum_sys::gum_x86_writer_put_jmp_near_ptr(self.writer, address) != 0 }
     }
 
+    pub fn put_jcc_short_label(
+        &self,
+        instruction_mnemonic: &str,
+        label_id: u64,
+        hint: GumBranchHint,
+    ) {
+        let instruction_id = match instruction_mnemonic {
+            "jo" => gum_sys::x86_insn_X86_INS_JO,
+            "jno" => gum_sys::x86_insn_X86_INS_JNO,
+            "jb" => gum_sys::x86_insn_X86_INS_JB,
+            "jae" => gum_sys::x86_insn_X86_INS_JAE,
+            "je" => gum_sys::x86_insn_X86_INS_JE,
+            "jne" => gum_sys::x86_insn_X86_INS_JNE,
+            "jbe" => gum_sys::x86_insn_X86_INS_JBE,
+            "ja" => gum_sys::x86_insn_X86_INS_JA,
+            "js" => gum_sys::x86_insn_X86_INS_JS,
+            "jns" => gum_sys::x86_insn_X86_INS_JNS,
+            "jp" => gum_sys::x86_insn_X86_INS_JP,
+            "jnp" => gum_sys::x86_insn_X86_INS_JNP,
+            "jl" => gum_sys::x86_insn_X86_INS_JL,
+            "jge" => gum_sys::x86_insn_X86_INS_JGE,
+            "jle" => gum_sys::x86_insn_X86_INS_JLE,
+            "jg" => gum_sys::x86_insn_X86_INS_JG,
+            "jcxz" => gum_sys::x86_insn_X86_INS_JCXZ,
+            "jecxz" => gum_sys::x86_insn_X86_INS_JECXZ,
+            "jrcxz" => gum_sys::x86_insn_X86_INS_JRCXZ,
+            _ => {
+                unimplemented!();
+            }
+        };
+
+        unsafe {
+            gum_sys::gum_x86_writer_put_jcc_short_label(
+                self.writer,
+                instruction_id,
+                label_id as *const c_void,
+                hint,
+            )
+        }
+    }
+
+    pub fn put_jcc_near_label(
+        &self,
+        instruction_mnemonic: &str,
+        label_id: u64,
+        hint: GumBranchHint,
+    ) {
+        let instruction_id = match instruction_mnemonic {
+            "jo" => gum_sys::x86_insn_X86_INS_JO,
+            "jno" => gum_sys::x86_insn_X86_INS_JNO,
+            "jb" => gum_sys::x86_insn_X86_INS_JB,
+            "jae" => gum_sys::x86_insn_X86_INS_JAE,
+            "je" => gum_sys::x86_insn_X86_INS_JE,
+            "jne" => gum_sys::x86_insn_X86_INS_JNE,
+            "jbe" => gum_sys::x86_insn_X86_INS_JBE,
+            "ja" => gum_sys::x86_insn_X86_INS_JA,
+            "js" => gum_sys::x86_insn_X86_INS_JS,
+            "jns" => gum_sys::x86_insn_X86_INS_JNS,
+            "jp" => gum_sys::x86_insn_X86_INS_JP,
+            "jnp" => gum_sys::x86_insn_X86_INS_JNP,
+            "jl" => gum_sys::x86_insn_X86_INS_JL,
+            "jge" => gum_sys::x86_insn_X86_INS_JGE,
+            "jle" => gum_sys::x86_insn_X86_INS_JLE,
+            "jg" => gum_sys::x86_insn_X86_INS_JG,
+            "jcxz" => gum_sys::x86_insn_X86_INS_JCXZ,
+            "jecxz" => gum_sys::x86_insn_X86_INS_JECXZ,
+            "jrcxz" => gum_sys::x86_insn_X86_INS_JRCXZ,
+            _ => {
+                unimplemented!();
+            }
+        };
+
+        unsafe {
+            gum_sys::gum_x86_writer_put_jcc_near_label(
+                self.writer,
+                instruction_id,
+                label_id as *const c_void,
+                hint,
+            )
+        }
+    }
+
+    pub fn put_mov_reg_gs_u32_ptr(&self, reg: X86Register, imm: u32) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_mov_reg_gs_u32_ptr(self.writer, reg as u32, imm) != 0 }
+    }
+
     pub fn put_add_reg_imm(&self, reg: X86Register, imm: i64) -> bool {
         unsafe { gum_sys::gum_x86_writer_put_add_reg_imm(self.writer, reg as u32, imm) != 0 }
     }
@@ -773,6 +872,77 @@ impl X86InstructionWriter {
         unsafe { gum_sys::gum_x86_writer_put_call_address(self.writer, address) != 0 }
     }
 
+    #[allow(clippy::useless_conversion)]
+    pub fn put_call_address_with_arguments(&self, address: u64, arguments: &[Argument]) -> bool {
+        unsafe {
+            let arguments: Vec<GumArgument> = arguments
+                .iter()
+                .map(|argument| match argument {
+                    Argument::Register(register) => GumArgument {
+                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.try_into().unwrap(),
+                        value: gum_sys::_GumArgument__bindgen_ty_1 {
+                            reg: *register as i32,
+                        },
+                    },
+                    Argument::Address(address) => GumArgument {
+                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.try_into().unwrap(),
+                        value: gum_sys::_GumArgument__bindgen_ty_1 { address: *address },
+                    },
+                })
+                .collect();
+
+            gum_sys::gum_x86_writer_put_call_address_with_arguments_array(
+                self.writer,
+                gum_sys::_GumCallingConvention_GUM_CALL_CAPI
+                    .try_into()
+                    .unwrap(),
+                address,
+                arguments.len() as u32,
+                arguments.as_ptr(),
+            ) != 0
+        }
+    }
+
+    #[allow(clippy::useless_conversion)]
+    pub fn put_call_address_with_aligned_arguments(
+        &self,
+        address: u64,
+        arguments: &[Argument],
+    ) -> bool {
+        unsafe {
+            let arguments: Vec<GumArgument> = arguments
+                .iter()
+                .map(|argument| match argument {
+                    Argument::Register(register) => GumArgument {
+                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.try_into().unwrap(),
+                        value: gum_sys::_GumArgument__bindgen_ty_1 {
+                            reg: *register as i32,
+                        },
+                    },
+                    Argument::Address(address) => GumArgument {
+                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.try_into().unwrap(),
+                        value: gum_sys::_GumArgument__bindgen_ty_1 { address: *address },
+                    },
+                })
+                .collect();
+
+            gum_sys::gum_x86_writer_put_call_address_with_aligned_arguments_array(
+                self.writer,
+                gum_sys::_GumCallingConvention_GUM_CALL_CAPI
+                    .try_into()
+                    .unwrap(),
+                address,
+                arguments.len() as u32,
+                arguments.as_ptr(),
+            ) != 0
+        }
+    }
+
+    pub fn put_test_reg_reg(&self, reg_a: X86Register, reg_b: X86Register) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_test_reg_reg(self.writer, reg_a as u32, reg_b as u32) != 0
+        }
+    }
     pub fn put_nop(&self) -> bool {
         unsafe {
             gum_sys::gum_x86_writer_put_nop(self.writer);
@@ -790,6 +960,20 @@ impl X86InstructionWriter {
     pub fn put_popfx(&self) -> bool {
         unsafe {
             gum_sys::gum_x86_writer_put_popfx(self.writer);
+        }
+        true
+    }
+
+    pub fn put_pushax(&self) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_pushax(self.writer);
+        }
+        true
+    }
+
+    pub fn put_popax(&self) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_popax(self.writer);
         }
         true
     }
@@ -974,6 +1158,28 @@ impl Aarch64InstructionWriter {
         }
     }
 
+    pub fn put_str_reg_reg_offset(
+        &self,
+        reg_src: Aarch64Register,
+        reg_dst: Aarch64Register,
+        offset: u64,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_str_reg_reg_offset(
+                self.writer,
+                reg_src as u32,
+                reg_dst as u32,
+                offset,
+            ) != 0
+        }
+    }
+
+    pub fn put_cmp_reg_reg(&self, reg_a: Aarch64Register, reg_b: Aarch64Register) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_cmp_reg_reg(self.writer, reg_a as u32, reg_b as u32) != 0
+        }
+    }
+
     /// Insert a `ldp reg, reg, [reg + o]` instruction.
     pub fn put_ldp_reg_reg_reg_offset(
         &self,
@@ -998,6 +1204,92 @@ impl Aarch64InstructionWriter {
     /// Insert a `mov reg, u64` instruction.
     pub fn put_ldr_reg_u64(&self, reg: Aarch64Register, address: u64) -> bool {
         unsafe { gum_sys::gum_arm64_writer_put_ldr_reg_u64(self.writer, reg as u32, address) != 0 }
+    }
+
+    pub fn put_push_reg_reg(&self, reg_a: Aarch64Register, reg_b: Aarch64Register) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_push_reg_reg(self.writer, reg_a as u32, reg_b as u32) != 0
+        }
+    }
+    pub fn put_pop_reg_reg(&self, reg_a: Aarch64Register, reg_b: Aarch64Register) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_pop_reg_reg(self.writer, reg_a as u32, reg_b as u32) != 0
+        }
+    }
+
+    pub fn put_br_reg(&self, reg: Aarch64Register) -> bool {
+        unsafe { gum_sys::gum_arm64_writer_put_br_reg(self.writer, reg as u32) != 0 }
+    }
+    pub fn put_ldr_reg_address(&self, reg: Aarch64Register, address: u64) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_ldr_reg_address(self.writer, reg as u32, address) != 0
+        }
+    }
+    pub fn put_adrp_reg_address(&self, reg: Aarch64Register, address: u64) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_adrp_reg_address(self.writer, reg as u32, address) != 0
+        }
+    }
+
+    pub fn put_bcond_label(&self, instruction_mnemonic: &str, label_id: u64) {
+        let instruction_id = match instruction_mnemonic {
+            "eq" => gum_sys::arm64_cc_ARM64_CC_EQ,
+            "ne" => gum_sys::arm64_cc_ARM64_CC_NE,
+            "hs" => gum_sys::arm64_cc_ARM64_CC_HS,
+            "lo" => gum_sys::arm64_cc_ARM64_CC_LO,
+            "mi" => gum_sys::arm64_cc_ARM64_CC_MI,
+            "pl" => gum_sys::arm64_cc_ARM64_CC_PL,
+            "vs" => gum_sys::arm64_cc_ARM64_CC_VS,
+            "vc" => gum_sys::arm64_cc_ARM64_CC_VC,
+            "hi" => gum_sys::arm64_cc_ARM64_CC_HI,
+            "ls" => gum_sys::arm64_cc_ARM64_CC_LS,
+            "ge" => gum_sys::arm64_cc_ARM64_CC_GE,
+            "lt" => gum_sys::arm64_cc_ARM64_CC_LT,
+            "gt" => gum_sys::arm64_cc_ARM64_CC_GT,
+            "le" => gum_sys::arm64_cc_ARM64_CC_LE,
+            "al" => gum_sys::arm64_cc_ARM64_CC_AL,
+            "nv" => gum_sys::arm64_cc_ARM64_CC_NV,
+            _ => {
+                unimplemented!();
+            }
+        };
+
+        unsafe {
+            gum_sys::gum_arm64_writer_put_b_cond_label(
+                self.writer,
+                instruction_id,
+                label_id as *const c_void,
+            )
+        }
+    }
+
+    #[allow(clippy::useless_conversion)]
+    pub fn put_call_address_with_arguments(&self, address: u64, arguments: &[Argument]) -> bool {
+        unsafe {
+            let arguments: Vec<GumArgument> = arguments
+                .iter()
+                .map(|argument| match argument {
+                    Argument::Register(register) => GumArgument {
+                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.try_into().unwrap(),
+                        value: gum_sys::_GumArgument__bindgen_ty_1 {
+                            reg: *register as i32,
+                        },
+                    },
+                    Argument::Address(address) => GumArgument {
+                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.try_into().unwrap(),
+                        value: gum_sys::_GumArgument__bindgen_ty_1 { address: *address },
+                    },
+                })
+                .collect();
+
+            gum_sys::gum_arm64_writer_put_call_address_with_arguments_array(
+                self.writer,
+                address,
+                arguments.len() as u32,
+                arguments.as_ptr(),
+            );
+            true
+        }
     }
 
     /// Insert a `bl imm` instruction.
@@ -1031,6 +1323,9 @@ pub trait Relocator {
 
     /// Relocate and write one instruction to the output [`InstructionWriter`]
     fn write_one(&mut self) -> bool;
+
+    /// Skip one instruction
+    fn skip_one(&mut self) -> bool;
 }
 
 #[cfg(target_arch = "x86_64")]
@@ -1087,6 +1382,14 @@ impl Relocator for X86Relocator {
         }
 
         unsafe { gum_x86_relocator_write_one(self.inner) != 0 }
+    }
+
+    fn skip_one(&mut self) -> bool {
+        extern "C" {
+            fn gum_x86_relocator_skip_one(relocator: *mut c_void) -> i32;
+        }
+
+        unsafe { gum_x86_relocator_skip_one(self.inner) != 0 }
     }
 }
 
@@ -1157,6 +1460,14 @@ impl Relocator for Aarch64Relocator {
         }
 
         unsafe { gum_arm64_relocator_write_one(self.inner) != 0 }
+    }
+
+    fn skip_one(&mut self) -> bool {
+        extern "C" {
+            fn gum_arm64_relocator_skip_one(relocator: *mut c_void) -> i32;
+        }
+
+        unsafe { gum_arm64_relocator_skip_one(self.inner) != 0 }
     }
 }
 
