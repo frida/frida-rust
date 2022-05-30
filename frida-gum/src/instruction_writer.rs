@@ -827,13 +827,13 @@ impl X86InstructionWriter {
                 .iter()
                 .map(|argument| match argument {
                     Argument::Register(register) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER,
+                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.into(),
                         value: gum_sys::_GumArgument__bindgen_ty_1 {
                             reg: *register as i32,
                         },
                     },
                     Argument::Address(address) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS,
+                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.into(),
                         value: gum_sys::_GumArgument__bindgen_ty_1 { address: *address },
                     },
                 })
@@ -841,7 +841,7 @@ impl X86InstructionWriter {
 
             gum_sys::gum_x86_writer_put_call_address_with_arguments_array(
                 self.writer,
-                gum_sys::_GumCallingConvention_GUM_CALL_CAPI,
+                gum_sys::_GumCallingConvention_GUM_CALL_CAPI.into(),
                 address,
                 arguments.len() as u32,
                 arguments.as_ptr(),
@@ -859,13 +859,13 @@ impl X86InstructionWriter {
                 .iter()
                 .map(|argument| match argument {
                     Argument::Register(register) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER,
+                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.into(),
                         value: gum_sys::_GumArgument__bindgen_ty_1 {
                             reg: *register as i32,
                         },
                     },
                     Argument::Address(address) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS,
+                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.into(),
                         value: gum_sys::_GumArgument__bindgen_ty_1 { address: *address },
                     },
                 })
@@ -873,7 +873,7 @@ impl X86InstructionWriter {
 
             gum_sys::gum_x86_writer_put_call_address_with_aligned_arguments_array(
                 self.writer,
-                gum_sys::_GumCallingConvention_GUM_CALL_CAPI,
+                gum_sys::_GumCallingConvention_GUM_CALL_CAPI.into(),
                 address,
                 arguments.len() as u32,
                 arguments.as_ptr(),
