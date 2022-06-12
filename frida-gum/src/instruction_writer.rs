@@ -874,13 +874,13 @@ impl X86InstructionWriter {
                 .iter()
                 .map(|argument| match argument {
                     Argument::Register(register) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.into(),
+                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER,
                         value: gum_sys::_GumArgument__bindgen_ty_1 {
                             reg: *register as i32,
                         },
                     },
                     Argument::Address(address) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.into(),
+                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS,
                         value: gum_sys::_GumArgument__bindgen_ty_1 { address: *address },
                     },
                 })
@@ -888,7 +888,7 @@ impl X86InstructionWriter {
 
             gum_sys::gum_x86_writer_put_call_address_with_arguments_array(
                 self.writer,
-                gum_sys::_GumCallingConvention_GUM_CALL_CAPI.into(),
+                gum_sys::_GumCallingConvention_GUM_CALL_CAPI,
                 address,
                 arguments.len() as u32,
                 arguments.as_ptr(),
@@ -906,13 +906,13 @@ impl X86InstructionWriter {
                 .iter()
                 .map(|argument| match argument {
                     Argument::Register(register) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.into(),
+                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER,
                         value: gum_sys::_GumArgument__bindgen_ty_1 {
                             reg: *register as i32,
                         },
                     },
                     Argument::Address(address) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.into(),
+                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS,
                         value: gum_sys::_GumArgument__bindgen_ty_1 { address: *address },
                     },
                 })
