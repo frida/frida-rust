@@ -8,7 +8,9 @@
 //! Instruction writer interface.
 
 use frida_gum_sys as gum_sys;
+#[cfg(target_arch = "x86_64")]
 use gum_sys::GumArgument;
+#[cfg(target_arch = "x86_64")]
 use gum_sys::GumBranchHint;
 use std::ffi::c_void;
 
@@ -559,6 +561,47 @@ impl X86InstructionWriter {
         unsafe { gum_sys::gum_x86_writer_put_jmp_near_ptr(self.writer, address) != 0 }
     }
 
+    pub fn put_jcc_short_label(
+        &self,
+        instruction_mnemonic: &str,
+        label_id: u64,
+        hint: GumBranchHint,
+    ) {
+        let instruction_id = match instruction_mnemonic {
+            "jo" => gum_sys::x86_insn_X86_INS_JO,
+            "jno" => gum_sys::x86_insn_X86_INS_JNO,
+            "jb" => gum_sys::x86_insn_X86_INS_JB,
+            "jae" => gum_sys::x86_insn_X86_INS_JAE,
+            "je" => gum_sys::x86_insn_X86_INS_JE,
+            "jne" => gum_sys::x86_insn_X86_INS_JNE,
+            "jbe" => gum_sys::x86_insn_X86_INS_JBE,
+            "ja" => gum_sys::x86_insn_X86_INS_JA,
+            "js" => gum_sys::x86_insn_X86_INS_JS,
+            "jns" => gum_sys::x86_insn_X86_INS_JNS,
+            "jp" => gum_sys::x86_insn_X86_INS_JP,
+            "jnp" => gum_sys::x86_insn_X86_INS_JNP,
+            "jl" => gum_sys::x86_insn_X86_INS_JL,
+            "jge" => gum_sys::x86_insn_X86_INS_JGE,
+            "jle" => gum_sys::x86_insn_X86_INS_JLE,
+            "jg" => gum_sys::x86_insn_X86_INS_JG,
+            "jcxz" => gum_sys::x86_insn_X86_INS_JCXZ,
+            "jecxz" => gum_sys::x86_insn_X86_INS_JECXZ,
+            "jrcxz" => gum_sys::x86_insn_X86_INS_JRCXZ,
+            _ => {
+                unimplemented!();
+            }
+        };
+
+        unsafe {
+            gum_sys::gum_x86_writer_put_jcc_short_label(
+                self.writer,
+                instruction_id,
+                label_id as *const c_void,
+                hint,
+            )
+        }
+    }
+
     pub fn put_jcc_near_label(
         &self,
         instruction_mnemonic: &str,
@@ -598,6 +641,10 @@ impl X86InstructionWriter {
                 hint,
             )
         }
+    }
+
+    pub fn put_mov_reg_gs_u32_ptr(&self, reg: X86Register, imm: u32) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_mov_reg_gs_u32_ptr(self.writer, reg as u32, imm) != 0 }
     }
 
     pub fn put_add_reg_imm(&self, reg: X86Register, imm: i64) -> bool {
@@ -873,7 +920,7 @@ impl X86InstructionWriter {
 
             gum_sys::gum_x86_writer_put_call_address_with_aligned_arguments_array(
                 self.writer,
-                gum_sys::_GumCallingConvention_GUM_CALL_CAPI.into(),
+                gum_sys::_GumCallingConvention_GUM_CALL_CAPI,
                 address,
                 arguments.len() as u32,
                 arguments.as_ptr(),
@@ -881,6 +928,11 @@ impl X86InstructionWriter {
         }
     }
 
+    pub fn put_test_reg_reg(&self, reg_a: X86Register, reg_b: X86Register) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_test_reg_reg(self.writer, reg_a as u32, reg_b as u32) != 0
+        }
+    }
     pub fn put_nop(&self) -> bool {
         unsafe {
             gum_sys::gum_x86_writer_put_nop(self.writer);
