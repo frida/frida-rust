@@ -5,10 +5,39 @@
  */
 
 use frida_gum_sys as gum_sys;
+use std::ffi::CString;
 use std::os::raw::c_void;
 
 use crate::NativePointer;
 
+pub struct MatchPattern {
+    pub(crate) internal: *mut gum_sys::GumMatchPattern,
+}
+
+impl MatchPattern {
+    pub fn from_string(pattern: &str) -> Option<Self> {
+        let pattern = CString::new(pattern).unwrap();
+
+        let internal = unsafe { gum_sys::gum_match_pattern_new_from_string(pattern.as_ptr()) };
+        if !internal.is_null() {
+            Some(Self { internal })
+        } else {
+            None
+        }
+    }
+}
+
+impl Drop for MatchPattern {
+    fn drop(&mut self) {
+        unsafe { gum_sys::gum_match_pattern_unref(self.internal) }
+    }
+}
+
+#[allow(dead_code)]
+pub struct ScanResult {
+    address: usize,
+    size: usize,
+}
 pub struct MemoryRange {
     pub(crate) memory_range: gum_sys::GumMemoryRange,
 }
@@ -39,5 +68,28 @@ impl MemoryRange {
     /// to the size.
     pub fn size(&self) -> usize {
         self.memory_range.size as usize
+    }
+
+    pub fn scan(&self, pattern: &MatchPattern) -> Vec<ScanResult> {
+        let mut results = Vec::new();
+        unsafe {
+            extern "C" fn callback(address: u64, size: u64, user_data: *mut c_void) -> i32 {
+                let results: &mut Vec<ScanResult> =
+                    unsafe { &mut *(user_data as *mut Vec<ScanResult>) };
+                results.push(ScanResult {
+                    address: address as usize,
+                    size: size as usize,
+                });
+                0
+            }
+            gum_sys::gum_memory_scan(
+                &self.memory_range as *const gum_sys::GumMemoryRange,
+                pattern.internal,
+                Some(callback),
+                &mut results as *mut _ as *mut _,
+            );
+        }
+
+        results
     }
 }
