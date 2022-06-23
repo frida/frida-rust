@@ -67,7 +67,6 @@ impl MemoryRange {
             extern "C" fn callback(address: u64, size: u64, user_data: *mut c_void) -> i32 {
                 let results: &mut Vec<(usize, usize)> =
                     unsafe { &mut *(user_data as *mut Vec<(usize, usize)>) };
-                log::debug!("address: {:x}, size: {:x}", address, size);
                 results.push((address as usize, size as usize));
                 0
             }
