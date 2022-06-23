@@ -871,6 +871,7 @@ impl X86InstructionWriter {
         unsafe { gum_sys::gum_x86_writer_put_call_address(self.writer, address) != 0 }
     }
 
+    #[allow(clippy::useless_conversion)]
     pub fn put_call_address_with_arguments(&self, address: u64, arguments: &[Argument]) -> bool {
         unsafe {
             let arguments: Vec<GumArgument> = arguments
@@ -899,6 +900,7 @@ impl X86InstructionWriter {
         }
     }
 
+    #[allow(clippy::useless_conversion)]
     pub fn put_call_address_with_aligned_arguments(
         &self,
         address: u64,
@@ -1256,6 +1258,7 @@ impl Aarch64InstructionWriter {
         }
     }
 
+    #[allow(clippy::useless_conversion)]
     pub fn put_call_address_with_arguments(&self, address: u64, arguments: &[Argument]) -> bool {
         unsafe {
             let arguments: Vec<GumArgument> = arguments
