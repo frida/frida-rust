@@ -6,7 +6,8 @@
  */
 
 //! Instruction writer interface.
-
+#[allow(unused_imports)]
+use std::convert::TryInto;
 use frida_gum_sys as gum_sys;
 use gum_sys::GumArgument;
 #[cfg(target_arch = "x86_64")]
@@ -878,13 +879,13 @@ impl X86InstructionWriter {
                 .iter()
                 .map(|argument| match argument {
                     Argument::Register(register) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.try_into().unwrap(),
+                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.into(),
                         value: gum_sys::_GumArgument__bindgen_ty_1 {
                             reg: *register as i32,
                         },
                     },
                     Argument::Address(address) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.try_into().unwrap(),
+                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.into(),
                         value: gum_sys::_GumArgument__bindgen_ty_1 { address: *address },
                     },
                 })
@@ -892,9 +893,7 @@ impl X86InstructionWriter {
 
             gum_sys::gum_x86_writer_put_call_address_with_arguments_array(
                 self.writer,
-                gum_sys::_GumCallingConvention_GUM_CALL_CAPI
-                    .try_into()
-                    .unwrap(),
+                gum_sys::_GumCallingConvention_GUM_CALL_CAPI.into(),
                 address,
                 arguments.len() as u32,
                 arguments.as_ptr(),
@@ -913,13 +912,13 @@ impl X86InstructionWriter {
                 .iter()
                 .map(|argument| match argument {
                     Argument::Register(register) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.try_into().unwrap(),
+                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.into(),
                         value: gum_sys::_GumArgument__bindgen_ty_1 {
                             reg: *register as i32,
                         },
                     },
                     Argument::Address(address) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.try_into().unwrap(),
+                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.into(),
                         value: gum_sys::_GumArgument__bindgen_ty_1 { address: *address },
                     },
                 })
@@ -1267,13 +1266,13 @@ impl Aarch64InstructionWriter {
                 .iter()
                 .map(|argument| match argument {
                     Argument::Register(register) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.try_into().unwrap(),
+                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.into(),
                         value: gum_sys::_GumArgument__bindgen_ty_1 {
                             reg: *register as i32,
                         },
                     },
                     Argument::Address(address) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.try_into().unwrap(),
+                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.into(),
                         value: gum_sys::_GumArgument__bindgen_ty_1 { address: *address },
                     },
                 })
