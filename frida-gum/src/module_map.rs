@@ -8,7 +8,7 @@
 use frida_gum_sys as gum_sys;
 use std::{ffi::CStr, os::raw::c_void, path::Path};
 
-use crate::MemoryRange;
+use crate::{Gum, MemoryRange};
 
 struct SaveModuleDetailsByNameContext {
     name: String,
@@ -147,12 +147,12 @@ impl ModuleMap {
     }
 
     /// Create a new [`ModuleMap`]
-    pub fn new() -> Self {
+    pub fn new(_gum: &Gum) -> Self {
         Self::from_raw(unsafe { gum_sys::gum_module_map_new() })
     }
 
     /// Create a new [`ModuleMap`] with a filter function
-    pub fn new_with_filter(filter: &mut dyn FnMut(ModuleDetails) -> bool) -> Self {
+    pub fn new_with_filter(_gum: &Gum, filter: &mut dyn FnMut(ModuleDetails) -> bool) -> Self {
         unsafe extern "C" fn module_map_filter(
             details: *const gum_sys::_GumModuleDetails,
             callback: *mut c_void,
@@ -174,8 +174,8 @@ impl ModuleMap {
     }
 
     /// Create a new [`ModuleMap`] from a list of names
-    pub fn new_from_names(names: &[&str]) -> Self {
-        Self::new_with_filter(&mut |details: ModuleDetails| {
+    pub fn new_from_names(gum: &Gum, names: &[&str]) -> Self {
+        Self::new_with_filter(gum, &mut |details: ModuleDetails| {
             for name in names {
                 if (name.starts_with('/') && details.path().eq(name))
                     || (name.contains('/')
@@ -222,12 +222,6 @@ impl ModuleMap {
     /// Update the [`ModuleMap`]. This function must be called before using find.
     pub fn update(&mut self) {
         unsafe { gum_sys::gum_module_map_update(self.module_map) }
-    }
-}
-
-impl Default for ModuleMap {
-    fn default() -> Self {
-        Self::new()
     }
 }
 
