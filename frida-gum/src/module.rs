@@ -79,10 +79,7 @@ impl Module {
 
     /// The absolute address of the symbol. In the event that no such symbol
     /// could be found, returns NULL.
-    pub fn find_symbol_by_name(
-        module_name: &str,
-        symbol_name: &str,
-    ) -> Option<NativePointer> {
+    pub fn find_symbol_by_name(module_name: &str, symbol_name: &str) -> Option<NativePointer> {
         let symbol_name = CString::new(symbol_name).unwrap();
 
         let module_name = CString::new(module_name).unwrap();
