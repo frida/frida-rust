@@ -79,20 +79,12 @@ impl Module {
 
     /// The absolute address of the symbol. In the event that no such symbol
     /// could be found, returns NULL.
-    pub fn find_symbol_by_name(
-        module_name: Option<&str>,
-        symbol_name: &str,
-    ) -> Option<NativePointer> {
+    pub fn find_symbol_by_name(module_name: &str, symbol_name: &str) -> Option<NativePointer> {
         let symbol_name = CString::new(symbol_name).unwrap();
 
-        let ptr = match module_name {
-            None => unsafe {
-                gum_sys::gum_module_find_symbol_by_name(std::ptr::null_mut(), symbol_name.as_ptr())
-            },
-            Some(name) => unsafe {
-                let module_name = CString::new(name).unwrap();
-                gum_sys::gum_module_find_symbol_by_name(module_name.as_ptr(), symbol_name.as_ptr())
-            },
+        let module_name = CString::new(module_name).unwrap();
+        let ptr = unsafe {
+            gum_sys::gum_module_find_symbol_by_name(module_name.as_ptr(), symbol_name.as_ptr())
         } as *mut c_void;
 
         if ptr.is_null() {
