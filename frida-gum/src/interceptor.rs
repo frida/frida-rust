@@ -10,7 +10,6 @@ use frida_gum_sys as gum_sys;
 use std::marker::PhantomData;
 #[cfg(feature = "invocation-listener")]
 use std::os::raw::c_void;
-#[cfg(feature = "invocation-listener")]
 use std::ptr;
 
 use crate::NativePointer;
@@ -90,15 +89,17 @@ impl<'a> Interceptor<'a> {
         function: NativePointer,
         replacement: NativePointer,
         replacement_data: NativePointer,
-    ) -> Result<()> {
+    ) -> Result<NativePointer> {
+        let mut original_function = NativePointer(ptr::null_mut());
         unsafe {
             match gum_sys::gum_interceptor_replace(
                 self.interceptor,
                 function.0,
                 replacement.0,
                 replacement_data.0,
+                &mut original_function.0,
             ) {
-                gum_sys::GumReplaceReturn_GUM_REPLACE_OK => Ok(()),
+                gum_sys::GumReplaceReturn_GUM_REPLACE_OK => Ok(original_function),
                 gum_sys::GumReplaceReturn_GUM_REPLACE_WRONG_SIGNATURE => {
                     Err(Error::InterceptorBadSignature)
                 }
