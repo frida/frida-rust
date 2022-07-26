@@ -12,3 +12,4 @@ crate-type = ["cdylib"]
 frida-gum = { path = "../../../frida-gum"}
 lazy_static = "1.4"
 ctor = "0.1"
+libc = "0.2.126"
