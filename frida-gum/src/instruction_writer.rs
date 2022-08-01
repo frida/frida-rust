@@ -6,12 +6,12 @@
  */
 
 //! Instruction writer interface.
-#[allow(unused_imports)]
-use std::convert::TryInto;
 use frida_gum_sys as gum_sys;
 use gum_sys::GumArgument;
 #[cfg(target_arch = "x86_64")]
 use gum_sys::GumBranchHint;
+#[allow(unused_imports)]
+use std::convert::TryInto;
 use std::ffi::c_void;
 
 use capstone::Insn;
