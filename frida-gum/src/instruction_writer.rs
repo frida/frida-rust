@@ -31,6 +31,12 @@ pub type TargetRelocator = Aarch64Relocator;
 pub type TargetRegister = X86Register;
 #[cfg(target_arch = "aarch64")]
 pub type TargetRegister = Aarch64Register;
+
+#[cfg(target_arch = "x86_64")]
+pub type TargetBranchCondition = X86BranchCondition;
+#[cfg(target_arch = "aarch64")]
+pub type TargetBranchCondition = Aarch64BranchCondition;
+
 pub enum Argument {
     Register(TargetRegister),
     Address(u64),
@@ -499,6 +505,30 @@ impl InstructionWriter for X86InstructionWriter {
 }
 
 #[cfg(target_arch = "x86_64")]
+#[repr(i32)]
+pub enum X86BranchCondition {
+    Jo = gum_sys::x86_insn_X86_INS_JO,
+    Jno = gum_sys::x86_insn_X86_INS_JNO,
+    Jb = gum_sys::x86_insn_X86_INS_JB,
+    Jae = gum_sys::x86_insn_X86_INS_JAE,
+    Je = gum_sys::x86_insn_X86_INS_JE,
+    Jne = gum_sys::x86_insn_X86_INS_JNE,
+    Jbe = gum_sys::x86_insn_X86_INS_JBE,
+    Ja = gum_sys::x86_insn_X86_INS_JA,
+    Js = gum_sys::x86_insn_X86_INS_JS,
+    Jns = gum_sys::x86_insn_X86_INS_JNS,
+    Jp = gum_sys::x86_insn_X86_INS_JP,
+    Jnp = gum_sys::x86_insn_X86_INS_JNP,
+    Jl = gum_sys::x86_insn_X86_INS_JL,
+    Jge = gum_sys::x86_insn_X86_INS_JGE,
+    Jle = gum_sys::x86_insn_X86_INS_JLE,
+    Jg = gum_sys::x86_insn_X86_INS_JG,
+    Jcxz = gum_sys::x86_insn_X86_INS_JCXZ,
+    Jecxz = gum_sys::x86_insn_X86_INS_JECXZ,
+    Jrcxz = gum_sys::x86_insn_X86_INS_JRCXZ,
+}
+
+#[cfg(target_arch = "x86_64")]
 impl X86InstructionWriter {
     pub(crate) fn from_raw(writer: *mut gum_sys::_GumX86Writer) -> Self {
         Self {
@@ -567,39 +597,14 @@ impl X86InstructionWriter {
 
     pub fn put_jcc_short_label(
         &self,
-        instruction_mnemonic: &str,
+        condition: X86BranchCondition,
         label_id: u64,
         hint: GumBranchHint,
     ) {
-        let instruction_id = match instruction_mnemonic {
-            "jo" => gum_sys::x86_insn_X86_INS_JO,
-            "jno" => gum_sys::x86_insn_X86_INS_JNO,
-            "jb" => gum_sys::x86_insn_X86_INS_JB,
-            "jae" => gum_sys::x86_insn_X86_INS_JAE,
-            "je" => gum_sys::x86_insn_X86_INS_JE,
-            "jne" => gum_sys::x86_insn_X86_INS_JNE,
-            "jbe" => gum_sys::x86_insn_X86_INS_JBE,
-            "ja" => gum_sys::x86_insn_X86_INS_JA,
-            "js" => gum_sys::x86_insn_X86_INS_JS,
-            "jns" => gum_sys::x86_insn_X86_INS_JNS,
-            "jp" => gum_sys::x86_insn_X86_INS_JP,
-            "jnp" => gum_sys::x86_insn_X86_INS_JNP,
-            "jl" => gum_sys::x86_insn_X86_INS_JL,
-            "jge" => gum_sys::x86_insn_X86_INS_JGE,
-            "jle" => gum_sys::x86_insn_X86_INS_JLE,
-            "jg" => gum_sys::x86_insn_X86_INS_JG,
-            "jcxz" => gum_sys::x86_insn_X86_INS_JCXZ,
-            "jecxz" => gum_sys::x86_insn_X86_INS_JECXZ,
-            "jrcxz" => gum_sys::x86_insn_X86_INS_JRCXZ,
-            _ => {
-                unimplemented!();
-            }
-        };
-
         unsafe {
             gum_sys::gum_x86_writer_put_jcc_short_label(
                 self.writer,
-                instruction_id,
+                condition as i32,
                 label_id as *const c_void,
                 hint,
             )
@@ -608,39 +613,14 @@ impl X86InstructionWriter {
 
     pub fn put_jcc_near_label(
         &self,
-        instruction_mnemonic: &str,
+        condition: X86BranchCondition,
         label_id: u64,
         hint: GumBranchHint,
     ) {
-        let instruction_id = match instruction_mnemonic {
-            "jo" => gum_sys::x86_insn_X86_INS_JO,
-            "jno" => gum_sys::x86_insn_X86_INS_JNO,
-            "jb" => gum_sys::x86_insn_X86_INS_JB,
-            "jae" => gum_sys::x86_insn_X86_INS_JAE,
-            "je" => gum_sys::x86_insn_X86_INS_JE,
-            "jne" => gum_sys::x86_insn_X86_INS_JNE,
-            "jbe" => gum_sys::x86_insn_X86_INS_JBE,
-            "ja" => gum_sys::x86_insn_X86_INS_JA,
-            "js" => gum_sys::x86_insn_X86_INS_JS,
-            "jns" => gum_sys::x86_insn_X86_INS_JNS,
-            "jp" => gum_sys::x86_insn_X86_INS_JP,
-            "jnp" => gum_sys::x86_insn_X86_INS_JNP,
-            "jl" => gum_sys::x86_insn_X86_INS_JL,
-            "jge" => gum_sys::x86_insn_X86_INS_JGE,
-            "jle" => gum_sys::x86_insn_X86_INS_JLE,
-            "jg" => gum_sys::x86_insn_X86_INS_JG,
-            "jcxz" => gum_sys::x86_insn_X86_INS_JCXZ,
-            "jecxz" => gum_sys::x86_insn_X86_INS_JECXZ,
-            "jrcxz" => gum_sys::x86_insn_X86_INS_JRCXZ,
-            _ => {
-                unimplemented!();
-            }
-        };
-
         unsafe {
             gum_sys::gum_x86_writer_put_jcc_near_label(
                 self.writer,
-                instruction_id,
+                condition as i32,
                 label_id as *const c_void,
                 hint,
             )
@@ -996,6 +976,27 @@ pub struct Aarch64InstructionWriter {
 }
 
 #[cfg(target_arch = "aarch64")]
+#[repr(u32)]
+pub enum Aarch64BranchCondition {
+    Eq = gum_sys::arm64_cc_ARM64_CC_EQ,
+    Ne = gum_sys::arm64_cc_ARM64_CC_NE,
+    Hs = gum_sys::arm64_cc_ARM64_CC_HS,
+    Lo = gum_sys::arm64_cc_ARM64_CC_LO,
+    Mi = gum_sys::arm64_cc_ARM64_CC_MI,
+    Pl = gum_sys::arm64_cc_ARM64_CC_PL,
+    Vs = gum_sys::arm64_cc_ARM64_CC_VS,
+    Vc = gum_sys::arm64_cc_ARM64_CC_VC,
+    Hi = gum_sys::arm64_cc_ARM64_CC_HI,
+    Ls = gum_sys::arm64_cc_ARM64_CC_LS,
+    Ge = gum_sys::arm64_cc_ARM64_CC_GE,
+    Lt = gum_sys::arm64_cc_ARM64_CC_LT,
+    Gt = gum_sys::arm64_cc_ARM64_CC_GT,
+    Le = gum_sys::arm64_cc_ARM64_CC_LE,
+    Al = gum_sys::arm64_cc_ARM64_CC_AL,
+    Nv = gum_sys::arm64_cc_ARM64_CC_NV,
+}
+
+#[cfg(target_arch = "aarch64")]
 impl InstructionWriter for Aarch64InstructionWriter {
     fn new(code_address: u64) -> Self {
         Self {
@@ -1231,33 +1232,11 @@ impl Aarch64InstructionWriter {
         }
     }
 
-    pub fn put_bcond_label(&self, instruction_mnemonic: &str, label_id: u64) {
-        let instruction_id = match instruction_mnemonic {
-            "eq" => gum_sys::arm64_cc_ARM64_CC_EQ,
-            "ne" => gum_sys::arm64_cc_ARM64_CC_NE,
-            "hs" => gum_sys::arm64_cc_ARM64_CC_HS,
-            "lo" => gum_sys::arm64_cc_ARM64_CC_LO,
-            "mi" => gum_sys::arm64_cc_ARM64_CC_MI,
-            "pl" => gum_sys::arm64_cc_ARM64_CC_PL,
-            "vs" => gum_sys::arm64_cc_ARM64_CC_VS,
-            "vc" => gum_sys::arm64_cc_ARM64_CC_VC,
-            "hi" => gum_sys::arm64_cc_ARM64_CC_HI,
-            "ls" => gum_sys::arm64_cc_ARM64_CC_LS,
-            "ge" => gum_sys::arm64_cc_ARM64_CC_GE,
-            "lt" => gum_sys::arm64_cc_ARM64_CC_LT,
-            "gt" => gum_sys::arm64_cc_ARM64_CC_GT,
-            "le" => gum_sys::arm64_cc_ARM64_CC_LE,
-            "al" => gum_sys::arm64_cc_ARM64_CC_AL,
-            "nv" => gum_sys::arm64_cc_ARM64_CC_NV,
-            _ => {
-                unimplemented!();
-            }
-        };
-
+    pub fn put_bcond_label(&self, branch_condition: Aarch64BranchCondition, label_id: u64) {
         unsafe {
             gum_sys::gum_arm64_writer_put_b_cond_label(
                 self.writer,
-                instruction_id,
+                branch_condition as u32,
                 label_id as *const c_void,
             )
         }
