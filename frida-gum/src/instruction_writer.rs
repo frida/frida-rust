@@ -604,7 +604,7 @@ impl X86InstructionWriter {
         unsafe {
             gum_sys::gum_x86_writer_put_jcc_short_label(
                 self.writer,
-                condition.try_into().unwrap(),
+                condition as u32,
                 label_id as *const c_void,
                 hint,
             )
@@ -620,7 +620,7 @@ impl X86InstructionWriter {
         unsafe {
             gum_sys::gum_x86_writer_put_jcc_near_label(
                 self.writer,
-                condition.try_into().unwrap(),
+                condition as u32,
                 label_id as *const c_void,
                 hint,
             )
