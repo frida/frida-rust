@@ -15,10 +15,14 @@ pub struct MatchPattern {
 }
 
 impl MatchPattern {
-    pub fn from_string(pattern: &str) -> Self {
+    pub fn from_string(pattern: &str) -> Option(Self) {
         let pattern = CString::new(pattern).unwrap();
-        Self {
-            internal: unsafe { gum_sys::gum_match_pattern_new_from_string(pattern.as_ptr()) },
+
+        let internal = unsafe { gum_sys::gum_match_pattern_new_from_string(pattern.as_ptr()) };
+        if !internal.is_null() {
+            Some(Self { internal })
+        } else {
+            None
         }
     }
 }
