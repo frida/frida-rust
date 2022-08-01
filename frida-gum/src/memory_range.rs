@@ -33,6 +33,7 @@ impl Drop for MatchPattern {
     }
 }
 
+#[allow(dead_code)]
 pub struct ScanResult {
     address: usize,
     size: usize,
