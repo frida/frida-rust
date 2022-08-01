@@ -33,6 +33,10 @@ impl Drop for MatchPattern {
     }
 }
 
+pub struct ScanResult {
+    address: usize,
+    size: usize,
+}
 pub struct MemoryRange {
     pub(crate) memory_range: gum_sys::GumMemoryRange,
 }
@@ -65,13 +69,16 @@ impl MemoryRange {
         self.memory_range.size as usize
     }
 
-    pub fn scan(&self, pattern: &MatchPattern) -> Vec<(usize, usize)> {
+    pub fn scan(&self, pattern: &MatchPattern) -> Vec<ScanResult> {
         let mut results = Vec::new();
         unsafe {
             extern "C" fn callback(address: u64, size: u64, user_data: *mut c_void) -> i32 {
-                let results: &mut Vec<(usize, usize)> =
+                let results: &mut Vec<ScanResult> =
                     unsafe { &mut *(user_data as *mut Vec<(usize, usize)>) };
-                results.push((address as usize, size as usize));
+                results.push(ScanResult {
+                    address: address as usize,
+                    size: size as usize,
+                });
                 0
             }
             gum_sys::gum_memory_scan(
