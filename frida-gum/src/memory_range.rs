@@ -15,7 +15,7 @@ pub struct MatchPattern {
 }
 
 impl MatchPattern {
-    pub fn from_string(pattern: &str) -> Option(Self) {
+    pub fn from_string(pattern: &str) -> Option<Self> {
         let pattern = CString::new(pattern).unwrap();
 
         let internal = unsafe { gum_sys::gum_match_pattern_new_from_string(pattern.as_ptr()) };
@@ -71,7 +71,6 @@ impl MemoryRange {
             extern "C" fn callback(address: u64, size: u64, user_data: *mut c_void) -> i32 {
                 let results: &mut Vec<(usize, usize)> =
                     unsafe { &mut *(user_data as *mut Vec<(usize, usize)>) };
-                log::debug!("address: {:x}, size: {:x}", address, size);
                 results.push((address as usize, size as usize));
                 0
             }
