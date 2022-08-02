@@ -5,15 +5,21 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
-use std::env;
-use std::fs::File;
-use std::io;
-use std::path::Path;
-
+use std::{
+    env,
+    fs::{remove_file, File},
+    io::{self, Error},
+    path::Path,
+};
 use tar::Archive;
 use xz::read::XzDecoder;
 
-pub fn download_and_use_devkit(kind: &str, version: &str) -> String {
+/// private function to retry download in case of error.
+fn download_and_use_devkit_internal(
+    kind: &str,
+    version: &str,
+    force_download: bool,
+) -> Result<String, Error> {
     let mut target_arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap();
 
     let out_dir = env::var_os("OUT_DIR").unwrap();
@@ -29,6 +35,10 @@ pub fn download_and_use_devkit(kind: &str, version: &str) -> String {
 
     let devkit_path = out_dir_path.join(&devkit_name);
     let devkit_tar = out_dir_path.join(format!("{}.tar.xz", &devkit_name));
+
+    if force_download {
+        let _ = remove_file(&devkit_tar);
+    }
 
     if !devkit_path.is_dir() {
         if !devkit_tar.is_file() {
@@ -50,13 +60,21 @@ pub fn download_and_use_devkit(kind: &str, version: &str) -> String {
         let tar_xz = File::open(&devkit_tar).expect("failed to open devkit tar.xz for extraction");
         let tar = XzDecoder::new(tar_xz);
         let mut archive = Archive::new(tar);
-        archive
-            .unpack(&out_dir_path)
-            .expect("cannot extract the devkit tar.gz");
+        archive.unpack(&out_dir_path)?;
     }
 
     println!("cargo:rustc-link-search={}", out_dir.to_string_lossy());
     println!("cargo:rustc-link-lib=static=frida-{}", kind);
 
-    out_dir.to_string_lossy().to_string()
+    Ok(out_dir.to_string_lossy().to_string())
+}
+
+pub fn download_and_use_devkit(kind: &str, version: &str) -> String {
+    if let Ok(str) = download_and_use_devkit_internal(kind, version, false) {
+        str
+    } else {
+        println!("cargo:warning=Failed to unpack devkit tar.gz, retrying download...");
+        download_and_use_devkit_internal(kind, version, true)
+            .expect("cannot extract the devkit tar.gz")
+    }
 }
