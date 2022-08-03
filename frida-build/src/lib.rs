@@ -37,7 +37,7 @@ fn download_and_use_devkit_internal(
     let devkit_tar = out_dir_path.join(format!("{}.tar.xz", &devkit_name));
 
     if force_download {
-        let _ = remove_file(&devkit_tar);
+        drop(remove_file(&devkit_tar));
     }
 
     if !devkit_path.is_dir() {
@@ -69,12 +69,15 @@ fn download_and_use_devkit_internal(
     Ok(out_dir.to_string_lossy().to_string())
 }
 
+#[must_use]
 pub fn download_and_use_devkit(kind: &str, version: &str) -> String {
-    if let Ok(str) = download_and_use_devkit_internal(kind, version, false) {
-        str
-    } else {
-        println!("cargo:warning=Failed to unpack devkit tar.gz, retrying download...");
-        download_and_use_devkit_internal(kind, version, true)
-            .expect("cannot extract the devkit tar.gz")
-    }
+    download_and_use_devkit_internal(kind, version, false)
+        .or_else(|e| {
+            println!(
+                "cargo:warning=Failed to unpack devkit tar.gz: {}, retrying download...",
+                e
+            );
+            download_and_use_devkit_internal(kind, version, true)
+        })
+        .expect("cannot extract the devkit tar.gz")
 }
