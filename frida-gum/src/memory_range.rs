@@ -35,8 +35,8 @@ impl Drop for MatchPattern {
 
 #[allow(dead_code)]
 pub struct ScanResult {
-    address: usize,
-    size: usize,
+    pub address: usize,
+    pub size: usize,
 }
 pub struct MemoryRange {
     pub(crate) memory_range: gum_sys::GumMemoryRange,
