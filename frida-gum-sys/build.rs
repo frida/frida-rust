@@ -59,6 +59,7 @@ fn main() {
         .header("invocation_listener.h")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate_comments(false)
+        .layout_tests(false)
         .generate()
         .unwrap();
 
