@@ -68,14 +68,14 @@ impl<'a> Interceptor<'a> {
     /// The provided address *must* point to a valid instruction.
     #[cfg(feature = "invocation-listener")]
     #[cfg_attr(doc_cfg, doc(cfg(feature = "invocation-listener")))]
-    pub fn attach_instruction<I: InstructionInvocationListener>(
+    pub fn attach_instruction<I: ProbeListener>(
         &mut self,
-        f: NativePointer,
+        instr: NativePointer,
         listener: &mut I,
     ) -> NativePointer {
-        let listener = instruction_invocation_listener_transform(listener);
+        let listener = probe_listener_transform(listener);
         unsafe {
-            gum_sys::gum_interceptor_attach(self.interceptor, f.0, listener, ptr::null_mut())
+            gum_sys::gum_interceptor_attach(self.interceptor, instr.0, listener, ptr::null_mut())
         };
         NativePointer(listener as *mut c_void)
     }

@@ -20,8 +20,8 @@ fn main() {
     {
         println!("cargo:rerun-if-changed=invocation_listener.c");
         println!("cargo:rerun-if-changed=invocation_listener.h");
-        println!("cargo:rerun-if-changed=instruction_invocation_listener.c");
-        println!("cargo:rerun-if-changed=instruction_invocation_listener.h");
+        println!("cargo:rerun-if-changed=probe_listener.c");
+        println!("cargo:rerun-if-changed=probe_listener.h");
     }
 
     println!(
@@ -59,7 +59,7 @@ fn main() {
         .header_contents("gum.h", "#include \"frida-gum.h\"")
         .header("event_sink.h")
         .header("invocation_listener.h")
-        .header("instruction_invocation_listener.h")
+        .header("probe_listener.h")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate_comments(false)
         .layout_tests(false)
@@ -112,10 +112,10 @@ fn main() {
             .opt_level(3)
             .compile("invocation_listener");
 
-            builder
-            .file("instruction_invocation_listener.c")
+        builder
+            .file("probe_listener.c")
             .opt_level(3)
-            .compile("instruction_invocation_listener");
+            .compile("probe_listener");
     }
 
     #[cfg(target_os = "windows")]
