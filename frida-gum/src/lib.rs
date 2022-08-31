@@ -83,6 +83,9 @@ pub use memory_range::*;
 mod range_details;
 pub use range_details::*;
 
+mod debug_symbol;
+pub use debug_symbol::*;
+
 #[cfg(all(feature = "backtrace", not(target_os = "windows")))]
 #[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
 mod backtracer;
@@ -118,6 +121,18 @@ impl NativePointer {
     /// Check if the pointer is NULL.
     pub fn is_null(&self) -> bool {
         self.0.is_null()
+    }
+}
+
+impl From<&NativePointer> for *mut c_void {
+    fn from(other: &NativePointer) -> Self {
+        other.0
+    }
+}
+
+impl From<NativePointer> for *mut c_void {
+    fn from(other: NativePointer) -> Self {
+        other.0
     }
 }
 
