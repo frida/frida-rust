@@ -98,7 +98,7 @@ fn main() {
 
         #[cfg(feature = "auto-download")]
         #[allow(unused_mut)]
-        let mut builder = builder.include(include_dir);
+        let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
         let builder = if std::env::var("DOCS_RS").is_ok() {
@@ -112,6 +112,18 @@ fn main() {
             .opt_level(3)
             .compile("invocation_listener");
 
+        let mut builder = cc::Build::new();
+
+        #[cfg(feature = "auto-download")]
+        #[allow(unused_mut)]
+        let mut builder = builder.include(include_dir);
+
+        #[cfg(not(feature = "auto-download"))]
+        let builder = if std::env::var("DOCS_RS").is_ok() {
+            builder.include("include")
+        } else {
+            &mut builder
+        };
         builder
             .file("probe_listener.c")
             .opt_level(3)

@@ -1,6 +1,6 @@
 use ctor::ctor;
 use frida_gum::{
-    interceptor::{ProbeListener, Interceptor, InvocationContext},
+    interceptor::{Interceptor, InvocationContext, ProbeListener},
     Gum, Module,
 };
 use lazy_static::lazy_static;
