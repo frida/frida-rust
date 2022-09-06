@@ -152,3 +152,9 @@ impl TryFrom<NativePointer> for String {
         }
     }
 }
+
+impl AsRef<NativePointer> for NativePointer {
+    fn as_ref(&self) -> &NativePointer {
+        self
+    }
+}

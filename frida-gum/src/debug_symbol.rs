@@ -1,4 +1,3 @@
-use std::borrow::Borrow;
 use std::convert::TryInto;
 use std::fmt;
 use std::mem::MaybeUninit;
@@ -59,12 +58,12 @@ pub struct DebugSymbol {}
 
 impl DebugSymbol {
     /// Get debug symbol details for address
-    pub fn from_address<B: Borrow<NativePointer>>(address: B) -> Option<Symbol> {
+    pub fn from_address<N: AsRef<NativePointer>>(address: N) -> Option<Symbol> {
         let mut gum_symbol_details: GumDebugSymbolDetails =
             unsafe { MaybeUninit::zeroed().assume_init() };
         match unsafe {
             gum_symbol_details_from_address(
-                address.borrow().into(),
+                address.as_ref().into(),
                 &mut gum_symbol_details as *mut _,
             )
         } {
