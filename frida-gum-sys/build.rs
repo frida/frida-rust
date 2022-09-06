@@ -20,6 +20,8 @@ fn main() {
     {
         println!("cargo:rerun-if-changed=invocation_listener.c");
         println!("cargo:rerun-if-changed=invocation_listener.h");
+        println!("cargo:rerun-if-changed=probe_listener.c");
+        println!("cargo:rerun-if-changed=probe_listener.h");
     }
 
     println!(
@@ -57,6 +59,7 @@ fn main() {
         .header_contents("gum.h", "#include \"frida-gum.h\"")
         .header("event_sink.h")
         .header("invocation_listener.h")
+        .header("probe_listener.h")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate_comments(false)
         .layout_tests(false)
@@ -95,7 +98,7 @@ fn main() {
 
         #[cfg(feature = "auto-download")]
         #[allow(unused_mut)]
-        let mut builder = builder.include(include_dir);
+        let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
         let builder = if std::env::var("DOCS_RS").is_ok() {
@@ -108,6 +111,23 @@ fn main() {
             .file("invocation_listener.c")
             .opt_level(3)
             .compile("invocation_listener");
+
+        let mut builder = cc::Build::new();
+
+        #[cfg(feature = "auto-download")]
+        #[allow(unused_mut)]
+        let mut builder = builder.include(include_dir);
+
+        #[cfg(not(feature = "auto-download"))]
+        let builder = if std::env::var("DOCS_RS").is_ok() {
+            builder.include("include")
+        } else {
+            &mut builder
+        };
+        builder
+            .file("probe_listener.c")
+            .opt_level(3)
+            .compile("probe_listener");
     }
 
     #[cfg(target_os = "windows")]

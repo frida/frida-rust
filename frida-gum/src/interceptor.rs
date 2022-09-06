@@ -61,6 +61,25 @@ impl<'a> Interceptor<'a> {
         NativePointer(listener as *mut c_void)
     }
 
+    /// Attach a listener to an instruction address.
+    ///
+    /// # Safety
+    ///
+    /// The provided address *must* point to a valid instruction.
+    #[cfg(feature = "invocation-listener")]
+    #[cfg_attr(doc_cfg, doc(cfg(feature = "invocation-listener")))]
+    pub fn attach_instruction<I: ProbeListener>(
+        &mut self,
+        instr: NativePointer,
+        listener: &mut I,
+    ) -> NativePointer {
+        let listener = probe_listener_transform(listener);
+        unsafe {
+            gum_sys::gum_interceptor_attach(self.interceptor, instr.0, listener, ptr::null_mut())
+        };
+        NativePointer(listener as *mut c_void)
+    }
+
     /// Detach an attached listener.
     ///
     /// # Safety
