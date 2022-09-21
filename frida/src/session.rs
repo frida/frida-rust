@@ -5,6 +5,7 @@
  */
 
 use frida_sys::_FridaSession;
+use std::ffi::CString;
 use std::marker::PhantomData;
 use std::ptr::null_mut;
 
@@ -40,20 +41,24 @@ impl<'a> Session<'a> {
         'a: 'b,
     {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
-        let script = unsafe {
-            frida_sys::frida_session_create_script_sync(
-                self.session_ptr,
-                source.as_ptr() as _,
-                option.as_mut_ptr(),
-                null_mut(),
-                &mut error,
-            )
-        };
-
-        if error.is_null() {
-            Ok(Script::from_raw(script))
-        } else {
-            Err(Error::ScriptCreationError)
+        match CString::new(source) {
+            Ok(source) => {
+                let script = unsafe {
+                    frida_sys::frida_session_create_script_sync(
+                        self.session_ptr,
+                        source.as_ptr(),
+                        option.as_mut_ptr(),
+                        null_mut(),
+                        &mut error,
+                    )
+                };
+                if error.is_null() {
+                    Ok(Script::from_raw(script))
+                } else {
+                    Err(Error::ScriptCreationError)
+                }
+            }
+            Err(_) => Err(Error::CStringFailed),
         }
     }
 
