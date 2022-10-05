@@ -4,6 +4,8 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
+//! Used to enumerate all devices.
+
 use frida_sys::_FridaDeviceManager;
 use std::marker::PhantomData;
 

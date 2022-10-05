@@ -4,6 +4,8 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
+//! Device helper.
+
 use frida_sys::_FridaDevice;
 use std::ffi::CStr;
 use std::marker::PhantomData;

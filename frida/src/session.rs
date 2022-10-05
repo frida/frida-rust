@@ -4,6 +4,8 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
+//! Session helper.
+
 use frida_sys::_FridaSession;
 use std::ffi::CString;
 use std::marker::PhantomData;

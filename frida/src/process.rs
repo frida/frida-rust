@@ -4,6 +4,8 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
+//! Process helper.
+
 use frida_sys::_FridaProcess;
 use std::ffi::CStr;
 use std::marker::PhantomData;

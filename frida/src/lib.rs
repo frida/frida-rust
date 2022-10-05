@@ -14,22 +14,22 @@
 
 use std::ffi::CStr;
 
-mod device;
+pub mod device;
 pub use device::*;
 
-mod device_manager;
+pub mod device_manager;
 pub use device_manager::*;
 
 mod error;
 pub use error::Error;
 
-mod process;
+pub mod process;
 pub use process::*;
 
-mod script;
+pub mod script;
 pub use script::*;
 
-mod session;
+pub mod session;
 pub use session::*;
 
 #[doc(hidden)]

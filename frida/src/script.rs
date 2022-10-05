@@ -4,6 +4,9 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
+//! Script helper.
+//! Used to inject a Frida script.
+
 use frida_sys::{FridaScriptOptions, _FridaScript};
 use std::marker::PhantomData;
 use std::{
