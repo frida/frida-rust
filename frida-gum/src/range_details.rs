@@ -54,7 +54,7 @@ impl<'a> FileMapping<'a> {
 
     /// The size of the mapping.
     pub fn size(&self) -> u64 {
-        unsafe { (*self.file_mapping).size }
+        unsafe { (*self.file_mapping).size as u64 }
     }
 }
 
@@ -70,7 +70,7 @@ unsafe extern "C" fn save_range_details_by_address(
     let mut context = &mut *(context as *mut SaveRangeDetailsByAddressContext);
     let range = (*details).range;
     let start = (*range).base_address as u64;
-    let end = start + (*range).size;
+    let end = start + (*range).size as u64;
     if start <= context.address && context.address < end {
         context.details = details;
         return 0;

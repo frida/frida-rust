@@ -73,7 +73,12 @@ impl MemoryRange {
     pub fn scan(&self, pattern: &MatchPattern) -> Vec<ScanResult> {
         let mut results = Vec::new();
         unsafe {
-            extern "C" fn callback(address: u64, size: u64, user_data: *mut c_void) -> i32 {
+            #[cfg(target_pointer_width = "64")]
+            type TargetSize = u64;
+            #[cfg(target_pointer_width = "32")]
+            type TargetSize = u32;
+
+            extern "C" fn callback(address: u64, size: TargetSize, user_data: *mut c_void) -> i32 {
                 let results: &mut Vec<ScanResult> =
                     unsafe { &mut *(user_data as *mut Vec<ScanResult>) };
                 results.push(ScanResult {

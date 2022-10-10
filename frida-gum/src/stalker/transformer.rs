@@ -130,7 +130,7 @@ impl<'a> StalkerOutput<'a> {
     /// Obtain an [`crate::instruction_writer::InstructionWriter`] for inserting into the stream.
     pub fn writer(&self) -> TargetInstructionWriter {
         unsafe {
-            #[cfg(target_arch = "x86_64")]
+            #[cfg(any(target_arch = "x86_64", target_arch = "x86"))]
             let writer = TargetInstructionWriter::from_raw((*self.output).writer.x86);
             #[cfg(target_arch = "aarch64")]
             let writer = TargetInstructionWriter::from_raw((*self.output).writer.arm64);
