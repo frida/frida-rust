@@ -74,7 +74,7 @@ pub fn download_and_use_devkit(kind: &str, version: &str) -> String {
     download_and_use_devkit_internal(kind, version, false)
         .or_else(|e| {
             println!(
-                "cargo:warning=Failed to unpack devkit tar.gz: {}, retrying download...",
+                "cargo:warning=Failed to unpack devkit: {}, retrying download...",
                 e
             );
             download_and_use_devkit_internal(kind, version, true)
