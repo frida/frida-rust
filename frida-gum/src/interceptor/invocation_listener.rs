@@ -45,6 +45,29 @@ pub(crate) fn invocation_listener_transform<I: InvocationListener>(
     unsafe { frida_gum_sys::gum_rust_invocation_listener_new(rust) }
 }
 
+pub trait ProbeListener {
+    fn on_hit(&mut self, context: InvocationContext);
+}
+
+unsafe extern "C" fn call_on_hit<I: ProbeListener>(
+    user_data: *mut c_void,
+    context: *mut gum_sys::GumInvocationContext,
+) {
+    let listener: &mut I = &mut *(user_data as *mut I);
+    listener.on_hit(InvocationContext::from_raw(context));
+}
+
+pub(crate) fn probe_listener_transform<I: ProbeListener>(
+    invocation_listener: &mut I,
+) -> *mut frida_gum_sys::GumInvocationListener {
+    let rust = frida_gum_sys::RustProbeListenerVTable {
+        user_data: invocation_listener as *mut _ as *mut c_void,
+        on_hit: Some(call_on_hit::<I>),
+    };
+
+    unsafe { frida_gum_sys::gum_rust_probe_listener_new(rust) }
+}
+
 /// Represents the processor state when an [`InvocationListener`] is entered.
 pub struct InvocationContext<'a> {
     context: *mut gum_sys::GumInvocationContext,

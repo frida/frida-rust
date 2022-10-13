@@ -53,6 +53,7 @@ fn main() {
         .header_contents("core.h", "#include \"frida-core.h\"")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate_comments(false)
+        .layout_tests(false)
         .generate()
         .unwrap();
 

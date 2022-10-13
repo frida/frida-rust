@@ -42,7 +42,7 @@ pub enum Argument {
     Address(u64),
 }
 
-#[derive(FromPrimitive, PartialEq, Clone, Copy, Debug)]
+#[derive(FromPrimitive, PartialEq, Eq, Clone, Copy, Debug)]
 #[repr(u32)]
 pub enum X86Register {
     Eax = gum_sys::_GumX86Reg_GUM_X86_EAX as u32,
@@ -101,7 +101,7 @@ pub enum X86Register {
     None = gum_sys::_GumX86Reg_GUM_X86_NONE as u32,
 }
 
-#[derive(FromPrimitive, PartialEq, Clone, Copy, Debug)]
+#[derive(FromPrimitive, PartialEq, Eq, Clone, Copy, Debug)]
 #[repr(u32)]
 pub enum Aarch64Register {
     Ffr = gum_sys::arm64_reg_ARM64_REG_FFR as u32,

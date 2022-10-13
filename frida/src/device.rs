@@ -28,9 +28,15 @@ impl<'a> Device<'a> {
 
     /// Returns the device's name.
     pub fn get_name(&self) -> &str {
-        let version =
+        let name =
             unsafe { CStr::from_ptr(frida_sys::frida_device_get_name(self.device_ptr) as _) };
-        version.to_str().unwrap_or_default()
+        name.to_str().unwrap_or_default()
+    }
+
+    /// Returns the device's id.
+    pub fn get_id(&self) -> &str {
+        let id = unsafe { CStr::from_ptr(frida_sys::frida_device_get_id(self.device_ptr) as _) };
+        id.to_str().unwrap_or_default()
     }
 
     /// Returns if the device is lost or not.
