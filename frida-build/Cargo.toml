@@ -1,10 +1,10 @@
 [package]
 name = "frida-build"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Keegan Saunders <keegan@undefinedbehaviour.org>"]
 edition = "2018"
 license = "wxWindows"
-repository = "https://github.com/meme/frida-rust"
+repository = "https://github.com/frida/frida-rust"
 description = "Build support for Frida Rust bindings"
 
 [dependencies]
