@@ -27,6 +27,8 @@ fn download_and_use_devkit_internal(
 
     if target_arch == "aarch64" {
         target_arch = "arm64".to_string();
+    } else if target_arch == "i686" {
+        target_arch = "x86".to_string();
     }
 
     let os = env::var("CARGO_CFG_TARGET_OS").unwrap();
