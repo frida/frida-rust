@@ -7,9 +7,9 @@
 
 //! Instruction writer interface.
 use frida_gum_sys as gum_sys;
-use gum_sys::GumArgument;
-#[cfg(target_arch = "x86_64")]
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 use gum_sys::GumBranchHint;
+use gum_sys::{gssize, GumArgument};
 #[allow(unused_imports)]
 use std::convert::TryInto;
 use std::ffi::c_void;
@@ -17,9 +17,9 @@ use std::ffi::c_void;
 use capstone::Insn;
 use capstone_sys::cs_insn;
 
-#[cfg(target_arch = "x86_64")]
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 pub type TargetInstructionWriter = X86InstructionWriter;
-#[cfg(target_arch = "x86_64")]
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 pub type TargetRelocator = X86Relocator;
 
 #[cfg(target_arch = "aarch64")]
@@ -27,12 +27,12 @@ pub type TargetInstructionWriter = Aarch64InstructionWriter;
 #[cfg(target_arch = "aarch64")]
 pub type TargetRelocator = Aarch64Relocator;
 
-#[cfg(target_arch = "x86_64")]
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 pub type TargetRegister = X86Register;
 #[cfg(target_arch = "aarch64")]
 pub type TargetRegister = Aarch64Register;
 
-#[cfg(target_arch = "x86_64")]
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 pub type TargetBranchCondition = X86BranchCondition;
 #[cfg(target_arch = "aarch64")]
 pub type TargetBranchCondition = Aarch64BranchCondition;
@@ -453,13 +453,13 @@ pub trait InstructionWriter {
 }
 
 /// The x86/x86_64 instruction writer.
-#[cfg(target_arch = "x86_64")]
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 pub struct X86InstructionWriter {
     writer: *mut gum_sys::_GumX86Writer,
     is_from_new: bool,
 }
 
-#[cfg(target_arch = "x86_64")]
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 impl InstructionWriter for X86InstructionWriter {
     fn new(code_address: u64) -> Self {
         Self {
@@ -504,7 +504,7 @@ impl InstructionWriter for X86InstructionWriter {
     }
 }
 
-#[cfg(target_arch = "x86_64")]
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 #[repr(u32)]
 pub enum X86BranchCondition {
     Jo = gum_sys::x86_insn_X86_INS_JO as u32,
@@ -528,7 +528,7 @@ pub enum X86BranchCondition {
     Jrcxz = gum_sys::x86_insn_X86_INS_JRCXZ as u32,
 }
 
-#[cfg(target_arch = "x86_64")]
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 impl X86InstructionWriter {
     pub(crate) fn from_raw(writer: *mut gum_sys::_GumX86Writer) -> Self {
         Self {
@@ -585,9 +585,13 @@ impl X86InstructionWriter {
         unsafe { gum_sys::gum_x86_writer_put_jmp_reg_ptr(self.writer, reg as u32) != 0 }
     }
 
-    pub fn put_jmp_reg_offset_ptr(&self, reg: X86Register, offset: i64) -> bool {
+    pub fn put_jmp_reg_offset_ptr(&self, reg: X86Register, offset: isize) -> bool {
         unsafe {
-            gum_sys::gum_x86_writer_put_jmp_reg_offset_ptr(self.writer, reg as u32, offset) != 0
+            gum_sys::gum_x86_writer_put_jmp_reg_offset_ptr(
+                self.writer,
+                reg as u32,
+                offset as gssize,
+            ) != 0
         }
     }
 
@@ -633,8 +637,10 @@ impl X86InstructionWriter {
         unsafe { gum_sys::gum_x86_writer_put_mov_reg_gs_u32_ptr(self.writer, reg as u32, imm) != 0 }
     }
 
-    pub fn put_add_reg_imm(&self, reg: X86Register, imm: i64) -> bool {
-        unsafe { gum_sys::gum_x86_writer_put_add_reg_imm(self.writer, reg as u32, imm) != 0 }
+    pub fn put_add_reg_imm(&self, reg: X86Register, imm: isize) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_add_reg_imm(self.writer, reg as u32, imm as gssize) != 0
+        }
     }
 
     pub fn put_add_reg_reg(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
@@ -650,8 +656,10 @@ impl X86InstructionWriter {
         }
     }
 
-    pub fn put_sub_reg_imm(&self, dst_reg: X86Register, imm: i64) -> bool {
-        unsafe { gum_sys::gum_x86_writer_put_sub_reg_imm(self.writer, dst_reg as u32, imm) != 0 }
+    pub fn put_sub_reg_imm(&self, dst_reg: X86Register, imm: isize) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_sub_reg_imm(self.writer, dst_reg as u32, imm as gssize) != 0
+        }
     }
 
     pub fn put_sub_reg_reg(&self, dst_reg: X86Register, src_reg: X86Register) -> bool {
@@ -730,12 +738,17 @@ impl X86InstructionWriter {
         true
     }
 
-    pub fn put_mov_reg_offset_ptr_u32(&self, dst_reg: X86Register, offset: i64, imm: u32) -> bool {
+    pub fn put_mov_reg_offset_ptr_u32(
+        &self,
+        dst_reg: X86Register,
+        offset: isize,
+        imm: u32,
+    ) -> bool {
         unsafe {
             gum_sys::gum_x86_writer_put_mov_reg_offset_ptr_u32(
                 self.writer,
                 dst_reg as u32,
-                offset,
+                offset as gssize,
                 imm,
             ) != 0
         }
@@ -755,14 +768,14 @@ impl X86InstructionWriter {
     pub fn put_mov_reg_offset_ptr_reg(
         &self,
         dst_reg: X86Register,
-        offset: i64,
+        offset: isize,
         src_reg: X86Register,
     ) -> bool {
         unsafe {
             gum_sys::gum_x86_writer_put_mov_reg_offset_ptr_reg(
                 self.writer,
                 dst_reg as u32,
-                offset,
+                offset as gssize,
                 src_reg as u32,
             ) != 0
         }
@@ -779,14 +792,14 @@ impl X86InstructionWriter {
         &self,
         dst_reg: X86Register,
         src_reg: X86Register,
-        offset: i64,
+        offset: isize,
     ) -> bool {
         unsafe {
             gum_sys::gum_x86_writer_put_mov_reg_reg_offset_ptr(
                 self.writer,
                 dst_reg as u32,
                 src_reg as u32,
-                offset,
+                offset as gssize,
             ) != 0
         }
     }
@@ -797,7 +810,7 @@ impl X86InstructionWriter {
         base_reg: X86Register,
         index_reg: X86Register,
         scale: u8,
-        offset: i64,
+        offset: isize,
     ) -> bool {
         unsafe {
             gum_sys::gum_x86_writer_put_mov_reg_base_index_scale_offset_ptr(
@@ -806,7 +819,7 @@ impl X86InstructionWriter {
                 base_reg as u32,
                 index_reg as u32,
                 scale,
-                offset,
+                offset as gssize,
             ) != 0
         }
     }
@@ -816,14 +829,14 @@ impl X86InstructionWriter {
         &self,
         dst_reg: X86Register,
         src_reg: X86Register,
-        src_offset: i64,
+        src_offset: isize,
     ) -> bool {
         unsafe {
             gum_sys::gum_x86_writer_put_lea_reg_reg_offset(
                 self.writer,
                 dst_reg as u32,
                 src_reg as u32,
-                src_offset,
+                src_offset as gssize,
             ) != 0
         }
     }
@@ -961,7 +974,7 @@ impl X86InstructionWriter {
     }
 }
 
-#[cfg(target_arch = "x86_64")]
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 impl Drop for X86InstructionWriter {
     fn drop(&mut self) {
         if self.is_from_new {
@@ -1309,12 +1322,12 @@ pub trait Relocator {
     fn skip_one(&mut self) -> bool;
 }
 
-#[cfg(target_arch = "x86_64")]
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 pub struct X86Relocator {
     inner: *mut c_void,
 }
 
-#[cfg(target_arch = "x86_64")]
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 impl Relocator for X86Relocator {
     fn new(input_code: u64, output: &mut X86InstructionWriter) -> Self {
         extern "C" {
@@ -1374,7 +1387,7 @@ impl Relocator for X86Relocator {
     }
 }
 
-#[cfg(target_arch = "x86_64")]
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 impl Drop for X86Relocator {
     fn drop(&mut self) {
         extern "C" {

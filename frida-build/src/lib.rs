@@ -60,7 +60,7 @@ fn download_and_use_devkit_internal(
         let tar_xz = File::open(&devkit_tar).expect("failed to open devkit tar.xz for extraction");
         let tar = XzDecoder::new(tar_xz);
         let mut archive = Archive::new(tar);
-        archive.unpack(&out_dir_path)?;
+        archive.unpack(out_dir_path)?;
     }
 
     println!("cargo:rustc-link-search={}", out_dir.to_string_lossy());
