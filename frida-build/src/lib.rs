@@ -27,6 +27,8 @@ fn download_and_use_devkit_internal(
 
     if target_arch == "aarch64" {
         target_arch = "arm64".to_string();
+    } else if target_arch == "i686" {
+        target_arch = "x86".to_string();
     }
 
     let os = env::var("CARGO_CFG_TARGET_OS").unwrap();
@@ -60,7 +62,7 @@ fn download_and_use_devkit_internal(
         let tar_xz = File::open(&devkit_tar).expect("failed to open devkit tar.xz for extraction");
         let tar = XzDecoder::new(tar_xz);
         let mut archive = Archive::new(tar);
-        archive.unpack(&out_dir_path)?;
+        archive.unpack(out_dir_path)?;
     }
 
     println!("cargo:rustc-link-search={}", out_dir.to_string_lossy());

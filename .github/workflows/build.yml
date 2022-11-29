@@ -5,66 +5,146 @@ name: CI
 jobs:
   check:
     name: Check
+    strategy:
+      matrix:
+        arch: [x86, x86_64]
+        include:
+          - arch: x86
+            target: i686-unknown-linux-gnu
+          - arch: x86_64
+            target: x86_64-unknown-linux-gnu
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           toolchain: stable
           override: true
-      - run: |
+          target: ${{ matrix.target }}
+          components: rustfmt, clippy
+      - name: Download FRIDA
+        run: |
           export FRIDA_VERSION=$(cat FRIDA_VERSION)
-          cd frida-gum-sys && wget https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-gum-devkit-$FRIDA_VERSION-linux-x86_64.tar.xz -O frida-gum.tar.xz && tar xJvf frida-gum.tar.xz
+          cd frida-gum-sys && wget https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-gum-devkit-$FRIDA_VERSION-linux-${{ matrix.arch }}.tar.xz -O frida-gum.tar.xz && tar xJvf frida-gum.tar.xz
           cd ..
-          cd frida-sys && wget https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-linux-x86_64.tar.xz -O frida-core.tar.xz && tar xJvf frida-core.tar.xz
-      - run: rustup component add rustfmt clippy
-      - uses: actions-rs/cargo@v1
+          cd frida-sys && wget https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-linux-${{ matrix.arch }}.tar.xz -O frida-core.tar.xz && tar xJvf frida-core.tar.xz
+      - name: Install OpenSSL
+        if: ${{ matrix.arch == 'x86' }}
+        run: |
+          sudo apt-get install gcc-multilib
+          git clone --branch OpenSSL_1_1_1-stable https://github.com/openssl/openssl.git /tmp/openssl/          
+          cd /tmp/openssl/
+          ./Configure linux-generic32 --prefix=/tmp/openssl/install/
+          make -j CFLAGS="-m32" LDFLAGS="-m32"
+          make install_sw
+          echo "OPENSSL_DIR=/tmp/openssl/install/" >> $GITHUB_ENV
+      - name: Check
+        uses: actions-rs/cargo@v1
         with:
           command: check
-      - uses: actions-rs/cargo@v1
+          args: --target ${{ matrix.target }}
+      - name: Test
+        uses: actions-rs/cargo@v1
         with:
           command: test
-      - uses: actions-rs/cargo@v1
+          args: --target ${{ matrix.target }}
+      - name: Format
+        uses: actions-rs/cargo@v1
         with:
           command: fmt
           args: --all -- --check
-      - uses: actions-rs/cargo@v1
+      - name: Clippy
+        uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: -- -D warnings
+          args: --target ${{ matrix.target }} -- -D warnings
   test-gum:
     name: Test Gum
     strategy:
       matrix:
-          os: [ubuntu-latest, macOS-latest, windows-latest]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+        arch: [x86, x86_64]
+        include:
+          - arch: x86
+            os: ubuntu-latest
+            target: i686-unknown-linux-gnu
+          - arch: x86_64
+            os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - arch: x86_64
+            os: macOS-latest
+            target: x86_64-apple-darwin
+          - arch: x86
+            os: windows-latest
+            target: i686-pc-windows-msvc
+          - arch: x86_64
+            os: windows-latest
+            target: x86_64-pc-windows-msvc
+        exclude:
+          - os: macOS-latest
+            arch: x86
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           toolchain: stable
+          target: ${{ matrix.target }}
+      - name: Install gcc-multilib
+        if: ${{ matrix.target == 'i686-unknown-linux-gnu' && matrix.os == 'ubuntu-latest' }}
+        run: sudo apt-get install gcc-multilib
       - name: Test Gum
-        run: cd frida-gum && cargo test --features=auto-download
+        run: cd frida-gum && cargo test --target ${{ matrix.target }} --features=auto-download
       - name: Test Gum with all features
-        run: cd frida-gum && cargo test --all-features
+        run: cd frida-gum && cargo test --target ${{ matrix.target }} --all-features
   test-frida:
     name: Test Frida
     strategy:
       matrix:
-          os: [ubuntu-latest, macOS-latest, windows-latest]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+        arch: [x86, x86_64]
+        include:
+          - arch: x86
+            os: ubuntu-latest
+            target: i686-unknown-linux-gnu
+          - arch: x86_64
+            os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - arch: x86_64
+            os: macOS-latest
+            target: x86_64-apple-darwin
+          - arch: x86
+            os: windows-latest
+            target: i686-pc-windows-msvc
+          - arch: x86_64
+            os: windows-latest
+            target: x86_64-pc-windows-msvc
+        exclude:
+          - os: macOS-latest
+            arch: x86
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           toolchain: stable
+          target: ${{ matrix.target }}
+      - name: Install gcc-multilib
+        if: ${{ matrix.target == 'i686-unknown-linux-gnu' && matrix.os == 'ubuntu-latest' }}
+        run: sudo apt-get install gcc-multilib
       - name: Test Frida
-        run: cd frida && cargo test --features=auto-download
+        run: cd frida && cargo test --target ${{ matrix.target }} --features=auto-download
       - name: Test Frida with all features
-        run: cd frida && cargo test --all-features
+        run: cd frida && cargo test --target ${{ matrix.target }} --all-features
   docs:
     name: Build Documentation
     runs-on: ubuntu-latest

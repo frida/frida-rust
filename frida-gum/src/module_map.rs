@@ -50,7 +50,7 @@ unsafe extern "C" fn save_module_details_by_address(
     let mut context = &mut *(context as *mut SaveModuleDetailsByAddressContext);
     let range = (*details).range;
     let start = (*range).base_address as u64;
-    let end = start + (*range).size;
+    let end = start + (*range).size as u64;
     if start <= context.address && context.address < end {
         context.details = gum_sys::gum_module_details_copy(details);
         return 0;
@@ -158,11 +158,7 @@ impl ModuleMap {
             callback: *mut c_void,
         ) -> i32 {
             let callback = &mut *(callback as *mut Box<&mut dyn FnMut(ModuleDetails) -> bool>);
-            if (callback)(ModuleDetails::from_raw(details)) {
-                1
-            } else {
-                0
-            }
+            i32::from((callback)(ModuleDetails::from_raw(details)))
         }
         Self::from_raw(unsafe {
             gum_sys::gum_module_map_new_filtered(
