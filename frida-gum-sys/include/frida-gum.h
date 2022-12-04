@@ -66,6 +66,9 @@
 #define g_action_name_is_valid _frida_g_action_name_is_valid
 #define g_action_parse_detailed_name _frida_g_action_parse_detailed_name
 #define g_action_print_detailed_name _frida_g_action_print_detailed_name
+#define g_aligned_alloc _frida_g_aligned_alloc
+#define g_aligned_alloc0 _frida_g_aligned_alloc0
+#define g_aligned_free _frida_g_aligned_free
 #define g_allocator_free _frida_g_allocator_free
 #define g_allocator_new _frida_g_allocator_new
 #define g_app_info_add_supports_type _frida_g_app_info_add_supports_type
@@ -80,7 +83,11 @@
 #define g_app_info_get_all_for_type _frida_g_app_info_get_all_for_type
 #define g_app_info_get_commandline _frida_g_app_info_get_commandline
 #define g_app_info_get_default_for_type _frida_g_app_info_get_default_for_type
+#define g_app_info_get_default_for_type_async _frida_g_app_info_get_default_for_type_async
+#define g_app_info_get_default_for_type_finish _frida_g_app_info_get_default_for_type_finish
 #define g_app_info_get_default_for_uri_scheme _frida_g_app_info_get_default_for_uri_scheme
+#define g_app_info_get_default_for_uri_scheme_async _frida_g_app_info_get_default_for_uri_scheme_async
+#define g_app_info_get_default_for_uri_scheme_finish _frida_g_app_info_get_default_for_uri_scheme_finish
 #define g_app_info_get_description _frida_g_app_info_get_description
 #define g_app_info_get_display_name _frida_g_app_info_get_display_name
 #define g_app_info_get_executable _frida_g_app_info_get_executable
@@ -267,7 +274,9 @@
 #define g_atomic_int_add _frida_g_atomic_int_add
 #define g_atomic_int_and _frida_g_atomic_int_and
 #define g_atomic_int_compare_and_exchange _frida_g_atomic_int_compare_and_exchange
+#define g_atomic_int_compare_and_exchange_full _frida_g_atomic_int_compare_and_exchange_full
 #define g_atomic_int_dec_and_test _frida_g_atomic_int_dec_and_test
+#define g_atomic_int_exchange _frida_g_atomic_int_exchange
 #define g_atomic_int_exchange_and_add _frida_g_atomic_int_exchange_and_add
 #define g_atomic_int_get _frida_g_atomic_int_get
 #define g_atomic_int_inc _frida_g_atomic_int_inc
@@ -277,6 +286,8 @@
 #define g_atomic_pointer_add _frida_g_atomic_pointer_add
 #define g_atomic_pointer_and _frida_g_atomic_pointer_and
 #define g_atomic_pointer_compare_and_exchange _frida_g_atomic_pointer_compare_and_exchange
+#define g_atomic_pointer_compare_and_exchange_full _frida_g_atomic_pointer_compare_and_exchange_full
+#define g_atomic_pointer_exchange _frida_g_atomic_pointer_exchange
 #define g_atomic_pointer_get _frida_g_atomic_pointer_get
 #define g_atomic_pointer_or _frida_g_atomic_pointer_or
 #define g_atomic_pointer_set _frida_g_atomic_pointer_set
@@ -308,6 +319,13 @@
 #define g_binding_get_target _frida_g_binding_get_target
 #define g_binding_get_target_property _frida_g_binding_get_target_property
 #define g_binding_get_type _frida_g_binding_get_type
+#define g_binding_group_bind _frida_g_binding_group_bind
+#define g_binding_group_bind_full _frida_g_binding_group_bind_full
+#define g_binding_group_bind_with_closures _frida_g_binding_group_bind_with_closures
+#define g_binding_group_dup_source _frida_g_binding_group_dup_source
+#define g_binding_group_get_type _frida_g_binding_group_get_type
+#define g_binding_group_new _frida_g_binding_group_new
+#define g_binding_group_set_source _frida_g_binding_group_set_source
 #define g_binding_unbind _frida_g_binding_unbind
 #define g_bit_lock _frida_g_bit_lock
 #define g_bit_nth_lsf _frida_g_bit_nth_lsf
@@ -318,6 +336,7 @@
 #define g_blow_chunks _frida_g_blow_chunks
 #define g_bookmark_file_add_application _frida_g_bookmark_file_add_application
 #define g_bookmark_file_add_group _frida_g_bookmark_file_add_group
+#define g_bookmark_file_copy _frida_g_bookmark_file_copy
 #define g_bookmark_file_error_quark _frida_g_bookmark_file_error_quark
 #define g_bookmark_file_free _frida_g_bookmark_file_free
 #define g_bookmark_file_get_added _frida_g_bookmark_file_get_added
@@ -334,6 +353,7 @@
 #define g_bookmark_file_get_modified_date_time _frida_g_bookmark_file_get_modified_date_time
 #define g_bookmark_file_get_size _frida_g_bookmark_file_get_size
 #define g_bookmark_file_get_title _frida_g_bookmark_file_get_title
+#define g_bookmark_file_get_type _frida_g_bookmark_file_get_type
 #define g_bookmark_file_get_uris _frida_g_bookmark_file_get_uris
 #define g_bookmark_file_get_visited _frida_g_bookmark_file_get_visited
 #define g_bookmark_file_get_visited_date_time _frida_g_bookmark_file_get_visited_date_time
@@ -677,6 +697,7 @@
 #define g_datalist_get_flags _frida_g_datalist_get_flags
 #define g_datalist_id_dup_data _frida_g_datalist_id_dup_data
 #define g_datalist_id_get_data _frida_g_datalist_id_get_data
+#define g_datalist_id_remove_multiple _frida_g_datalist_id_remove_multiple
 #define g_datalist_id_remove_no_notify _frida_g_datalist_id_remove_no_notify
 #define g_datalist_id_replace_data _frida_g_datalist_id_replace_data
 #define g_datalist_id_set_data_full _frida_g_datalist_id_set_data_full
@@ -1084,6 +1105,12 @@
 #define g_dbus_subtree_flags_get_type _frida_g_dbus_subtree_flags_get_type
 #define g_dbus_unescape_object_path _frida_g_dbus_unescape_object_path
 #define g_dcgettext _frida_g_dcgettext
+#define g_debug_controller_dbus_get_type _frida_g_debug_controller_dbus_get_type
+#define g_debug_controller_dbus_new _frida_g_debug_controller_dbus_new
+#define g_debug_controller_dbus_stop _frida_g_debug_controller_dbus_stop
+#define g_debug_controller_get_debug_enabled _frida_g_debug_controller_get_debug_enabled
+#define g_debug_controller_get_type _frida_g_debug_controller_get_type
+#define g_debug_controller_set_debug_enabled _frida_g_debug_controller_set_debug_enabled
 #define g_delayed_settings_backend_apply _frida_g_delayed_settings_backend_apply
 #define g_delayed_settings_backend_get_has_unapplied _frida_g_delayed_settings_backend_get_has_unapplied
 #define g_delayed_settings_backend_get_type _frida_g_delayed_settings_backend_get_type
@@ -1410,6 +1437,8 @@
 #define g_file_make_directory_finish _frida_g_file_make_directory_finish
 #define g_file_make_directory_with_parents _frida_g_file_make_directory_with_parents
 #define g_file_make_symbolic_link _frida_g_file_make_symbolic_link
+#define g_file_make_symbolic_link_async _frida_g_file_make_symbolic_link_async
+#define g_file_make_symbolic_link_finish _frida_g_file_make_symbolic_link_finish
 #define g_file_measure_disk_usage _frida_g_file_measure_disk_usage
 #define g_file_measure_disk_usage_async _frida_g_file_measure_disk_usage_async
 #define g_file_measure_disk_usage_finish _frida_g_file_measure_disk_usage_finish
@@ -1430,12 +1459,18 @@
 #define g_file_mount_mountable _frida_g_file_mount_mountable
 #define g_file_mount_mountable_finish _frida_g_file_mount_mountable_finish
 #define g_file_move _frida_g_file_move
+#define g_file_move_async _frida_g_file_move_async
+#define g_file_move_finish _frida_g_file_move_finish
 #define g_file_new_build_filename _frida_g_file_new_build_filename
 #define g_file_new_for_commandline_arg _frida_g_file_new_for_commandline_arg
 #define g_file_new_for_commandline_arg_and_cwd _frida_g_file_new_for_commandline_arg_and_cwd
 #define g_file_new_for_path _frida_g_file_new_for_path
 #define g_file_new_for_uri _frida_g_file_new_for_uri
 #define g_file_new_tmp _frida_g_file_new_tmp
+#define g_file_new_tmp_async _frida_g_file_new_tmp_async
+#define g_file_new_tmp_dir_async _frida_g_file_new_tmp_dir_async
+#define g_file_new_tmp_dir_finish _frida_g_file_new_tmp_dir_finish
+#define g_file_new_tmp_finish _frida_g_file_new_tmp_finish
 #define g_file_open_readwrite _frida_g_file_open_readwrite
 #define g_file_open_readwrite_async _frida_g_file_open_readwrite_async
 #define g_file_open_readwrite_finish _frida_g_file_open_readwrite_finish
@@ -1570,6 +1605,7 @@
 #define g_get_user_name _frida_g_get_user_name
 #define g_get_user_runtime_dir _frida_g_get_user_runtime_dir
 #define g_get_user_special_dir _frida_g_get_user_special_dir
+#define g_get_user_state_dir _frida_g_get_user_state_dir
 #define g_get_worker_context _frida_g_get_worker_context
 #define g_getenv _frida_g_getenv
 #define g_gstring_get_type _frida_g_gstring_get_type
@@ -1597,6 +1633,7 @@
 #define g_hash_table_lookup_extended _frida_g_hash_table_lookup_extended
 #define g_hash_table_new _frida_g_hash_table_new
 #define g_hash_table_new_full _frida_g_hash_table_new_full
+#define g_hash_table_new_similar _frida_g_hash_table_new_similar
 #define g_hash_table_ref _frida_g_hash_table_ref
 #define g_hash_table_remove _frida_g_hash_table_remove
 #define g_hash_table_remove_all _frida_g_hash_table_remove_all
@@ -1653,6 +1690,7 @@
 #define g_iconv_open _frida_g_iconv_open
 #define g_idle_add _frida_g_idle_add
 #define g_idle_add_full _frida_g_idle_add_full
+#define g_idle_add_once _frida_g_idle_add_once
 #define g_idle_funcs _frida_g_idle_funcs
 #define g_idle_remove_by_data _frida_g_idle_remove_by_data
 #define g_idle_source_new _frida_g_idle_source_new
@@ -1769,6 +1807,7 @@
 #define g_io_create_watch _frida_g_io_create_watch
 #define g_io_error_enum_get_type _frida_g_io_error_enum_get_type
 #define g_io_error_from_errno _frida_g_io_error_from_errno
+#define g_io_error_from_file_error _frida_g_io_error_from_file_error
 #define g_io_error_quark _frida_g_io_error_quark
 #define g_io_extension_get_name _frida_g_io_extension_get_name
 #define g_io_extension_get_priority _frida_g_io_extension_get_priority
@@ -1914,6 +1953,7 @@
 #define g_list_store_append _frida_g_list_store_append
 #define g_list_store_find _frida_g_list_store_find
 #define g_list_store_find_with_equal_func _frida_g_list_store_find_with_equal_func
+#define g_list_store_find_with_equal_func_full _frida_g_list_store_find_with_equal_func_full
 #define g_list_store_get_type _frida_g_list_store_get_type
 #define g_list_store_insert _frida_g_list_store_insert
 #define g_list_store_insert_sorted _frida_g_list_store_insert_sorted
@@ -1937,9 +1977,11 @@
 #define g_log _frida_g_log
 #define g_log_always_fatal _frida_g_log_always_fatal
 #define g_log_default_handler _frida_g_log_default_handler
+#define g_log_get_debug_enabled _frida_g_log_get_debug_enabled
 #define g_log_msg_prefix _frida_g_log_msg_prefix
 #define g_log_remove_handler _frida_g_log_remove_handler
 #define g_log_set_always_fatal _frida_g_log_set_always_fatal
+#define g_log_set_debug_enabled _frida_g_log_set_debug_enabled
 #define g_log_set_default_handler _frida_g_log_set_default_handler
 #define g_log_set_fatal_mask _frida_g_log_set_fatal_mask
 #define g_log_set_handler _frida_g_log_set_handler
@@ -2491,6 +2533,7 @@
 #define g_param_type_register_static _frida_g_param_type_register_static
 #define g_param_value_convert _frida_g_param_value_convert
 #define g_param_value_defaults _frida_g_param_value_defaults
+#define g_param_value_is_valid _frida_g_param_value_is_valid
 #define g_param_value_set_default _frida_g_param_value_set_default
 #define g_param_value_validate _frida_g_param_value_validate
 #define g_param_values_cmp _frida_g_param_values_cmp
@@ -2599,8 +2642,10 @@
 #define g_ptr_array_free _frida_g_ptr_array_free
 #define g_ptr_array_get_type _frida_g_ptr_array_get_type
 #define g_ptr_array_insert _frida_g_ptr_array_insert
+#define g_ptr_array_is_null_terminated _frida_g_ptr_array_is_null_terminated
 #define g_ptr_array_new _frida_g_ptr_array_new
 #define g_ptr_array_new_full _frida_g_ptr_array_new_full
+#define g_ptr_array_new_null_terminated _frida_g_ptr_array_new_null_terminated
 #define g_ptr_array_new_with_free_func _frida_g_ptr_array_new_with_free_func
 #define g_ptr_array_ref _frida_g_ptr_array_ref
 #define g_ptr_array_remove _frida_g_ptr_array_remove
@@ -2773,6 +2818,8 @@
 #define g_resolver_lookup_service_finish _frida_g_resolver_lookup_service_finish
 #define g_resolver_name_lookup_flags_get_type _frida_g_resolver_name_lookup_flags_get_type
 #define g_resolver_record_type_get_type _frida_g_resolver_record_type_get_type
+#define g_resolver_record_type_to_rrtype _frida_g_resolver_record_type_to_rrtype
+#define g_resolver_records_from_res_query _frida_g_resolver_records_from_res_query
 #define g_resolver_set_default _frida_g_resolver_set_default
 #define g_resource_enumerate_children _frida_g_resource_enumerate_children
 #define g_resource_error_get_type _frida_g_resource_error_get_type
@@ -3014,6 +3061,18 @@
 #define g_signal_emit_valist _frida_g_signal_emit_valist
 #define g_signal_emitv _frida_g_signal_emitv
 #define g_signal_get_invocation_hint _frida_g_signal_get_invocation_hint
+#define g_signal_group_block _frida_g_signal_group_block
+#define g_signal_group_connect _frida_g_signal_group_connect
+#define g_signal_group_connect_after _frida_g_signal_group_connect_after
+#define g_signal_group_connect_closure _frida_g_signal_group_connect_closure
+#define g_signal_group_connect_data _frida_g_signal_group_connect_data
+#define g_signal_group_connect_object _frida_g_signal_group_connect_object
+#define g_signal_group_connect_swapped _frida_g_signal_group_connect_swapped
+#define g_signal_group_dup_target _frida_g_signal_group_dup_target
+#define g_signal_group_get_type _frida_g_signal_group_get_type
+#define g_signal_group_new _frida_g_signal_group_new
+#define g_signal_group_set_target _frida_g_signal_group_set_target
+#define g_signal_group_unblock _frida_g_signal_group_unblock
 #define g_signal_handler_block _frida_g_signal_handler_block
 #define g_signal_handler_disconnect _frida_g_signal_handler_disconnect
 #define g_signal_handler_find _frida_g_signal_handler_find
@@ -3547,6 +3606,7 @@
 #define g_task_set_priority _frida_g_task_set_priority
 #define g_task_set_return_on_cancel _frida_g_task_set_return_on_cancel
 #define g_task_set_source_tag _frida_g_task_set_source_tag
+#define g_task_set_static_name _frida_g_task_set_static_name
 #define g_task_set_task_data _frida_g_task_set_task_data
 #define g_tcp_connection_get_graceful_disconnect _frida_g_tcp_connection_get_graceful_disconnect
 #define g_tcp_connection_get_type _frida_g_tcp_connection_get_type
@@ -3699,6 +3759,7 @@
 #define g_time_zone_unref _frida_g_time_zone_unref
 #define g_timeout_add _frida_g_timeout_add
 #define g_timeout_add_full _frida_g_timeout_add_full
+#define g_timeout_add_once _frida_g_timeout_add_once
 #define g_timeout_add_seconds _frida_g_timeout_add_seconds
 #define g_timeout_add_seconds_full _frida_g_timeout_add_seconds_full
 #define g_timeout_funcs _frida_g_timeout_funcs
@@ -3741,9 +3802,11 @@
 #define g_tls_certificate_is_same _frida_g_tls_certificate_is_same
 #define g_tls_certificate_list_new_from_file _frida_g_tls_certificate_list_new_from_file
 #define g_tls_certificate_new_from_file _frida_g_tls_certificate_new_from_file
+#define g_tls_certificate_new_from_file_with_password _frida_g_tls_certificate_new_from_file_with_password
 #define g_tls_certificate_new_from_files _frida_g_tls_certificate_new_from_files
 #define g_tls_certificate_new_from_pem _frida_g_tls_certificate_new_from_pem
 #define g_tls_certificate_new_from_pkcs11_uris _frida_g_tls_certificate_new_from_pkcs11_uris
+#define g_tls_certificate_new_from_pkcs12 _frida_g_tls_certificate_new_from_pkcs12
 #define g_tls_certificate_request_flags_get_type _frida_g_tls_certificate_request_flags_get_type
 #define g_tls_certificate_verify _frida_g_tls_certificate_verify
 #define g_tls_channel_binding_error_get_type _frida_g_tls_channel_binding_error_get_type
@@ -4496,6 +4559,8 @@
 #define g_weak_ref_get _frida_g_weak_ref_get
 #define g_weak_ref_init _frida_g_weak_ref_init
 #define g_weak_ref_set _frida_g_weak_ref_set
+#define g_win32_pop_invalid_parameter_handler _frida_g_win32_pop_invalid_parameter_handler
+#define g_win32_push_empty_invalid_parameter_handler _frida_g_win32_push_empty_invalid_parameter_handler
 #define g_zlib_compressor_format_get_type _frida_g_zlib_compressor_format_get_type
 #define g_zlib_compressor_get_file_info _frida_g_zlib_compressor_get_file_info
 #define g_zlib_compressor_get_type _frida_g_zlib_compressor_get_type
@@ -4516,6 +4581,7 @@
 #define glib_deinit _frida_glib_deinit
 #define glib_enable_io_features _frida_glib_enable_io_features
 #define glib_fd_callbacks _frida_glib_fd_callbacks
+#define glib_get_sandbox_type _frida_glib_get_sandbox_type
 #define glib_gettext _frida_glib_gettext
 #define glib_has_dconf_access_in_sandbox _frida_glib_has_dconf_access_in_sandbox
 #define glib_init _frida_glib_init
@@ -4559,6 +4625,8 @@
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -4587,6 +4655,8 @@
 
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -4618,6 +4688,8 @@
 
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -4657,6 +4729,8 @@
 
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -4786,6 +4860,7 @@
 
 #define g_macro__has_attribute___pure__ G_GNUC_CHECK_VERSION (2, 96)
 #define g_macro__has_attribute___malloc__ G_GNUC_CHECK_VERSION (2, 96)
+#define g_macro__has_attribute___always_inline__ G_GNUC_CHECK_VERSION (3, 1)
 #define g_macro__has_attribute___noinline__ G_GNUC_CHECK_VERSION (2, 96)
 #define g_macro__has_attribute___sentinel__ G_GNUC_CHECK_VERSION (4, 0)
 #define g_macro__has_attribute___alloc_size__ G_GNUC_CHECK_VERSION (4, 3)
@@ -4799,6 +4874,7 @@
 #define g_macro__has_attribute___deprecated__ G_GNUC_CHECK_VERSION (3, 1)
 #define g_macro__has_attribute_may_alias G_GNUC_CHECK_VERSION (3, 3)
 #define g_macro__has_attribute_warn_unused_result G_GNUC_CHECK_VERSION (3, 4)
+#define g_macro__has_attribute_cleanup G_GNUC_CHECK_VERSION (3, 3)
 
 #endif
 
@@ -4866,6 +4942,9 @@
  * Declaring a function as `noinline` prevents the function from being
  * considered for inlining.
  *
+ * This macro is provided for retro-compatibility and will be eventually
+ * deprecated, but %G_NO_INLINE should be used instead.
+ *
  * The attribute may be placed before the declaration or definition,
  * right before the `static` keyword.
  *
@@ -4882,13 +4961,10 @@
  * [GNU C documentation](https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-noinline-function-attribute)
  * for more details.
  *
+ * See also: %G_NO_INLINE, %G_ALWAYS_INLINE.
+ *
  * Since: 2.58
  */
-/* Note: We can’t annotate this with GLIB_AVAILABLE_MACRO_IN_2_58 because it’s
- * used within the GLib headers in function declarations which are always
- * evaluated when a header is included. This results in warnings in third party
- * code which includes glib.h, even if the third party code doesn’t use the new
- * macro itself. */
 
 #if g_macro__has_attribute(__pure__)
 #define G_GNUC_PURE __attribute__((__pure__))
@@ -4903,9 +4979,11 @@
 #endif
 
 #if g_macro__has_attribute(__noinline__)
-#define G_GNUC_NO_INLINE __attribute__ ((__noinline__))
+#define G_GNUC_NO_INLINE __attribute__ ((__noinline__)) \
+  GLIB_AVAILABLE_MACRO_IN_2_58
 #else
-#define G_GNUC_NO_INLINE
+#define G_GNUC_NO_INLINE \
+  GLIB_AVAILABLE_MACRO_IN_2_58
 #endif
 
 /**
@@ -5522,10 +5600,17 @@
  */
 #ifndef NULL
 #  ifdef __cplusplus
-#  define NULL        (0L)
+#    if __cplusplus >= 201103L
+#      define NULL (nullptr)
+#    else
+#      define NULL (0L)
+#    endif /* __cplusplus >= 201103L */
 #  else /* !__cplusplus */
 #  define NULL        ((void*) 0)
 #  endif /* !__cplusplus */
+#elif defined (__cplusplus) && __cplusplus >= 201103L
+#  undef NULL
+#  define NULL (nullptr)
 #endif
 
 #ifndef	FALSE
@@ -5723,6 +5808,100 @@
   GLIB_AVAILABLE_MACRO_IN_2_68
 #endif
 
+/**
+ * G_ALWAYS_INLINE:
+ *
+ * Expands to the GNU C `always_inline` or MSVC `__forceinline` function
+ * attribute depending on the compiler. It is used for declaring functions
+ * as always inlined, ignoring the compiler optimization levels.
+ *
+ * The attribute may be placed before the declaration or definition,
+ * right before the `static` keyword.
+ *
+ * |[<!-- language="C" -->
+ * G_ALWAYS_INLINE
+ * static int
+ * do_inline_this (void)
+ * {
+ *   ...
+ * }
+ * ]|
+ *
+ * See the
+ * [GNU C documentation](https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-always_005finline-function-attribute)
+ * and the
+ * [MSVC documentation](https://docs.microsoft.com/en-us/visualstudio/misc/inline-inline-forceinline)
+ *
+ * Since: 2.74
+ */
+/* Note: We can’t annotate this with GLIB_AVAILABLE_MACRO_IN_2_74 because it’s
+ * used within the GLib headers in function declarations which are always
+ * evaluated when a header is included. This results in warnings in third party
+ * code which includes glib.h, even if the third party code doesn’t use the new
+ * macro itself. */
+#if g_macro__has_attribute(__always_inline__)
+# if defined (__cplusplus) && __cplusplus >= 201103L
+    /* Use ISO C++11 syntax when the compiler supports it. */
+#   define G_ALWAYS_INLINE [[gnu::always_inline]]
+# else
+#   define G_ALWAYS_INLINE __attribute__ ((__always_inline__))
+# endif
+#elif defined (_MSC_VER)
+  /* Use MSVC specific syntax.  */
+# define G_ALWAYS_INLINE __forceinline
+#else
+# define G_ALWAYS_INLINE /* empty */
+#endif
+
+/**
+ * G_NO_INLINE:
+ *
+ * Expands to the GNU C or MSVC `noinline` function attribute
+ * depending on the compiler. It is used for declaring functions
+ * preventing from being considered for inlining.
+ *
+ * Note that %G_NO_INLINE supersedes the previous %G_GNUC_NO_INLINE
+ * macro, which will eventually be deprecated.
+ * %G_NO_INLINE supports more platforms.
+ *
+ * The attribute may be placed before the declaration or definition,
+ * right before the `static` keyword.
+ *
+ * |[<!-- language="C" -->
+ * G_NO_INLINE
+ * static int
+ * do_not_inline_this (void)
+ * {
+ *   ...
+ * }
+ * ]|
+ *
+ * Since: 2.74
+ */
+/* Note: We can’t annotate this with GLIB_AVAILABLE_MACRO_IN_2_74 because it’s
+ * used within the GLib headers in function declarations which are always
+ * evaluated when a header is included. This results in warnings in third party
+ * code which includes glib.h, even if the third party code doesn’t use the new
+ * macro itself. */
+#if g_macro__has_attribute(__noinline__)
+# if defined (__cplusplus) && __cplusplus >= 201103L
+    /* Use ISO C++11 syntax when the compiler supports it. */
+#   define G_NO_INLINE [[gnu::noinline]]
+# else
+#   define G_NO_INLINE __attribute__ ((__noinline__))
+# endif
+#elif defined (_MSC_VER) && (1200 <= _MSC_VER)
+  /* Use MSVC specific syntax.  */
+# if defined (__cplusplus) && __cplusplus >= 201103L
+    /* Use ISO C++11 syntax when the compiler supports it. */
+#   define G_NO_INLINE [[msvc::noinline]]
+# else
+#   define G_NO_INLINE __declspec (noinline)
+# endif
+#else
+# define G_NO_INLINE /* empty */
+#endif
+
 /*
  * The G_LIKELY and G_UNLIKELY macros let the programmer give hints to 
  * the compiler about the expected result of an expression. Some compilers
@@ -5732,20 +5911,25 @@
  * putting assignments in g_return_if_fail ().  
  */
 #if G_GNUC_CHECK_VERSION(2, 0) && defined(__OPTIMIZE__)
-#define _G_BOOLEAN_EXPR(expr)                   \
+#define _G_BOOLEAN_EXPR_IMPL(uniq, expr)        \
  G_GNUC_EXTENSION ({                            \
-   int _g_boolean_var_;                         \
+   int G_PASTE (_g_boolean_var_, uniq);         \
    if (expr)                                    \
-      _g_boolean_var_ = 1;                      \
+      G_PASTE (_g_boolean_var_, uniq) = 1;      \
    else                                         \
-      _g_boolean_var_ = 0;                      \
-   _g_boolean_var_;                             \
+      G_PASTE (_g_boolean_var_, uniq) = 0;      \
+   G_PASTE (_g_boolean_var_, uniq);             \
 })
+#define _G_BOOLEAN_EXPR(expr) _G_BOOLEAN_EXPR_IMPL (__COUNTER__, expr)
 #define G_LIKELY(expr) (__builtin_expect (_G_BOOLEAN_EXPR(expr), 1))
 #define G_UNLIKELY(expr) (__builtin_expect (_G_BOOLEAN_EXPR(expr), 0))
 #else
 #define G_LIKELY(expr) (expr)
 #define G_UNLIKELY(expr) (expr)
+#endif
+
+#if __GNUC__ >= 4 && !defined(_WIN32) && !defined(__CYGWIN__)
+#define G_HAVE_GNUC_VISIBILITY 1
 #endif
 
 /* GLIB_CANNOT_IGNORE_DEPRECATIONS is defined above for compilers that do not
@@ -5781,27 +5965,11 @@
 #define G_UNAVAILABLE(maj,min) G_DEPRECATED
 #endif
 
-#ifndef _GLIB_EXTERN
-#define _GLIB_EXTERN extern
-#endif
-
 /* These macros are used to mark deprecated symbols in GLib headers,
  * and thus have to be exposed in installed headers. But please
  * do *not* use them in other projects. Instead, use G_DEPRECATED
  * or define your own wrappers around it.
  */
-
-#ifdef GLIB_DISABLE_DEPRECATION_WARNINGS
-#define GLIB_DEPRECATED _GLIB_EXTERN
-#define GLIB_DEPRECATED_FOR(f) _GLIB_EXTERN
-#define GLIB_UNAVAILABLE(maj,min) _GLIB_EXTERN
-#define GLIB_UNAVAILABLE_STATIC_INLINE(maj,min)
-#else
-#define GLIB_DEPRECATED G_DEPRECATED _GLIB_EXTERN
-#define GLIB_DEPRECATED_FOR(f) G_DEPRECATED_FOR(f) _GLIB_EXTERN
-#define GLIB_UNAVAILABLE(maj,min) G_UNAVAILABLE(maj,min) _GLIB_EXTERN
-#define GLIB_UNAVAILABLE_STATIC_INLINE(maj,min) G_UNAVAILABLE(maj,min)
-#endif
 
 #if !defined(GLIB_DISABLE_DEPRECATION_WARNINGS) && \
     (G_GNUC_CHECK_VERSION(4, 6) ||                 \
@@ -5844,9 +6012,9 @@
 
 #ifndef __GI_SCANNER__
 
-#if defined (__GNUC__) || defined (__clang__)
+#if g_macro__has_attribute(cleanup)
 
-/* these macros are private */
+/* these macros are private; note that gstdio.h also uses _GLIB_CLEANUP */
 #define _GLIB_AUTOPTR_FUNC_NAME(TypeName) glib_autoptr_cleanup_##TypeName
 #define _GLIB_AUTOPTR_CLEAR_FUNC_NAME(TypeName) glib_autoptr_clear_##TypeName
 #define _GLIB_AUTOPTR_TYPENAME(TypeName)  TypeName##_autoptr
@@ -5941,6 +6109,12 @@
 #include <float.h>
 #define GLIB_HAVE_ALLOCA_H
 
+#define GLIB_STATIC_COMPILATION 1
+#define GOBJECT_STATIC_COMPILATION 1
+#define GIO_STATIC_COMPILATION 1
+#define GMODULE_STATIC_COMPILATION 1
+#define G_INTL_STATIC_COMPILATION 1
+
 /* Specifies that GLib's g_print*() functions wrap the
  * system printf functions.  This is useful to know, for example,
  * when using glibc's register_printf_function().
@@ -5951,10 +6125,6 @@
  * build.
  */
 #define GLIB_DYNAMIC_UNLOADING 1
-
-#define GLIB_STATIC_COMPILATION 1
-#define GOBJECT_STATIC_COMPILATION 1
-#define GIO_STATIC_COMPILATION 1
 
 G_BEGIN_DECLS
 
@@ -6028,6 +6198,7 @@ typedef gint64 goffset;
 #define G_GOFFSET_FORMAT        G_GINT64_FORMAT
 #define G_GOFFSET_CONSTANT(val) G_GINT64_CONSTANT(val)
 
+#define G_POLLFD_STANDARD
 #define G_POLLFD_FORMAT "%d"
 
 #define GPOINTER_TO_INT(p)	((gint)  (glong) (p))
@@ -6044,22 +6215,16 @@ typedef unsigned long guintptr;
 #define G_GUINTPTR_FORMAT       "lu"
 
 #define GLIB_MAJOR_VERSION 2
-#define GLIB_MINOR_VERSION 71
+#define GLIB_MINOR_VERSION 75
 #define GLIB_MICRO_VERSION 0
 
 #define G_OS_UNIX
 
 #define G_VA_COPY va_copy
+
 #define G_VA_COPY_AS_ARRAY 1
 
-
-#ifndef __cplusplus
-# define G_HAVE_ISO_VARARGS 1
-#endif
-
-#ifdef __cplusplus
-# define G_HAVE_ISO_VARARGS 1
-#endif
+#define G_HAVE_ISO_VARARGS 1
 
 /* gcc-2.95.x supports both gnu style and ISO varargs, but if -ansi
  * is passed ISO vararg support is turned off, and there is no work
@@ -6070,7 +6235,6 @@ typedef unsigned long guintptr;
 #endif
 
 #define G_HAVE_GROWING_STACK 0
-#define G_HAVE_GNUC_VISIBILITY 1
 
 #ifndef _MSC_VER
 # define G_HAVE_GNUC_VARARGS 1
@@ -6127,7 +6291,13 @@ typedef unsigned long guintptr;
 #define GLIB_SYSDEF_POLLERR =8
 #define GLIB_SYSDEF_POLLNVAL =32
 
+/* No way to disable deprecation warnings for macros, so only emit deprecation
+ * warnings on platforms where usage of this macro is broken */
+#if defined(__APPLE__) || defined(_MSC_VER) || defined(__CYGWIN__)
+#define G_MODULE_SUFFIX "so" GLIB_DEPRECATED_MACRO_IN_2_76
+#else
 #define G_MODULE_SUFFIX "so"
+#endif
 
 typedef int GPid;
 #define G_PID_FORMAT "i"
@@ -6150,6 +6320,8 @@ G_END_DECLS
 #endif /* __GLIBCONFIG_H__ */
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -6175,255 +6347,356 @@ G_END_DECLS
 #ifndef __G_VERSION_MACROS_H__
 #define __G_VERSION_MACROS_H__
 
-#if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+#if !defined(__GLIB_H_INSIDE__) && !defined(GLIB_COMPILATION)
 #error "Only <glib.h> can be included directly."
 #endif
 
 /* Version boundaries checks */
 
-#define G_ENCODE_VERSION(major,minor)   ((major) << 16 | (minor) << 8)
-
-/* XXX: Every new stable minor release bump should add a macro here */
+#define G_ENCODE_VERSION(major, minor) ((major) << 16 | (minor) << 8)
 
 /**
- * GLIB_VERSION_2_26:
- *
- * A macro that evaluates to the 2.26 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.32
- */
+* GLIB_VERSION_2_2:
+*
+* A macro that evaluates to the 2.2 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
+#define GLIB_VERSION_2_2       (G_ENCODE_VERSION (2, 2))
+/**
+* GLIB_VERSION_2_4:
+*
+* A macro that evaluates to the 2.4 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
+#define GLIB_VERSION_2_4       (G_ENCODE_VERSION (2, 4))
+/**
+* GLIB_VERSION_2_6:
+*
+* A macro that evaluates to the 2.6 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
+#define GLIB_VERSION_2_6       (G_ENCODE_VERSION (2, 6))
+/**
+* GLIB_VERSION_2_8:
+*
+* A macro that evaluates to the 2.8 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
+#define GLIB_VERSION_2_8       (G_ENCODE_VERSION (2, 8))
+/**
+* GLIB_VERSION_2_10:
+*
+* A macro that evaluates to the 2.10 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
+#define GLIB_VERSION_2_10       (G_ENCODE_VERSION (2, 10))
+/**
+* GLIB_VERSION_2_12:
+*
+* A macro that evaluates to the 2.12 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
+#define GLIB_VERSION_2_12       (G_ENCODE_VERSION (2, 12))
+/**
+* GLIB_VERSION_2_14:
+*
+* A macro that evaluates to the 2.14 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
+#define GLIB_VERSION_2_14       (G_ENCODE_VERSION (2, 14))
+/**
+* GLIB_VERSION_2_16:
+*
+* A macro that evaluates to the 2.16 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
+#define GLIB_VERSION_2_16       (G_ENCODE_VERSION (2, 16))
+/**
+* GLIB_VERSION_2_18:
+*
+* A macro that evaluates to the 2.18 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
+#define GLIB_VERSION_2_18       (G_ENCODE_VERSION (2, 18))
+/**
+* GLIB_VERSION_2_20:
+*
+* A macro that evaluates to the 2.20 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
+#define GLIB_VERSION_2_20       (G_ENCODE_VERSION (2, 20))
+/**
+* GLIB_VERSION_2_22:
+*
+* A macro that evaluates to the 2.22 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
+#define GLIB_VERSION_2_22       (G_ENCODE_VERSION (2, 22))
+/**
+* GLIB_VERSION_2_24:
+*
+* A macro that evaluates to the 2.24 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
+#define GLIB_VERSION_2_24       (G_ENCODE_VERSION (2, 24))
+/**
+* GLIB_VERSION_2_26:
+*
+* A macro that evaluates to the 2.26 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
 #define GLIB_VERSION_2_26       (G_ENCODE_VERSION (2, 26))
-
 /**
- * GLIB_VERSION_2_28:
- *
- * A macro that evaluates to the 2.28 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.32
- */
+* GLIB_VERSION_2_28:
+*
+* A macro that evaluates to the 2.28 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
 #define GLIB_VERSION_2_28       (G_ENCODE_VERSION (2, 28))
-
 /**
- * GLIB_VERSION_2_30:
- *
- * A macro that evaluates to the 2.30 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.32
- */
+* GLIB_VERSION_2_30:
+*
+* A macro that evaluates to the 2.30 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
 #define GLIB_VERSION_2_30       (G_ENCODE_VERSION (2, 30))
-
 /**
- * GLIB_VERSION_2_32:
- *
- * A macro that evaluates to the 2.32 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.32
- */
+* GLIB_VERSION_2_32:
+*
+* A macro that evaluates to the 2.32 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.32
+*/
 #define GLIB_VERSION_2_32       (G_ENCODE_VERSION (2, 32))
-
 /**
- * GLIB_VERSION_2_34:
- *
- * A macro that evaluates to the 2.34 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.34
- */
+* GLIB_VERSION_2_34:
+*
+* A macro that evaluates to the 2.34 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.34
+*/
 #define GLIB_VERSION_2_34       (G_ENCODE_VERSION (2, 34))
-
 /**
- * GLIB_VERSION_2_36:
- *
- * A macro that evaluates to the 2.36 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.36
- */
+* GLIB_VERSION_2_36:
+*
+* A macro that evaluates to the 2.36 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.36
+*/
 #define GLIB_VERSION_2_36       (G_ENCODE_VERSION (2, 36))
-
 /**
- * GLIB_VERSION_2_38:
- *
- * A macro that evaluates to the 2.38 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.38
- */
+* GLIB_VERSION_2_38:
+*
+* A macro that evaluates to the 2.38 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.38
+*/
 #define GLIB_VERSION_2_38       (G_ENCODE_VERSION (2, 38))
-
 /**
- * GLIB_VERSION_2_40:
- *
- * A macro that evaluates to the 2.40 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.40
- */
+* GLIB_VERSION_2_40:
+*
+* A macro that evaluates to the 2.40 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.40
+*/
 #define GLIB_VERSION_2_40       (G_ENCODE_VERSION (2, 40))
-
 /**
- * GLIB_VERSION_2_42:
- *
- * A macro that evaluates to the 2.42 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.42
- */
+* GLIB_VERSION_2_42:
+*
+* A macro that evaluates to the 2.42 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.42
+*/
 #define GLIB_VERSION_2_42       (G_ENCODE_VERSION (2, 42))
-
 /**
- * GLIB_VERSION_2_44:
- *
- * A macro that evaluates to the 2.44 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.44
- */
+* GLIB_VERSION_2_44:
+*
+* A macro that evaluates to the 2.44 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.44
+*/
 #define GLIB_VERSION_2_44       (G_ENCODE_VERSION (2, 44))
-
 /**
- * GLIB_VERSION_2_46:
- *
- * A macro that evaluates to the 2.46 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.46
- */
+* GLIB_VERSION_2_46:
+*
+* A macro that evaluates to the 2.46 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.46
+*/
 #define GLIB_VERSION_2_46       (G_ENCODE_VERSION (2, 46))
-
 /**
- * GLIB_VERSION_2_48:
- *
- * A macro that evaluates to the 2.48 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.48
- */
+* GLIB_VERSION_2_48:
+*
+* A macro that evaluates to the 2.48 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.48
+*/
 #define GLIB_VERSION_2_48       (G_ENCODE_VERSION (2, 48))
-
 /**
- * GLIB_VERSION_2_50:
- *
- * A macro that evaluates to the 2.50 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.50
- */
+* GLIB_VERSION_2_50:
+*
+* A macro that evaluates to the 2.50 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.50
+*/
 #define GLIB_VERSION_2_50       (G_ENCODE_VERSION (2, 50))
-
 /**
- * GLIB_VERSION_2_52:
- *
- * A macro that evaluates to the 2.52 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.52
- */
+* GLIB_VERSION_2_52:
+*
+* A macro that evaluates to the 2.52 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.52
+*/
 #define GLIB_VERSION_2_52       (G_ENCODE_VERSION (2, 52))
-
 /**
- * GLIB_VERSION_2_54:
- *
- * A macro that evaluates to the 2.54 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.54
- */
+* GLIB_VERSION_2_54:
+*
+* A macro that evaluates to the 2.54 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.54
+*/
 #define GLIB_VERSION_2_54       (G_ENCODE_VERSION (2, 54))
-
 /**
- * GLIB_VERSION_2_56:
- *
- * A macro that evaluates to the 2.56 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.56
- */
+* GLIB_VERSION_2_56:
+*
+* A macro that evaluates to the 2.56 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.56
+*/
 #define GLIB_VERSION_2_56       (G_ENCODE_VERSION (2, 56))
-
 /**
- * GLIB_VERSION_2_58:
- *
- * A macro that evaluates to the 2.58 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.58
- */
+* GLIB_VERSION_2_58:
+*
+* A macro that evaluates to the 2.58 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.58
+*/
 #define GLIB_VERSION_2_58       (G_ENCODE_VERSION (2, 58))
-
 /**
- * GLIB_VERSION_2_60:
- *
- * A macro that evaluates to the 2.60 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.60
- */
+* GLIB_VERSION_2_60:
+*
+* A macro that evaluates to the 2.60 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.60
+*/
 #define GLIB_VERSION_2_60       (G_ENCODE_VERSION (2, 60))
-
 /**
- * GLIB_VERSION_2_62:
- *
- * A macro that evaluates to the 2.62 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.62
- */
+* GLIB_VERSION_2_62:
+*
+* A macro that evaluates to the 2.62 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.62
+*/
 #define GLIB_VERSION_2_62       (G_ENCODE_VERSION (2, 62))
-
 /**
- * GLIB_VERSION_2_64:
- *
- * A macro that evaluates to the 2.64 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.64
- */
+* GLIB_VERSION_2_64:
+*
+* A macro that evaluates to the 2.64 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.64
+*/
 #define GLIB_VERSION_2_64       (G_ENCODE_VERSION (2, 64))
-
 /**
- * GLIB_VERSION_2_66:
- *
- * A macro that evaluates to the 2.66 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.66
- */
+* GLIB_VERSION_2_66:
+*
+* A macro that evaluates to the 2.66 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.66
+*/
 #define GLIB_VERSION_2_66       (G_ENCODE_VERSION (2, 66))
-
 /**
- * GLIB_VERSION_2_68:
- *
- * A macro that evaluates to the 2.68 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.68
- */
+* GLIB_VERSION_2_68:
+*
+* A macro that evaluates to the 2.68 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.68
+*/
 #define GLIB_VERSION_2_68       (G_ENCODE_VERSION (2, 68))
-
 /**
- * GLIB_VERSION_2_70:
- *
- * A macro that evaluates to the 2.70 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.70
- */
+* GLIB_VERSION_2_70:
+*
+* A macro that evaluates to the 2.70 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.70
+*/
 #define GLIB_VERSION_2_70       (G_ENCODE_VERSION (2, 70))
-
 /**
- * GLIB_VERSION_2_72:
- *
- * A macro that evaluates to the 2.72 version of GLib, in a format
- * that can be used by the C pre-processor.
- *
- * Since: 2.72
- */
+* GLIB_VERSION_2_72:
+*
+* A macro that evaluates to the 2.72 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.72
+*/
 #define GLIB_VERSION_2_72       (G_ENCODE_VERSION (2, 72))
+/**
+* GLIB_VERSION_2_74:
+*
+* A macro that evaluates to the 2.74 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.74
+*/
+#define GLIB_VERSION_2_74       (G_ENCODE_VERSION (2, 74))
+/**
+* GLIB_VERSION_2_76:
+*
+* A macro that evaluates to the 2.76 version of GLib, in a format
+* that can be used by the C pre-processor.
+*
+* Since: 2.76
+*/
+#define GLIB_VERSION_2_76       (G_ENCODE_VERSION (2, 76))
 
 /**
  * GLIB_VERSION_CUR_STABLE:
@@ -6437,9 +6710,9 @@ G_END_DECLS
  * Since: 2.32
  */
 #if (GLIB_MINOR_VERSION % 2)
-#define GLIB_VERSION_CUR_STABLE         (G_ENCODE_VERSION (GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION + 1))
+#define GLIB_VERSION_CUR_STABLE (G_ENCODE_VERSION (GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION + 1))
 #else
-#define GLIB_VERSION_CUR_STABLE         (G_ENCODE_VERSION (GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION))
+#define GLIB_VERSION_CUR_STABLE (G_ENCODE_VERSION (GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION))
 #endif
 
 /**
@@ -6454,9 +6727,9 @@ G_END_DECLS
  * Since: 2.32
  */
 #if (GLIB_MINOR_VERSION % 2)
-#define GLIB_VERSION_PREV_STABLE        (G_ENCODE_VERSION (GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION - 1))
+#define GLIB_VERSION_PREV_STABLE (G_ENCODE_VERSION (GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION - 1))
 #else
-#define GLIB_VERSION_PREV_STABLE        (G_ENCODE_VERSION (GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION - 2))
+#define GLIB_VERSION_PREV_STABLE (G_ENCODE_VERSION (GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION - 2))
 #endif
 
 /**
@@ -6482,10 +6755,10 @@ G_END_DECLS
  * 0 in preprocessor tests.
  */
 #ifndef GLIB_VERSION_MIN_REQUIRED
-# define GLIB_VERSION_MIN_REQUIRED      (GLIB_VERSION_CUR_STABLE)
+#define GLIB_VERSION_MIN_REQUIRED (GLIB_VERSION_CUR_STABLE)
 #elif GLIB_VERSION_MIN_REQUIRED == 0
-# undef  GLIB_VERSION_MIN_REQUIRED
-# define GLIB_VERSION_MIN_REQUIRED      (GLIB_VERSION_CUR_STABLE + 2)
+#undef GLIB_VERSION_MIN_REQUIRED
+#define GLIB_VERSION_MIN_REQUIRED (GLIB_VERSION_CUR_STABLE + 2)
 #endif
 
 /**
@@ -6509,9 +6782,9 @@ G_END_DECLS
  *
  * Since: 2.32
  */
-#if !defined (GLIB_VERSION_MAX_ALLOWED) || (GLIB_VERSION_MAX_ALLOWED == 0)
-# undef GLIB_VERSION_MAX_ALLOWED
-# define GLIB_VERSION_MAX_ALLOWED      (GLIB_VERSION_CUR_STABLE)
+#if !defined(GLIB_VERSION_MAX_ALLOWED) || (GLIB_VERSION_MAX_ALLOWED == 0)
+#undef GLIB_VERSION_MAX_ALLOWED
+#define GLIB_VERSION_MAX_ALLOWED (GLIB_VERSION_CUR_STABLE)
 #endif
 
 /* sanity checks */
@@ -6525,796 +6798,928 @@ G_END_DECLS
 #error "GLIB_VERSION_MIN_REQUIRED must be >= GLIB_VERSION_2_26"
 #endif
 
-/* These macros are used to mark deprecated functions in GLib headers,
- * and thus have to be exposed in installed headers. But please
- * do *not* use them in other projects. Instead, use G_DEPRECATED
- * or define your own wrappers around it.
- */
-#define GLIB_AVAILABLE_IN_ALL                   _GLIB_EXTERN
+#endif /*  __G_VERSION_MACROS_H__ */
 
-/* XXX: Every new stable minor release should add a set of macros here */
+/* Must be included after the 3 headers above */
+#pragma once
+
+#if (defined(_WIN32) || defined(__CYGWIN__)) && !defined(GLIB_STATIC_COMPILATION)
+#  define _GLIB_EXPORT __declspec(dllexport)
+#  define _GLIB_IMPORT __declspec(dllimport)
+#elif __GNUC__ >= 4
+#  define _GLIB_EXPORT __attribute__((visibility("default")))
+#  define _GLIB_IMPORT
+#else
+#  define _GLIB_EXPORT
+#  define _GLIB_IMPORT
+#endif
+#ifdef GLIB_COMPILATION
+#  define _GLIB_API _GLIB_EXPORT
+#else
+#  define _GLIB_API _GLIB_IMPORT
+#endif
+
+#define _GLIB_EXTERN _GLIB_API extern
+
+#define GLIB_VAR _GLIB_EXTERN
+#define GLIB_AVAILABLE_IN_ALL _GLIB_EXTERN
+
+#ifdef GLIB_DISABLE_DEPRECATION_WARNINGS
+#define GLIB_DEPRECATED _GLIB_EXTERN
+#define GLIB_DEPRECATED_FOR(f) _GLIB_EXTERN
+#define GLIB_UNAVAILABLE(maj,min) _GLIB_EXTERN
+#define GLIB_UNAVAILABLE_STATIC_INLINE(maj,min)
+#else
+#define GLIB_DEPRECATED G_DEPRECATED _GLIB_EXTERN
+#define GLIB_DEPRECATED_FOR(f) G_DEPRECATED_FOR(f) _GLIB_EXTERN
+#define GLIB_UNAVAILABLE(maj,min) G_UNAVAILABLE(maj,min) _GLIB_EXTERN
+#define GLIB_UNAVAILABLE_STATIC_INLINE(maj,min) G_UNAVAILABLE(maj,min)
+#endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_26
-# define GLIB_DEPRECATED_IN_2_26                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_26_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_26          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_26          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_26_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_26           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_26_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_26 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_26_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_26 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_26 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_26_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_26 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_26_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_26                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_26_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_26
-# define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_26
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_26_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_26
-# define GLIB_DEPRECATED_TYPE_IN_2_26_FOR(f)
+#define GLIB_DEPRECATED_IN_2_26 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_26_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_26
+#define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_26
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_26_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_26
+#define GLIB_DEPRECATED_TYPE_IN_2_26_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_26
-# define GLIB_AVAILABLE_IN_2_26                 GLIB_UNAVAILABLE(2, 26)
-# define GLIB_AVAILABLE_MACRO_IN_2_26           GLIB_UNAVAILABLE_MACRO(2, 26)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_26      GLIB_UNAVAILABLE_ENUMERATOR(2, 26)
-# define GLIB_AVAILABLE_TYPE_IN_2_26            GLIB_UNAVAILABLE_TYPE(2, 26)
+#define GLIB_AVAILABLE_IN_2_26 GLIB_UNAVAILABLE (2, 26)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_26 GLIB_UNAVAILABLE_STATIC_INLINE (2, 26)
+#define GLIB_AVAILABLE_MACRO_IN_2_26 GLIB_UNAVAILABLE_MACRO (2, 26)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_26 GLIB_UNAVAILABLE_ENUMERATOR (2, 26)
+#define GLIB_AVAILABLE_TYPE_IN_2_26 GLIB_UNAVAILABLE_TYPE (2, 26)
 #else
-# define GLIB_AVAILABLE_IN_2_26                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_26
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_26
-# define GLIB_AVAILABLE_TYPE_IN_2_26
+#define GLIB_AVAILABLE_IN_2_26 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_26
+#define GLIB_AVAILABLE_MACRO_IN_2_26
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_26
+#define GLIB_AVAILABLE_TYPE_IN_2_26
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_28
-# define GLIB_DEPRECATED_IN_2_28                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_28_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_28          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_28_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_28          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_28_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_28           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_28_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_28 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_28_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_28 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_28_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_28 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_28_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_28 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_28_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_28                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_28_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_28
-# define GLIB_DEPRECATED_MACRO_IN_2_28_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_28
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_28_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_28
-# define GLIB_DEPRECATED_TYPE_IN_2_28_FOR(f)
+#define GLIB_DEPRECATED_IN_2_28 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_28_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_28
+#define GLIB_DEPRECATED_MACRO_IN_2_28_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_28
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_28_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_28
+#define GLIB_DEPRECATED_TYPE_IN_2_28_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_28
-# define GLIB_AVAILABLE_IN_2_28                 GLIB_UNAVAILABLE(2, 28)
-# define GLIB_AVAILABLE_MACRO_IN_2_28           GLIB_UNAVAILABLE_MACRO(2, 28)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_28      GLIB_UNAVAILABLE_ENUMERATOR(2, 28)
-# define GLIB_AVAILABLE_TYPE_IN_2_28            GLIB_UNAVAILABLE_TYPE(2, 28)
+#define GLIB_AVAILABLE_IN_2_28 GLIB_UNAVAILABLE (2, 28)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_28 GLIB_UNAVAILABLE_STATIC_INLINE (2, 28)
+#define GLIB_AVAILABLE_MACRO_IN_2_28 GLIB_UNAVAILABLE_MACRO (2, 28)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_28 GLIB_UNAVAILABLE_ENUMERATOR (2, 28)
+#define GLIB_AVAILABLE_TYPE_IN_2_28 GLIB_UNAVAILABLE_TYPE (2, 28)
 #else
-# define GLIB_AVAILABLE_IN_2_28                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_28
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_28
-# define GLIB_AVAILABLE_TYPE_IN_2_28
+#define GLIB_AVAILABLE_IN_2_28 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_28
+#define GLIB_AVAILABLE_MACRO_IN_2_28
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_28
+#define GLIB_AVAILABLE_TYPE_IN_2_28
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_30
-# define GLIB_DEPRECATED_IN_2_30                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_30_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_30          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_30_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_30          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_30_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_30           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_30_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_30 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_30_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_30 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_30_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_30 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_30_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_30 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_30_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_30                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_30_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_30
-# define GLIB_DEPRECATED_MACRO_IN_2_30_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_30
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_30_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_30
-# define GLIB_DEPRECATED_TYPE_IN_2_30_FOR(f)
+#define GLIB_DEPRECATED_IN_2_30 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_30_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_30
+#define GLIB_DEPRECATED_MACRO_IN_2_30_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_30
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_30_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_30
+#define GLIB_DEPRECATED_TYPE_IN_2_30_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_30
-# define GLIB_AVAILABLE_IN_2_30                 GLIB_UNAVAILABLE(2, 30)
-# define GLIB_AVAILABLE_MACRO_IN_2_30           GLIB_UNAVAILABLE_MACRO(2, 30)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_30      GLIB_UNAVAILABLE_ENUMERATOR(2, 30)
-# define GLIB_AVAILABLE_TYPE_IN_2_30            GLIB_UNAVAILABLE_TYPE(2, 30)
+#define GLIB_AVAILABLE_IN_2_30 GLIB_UNAVAILABLE (2, 30)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_30 GLIB_UNAVAILABLE_STATIC_INLINE (2, 30)
+#define GLIB_AVAILABLE_MACRO_IN_2_30 GLIB_UNAVAILABLE_MACRO (2, 30)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_30 GLIB_UNAVAILABLE_ENUMERATOR (2, 30)
+#define GLIB_AVAILABLE_TYPE_IN_2_30 GLIB_UNAVAILABLE_TYPE (2, 30)
 #else
-# define GLIB_AVAILABLE_IN_2_30                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_30
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_30
-# define GLIB_AVAILABLE_TYPE_IN_2_30
+#define GLIB_AVAILABLE_IN_2_30 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_30
+#define GLIB_AVAILABLE_MACRO_IN_2_30
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_30
+#define GLIB_AVAILABLE_TYPE_IN_2_30
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_32
-# define GLIB_DEPRECATED_IN_2_32                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_32_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_32          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_32_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_32          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_32_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_32           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_32_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_32 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_32_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_32 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_32_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_32 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_32_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_32 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_32_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_32                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_32_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_32
-# define GLIB_DEPRECATED_MACRO_IN_2_32_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_32
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_32_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_32
-# define GLIB_DEPRECATED_TYPE_IN_2_32_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_32
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_32_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_32
-# define GLIB_DEPRECATED_TYPE_IN_2_32_FOR(f)
+#define GLIB_DEPRECATED_IN_2_32 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_32_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_32
+#define GLIB_DEPRECATED_MACRO_IN_2_32_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_32
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_32_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_32
+#define GLIB_DEPRECATED_TYPE_IN_2_32_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_32
-# define GLIB_AVAILABLE_IN_2_32                 GLIB_UNAVAILABLE(2, 32)
-# define GLIB_AVAILABLE_MACRO_IN_2_32           GLIB_UNAVAILABLE_MACRO(2, 32)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_32      GLIB_UNAVAILABLE_ENUMERATOR(2, 32)
-# define GLIB_AVAILABLE_TYPE_IN_2_32            GLIB_UNAVAILABLE_TYPE(2, 32)
+#define GLIB_AVAILABLE_IN_2_32 GLIB_UNAVAILABLE (2, 32)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_32 GLIB_UNAVAILABLE_STATIC_INLINE (2, 32)
+#define GLIB_AVAILABLE_MACRO_IN_2_32 GLIB_UNAVAILABLE_MACRO (2, 32)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_32 GLIB_UNAVAILABLE_ENUMERATOR (2, 32)
+#define GLIB_AVAILABLE_TYPE_IN_2_32 GLIB_UNAVAILABLE_TYPE (2, 32)
 #else
-# define GLIB_AVAILABLE_IN_2_32                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_32
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_32
-# define GLIB_AVAILABLE_TYPE_IN_2_32
+#define GLIB_AVAILABLE_IN_2_32 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_32
+#define GLIB_AVAILABLE_MACRO_IN_2_32
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_32
+#define GLIB_AVAILABLE_TYPE_IN_2_32
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_34
-# define GLIB_DEPRECATED_IN_2_34                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_34_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_34          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_34_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_34          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_34_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_34           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_34_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_34 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_34_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_34 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_34_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_34 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_34_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_34 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_34_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_34                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_34_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_34
-# define GLIB_DEPRECATED_MACRO_IN_2_34_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_34
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_34_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_34
-# define GLIB_DEPRECATED_TYPE_IN_2_34_FOR(f)
+#define GLIB_DEPRECATED_IN_2_34 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_34_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_34
+#define GLIB_DEPRECATED_MACRO_IN_2_34_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_34
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_34_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_34
+#define GLIB_DEPRECATED_TYPE_IN_2_34_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_34
-# define GLIB_AVAILABLE_IN_2_34                 GLIB_UNAVAILABLE(2, 34)
-# define GLIB_AVAILABLE_MACRO_IN_2_34           GLIB_UNAVAILABLE_MACRO(2, 34)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_34      GLIB_UNAVAILABLE_ENUMERATOR(2, 34)
-# define GLIB_AVAILABLE_TYPE_IN_2_34            GLIB_UNAVAILABLE_TYPE(2, 34)
+#define GLIB_AVAILABLE_IN_2_34 GLIB_UNAVAILABLE (2, 34)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_34 GLIB_UNAVAILABLE_STATIC_INLINE (2, 34)
+#define GLIB_AVAILABLE_MACRO_IN_2_34 GLIB_UNAVAILABLE_MACRO (2, 34)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_34 GLIB_UNAVAILABLE_ENUMERATOR (2, 34)
+#define GLIB_AVAILABLE_TYPE_IN_2_34 GLIB_UNAVAILABLE_TYPE (2, 34)
 #else
-# define GLIB_AVAILABLE_IN_2_34                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_34
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_34
-# define GLIB_AVAILABLE_TYPE_IN_2_34
+#define GLIB_AVAILABLE_IN_2_34 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_34
+#define GLIB_AVAILABLE_MACRO_IN_2_34
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_34
+#define GLIB_AVAILABLE_TYPE_IN_2_34
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_36
-# define GLIB_DEPRECATED_IN_2_36                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_36_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_36          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_36_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_36          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_36_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_36           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_36_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_36 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_36_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_36 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_36_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_36 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_36_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_36 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_36_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_36                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_36_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_36
-# define GLIB_DEPRECATED_MACRO_IN_2_36_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_36
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_36_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_36
-# define GLIB_DEPRECATED_TYPE_IN_2_36_FOR(f)
+#define GLIB_DEPRECATED_IN_2_36 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_36_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_36
+#define GLIB_DEPRECATED_MACRO_IN_2_36_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_36
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_36_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_36
+#define GLIB_DEPRECATED_TYPE_IN_2_36_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_36
-# define GLIB_AVAILABLE_IN_2_36                 GLIB_UNAVAILABLE(2, 36)
-# define GLIB_AVAILABLE_MACRO_IN_2_36           GLIB_UNAVAILABLE_MACRO(2, 36)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_36      GLIB_UNAVAILABLE_ENUMERATOR(2, 36)
-# define GLIB_AVAILABLE_TYPE_IN_2_36            GLIB_UNAVAILABLE_TYPE(2, 36)
+#define GLIB_AVAILABLE_IN_2_36 GLIB_UNAVAILABLE (2, 36)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_36 GLIB_UNAVAILABLE_STATIC_INLINE (2, 36)
+#define GLIB_AVAILABLE_MACRO_IN_2_36 GLIB_UNAVAILABLE_MACRO (2, 36)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_36 GLIB_UNAVAILABLE_ENUMERATOR (2, 36)
+#define GLIB_AVAILABLE_TYPE_IN_2_36 GLIB_UNAVAILABLE_TYPE (2, 36)
 #else
-# define GLIB_AVAILABLE_IN_2_36                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_36
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_36
-# define GLIB_AVAILABLE_TYPE_IN_2_36
+#define GLIB_AVAILABLE_IN_2_36 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_36
+#define GLIB_AVAILABLE_MACRO_IN_2_36
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_36
+#define GLIB_AVAILABLE_TYPE_IN_2_36
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_38
-# define GLIB_DEPRECATED_IN_2_38                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_38_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_38          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_38_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_38          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_38_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_38           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_38_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_38 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_38_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_38 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_38_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_38 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_38_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_38 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_38_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_38                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_38_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_38
-# define GLIB_DEPRECATED_MACRO_IN_2_38_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_38
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_38_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_38
-# define GLIB_DEPRECATED_TYPE_IN_2_38_FOR(f)
+#define GLIB_DEPRECATED_IN_2_38 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_38_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_38
+#define GLIB_DEPRECATED_MACRO_IN_2_38_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_38
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_38_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_38
+#define GLIB_DEPRECATED_TYPE_IN_2_38_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_38
-# define GLIB_AVAILABLE_IN_2_38                 GLIB_UNAVAILABLE(2, 38)
-# define GLIB_AVAILABLE_MACRO_IN_2_38           GLIB_UNAVAILABLE_MACRO(2, 38)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_38      GLIB_UNAVAILABLE_ENUMERATOR(2, 38)
-# define GLIB_AVAILABLE_TYPE_IN_2_38            GLIB_UNAVAILABLE_TYPE(2, 38)
+#define GLIB_AVAILABLE_IN_2_38 GLIB_UNAVAILABLE (2, 38)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_38 GLIB_UNAVAILABLE_STATIC_INLINE (2, 38)
+#define GLIB_AVAILABLE_MACRO_IN_2_38 GLIB_UNAVAILABLE_MACRO (2, 38)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_38 GLIB_UNAVAILABLE_ENUMERATOR (2, 38)
+#define GLIB_AVAILABLE_TYPE_IN_2_38 GLIB_UNAVAILABLE_TYPE (2, 38)
 #else
-# define GLIB_AVAILABLE_IN_2_38                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_38
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_38
-# define GLIB_AVAILABLE_TYPE_IN_2_38
+#define GLIB_AVAILABLE_IN_2_38 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_38
+#define GLIB_AVAILABLE_MACRO_IN_2_38
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_38
+#define GLIB_AVAILABLE_TYPE_IN_2_38
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_40
-# define GLIB_DEPRECATED_IN_2_40                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_40_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_40          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_40_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_40          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_40_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_40           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_40_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_40 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_40_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_40 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_40_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_40 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_40_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_40 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_40_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_40                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_40_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_40
-# define GLIB_DEPRECATED_MACRO_IN_2_40_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_40
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_40_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_40
-# define GLIB_DEPRECATED_TYPE_IN_2_40_FOR(f)
+#define GLIB_DEPRECATED_IN_2_40 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_40_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_40
+#define GLIB_DEPRECATED_MACRO_IN_2_40_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_40
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_40_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_40
+#define GLIB_DEPRECATED_TYPE_IN_2_40_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_40
-# define GLIB_AVAILABLE_IN_2_40                 GLIB_UNAVAILABLE(2, 40)
-# define GLIB_AVAILABLE_MACRO_IN_2_40           GLIB_UNAVAILABLE_MACRO(2, 40)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_40      GLIB_UNAVAILABLE_ENUMERATOR(2, 40)
-# define GLIB_AVAILABLE_TYPE_IN_2_40            GLIB_UNAVAILABLE_TYPE(2, 40)
+#define GLIB_AVAILABLE_IN_2_40 GLIB_UNAVAILABLE (2, 40)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_40 GLIB_UNAVAILABLE_STATIC_INLINE (2, 40)
+#define GLIB_AVAILABLE_MACRO_IN_2_40 GLIB_UNAVAILABLE_MACRO (2, 40)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_40 GLIB_UNAVAILABLE_ENUMERATOR (2, 40)
+#define GLIB_AVAILABLE_TYPE_IN_2_40 GLIB_UNAVAILABLE_TYPE (2, 40)
 #else
-# define GLIB_AVAILABLE_IN_2_40                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_40
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_40
-# define GLIB_AVAILABLE_TYPE_IN_2_40
+#define GLIB_AVAILABLE_IN_2_40 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_40
+#define GLIB_AVAILABLE_MACRO_IN_2_40
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_40
+#define GLIB_AVAILABLE_TYPE_IN_2_40
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_42
-# define GLIB_DEPRECATED_IN_2_42                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_42_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_42          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_42_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
+#define GLIB_DEPRECATED_IN_2_42 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_42_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_42 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_42_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_42 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_42_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_42 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_42_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_42                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_42_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_42
-# define GLIB_DEPRECATED_MACRO_IN_2_42_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_42
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_42_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_42
-# define GLIB_DEPRECATED_TYPE_IN_2_42_FOR(f)
+#define GLIB_DEPRECATED_IN_2_42 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_42_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_42
+#define GLIB_DEPRECATED_MACRO_IN_2_42_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_42
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_42_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_42
+#define GLIB_DEPRECATED_TYPE_IN_2_42_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_42
-# define GLIB_AVAILABLE_IN_2_42                 GLIB_UNAVAILABLE(2, 42)
-# define GLIB_AVAILABLE_MACRO_IN_2_42           GLIB_UNAVAILABLE_MACRO(2, 42)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_42      GLIB_UNAVAILABLE_ENUMERATOR(2, 42)
-# define GLIB_AVAILABLE_TYPE_IN_2_42            GLIB_UNAVAILABLE_TYPE(2, 42)
+#define GLIB_AVAILABLE_IN_2_42 GLIB_UNAVAILABLE (2, 42)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_42 GLIB_UNAVAILABLE_STATIC_INLINE (2, 42)
+#define GLIB_AVAILABLE_MACRO_IN_2_42 GLIB_UNAVAILABLE_MACRO (2, 42)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_42 GLIB_UNAVAILABLE_ENUMERATOR (2, 42)
+#define GLIB_AVAILABLE_TYPE_IN_2_42 GLIB_UNAVAILABLE_TYPE (2, 42)
 #else
-# define GLIB_AVAILABLE_IN_2_42                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_42
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_42
-# define GLIB_AVAILABLE_TYPE_IN_2_42
+#define GLIB_AVAILABLE_IN_2_42 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_42
+#define GLIB_AVAILABLE_MACRO_IN_2_42
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_42
+#define GLIB_AVAILABLE_TYPE_IN_2_42
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_44
-# define GLIB_DEPRECATED_IN_2_44                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_44_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_44          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_44_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_44          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_44_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_44           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_44_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_44 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_44_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_44 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_44_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_44 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_44_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_44 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_44_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_44                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_44_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_44
-# define GLIB_DEPRECATED_MACRO_IN_2_44_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_44
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_44_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_44
-# define GLIB_DEPRECATED_TYPE_IN_2_44_FOR(f)
+#define GLIB_DEPRECATED_IN_2_44 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_44_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_44
+#define GLIB_DEPRECATED_MACRO_IN_2_44_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_44
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_44_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_44
+#define GLIB_DEPRECATED_TYPE_IN_2_44_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_44
-# define GLIB_AVAILABLE_IN_2_44                 GLIB_UNAVAILABLE(2, 44)
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_44   GLIB_UNAVAILABLE_STATIC_INLINE(2, 44)
-# define GLIB_AVAILABLE_MACRO_IN_2_44           GLIB_UNAVAILABLE_MACRO(2, 44)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_44      GLIB_UNAVAILABLE_ENUMERATOR(2, 44)
-# define GLIB_AVAILABLE_TYPE_IN_2_44            GLIB_UNAVAILABLE_TYPE(2, 44)
+#define GLIB_AVAILABLE_IN_2_44 GLIB_UNAVAILABLE (2, 44)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_44 GLIB_UNAVAILABLE_STATIC_INLINE (2, 44)
+#define GLIB_AVAILABLE_MACRO_IN_2_44 GLIB_UNAVAILABLE_MACRO (2, 44)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_44 GLIB_UNAVAILABLE_ENUMERATOR (2, 44)
+#define GLIB_AVAILABLE_TYPE_IN_2_44 GLIB_UNAVAILABLE_TYPE (2, 44)
 #else
-# define GLIB_AVAILABLE_IN_2_44                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_44
-# define GLIB_AVAILABLE_MACRO_IN_2_44
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_44
-# define GLIB_AVAILABLE_TYPE_IN_2_44
+#define GLIB_AVAILABLE_IN_2_44 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_44
+#define GLIB_AVAILABLE_MACRO_IN_2_44
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_44
+#define GLIB_AVAILABLE_TYPE_IN_2_44
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_46
-# define GLIB_DEPRECATED_IN_2_46                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_46_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_46          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_46_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
+#define GLIB_DEPRECATED_IN_2_46 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_46_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_46 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_46_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_46 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_46_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_46 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_46_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_46                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_46_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_46
-# define GLIB_DEPRECATED_MACRO_IN_2_46_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_46
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_46_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_46
-# define GLIB_DEPRECATED_TYPE_IN_2_46_FOR(f)
+#define GLIB_DEPRECATED_IN_2_46 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_46_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_46
+#define GLIB_DEPRECATED_MACRO_IN_2_46_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_46
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_46_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_46
+#define GLIB_DEPRECATED_TYPE_IN_2_46_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_46
-# define GLIB_AVAILABLE_IN_2_46                 GLIB_UNAVAILABLE(2, 46)
-# define GLIB_AVAILABLE_MACRO_IN_2_46           GLIB_UNAVAILABLE_MACRO(2, 46)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_46      GLIB_UNAVAILABLE_ENUMERATOR(2, 46)
-# define GLIB_AVAILABLE_TYPE_IN_2_46            GLIB_UNAVAILABLE_TYPE(2, 46)
+#define GLIB_AVAILABLE_IN_2_46 GLIB_UNAVAILABLE (2, 46)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_46 GLIB_UNAVAILABLE_STATIC_INLINE (2, 46)
+#define GLIB_AVAILABLE_MACRO_IN_2_46 GLIB_UNAVAILABLE_MACRO (2, 46)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_46 GLIB_UNAVAILABLE_ENUMERATOR (2, 46)
+#define GLIB_AVAILABLE_TYPE_IN_2_46 GLIB_UNAVAILABLE_TYPE (2, 46)
 #else
-# define GLIB_AVAILABLE_IN_2_46                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_46
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_46
-# define GLIB_AVAILABLE_TYPE_IN_2_46
+#define GLIB_AVAILABLE_IN_2_46 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_46
+#define GLIB_AVAILABLE_MACRO_IN_2_46
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_46
+#define GLIB_AVAILABLE_TYPE_IN_2_46
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_48
-# define GLIB_DEPRECATED_IN_2_48                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_48_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_48          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_48_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_48          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_48_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_48           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_48_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_48 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_48_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_48 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_48_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_48 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_48_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_48 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_48_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_48                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_48_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_48
-# define GLIB_DEPRECATED_MACRO_IN_2_48_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_48
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_48_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_48
-# define GLIB_DEPRECATED_TYPE_IN_2_48_FOR(f)
+#define GLIB_DEPRECATED_IN_2_48 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_48_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_48
+#define GLIB_DEPRECATED_MACRO_IN_2_48_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_48
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_48_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_48
+#define GLIB_DEPRECATED_TYPE_IN_2_48_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_48
-# define GLIB_AVAILABLE_IN_2_48                 GLIB_UNAVAILABLE(2, 48)
-# define GLIB_AVAILABLE_MACRO_IN_2_48           GLIB_UNAVAILABLE_MACRO(2, 48)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_48      GLIB_UNAVAILABLE_ENUMERATOR(2, 48)
-# define GLIB_AVAILABLE_TYPE_IN_2_48            GLIB_UNAVAILABLE_TYPE(2, 48)
+#define GLIB_AVAILABLE_IN_2_48 GLIB_UNAVAILABLE (2, 48)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_48 GLIB_UNAVAILABLE_STATIC_INLINE (2, 48)
+#define GLIB_AVAILABLE_MACRO_IN_2_48 GLIB_UNAVAILABLE_MACRO (2, 48)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_48 GLIB_UNAVAILABLE_ENUMERATOR (2, 48)
+#define GLIB_AVAILABLE_TYPE_IN_2_48 GLIB_UNAVAILABLE_TYPE (2, 48)
 #else
-# define GLIB_AVAILABLE_IN_2_48                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_48
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_48
-# define GLIB_AVAILABLE_TYPE_IN_2_48
+#define GLIB_AVAILABLE_IN_2_48 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_48
+#define GLIB_AVAILABLE_MACRO_IN_2_48
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_48
+#define GLIB_AVAILABLE_TYPE_IN_2_48
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_50
-# define GLIB_DEPRECATED_IN_2_50                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_50_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_50          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_50_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_50          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_50_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_50           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_50_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_50 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_50_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_50 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_50_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_50 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_50_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_50 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_50_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_50                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_50_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_50
-# define GLIB_DEPRECATED_MACRO_IN_2_50_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_50
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_50_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_50
-# define GLIB_DEPRECATED_TYPE_IN_2_50_FOR(f)
+#define GLIB_DEPRECATED_IN_2_50 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_50_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_50
+#define GLIB_DEPRECATED_MACRO_IN_2_50_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_50
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_50_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_50
+#define GLIB_DEPRECATED_TYPE_IN_2_50_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_50
-# define GLIB_AVAILABLE_IN_2_50                 GLIB_UNAVAILABLE(2, 50)
-# define GLIB_AVAILABLE_MACRO_IN_2_50           GLIB_UNAVAILABLE_MACRO(2, 50)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_50      GLIB_UNAVAILABLE_ENUMERATOR(2, 50)
-# define GLIB_AVAILABLE_TYPE_IN_2_50            GLIB_UNAVAILABLE_TYPE(2, 50)
+#define GLIB_AVAILABLE_IN_2_50 GLIB_UNAVAILABLE (2, 50)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_50 GLIB_UNAVAILABLE_STATIC_INLINE (2, 50)
+#define GLIB_AVAILABLE_MACRO_IN_2_50 GLIB_UNAVAILABLE_MACRO (2, 50)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_50 GLIB_UNAVAILABLE_ENUMERATOR (2, 50)
+#define GLIB_AVAILABLE_TYPE_IN_2_50 GLIB_UNAVAILABLE_TYPE (2, 50)
 #else
-# define GLIB_AVAILABLE_IN_2_50                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_50
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_50
-# define GLIB_AVAILABLE_TYPE_IN_2_50
+#define GLIB_AVAILABLE_IN_2_50 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_50
+#define GLIB_AVAILABLE_MACRO_IN_2_50
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_50
+#define GLIB_AVAILABLE_TYPE_IN_2_50
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_52
-# define GLIB_DEPRECATED_IN_2_52                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_52_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_52          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_52_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_52          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_52_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_52           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_52_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_52 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_52_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_52 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_52_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_52 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_52_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_52 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_52_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_52                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_52_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_52
-# define GLIB_DEPRECATED_MACRO_IN_2_52_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_52
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_52_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_52
-# define GLIB_DEPRECATED_TYPE_IN_2_52_FOR(f)
+#define GLIB_DEPRECATED_IN_2_52 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_52_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_52
+#define GLIB_DEPRECATED_MACRO_IN_2_52_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_52
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_52_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_52
+#define GLIB_DEPRECATED_TYPE_IN_2_52_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_52
-# define GLIB_AVAILABLE_IN_2_52                 GLIB_UNAVAILABLE(2, 52)
-# define GLIB_AVAILABLE_MACRO_IN_2_52           GLIB_UNAVAILABLE_MACRO(2, 52)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_52      GLIB_UNAVAILABLE_ENUMERATOR(2, 52)
-# define GLIB_AVAILABLE_TYPE_IN_2_52            GLIB_UNAVAILABLE_TYPE(2, 52)
+#define GLIB_AVAILABLE_IN_2_52 GLIB_UNAVAILABLE (2, 52)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_52 GLIB_UNAVAILABLE_STATIC_INLINE (2, 52)
+#define GLIB_AVAILABLE_MACRO_IN_2_52 GLIB_UNAVAILABLE_MACRO (2, 52)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_52 GLIB_UNAVAILABLE_ENUMERATOR (2, 52)
+#define GLIB_AVAILABLE_TYPE_IN_2_52 GLIB_UNAVAILABLE_TYPE (2, 52)
 #else
-# define GLIB_AVAILABLE_IN_2_52                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_52
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_52
-# define GLIB_AVAILABLE_TYPE_IN_2_52
+#define GLIB_AVAILABLE_IN_2_52 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_52
+#define GLIB_AVAILABLE_MACRO_IN_2_52
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_52
+#define GLIB_AVAILABLE_TYPE_IN_2_52
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_54
-# define GLIB_DEPRECATED_IN_2_54                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_54_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_54          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_54_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_54          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_54_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_54           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_54_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_54 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_54_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_54 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_54_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_54 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_54_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_54 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_54_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_54                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_54_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_54
-# define GLIB_DEPRECATED_MACRO_IN_2_54_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_54
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_54_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_54
-# define GLIB_DEPRECATED_TYPE_IN_2_54_FOR(f)
+#define GLIB_DEPRECATED_IN_2_54 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_54_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_54
+#define GLIB_DEPRECATED_MACRO_IN_2_54_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_54
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_54_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_54
+#define GLIB_DEPRECATED_TYPE_IN_2_54_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_54
-# define GLIB_AVAILABLE_IN_2_54                 GLIB_UNAVAILABLE(2, 54)
-# define GLIB_AVAILABLE_MACRO_IN_2_54           GLIB_UNAVAILABLE_MACRO(2, 54)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_54      GLIB_UNAVAILABLE_ENUMERATOR(2, 54)
-# define GLIB_AVAILABLE_TYPE_IN_2_54            GLIB_UNAVAILABLE_TYPE(2, 54)
+#define GLIB_AVAILABLE_IN_2_54 GLIB_UNAVAILABLE (2, 54)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_54 GLIB_UNAVAILABLE_STATIC_INLINE (2, 54)
+#define GLIB_AVAILABLE_MACRO_IN_2_54 GLIB_UNAVAILABLE_MACRO (2, 54)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_54 GLIB_UNAVAILABLE_ENUMERATOR (2, 54)
+#define GLIB_AVAILABLE_TYPE_IN_2_54 GLIB_UNAVAILABLE_TYPE (2, 54)
 #else
-# define GLIB_AVAILABLE_IN_2_54                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_54
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_54
-# define GLIB_AVAILABLE_TYPE_IN_2_54
+#define GLIB_AVAILABLE_IN_2_54 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_54
+#define GLIB_AVAILABLE_MACRO_IN_2_54
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_54
+#define GLIB_AVAILABLE_TYPE_IN_2_54
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_56
-# define GLIB_DEPRECATED_IN_2_56                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_56_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_56          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_56_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_56          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_56_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_56           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_56_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_56 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_56_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_56 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_56_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_56 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_56_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_56 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_56_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_56                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_56_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_56
-# define GLIB_DEPRECATED_MACRO_IN_2_56_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_56
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_56_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_56
-# define GLIB_DEPRECATED_TYPE_IN_2_56_FOR(f)
+#define GLIB_DEPRECATED_IN_2_56 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_56_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_56
+#define GLIB_DEPRECATED_MACRO_IN_2_56_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_56
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_56_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_56
+#define GLIB_DEPRECATED_TYPE_IN_2_56_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_56
-# define GLIB_AVAILABLE_IN_2_56                 GLIB_UNAVAILABLE(2, 56)
-# define GLIB_AVAILABLE_MACRO_IN_2_56           GLIB_UNAVAILABLE_MACRO(2, 56)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_56      GLIB_UNAVAILABLE_ENUMERATOR(2, 56)
-# define GLIB_AVAILABLE_TYPE_IN_2_56            GLIB_UNAVAILABLE_TYPE(2, 56)
+#define GLIB_AVAILABLE_IN_2_56 GLIB_UNAVAILABLE (2, 56)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_56 GLIB_UNAVAILABLE_STATIC_INLINE (2, 56)
+#define GLIB_AVAILABLE_MACRO_IN_2_56 GLIB_UNAVAILABLE_MACRO (2, 56)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_56 GLIB_UNAVAILABLE_ENUMERATOR (2, 56)
+#define GLIB_AVAILABLE_TYPE_IN_2_56 GLIB_UNAVAILABLE_TYPE (2, 56)
 #else
-# define GLIB_AVAILABLE_IN_2_56                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_56
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_56
-# define GLIB_AVAILABLE_TYPE_IN_2_56
+#define GLIB_AVAILABLE_IN_2_56 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_56
+#define GLIB_AVAILABLE_MACRO_IN_2_56
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_56
+#define GLIB_AVAILABLE_TYPE_IN_2_56
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_58
-# define GLIB_DEPRECATED_IN_2_58                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_58_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_58          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_58_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_58          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_58_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_58           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_58_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_58 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_58_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_58 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_58_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_58 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_58_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_58 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_58_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_58                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_58_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_58
-# define GLIB_DEPRECATED_MACRO_IN_2_58_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_58
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_58_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_58
-# define GLIB_DEPRECATED_TYPE_IN_2_58_FOR(f)
+#define GLIB_DEPRECATED_IN_2_58 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_58_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_58
+#define GLIB_DEPRECATED_MACRO_IN_2_58_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_58
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_58_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_58
+#define GLIB_DEPRECATED_TYPE_IN_2_58_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_58
-# define GLIB_AVAILABLE_IN_2_58                 GLIB_UNAVAILABLE(2, 58)
-# define GLIB_AVAILABLE_MACRO_IN_2_58           GLIB_UNAVAILABLE_MACRO(2, 58)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_58      GLIB_UNAVAILABLE_ENUMERATOR(2, 58)
-# define GLIB_AVAILABLE_TYPE_IN_2_58            GLIB_UNAVAILABLE_TYPE(2, 58)
+#define GLIB_AVAILABLE_IN_2_58 GLIB_UNAVAILABLE (2, 58)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_58 GLIB_UNAVAILABLE_STATIC_INLINE (2, 58)
+#define GLIB_AVAILABLE_MACRO_IN_2_58 GLIB_UNAVAILABLE_MACRO (2, 58)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_58 GLIB_UNAVAILABLE_ENUMERATOR (2, 58)
+#define GLIB_AVAILABLE_TYPE_IN_2_58 GLIB_UNAVAILABLE_TYPE (2, 58)
 #else
-# define GLIB_AVAILABLE_IN_2_58                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_MACRO_IN_2_58
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_58
-# define GLIB_AVAILABLE_TYPE_IN_2_58
+#define GLIB_AVAILABLE_IN_2_58 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_58
+#define GLIB_AVAILABLE_MACRO_IN_2_58
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_58
+#define GLIB_AVAILABLE_TYPE_IN_2_58
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_60
-# define GLIB_DEPRECATED_IN_2_60                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_60_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_60          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_60_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_60          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_60_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_60           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_60_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_60 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_60_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_60 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_60_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_60 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_60_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_60 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_60_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_60                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_60_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_60
-# define GLIB_DEPRECATED_MACRO_IN_2_60_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_60
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_60_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_60
-# define GLIB_DEPRECATED_TYPE_IN_2_60_FOR(f)
+#define GLIB_DEPRECATED_IN_2_60 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_60_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_60
+#define GLIB_DEPRECATED_MACRO_IN_2_60_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_60
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_60_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_60
+#define GLIB_DEPRECATED_TYPE_IN_2_60_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_60
-# define GLIB_AVAILABLE_IN_2_60                 GLIB_UNAVAILABLE(2, 60)
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_60   GLIB_UNAVAILABLE_STATIC_INLINE(2, 60)
-# define GLIB_AVAILABLE_MACRO_IN_2_60           GLIB_UNAVAILABLE_MACRO(2, 60)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_60      GLIB_UNAVAILABLE_ENUMERATOR(2, 60)
-# define GLIB_AVAILABLE_TYPE_IN_2_60            GLIB_UNAVAILABLE_TYPE(2, 60)
+#define GLIB_AVAILABLE_IN_2_60 GLIB_UNAVAILABLE (2, 60)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_60 GLIB_UNAVAILABLE_STATIC_INLINE (2, 60)
+#define GLIB_AVAILABLE_MACRO_IN_2_60 GLIB_UNAVAILABLE_MACRO (2, 60)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_60 GLIB_UNAVAILABLE_ENUMERATOR (2, 60)
+#define GLIB_AVAILABLE_TYPE_IN_2_60 GLIB_UNAVAILABLE_TYPE (2, 60)
 #else
-# define GLIB_AVAILABLE_IN_2_60                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_60
-# define GLIB_AVAILABLE_MACRO_IN_2_60
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_60
-# define GLIB_AVAILABLE_TYPE_IN_2_60
+#define GLIB_AVAILABLE_IN_2_60 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_60
+#define GLIB_AVAILABLE_MACRO_IN_2_60
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_60
+#define GLIB_AVAILABLE_TYPE_IN_2_60
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_62
-# define GLIB_DEPRECATED_IN_2_62                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_62_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_62          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_62_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_62          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_62_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_62           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_62_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_62 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_62_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_62 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_62_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_62 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_62_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_62 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_62_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_62                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_62_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_62
-# define GLIB_DEPRECATED_MACRO_IN_2_62_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_62
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_62_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_62
-# define GLIB_DEPRECATED_TYPE_IN_2_62_FOR(f)
+#define GLIB_DEPRECATED_IN_2_62 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_62_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_62
+#define GLIB_DEPRECATED_MACRO_IN_2_62_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_62
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_62_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_62
+#define GLIB_DEPRECATED_TYPE_IN_2_62_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_62
-# define GLIB_AVAILABLE_IN_2_62                 GLIB_UNAVAILABLE(2, 62)
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_62   GLIB_UNAVAILABLE_STATIC_INLINE(2, 62)
-# define GLIB_AVAILABLE_MACRO_IN_2_62           GLIB_UNAVAILABLE_MACRO(2, 62)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_62      GLIB_UNAVAILABLE_ENUMERATOR(2, 62)
-# define GLIB_AVAILABLE_TYPE_IN_2_62            GLIB_UNAVAILABLE_TYPE(2, 62)
+#define GLIB_AVAILABLE_IN_2_62 GLIB_UNAVAILABLE (2, 62)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_62 GLIB_UNAVAILABLE_STATIC_INLINE (2, 62)
+#define GLIB_AVAILABLE_MACRO_IN_2_62 GLIB_UNAVAILABLE_MACRO (2, 62)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_62 GLIB_UNAVAILABLE_ENUMERATOR (2, 62)
+#define GLIB_AVAILABLE_TYPE_IN_2_62 GLIB_UNAVAILABLE_TYPE (2, 62)
 #else
-# define GLIB_AVAILABLE_IN_2_62                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_62
-# define GLIB_AVAILABLE_MACRO_IN_2_62
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_62
-# define GLIB_AVAILABLE_TYPE_IN_2_62
+#define GLIB_AVAILABLE_IN_2_62 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_62
+#define GLIB_AVAILABLE_MACRO_IN_2_62
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_62
+#define GLIB_AVAILABLE_TYPE_IN_2_62
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_64
-# define GLIB_DEPRECATED_IN_2_64                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_64_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_64          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_64_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_64          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_64_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_64           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_64_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_64 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_64_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_64 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_64_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_64 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_64_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_64 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_64_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_64                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_64_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_64
-# define GLIB_DEPRECATED_MACRO_IN_2_64_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_64
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_64_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_64
-# define GLIB_DEPRECATED_TYPE_IN_2_64_FOR(f)
+#define GLIB_DEPRECATED_IN_2_64 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_64_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_64
+#define GLIB_DEPRECATED_MACRO_IN_2_64_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_64
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_64_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_64
+#define GLIB_DEPRECATED_TYPE_IN_2_64_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_64
-# define GLIB_AVAILABLE_IN_2_64                 GLIB_UNAVAILABLE(2, 64)
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_64   GLIB_UNAVAILABLE_STATIC_INLINE(2, 64)
-# define GLIB_AVAILABLE_MACRO_IN_2_64           GLIB_UNAVAILABLE_MACRO(2, 64)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_64      GLIB_UNAVAILABLE_ENUMERATOR(2, 64)
-# define GLIB_AVAILABLE_TYPE_IN_2_64            GLIB_UNAVAILABLE_TYPE(2, 64)
+#define GLIB_AVAILABLE_IN_2_64 GLIB_UNAVAILABLE (2, 64)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_64 GLIB_UNAVAILABLE_STATIC_INLINE (2, 64)
+#define GLIB_AVAILABLE_MACRO_IN_2_64 GLIB_UNAVAILABLE_MACRO (2, 64)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_64 GLIB_UNAVAILABLE_ENUMERATOR (2, 64)
+#define GLIB_AVAILABLE_TYPE_IN_2_64 GLIB_UNAVAILABLE_TYPE (2, 64)
 #else
-# define GLIB_AVAILABLE_IN_2_64                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_64
-# define GLIB_AVAILABLE_MACRO_IN_2_64
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_64
-# define GLIB_AVAILABLE_TYPE_IN_2_64
+#define GLIB_AVAILABLE_IN_2_64 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_64
+#define GLIB_AVAILABLE_MACRO_IN_2_64
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_64
+#define GLIB_AVAILABLE_TYPE_IN_2_64
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_66
-# define GLIB_DEPRECATED_IN_2_66                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_66_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_66          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_66_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_66          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_66_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_66           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_66_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_66 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_66_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_66 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_66_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_66 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_66_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_66 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_66_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_66                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_66_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_66
-# define GLIB_DEPRECATED_MACRO_IN_2_66_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_66
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_66_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_66
-# define GLIB_DEPRECATED_TYPE_IN_2_66_FOR(f)
+#define GLIB_DEPRECATED_IN_2_66 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_66_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_66
+#define GLIB_DEPRECATED_MACRO_IN_2_66_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_66
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_66_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_66
+#define GLIB_DEPRECATED_TYPE_IN_2_66_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_66
-# define GLIB_AVAILABLE_IN_2_66                 GLIB_UNAVAILABLE(2, 66)
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_66   GLIB_UNAVAILABLE_STATIC_INLINE(2, 66)
-# define GLIB_AVAILABLE_MACRO_IN_2_66           GLIB_UNAVAILABLE_MACRO(2, 66)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_66      GLIB_UNAVAILABLE_ENUMERATOR(2, 66)
-# define GLIB_AVAILABLE_TYPE_IN_2_66            GLIB_UNAVAILABLE_TYPE(2, 66)
+#define GLIB_AVAILABLE_IN_2_66 GLIB_UNAVAILABLE (2, 66)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_66 GLIB_UNAVAILABLE_STATIC_INLINE (2, 66)
+#define GLIB_AVAILABLE_MACRO_IN_2_66 GLIB_UNAVAILABLE_MACRO (2, 66)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_66 GLIB_UNAVAILABLE_ENUMERATOR (2, 66)
+#define GLIB_AVAILABLE_TYPE_IN_2_66 GLIB_UNAVAILABLE_TYPE (2, 66)
 #else
-# define GLIB_AVAILABLE_IN_2_66                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_66
-# define GLIB_AVAILABLE_MACRO_IN_2_66
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_66
-# define GLIB_AVAILABLE_TYPE_IN_2_66
+#define GLIB_AVAILABLE_IN_2_66 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_66
+#define GLIB_AVAILABLE_MACRO_IN_2_66
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_66
+#define GLIB_AVAILABLE_TYPE_IN_2_66
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68
-# define GLIB_DEPRECATED_IN_2_68                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_68_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_68          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_68_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_68          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_68_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_68           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_68_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_68 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_68_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_68 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_68_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_68 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_68_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_68 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_68_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_68                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_68_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_68
-# define GLIB_DEPRECATED_MACRO_IN_2_68_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_68
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_68_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_68
-# define GLIB_DEPRECATED_TYPE_IN_2_68_FOR(f)
+#define GLIB_DEPRECATED_IN_2_68 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_68_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_68
+#define GLIB_DEPRECATED_MACRO_IN_2_68_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_68
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_68_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_68
+#define GLIB_DEPRECATED_TYPE_IN_2_68_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_68
-# define GLIB_AVAILABLE_IN_2_68                 GLIB_UNAVAILABLE(2, 68)
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_68   GLIB_UNAVAILABLE_STATIC_INLINE(2, 68)
-# define GLIB_AVAILABLE_MACRO_IN_2_68           GLIB_UNAVAILABLE_MACRO(2, 68)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_68      GLIB_UNAVAILABLE_ENUMERATOR(2, 68)
-# define GLIB_AVAILABLE_TYPE_IN_2_68            GLIB_UNAVAILABLE_TYPE(2, 68)
+#define GLIB_AVAILABLE_IN_2_68 GLIB_UNAVAILABLE (2, 68)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_68 GLIB_UNAVAILABLE_STATIC_INLINE (2, 68)
+#define GLIB_AVAILABLE_MACRO_IN_2_68 GLIB_UNAVAILABLE_MACRO (2, 68)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_68 GLIB_UNAVAILABLE_ENUMERATOR (2, 68)
+#define GLIB_AVAILABLE_TYPE_IN_2_68 GLIB_UNAVAILABLE_TYPE (2, 68)
 #else
-# define GLIB_AVAILABLE_IN_2_68                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_68
-# define GLIB_AVAILABLE_MACRO_IN_2_68
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_68
-# define GLIB_AVAILABLE_TYPE_IN_2_68
+#define GLIB_AVAILABLE_IN_2_68 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_68
+#define GLIB_AVAILABLE_MACRO_IN_2_68
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_68
+#define GLIB_AVAILABLE_TYPE_IN_2_68
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_70
-# define GLIB_DEPRECATED_IN_2_70                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_70_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_70          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_70_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_70          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_70_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_70           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_70_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_70 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_70_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_70 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_70_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_70 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_70_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_70 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_70_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_70                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_70_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_70
-# define GLIB_DEPRECATED_MACRO_IN_2_70_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_70
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_70_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_70
-# define GLIB_DEPRECATED_TYPE_IN_2_70_FOR(f)
+#define GLIB_DEPRECATED_IN_2_70 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_70_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_70
+#define GLIB_DEPRECATED_MACRO_IN_2_70_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_70
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_70_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_70
+#define GLIB_DEPRECATED_TYPE_IN_2_70_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_70
-# define GLIB_AVAILABLE_IN_2_70                 GLIB_UNAVAILABLE(2, 70)
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_70   GLIB_UNAVAILABLE_STATIC_INLINE(2, 70)
-# define GLIB_AVAILABLE_MACRO_IN_2_70           GLIB_UNAVAILABLE_MACRO(2, 70)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_70      GLIB_UNAVAILABLE_ENUMERATOR(2, 70)
-# define GLIB_AVAILABLE_TYPE_IN_2_70            GLIB_UNAVAILABLE_TYPE(2, 70)
+#define GLIB_AVAILABLE_IN_2_70 GLIB_UNAVAILABLE (2, 70)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_70 GLIB_UNAVAILABLE_STATIC_INLINE (2, 70)
+#define GLIB_AVAILABLE_MACRO_IN_2_70 GLIB_UNAVAILABLE_MACRO (2, 70)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_70 GLIB_UNAVAILABLE_ENUMERATOR (2, 70)
+#define GLIB_AVAILABLE_TYPE_IN_2_70 GLIB_UNAVAILABLE_TYPE (2, 70)
 #else
-# define GLIB_AVAILABLE_IN_2_70                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_70
-# define GLIB_AVAILABLE_MACRO_IN_2_70
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_70
-# define GLIB_AVAILABLE_TYPE_IN_2_70
+#define GLIB_AVAILABLE_IN_2_70 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_70
+#define GLIB_AVAILABLE_MACRO_IN_2_70
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_70
+#define GLIB_AVAILABLE_TYPE_IN_2_70
 #endif
 
 #if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_72
-# define GLIB_DEPRECATED_IN_2_72                GLIB_DEPRECATED
-# define GLIB_DEPRECATED_IN_2_72_FOR(f)         GLIB_DEPRECATED_FOR(f)
-# define GLIB_DEPRECATED_MACRO_IN_2_72          GLIB_DEPRECATED_MACRO
-# define GLIB_DEPRECATED_MACRO_IN_2_72_FOR(f)   GLIB_DEPRECATED_MACRO_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_72          GLIB_DEPRECATED_ENUMERATOR
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_72_FOR(f)   GLIB_DEPRECATED_ENUMERATOR_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_72           GLIB_DEPRECATED_TYPE
-# define GLIB_DEPRECATED_TYPE_IN_2_72_FOR(f)    GLIB_DEPRECATED_TYPE_FOR(f)
+#define GLIB_DEPRECATED_IN_2_72 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_72_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_72 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_72_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_72 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_72_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_72 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_72_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
 #else
-# define GLIB_DEPRECATED_IN_2_72                _GLIB_EXTERN
-# define GLIB_DEPRECATED_IN_2_72_FOR(f)         _GLIB_EXTERN
-# define GLIB_DEPRECATED_MACRO_IN_2_72
-# define GLIB_DEPRECATED_MACRO_IN_2_72_FOR(f)
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_72
-# define GLIB_DEPRECATED_ENUMERATOR_IN_2_72_FOR(f)
-# define GLIB_DEPRECATED_TYPE_IN_2_72
-# define GLIB_DEPRECATED_TYPE_IN_2_72_FOR(f)
+#define GLIB_DEPRECATED_IN_2_72 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_72_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_72
+#define GLIB_DEPRECATED_MACRO_IN_2_72_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_72
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_72_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_72
+#define GLIB_DEPRECATED_TYPE_IN_2_72_FOR(f)
 #endif
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_72
-# define GLIB_AVAILABLE_IN_2_72                 GLIB_UNAVAILABLE(2, 72)
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_72   GLIB_UNAVAILABLE_STATIC_INLINE(2, 72)
-# define GLIB_AVAILABLE_MACRO_IN_2_72           GLIB_UNAVAILABLE_MACRO(2, 72)
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_72      GLIB_UNAVAILABLE_ENUMERATOR(2, 72)
-# define GLIB_AVAILABLE_TYPE_IN_2_72            GLIB_UNAVAILABLE_TYPE(2, 72)
+#define GLIB_AVAILABLE_IN_2_72 GLIB_UNAVAILABLE (2, 72)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_72 GLIB_UNAVAILABLE_STATIC_INLINE (2, 72)
+#define GLIB_AVAILABLE_MACRO_IN_2_72 GLIB_UNAVAILABLE_MACRO (2, 72)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_72 GLIB_UNAVAILABLE_ENUMERATOR (2, 72)
+#define GLIB_AVAILABLE_TYPE_IN_2_72 GLIB_UNAVAILABLE_TYPE (2, 72)
 #else
-# define GLIB_AVAILABLE_IN_2_72                 _GLIB_EXTERN
-# define GLIB_AVAILABLE_STATIC_INLINE_IN_2_72
-# define GLIB_AVAILABLE_MACRO_IN_2_72
-# define GLIB_AVAILABLE_ENUMERATOR_IN_2_72
-# define GLIB_AVAILABLE_TYPE_IN_2_72
+#define GLIB_AVAILABLE_IN_2_72 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_72
+#define GLIB_AVAILABLE_MACRO_IN_2_72
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_72
+#define GLIB_AVAILABLE_TYPE_IN_2_72
 #endif
 
-#endif /*  __G_VERSION_MACROS_H__ */
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_74
+#define GLIB_DEPRECATED_IN_2_74 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_74_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_74 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_74_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_74 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_74_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_74 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_74_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GLIB_DEPRECATED_IN_2_74 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_74_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_74
+#define GLIB_DEPRECATED_MACRO_IN_2_74_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_74
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_74_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_74
+#define GLIB_DEPRECATED_TYPE_IN_2_74_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_74
+#define GLIB_AVAILABLE_IN_2_74 GLIB_UNAVAILABLE (2, 74)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_74 GLIB_UNAVAILABLE_STATIC_INLINE (2, 74)
+#define GLIB_AVAILABLE_MACRO_IN_2_74 GLIB_UNAVAILABLE_MACRO (2, 74)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_74 GLIB_UNAVAILABLE_ENUMERATOR (2, 74)
+#define GLIB_AVAILABLE_TYPE_IN_2_74 GLIB_UNAVAILABLE_TYPE (2, 74)
+#else
+#define GLIB_AVAILABLE_IN_2_74 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_74
+#define GLIB_AVAILABLE_MACRO_IN_2_74
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_74
+#define GLIB_AVAILABLE_TYPE_IN_2_74
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_76
+#define GLIB_DEPRECATED_IN_2_76 GLIB_DEPRECATED
+#define GLIB_DEPRECATED_IN_2_76_FOR(f) GLIB_DEPRECATED_FOR (f)
+#define GLIB_DEPRECATED_MACRO_IN_2_76 GLIB_DEPRECATED_MACRO
+#define GLIB_DEPRECATED_MACRO_IN_2_76_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_76 GLIB_DEPRECATED_ENUMERATOR
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_76_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GLIB_DEPRECATED_TYPE_IN_2_76 GLIB_DEPRECATED_TYPE
+#define GLIB_DEPRECATED_TYPE_IN_2_76_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GLIB_DEPRECATED_IN_2_76 _GLIB_EXTERN
+#define GLIB_DEPRECATED_IN_2_76_FOR(f) _GLIB_EXTERN
+#define GLIB_DEPRECATED_MACRO_IN_2_76
+#define GLIB_DEPRECATED_MACRO_IN_2_76_FOR(f)
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_76
+#define GLIB_DEPRECATED_ENUMERATOR_IN_2_76_FOR(f)
+#define GLIB_DEPRECATED_TYPE_IN_2_76
+#define GLIB_DEPRECATED_TYPE_IN_2_76_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_76
+#define GLIB_AVAILABLE_IN_2_76 GLIB_UNAVAILABLE (2, 76)
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_76 GLIB_UNAVAILABLE_STATIC_INLINE (2, 76)
+#define GLIB_AVAILABLE_MACRO_IN_2_76 GLIB_UNAVAILABLE_MACRO (2, 76)
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_76 GLIB_UNAVAILABLE_ENUMERATOR (2, 76)
+#define GLIB_AVAILABLE_TYPE_IN_2_76 GLIB_UNAVAILABLE_TYPE (2, 76)
+#else
+#define GLIB_AVAILABLE_IN_2_76 _GLIB_EXTERN
+#define GLIB_AVAILABLE_STATIC_INLINE_IN_2_76
+#define GLIB_AVAILABLE_MACRO_IN_2_76
+#define GLIB_AVAILABLE_ENUMERATOR_IN_2_76
+#define GLIB_AVAILABLE_TYPE_IN_2_76
+#endif
+
 #include <time.h>
 
 G_BEGIN_DECLS
@@ -7393,6 +7798,27 @@ typedef gint            (*GCompareDataFunc)     (gconstpointer  a,
 						 gpointer       user_data);
 typedef gboolean        (*GEqualFunc)           (gconstpointer  a,
                                                  gconstpointer  b);
+
+/**
+ * GEqualFuncFull:
+ * @a: a value
+ * @b: a value to compare with
+ * @user_data: user data provided by the caller
+ *
+ * Specifies the type of a function used to test two values for
+ * equality. The function should return %TRUE if both values are equal
+ * and %FALSE otherwise.
+ *
+ * This is a version of #GEqualFunc which provides a @user_data closure from
+ * the caller.
+ *
+ * Returns: %TRUE if @a = @b; %FALSE otherwise
+ * Since: 2.74
+ */
+typedef gboolean        (*GEqualFuncFull)       (gconstpointer  a,
+                                                 gconstpointer  b,
+                                                 gpointer       user_data);
+
 typedef void            (*GDestroyNotify)       (gpointer       data);
 typedef void            (*GFunc)                (gpointer       data,
                                                  gpointer       user_data);
@@ -7404,7 +7830,7 @@ typedef void            (*GHFunc)               (gpointer       key,
 /**
  * GCopyFunc:
  * @src: (not nullable): A pointer to the data which should be copied
- * @data: Additional data
+ * @user_data: Additional data
  *
  * A function of this signature is used to copy the node data
  * when doing a deep-copy of a tree.
@@ -7414,7 +7840,7 @@ typedef void            (*GHFunc)               (gpointer       key,
  * Since: 2.4
  */
 typedef gpointer	(*GCopyFunc)            (gconstpointer  src,
-                                                 gpointer       data);
+                                                 gpointer       user_data);
 /**
  * GFreeFunc:
  * @data: a data pointer
@@ -7428,7 +7854,7 @@ typedef void            (*GFreeFunc)            (gpointer       data);
 /**
  * GTranslateFunc:
  * @str: the untranslated string
- * @data: user data specified when installing the function, e.g.
+ * @user_data: user data specified when installing the function, e.g.
  *  in g_option_group_set_translate_func()
  * 
  * The type of functions which are used to translate user-visible
@@ -7438,7 +7864,7 @@ typedef void            (*GFreeFunc)            (gpointer       data);
  *  The returned string is owned by GLib and must not be freed.
  */
 typedef const gchar *   (*GTranslateFunc)       (const gchar   *str,
-						 gpointer       data);
+						 gpointer       user_data);
 
 
 /* Define some mathematical constants that aren't available
@@ -7707,56 +8133,62 @@ typedef const gchar *   (*GTranslateFunc)       (const gchar   *str,
 /* https://bugzilla.gnome.org/show_bug.cgi?id=769104 */
 #if __GNUC__ >= 5 && !defined(__INTEL_COMPILER)
 #define _GLIB_HAVE_BUILTIN_OVERFLOW_CHECKS
-#elif g_macro__has_builtin(__builtin_uadd_overflow)
+#elif g_macro__has_builtin(__builtin_add_overflow)
 #define _GLIB_HAVE_BUILTIN_OVERFLOW_CHECKS
 #endif
 #endif
 
+#ifdef _GLIB_HAVE_BUILTIN_OVERFLOW_CHECKS
+
 #define g_uint_checked_add(dest, a, b) \
-    _GLIB_CHECKED_ADD_U32(dest, a, b)
+    (!__builtin_add_overflow(a, b, dest))
 #define g_uint_checked_mul(dest, a, b) \
-    _GLIB_CHECKED_MUL_U32(dest, a, b)
+    (!__builtin_mul_overflow(a, b, dest))
 
 #define g_uint64_checked_add(dest, a, b) \
-    _GLIB_CHECKED_ADD_U64(dest, a, b)
+    (!__builtin_add_overflow(a, b, dest))
 #define g_uint64_checked_mul(dest, a, b) \
-    _GLIB_CHECKED_MUL_U64(dest, a, b)
+    (!__builtin_mul_overflow(a, b, dest))
 
-#if GLIB_SIZEOF_SIZE_T == 8
 #define g_size_checked_add(dest, a, b) \
-    _GLIB_CHECKED_ADD_U64(dest, a, b)
+    (!__builtin_add_overflow(a, b, dest))
 #define g_size_checked_mul(dest, a, b) \
-    _GLIB_CHECKED_MUL_U64(dest, a, b)
-#else
-#define g_size_checked_add(dest, a, b) \
-    _GLIB_CHECKED_ADD_U32(dest, a, b)
-#define g_size_checked_mul(dest, a, b) \
-    _GLIB_CHECKED_MUL_U32(dest, a, b)
-#endif
+    (!__builtin_mul_overflow(a, b, dest))
+
+#else  /* !_GLIB_HAVE_BUILTIN_OVERFLOW_CHECKS */
 
 /* The names of the following inlines are private.  Use the macro
  * definitions above.
  */
-#ifdef _GLIB_HAVE_BUILTIN_OVERFLOW_CHECKS
-static inline gboolean _GLIB_CHECKED_ADD_U32 (guint32 *dest, guint32 a, guint32 b) {
-  return !__builtin_uadd_overflow(a, b, dest); }
-static inline gboolean _GLIB_CHECKED_MUL_U32 (guint32 *dest, guint32 a, guint32 b) {
-  return !__builtin_umul_overflow(a, b, dest); }
-static inline gboolean _GLIB_CHECKED_ADD_U64 (guint64 *dest, guint64 a, guint64 b) {
-  G_STATIC_ASSERT(sizeof (unsigned long long) == sizeof (guint64));
-  return !__builtin_uaddll_overflow(a, b, (unsigned long long *) dest); }
-static inline gboolean _GLIB_CHECKED_MUL_U64 (guint64 *dest, guint64 a, guint64 b) {
-  return !__builtin_umulll_overflow(a, b, (unsigned long long *) dest); }
-#else
-static inline gboolean _GLIB_CHECKED_ADD_U32 (guint32 *dest, guint32 a, guint32 b) {
+static inline gboolean _GLIB_CHECKED_ADD_UINT (guint *dest, guint a, guint b) {
   *dest = a + b; return *dest >= a; }
-static inline gboolean _GLIB_CHECKED_MUL_U32 (guint32 *dest, guint32 a, guint32 b) {
+static inline gboolean _GLIB_CHECKED_MUL_UINT (guint *dest, guint a, guint b) {
   *dest = a * b; return !a || *dest / a == b; }
-static inline gboolean _GLIB_CHECKED_ADD_U64 (guint64 *dest, guint64 a, guint64 b) {
+static inline gboolean _GLIB_CHECKED_ADD_UINT64 (guint64 *dest, guint64 a, guint64 b) {
   *dest = a + b; return *dest >= a; }
-static inline gboolean _GLIB_CHECKED_MUL_U64 (guint64 *dest, guint64 a, guint64 b) {
+static inline gboolean _GLIB_CHECKED_MUL_UINT64 (guint64 *dest, guint64 a, guint64 b) {
   *dest = a * b; return !a || *dest / a == b; }
-#endif
+static inline gboolean _GLIB_CHECKED_ADD_SIZE (gsize *dest, gsize a, gsize b) {
+  *dest = a + b; return *dest >= a; }
+static inline gboolean _GLIB_CHECKED_MUL_SIZE (gsize *dest, gsize a, gsize b) {
+  *dest = a * b; return !a || *dest / a == b; }
+
+#define g_uint_checked_add(dest, a, b) \
+    _GLIB_CHECKED_ADD_UINT(dest, a, b)
+#define g_uint_checked_mul(dest, a, b) \
+    _GLIB_CHECKED_MUL_UINT(dest, a, b)
+
+#define g_uint64_checked_add(dest, a, b) \
+    _GLIB_CHECKED_ADD_UINT64(dest, a, b)
+#define g_uint64_checked_mul(dest, a, b) \
+    _GLIB_CHECKED_MUL_UINT64(dest, a, b)
+
+#define g_size_checked_add(dest, a, b) \
+    _GLIB_CHECKED_ADD_SIZE(dest, a, b)
+#define g_size_checked_mul(dest, a, b) \
+    _GLIB_CHECKED_MUL_SIZE(dest, a, b)
+
+#endif  /* !_GLIB_HAVE_BUILTIN_OVERFLOW_CHECKS */
 
 /* IEEE Standard 754 Single Precision Storage Format (gfloat):
  *
@@ -7838,30 +8270,8 @@ typedef gint gatomicrefcount;  /* should be accessed only using atomics */
 
 G_END_DECLS
 
-/* We prefix variable declarations so they can
- * properly get exported in Windows DLLs.
- */
-#ifndef GLIB_VAR
-#  ifdef G_PLATFORM_WIN32
-#    ifdef GLIB_STATIC_COMPILATION
-#      define GLIB_VAR extern
-#    else /* !GLIB_STATIC_COMPILATION */
-#      ifdef GLIB_COMPILATION
-#        ifdef DLL_EXPORT
-#          define GLIB_VAR extern __declspec(dllexport)
-#        else /* !DLL_EXPORT */
-#          define GLIB_VAR extern
-#        endif /* !DLL_EXPORT */
-#      else /* !GLIB_COMPILATION */
-#        define GLIB_VAR extern __declspec(dllimport)
-#      endif /* !GLIB_COMPILATION */
-#    endif /* !GLIB_STATIC_COMPILATION */
-#  else /* !G_PLATFORM_WIN32 */
-#    define GLIB_VAR _GLIB_EXTERN
-#  endif /* !G_PLATFORM_WIN32 */
-#endif /* GLIB_VAR */
-
 #endif /* __G_TYPES_H__ */
+#include <string.h>
 
 #if defined(__BIONIC__) && defined (GLIB_HAVE_ALLOCA_H)
 # include <alloca.h>
@@ -7926,6 +8336,22 @@ G_END_DECLS
  * Returns: space for @size bytes, allocated on the stack
  */
 #define g_alloca(size)		 alloca (size)
+
+/**
+ * g_alloca0:
+ * @size: number of bytes to allocate.
+ *
+ * Wraps g_alloca() and initializes allocated memory to zeroes.
+ * If @size is `0` it returns %NULL.
+ *
+ * Note that the @size argument will be evaluated multiple times.
+ *
+ * Returns: (nullable) (transfer full): space for @size bytes, allocated on the stack
+ *
+ * Since: 2.72
+ */
+#define g_alloca0(size)  ((size) == 0 ? NULL : memset (g_alloca (size), 0, (size)))
+
 /**
  * g_newa:
  * @struct_type: Type of memory chunks to be allocated
@@ -7943,9 +8369,25 @@ G_END_DECLS
  */
 #define g_newa(struct_type, n_structs)	((struct_type*) g_alloca (sizeof (struct_type) * (gsize) (n_structs)))
 
+/**
+ * g_newa0:
+ * @struct_type: the type of the elements to allocate.
+ * @n_structs: the number of elements to allocate.
+ *
+ * Wraps g_alloca0() in a more typesafe manner.
+ *
+ * Returns: (nullable) (transfer full): Pointer to stack space for @n_structs
+ *   chunks of type @struct_type
+ *
+ * Since: 2.72
+ */
+#define g_newa0(struct_type, n_structs)  ((struct_type*) g_alloca0 (sizeof (struct_type) * (gsize) (n_structs)))
+
 #endif /* __G_ALLOCA_H__ */
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -8097,6 +8539,10 @@ GPtrArray* g_ptr_array_sized_new          (guint             reserved_size);
 GLIB_AVAILABLE_IN_ALL
 GPtrArray* g_ptr_array_new_full           (guint             reserved_size,
 					   GDestroyNotify    element_free_func);
+GLIB_AVAILABLE_IN_2_74
+GPtrArray* g_ptr_array_new_null_terminated (guint          reserved_size,
+                                            GDestroyNotify element_free_func,
+                                            gboolean       null_terminated);
 GLIB_AVAILABLE_IN_ALL
 gpointer*  g_ptr_array_free               (GPtrArray        *array,
 					   gboolean          free_seg);
@@ -8168,6 +8614,8 @@ gboolean   g_ptr_array_find_with_equal_func (GPtrArray     *haystack,
                                              GEqualFunc     equal_func,
                                              guint         *index_);
 
+GLIB_AVAILABLE_IN_2_74
+gboolean   g_ptr_array_is_null_terminated (GPtrArray *array);
 
 /* Byte arrays, an array of guint8.  Implemented as a GArray,
  * but type-safe.
@@ -8227,6 +8675,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -8257,6 +8707,8 @@ G_END_DECLS
 
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -8289,6 +8741,8 @@ G_END_DECLS
 /*
  * Copyright © 2011 Ryan Lortie
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -8314,6 +8768,8 @@ G_END_DECLS
 
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 2021  Iain Lane, Xavier Claessens
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -8345,9 +8801,12 @@ G_END_DECLS
  * This symbol is private.
  */
 #undef glib_typeof
-#if !defined(__cplusplus) && (G_GNUC_CHECK_VERSION(4, 8) || defined(__clang__))
+#if (!defined(__cplusplus) || (!defined (_MSVC_LANG) && __cplusplus < 201103L)) && \
+    (G_GNUC_CHECK_VERSION(4, 8) || defined(__clang__))
 #define glib_typeof(t) __typeof__ (t)
-#elif defined(__cplusplus) && __cplusplus >= 201103L && GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68
+#elif defined(__cplusplus) && \
+      (__cplusplus >= 201103L || (defined (_MSVC_LANG) && _MSVC_LANG > 201103L)) && \
+      GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68
 /* C++11 decltype() is close enough for our usage */
 #include <type_traits>
 #define glib_typeof(t) typename std::remove_reference<decltype (t)>::type
@@ -8370,6 +8829,14 @@ GLIB_AVAILABLE_IN_ALL
 gboolean                g_atomic_int_compare_and_exchange     (volatile gint  *atomic,
                                                                gint            oldval,
                                                                gint            newval);
+GLIB_AVAILABLE_IN_2_74
+gboolean                g_atomic_int_compare_and_exchange_full (gint         *atomic,
+                                                                gint          oldval,
+                                                                gint          newval,
+                                                                gint         *preval);
+GLIB_AVAILABLE_IN_2_74
+gint                    g_atomic_int_exchange                 (gint           *atomic,
+                                                               gint            newval);
 GLIB_AVAILABLE_IN_ALL
 gint                    g_atomic_int_add                      (volatile gint  *atomic,
                                                                gint            val);
@@ -8391,6 +8858,14 @@ void                    g_atomic_pointer_set                  (volatile void  *a
 GLIB_AVAILABLE_IN_ALL
 gboolean                g_atomic_pointer_compare_and_exchange (volatile void  *atomic,
                                                                gpointer        oldval,
+                                                               gpointer        newval);
+GLIB_AVAILABLE_IN_2_74
+gboolean                g_atomic_pointer_compare_and_exchange_full (void     *atomic,
+                                                                    gpointer  oldval,
+                                                                    gpointer  newval,
+                                                                    void     *preval);
+GLIB_AVAILABLE_IN_2_74
+gpointer                g_atomic_pointer_exchange             (void           *atomic,
                                                                gpointer        newval);
 GLIB_AVAILABLE_IN_ALL
 gssize                  g_atomic_pointer_add                  (volatile void  *atomic,
@@ -8488,6 +8963,18 @@ G_END_DECLS
     (void) (0 ? *(atomic) ^ *(atomic) : 1);                                  \
     __atomic_fetch_sub ((atomic), 1, __ATOMIC_SEQ_CST) == 1;                 \
   }))
+#if defined(glib_typeof) && defined(__cplusplus)
+/* See comments below about equivalent g_atomic_pointer_compare_and_exchange()
+ * shenanigans for type-safety when compiling in C++ mode. */
+#undef g_atomic_int_compare_and_exchange
+#define g_atomic_int_compare_and_exchange(atomic, oldval, newval) \
+  (G_GNUC_EXTENSION ({                                                       \
+    glib_typeof (*(atomic)) gaicae_oldval = (oldval);                        \
+    G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gint));                     \
+    (void) (0 ? *(atomic) ^ (newval) ^ (oldval) : 1);                        \
+    __atomic_compare_exchange_n ((atomic), &gaicae_oldval, (newval), FALSE, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ? TRUE : FALSE; \
+  }))
+#else /* if !(defined(glib_typeof) && defined(__cplusplus)) */
 #undef g_atomic_int_compare_and_exchange
 #define g_atomic_int_compare_and_exchange(atomic, oldval, newval) \
   (G_GNUC_EXTENSION ({                                                       \
@@ -8495,6 +8982,25 @@ G_END_DECLS
     G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gint));                     \
     (void) (0 ? *(atomic) ^ (newval) ^ (oldval) : 1);                        \
     __atomic_compare_exchange_n ((atomic), (void *) (&(gaicae_oldval)), (newval), FALSE, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ? TRUE : FALSE; \
+  }))
+#endif /* defined(glib_typeof) */
+#undef g_atomic_int_compare_and_exchange_full
+#define g_atomic_int_compare_and_exchange_full(atomic, oldval, newval, preval) \
+  (G_GNUC_EXTENSION ({                                                         \
+    G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gint));                       \
+    G_STATIC_ASSERT (sizeof *(preval) == sizeof (gint));                       \
+    (void) (0 ? *(atomic) ^ (newval) ^ (oldval) ^ *(preval) : 1);              \
+    *(preval) = (oldval);                                                      \
+    __atomic_compare_exchange_n ((atomic), (preval), (newval), FALSE,          \
+                                 __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST)           \
+                                 ? TRUE : FALSE;                               \
+  }))
+#undef g_atomic_int_exchange
+#define g_atomic_int_exchange(atomic, newval) \
+  (G_GNUC_EXTENSION ({                                                       \
+    G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gint));                     \
+    (void) (0 ? *(atomic) ^ (newval) : 1);                                   \
+    (gint) __atomic_exchange_n ((atomic), (newval), __ATOMIC_SEQ_CST);       \
   }))
 #undef g_atomic_int_add
 #define g_atomic_int_add(atomic, val) \
@@ -8525,7 +9031,7 @@ G_END_DECLS
     (guint) __atomic_fetch_xor ((atomic), (val), __ATOMIC_SEQ_CST);          \
   }))
 
-#if defined(glib_typeof) && defined(__cplusplus) && __cplusplus >= 201103L
+#if defined(glib_typeof) && defined(__cplusplus)
 /* This is typesafe because we check we can assign oldval to the type of
  * (*atomic). Unfortunately it can only be done in C++ because gcc/clang warn
  * when atomic is volatile and not oldval, or when atomic is gsize* and oldval
@@ -8537,13 +9043,14 @@ G_END_DECLS
 #undef g_atomic_pointer_compare_and_exchange
 #define g_atomic_pointer_compare_and_exchange(atomic, oldval, newval) \
   (G_GNUC_EXTENSION ({                                                       \
-    G_STATIC_ASSERT (sizeof (oldval) == sizeof (gpointer));                  \
+    G_STATIC_ASSERT (sizeof (static_cast<glib_typeof (*(atomic))>((oldval))) \
+                     == sizeof (gpointer));                                  \
     glib_typeof (*(atomic)) gapcae_oldval = (oldval);                        \
     G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gpointer));                 \
     (void) (0 ? (gpointer) *(atomic) : NULL);                                \
     __atomic_compare_exchange_n ((atomic), &gapcae_oldval, (newval), FALSE, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ? TRUE : FALSE; \
   }))
-#else /* if !(defined(glib_typeof) && defined(__cplusplus) && __cplusplus >= 201103L) */
+#else /* if !(defined(glib_typeof) && defined(__cplusplus) */
 #undef g_atomic_pointer_compare_and_exchange
 #define g_atomic_pointer_compare_and_exchange(atomic, oldval, newval) \
   (G_GNUC_EXTENSION ({                                                       \
@@ -8554,6 +9061,25 @@ G_END_DECLS
     __atomic_compare_exchange_n ((atomic), (void *) (&(gapcae_oldval)), (newval), FALSE, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ? TRUE : FALSE; \
   }))
 #endif /* defined(glib_typeof) */
+#undef g_atomic_pointer_compare_and_exchange_full
+#define g_atomic_pointer_compare_and_exchange_full(atomic, oldval, newval, preval) \
+  (G_GNUC_EXTENSION ({                                                             \
+    G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gpointer));                       \
+    G_STATIC_ASSERT (sizeof *(preval) == sizeof (gpointer));                       \
+    (void) (0 ? (gpointer) *(atomic) : NULL);                                      \
+    (void) (0 ? (gpointer) *(preval) : NULL);                                      \
+    *(preval) = (oldval);                                                          \
+    __atomic_compare_exchange_n ((atomic), (preval), (newval), FALSE,              \
+                                 __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ?             \
+                                 TRUE : FALSE;                                     \
+  }))
+#undef g_atomic_pointer_exchange
+#define g_atomic_pointer_exchange(atomic, newval) \
+  (G_GNUC_EXTENSION ({                                                       \
+    G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gpointer));                 \
+    (void) (0 ? (gpointer) *(atomic) : NULL);                                \
+    (gpointer) __atomic_exchange_n ((atomic), (newval), __ATOMIC_SEQ_CST);   \
+  }))
 #undef g_atomic_pointer_add
 #define g_atomic_pointer_add(atomic, val) \
   (G_GNUC_EXTENSION ({                                                       \
@@ -8696,6 +9222,37 @@ G_END_DECLS
     (void) (0 ? *(atomic) ^ (newval) ^ (oldval) : 1);                        \
     __sync_bool_compare_and_swap ((atomic), (oldval), (newval)) ? TRUE : FALSE; \
   }))
+#undef g_atomic_int_compare_and_exchange_full
+#define g_atomic_int_compare_and_exchange_full(atomic, oldval, newval, preval) \
+  (G_GNUC_EXTENSION ({                                                         \
+    G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gint));                       \
+    G_STATIC_ASSERT (sizeof *(preval) == sizeof (gint));                       \
+    (void) (0 ? *(atomic) ^ (newval) ^ (oldval) ^ *(preval) : 1);              \
+    *(preval) = __sync_val_compare_and_swap ((atomic), (oldval), (newval));    \
+    (*(preval) == (oldval)) ? TRUE : FALSE;                                    \
+  }))
+#if defined(_GLIB_GCC_HAVE_SYNC_SWAP)
+#undef g_atomic_int_exchange
+#define g_atomic_int_exchange(atomic, newval) \
+  (G_GNUC_EXTENSION ({                                                       \
+    G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gint));                     \
+    (void) (0 ? *(atomic) ^ (newval) : 1);                                   \
+    (gint) __sync_swap ((atomic), (newval));                                 \
+  }))
+#else /* defined(_GLIB_GCC_HAVE_SYNC_SWAP) */
+#undef g_atomic_int_exchange
+  #define g_atomic_int_exchange(atomic, newval) \
+  (G_GNUC_EXTENSION ({                                                       \
+    gint oldval;                                                             \
+    G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gint));                     \
+    (void) (0 ? *(atomic) ^ (newval) : 1);                                   \
+    do                                                                       \
+      {                                                                      \
+        oldval = *atomic;                                                    \
+      } while (!__sync_bool_compare_and_swap (atomic, oldval, newval));      \
+    oldval;                                                                  \
+  }))
+#endif /* defined(_GLIB_GCC_HAVE_SYNC_SWAP) */
 #undef g_atomic_int_add
 #define g_atomic_int_add(atomic, val) \
   (G_GNUC_EXTENSION ({                                                       \
@@ -8732,6 +9289,38 @@ G_END_DECLS
     (void) (0 ? (gpointer) *(atomic) : NULL);                                \
     __sync_bool_compare_and_swap ((atomic), (oldval), (newval)) ? TRUE : FALSE; \
   }))
+#undef g_atomic_pointer_compare_and_exchange_full
+#define g_atomic_pointer_compare_and_exchange_full(atomic, oldval, newval, preval) \
+  (G_GNUC_EXTENSION ({                                                             \
+    G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gpointer));                       \
+    G_STATIC_ASSERT (sizeof *(preval) == sizeof (gpointer));                       \
+    (void) (0 ? (gpointer) *(atomic) : NULL);                                      \
+    (void) (0 ? (gpointer) *(preval) : NULL);                                      \
+    *(preval) = __sync_val_compare_and_swap ((atomic), (oldval), (newval));        \
+    (*(preval) == (oldval)) ? TRUE : FALSE;                                        \
+  }))
+#if defined(_GLIB_GCC_HAVE_SYNC_SWAP)
+#undef g_atomic_pointer_exchange
+#define g_atomic_pointer_exchange(atomic, newval) \
+  (G_GNUC_EXTENSION ({                                                       \
+    G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gpointer));                 \
+    (void) (0 ? (gpointer) *(atomic) : NULL);                                \
+    (gpointer) __sync_swap ((atomic), (newval));                             \
+  }))
+#else
+#undef g_atomic_pointer_exchange
+#define g_atomic_pointer_exchange(atomic, newval) \
+  (G_GNUC_EXTENSION ({                                                       \
+    gpointer oldval;                                                         \
+    G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gpointer));                 \
+    (void) (0 ? (gpointer) *(atomic) : NULL);                                \
+    do                                                                       \
+      {                                                                      \
+        oldval = (gpointer) *atomic;                                         \
+      } while (!__sync_bool_compare_and_swap (atomic, oldval, newval));      \
+    oldval;                                                                  \
+  }))
+#endif /* defined(_GLIB_GCC_HAVE_SYNC_SWAP) */
 #undef g_atomic_pointer_add
 #define g_atomic_pointer_add(atomic, val) \
   (G_GNUC_EXTENSION ({                                                       \
@@ -8778,6 +9367,12 @@ G_END_DECLS
 #undef g_atomic_int_compare_and_exchange
 #define g_atomic_int_compare_and_exchange(atomic, oldval, newval) \
   (_frida_g_atomic_int_compare_and_exchange ((gint *) (atomic), (oldval), (newval)))
+#undef g_atomic_int_compare_and_exchange_full
+#define g_atomic_int_compare_and_exchange_full(atomic, oldval, newval, preval) \
+  (_frida_g_atomic_int_compare_and_exchange_full ((gint *) (atomic), (oldval), (newval), (gint *) (preval)))
+#undef g_atomic_int_exchange
+#define g_atomic_int_exchange(atomic, newval) \
+  (_frida_g_atomic_int_exchange ((gint *) (atomic), (newval)))
 #undef g_atomic_int_add
 #define g_atomic_int_add(atomic, val) \
   (_frida_g_atomic_int_add ((gint *) (atomic), (val)))
@@ -8821,6 +9416,12 @@ G_END_DECLS
 #undef g_atomic_pointer_compare_and_exchange
 #define g_atomic_pointer_compare_and_exchange(atomic, oldval, newval) \
   (_frida_g_atomic_pointer_compare_and_exchange ((atomic), (gpointer) (oldval), (gpointer) (newval)))
+#undef g_atomic_pointer_compare_and_exchange_full
+#define g_atomic_pointer_compare_and_exchange_full(atomic, oldval, newval, prevval) \
+  (_frida_g_atomic_pointer_compare_and_exchange_full ((atomic), (gpointer) (oldval), (gpointer) (newval), (prevval)))
+#undef g_atomic_pointer_exchange
+#define g_atomic_pointer_exchange(atomic, newval) \
+  (_frida_g_atomic_pointer_exchange ((atomic), (gpointer) (newval)))
 #undef g_atomic_pointer_add
 #define g_atomic_pointer_add(atomic, val) \
   (_frida_g_atomic_pointer_add ((atomic), (gssize) (val)))
@@ -8840,6 +9441,8 @@ G_END_DECLS
 /* gerror.h - Error reporting system
  *
  *  Copyright 2000 Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -8866,6 +9469,8 @@ G_END_DECLS
 
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -8936,7 +9541,7 @@ G_BEGIN_DECLS
 
 /**
  * GError:
- * @domain: error domain, e.g. #G_FILE_ERROR
+ * @domain: error domain, e.g. %G_FILE_ERROR
  * @code: error code, e.g. %G_FILE_ERROR_NOENT
  * @message: human-readable informative error message
  *
@@ -9167,6 +9772,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -9198,19 +9805,6 @@ G_END_DECLS
 #include <stdarg.h>
 
 G_BEGIN_DECLS
-
-/* Define G_VA_COPY() to do the right thing for copying va_list variables.
- * glibconfig.h may have already defined G_VA_COPY as va_copy or __va_copy.
- */
-#if !defined (G_VA_COPY)
-#  if defined (__GNUC__) && defined (__PPC__) && (defined (_CALL_SYSV) || defined (_WIN32))
-#    define G_VA_COPY(ap1, ap2)	  (*(ap1) = *(ap2))
-#  elif defined (G_VA_COPY_AS_ARRAY)
-#    define G_VA_COPY(ap1, ap2)	  memmove ((ap1), (ap2), sizeof (va_list))
-#  else /* va_list is a pointer */
-#    define G_VA_COPY(ap1, ap2)	  ((ap1) = (ap2))
-#  endif /* va_list is a pointer */
-#endif /* !G_VA_COPY */
 
 GLIB_AVAILABLE_IN_ALL
 const gchar *         g_get_user_name        (void);
@@ -9362,6 +9956,8 @@ GLIB_AVAILABLE_IN_ALL
 const gchar *         g_get_user_config_dir    (void);
 GLIB_AVAILABLE_IN_ALL
 const gchar *         g_get_user_cache_dir     (void);
+GLIB_AVAILABLE_IN_2_72
+const gchar *         g_get_user_state_dir     (void);
 GLIB_AVAILABLE_IN_ALL
 const gchar * const * g_get_system_data_dirs   (void);
 
@@ -9471,7 +10067,9 @@ typedef enum
   G_FORMAT_SIZE_DEFAULT     = 0,
   G_FORMAT_SIZE_LONG_FORMAT = 1 << 0,
   G_FORMAT_SIZE_IEC_UNITS   = 1 << 1,
-  G_FORMAT_SIZE_BITS        = 1 << 2
+  G_FORMAT_SIZE_BITS        = 1 << 2,
+  G_FORMAT_SIZE_ONLY_VALUE GLIB_AVAILABLE_ENUMERATOR_IN_2_74 = 1 << 3,
+  G_FORMAT_SIZE_ONLY_UNIT GLIB_AVAILABLE_ENUMERATOR_IN_2_74 = 1 << 4
 } GFormatSizeFlags;
 
 GLIB_AVAILABLE_IN_2_30
@@ -9667,7 +10265,7 @@ typedef enum
   G_THREAD_ERROR_AGAIN /* Resource temporarily unavailable */
 } GThreadError;
 
-typedef gpointer (*GThreadFunc) (gpointer data);
+typedef gpointer (*GThreadFunc) (gpointer user_data);
 typedef void (*GThreadGarbageHandler) (gpointer data);
 
 typedef struct _GThreadCallbacks GThreadCallbacks;
@@ -10350,6 +10948,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -10409,7 +11009,7 @@ void g_on_error_stack_trace (const gchar *prg_name);
 #  define G_BREAKPOINT()        G_STMT_START{ __debugbreak(); }G_STMT_END
 #elif defined (__alpha__) && !defined(__osf__) && defined (__GNUC__) && __GNUC__ >= 2
 #  define G_BREAKPOINT()        G_STMT_START{ __asm__ __volatile__ ("bpt"); }G_STMT_END
-#elif defined (__APPLE__) || (defined(_WIN32) && (defined(__clang__) || defined(__GNUC__)))
+#elif defined (G_OS_DARWIN) || (defined(_WIN32) && (defined(__clang__) || defined(__GNUC__)))
 #  define G_BREAKPOINT()        G_STMT_START{ __builtin_trap(); }G_STMT_END
 #else   /* !__i386__ && !__alpha__ */
 #  define G_BREAKPOINT()        G_STMT_START{ raise (SIGTRAP); }G_STMT_END
@@ -10421,6 +11021,8 @@ G_END_DECLS
 /* gbase64.h - Base64 coding functions
  *
  *  Copyright (C) 2005  Alexander Larsson <alexl@redhat.com>
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -10481,6 +11083,8 @@ G_END_DECLS
 /*
  * Copyright © 2008 Ryan Lortie
  * Copyright © 2010 Codethink Limited
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -10560,6 +11164,8 @@ G_END_DECLS
  *
  * Copyright (C) 2005-2006 Emmanuele Bassi
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -10584,6 +11190,8 @@ G_END_DECLS
 /*
  * Copyright (C) 2009-2010 Christian Hergert <chris@dronelabs.com>
  * Copyright © 2010 Codethink Limited
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -10613,6 +11221,8 @@ G_END_DECLS
 
 /*
  * Copyright © 2010 Codethink Limited
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -11004,6 +11614,9 @@ GBookmarkFile *g_bookmark_file_new                 (void);
 GLIB_AVAILABLE_IN_ALL
 void           g_bookmark_file_free                (GBookmarkFile  *bookmark);
 
+GLIB_AVAILABLE_IN_2_76
+GBookmarkFile *g_bookmark_file_copy                (GBookmarkFile  *bookmark);
+
 GLIB_AVAILABLE_IN_ALL
 gboolean       g_bookmark_file_load_from_file      (GBookmarkFile  *bookmark,
 						    const gchar    *filename,
@@ -11219,6 +11832,8 @@ G_END_DECLS
  * Copyright © 2009, 2010 Codethink Limited
  * Copyright © 2011 Collabora Ltd.
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -11314,6 +11929,8 @@ G_END_DECLS
  *
  *  Copyright (C) 2011 Red Hat, Inc.
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -11359,6 +11976,8 @@ G_END_DECLS
 /* gchecksum.h - data hashing functions
  *
  * Copyright (C) 2007  Emmanuele Bassi  <ebassi@gnome.org>
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -11460,6 +12079,8 @@ G_END_DECLS
 #endif /* __G_CHECKSUM_H__ */
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -11637,6 +12258,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -11688,6 +12311,10 @@ void     g_datalist_id_set_data_full    (GData            **datalist,
 					 GQuark             key_id,
 					 gpointer           data,
 					 GDestroyNotify     destroy_func);
+GLIB_AVAILABLE_IN_2_74
+void     g_datalist_id_remove_multiple  (GData            **datalist,
+                                         GQuark            *keys,
+                                         gsize              n_keys);
 
 typedef gpointer (*GDuplicateFunc) (gpointer data, gpointer user_data);
 
@@ -11785,6 +12412,8 @@ G_END_DECLS
 #endif /* __G_DATASET_H__ */
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -11951,7 +12580,7 @@ guint        g_date_get_day_of_year       (const GDate *date);
  * that day, return 0. These are not ISO weeks of the year; that
  * routine needs to be added.
  * these functions return the number of weeks, starting on the
- * corrsponding day
+ * corresponding day
  */
 GLIB_AVAILABLE_IN_ALL
 guint        g_date_get_monday_week_of_year (const GDate *date);
@@ -12095,6 +12724,8 @@ G_END_DECLS
  *
  * Copyright 2001 Hans Breuer
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12141,6 +12772,8 @@ G_END_DECLS
 #endif /* __G_DIR_H__ */
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -12204,6 +12837,8 @@ G_END_DECLS
 /* gfileutils.h - File utility functions
  *
  *  Copyright 2000 Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -12423,6 +13058,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12485,6 +13122,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12516,6 +13155,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12546,6 +13187,8 @@ G_END_DECLS
 
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -12652,6 +13295,17 @@ GLIB_AVAILABLE_IN_ALL
 gpointer g_try_realloc_n  (gpointer	 mem,
 			   gsize	 n_blocks,
 			   gsize	 n_block_bytes) G_GNUC_WARN_UNUSED_RESULT;
+
+GLIB_AVAILABLE_IN_2_72
+gpointer g_aligned_alloc  (gsize         n_blocks,
+                           gsize         n_block_bytes,
+                           gsize         alignment) G_GNUC_WARN_UNUSED_RESULT G_GNUC_ALLOC_SIZE2(1,2);
+GLIB_AVAILABLE_IN_2_72
+gpointer g_aligned_alloc0 (gsize         n_blocks,
+                           gsize         n_block_bytes,
+                           gsize         alignment) G_GNUC_WARN_UNUSED_RESULT G_GNUC_ALLOC_SIZE2(1,2);
+GLIB_AVAILABLE_IN_2_72
+void     g_aligned_free   (gpointer      mem);
 
 #if defined(glib_typeof) && GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_58
 #undef g_clear_pointer
@@ -12945,6 +13599,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12999,9 +13655,9 @@ typedef enum
 } GTraverseType;
 
 typedef gboolean	(*GNodeTraverseFunc)	(GNode	       *node,
-						 gpointer	data);
+						 gpointer	user_data);
 typedef void		(*GNodeForeachFunc)	(GNode	       *node,
-						 gpointer	data);
+						 gpointer	user_data);
 
 /* N-way tree implementation
  */
@@ -13423,6 +14079,8 @@ GHashTable* g_hash_table_new_full          (GHashFunc       hash_func,
                                             GEqualFunc      key_equal_func,
                                             GDestroyNotify  key_destroy_func,
                                             GDestroyNotify  value_destroy_func);
+GLIB_AVAILABLE_IN_2_72
+GHashTable *g_hash_table_new_similar       (GHashTable     *other_hash_table);
 GLIB_AVAILABLE_IN_ALL
 void        g_hash_table_destroy           (GHashTable     *hash_table);
 GLIB_AVAILABLE_IN_ALL
@@ -13518,6 +14176,11 @@ void        g_hash_table_unref             (GHashTable     *hash_table);
 GLIB_AVAILABLE_IN_ALL
 gboolean g_str_equal    (gconstpointer  v1,
                          gconstpointer  v2);
+
+/* Macro for optimization in the case it is not used as callback function */
+#undef g_str_equal
+#define g_str_equal(v1, v2) (strcmp ((v1), (v2)) == 0)
+
 GLIB_AVAILABLE_IN_ALL
 guint    g_str_hash     (gconstpointer  v);
 
@@ -13551,6 +14214,8 @@ G_END_DECLS
 /* ghmac.h - secure data hashing
  *
  * Copyright (C) 2011  Stef Walter  <stefw@collabora.co.uk>
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -13632,6 +14297,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -13671,11 +14338,11 @@ typedef struct _GHookList	GHookList;
 typedef gint		(*GHookCompareFunc)	(GHook		*new_hook,
 						 GHook		*sibling);
 typedef gboolean	(*GHookFindFunc)	(GHook		*hook,
-						 gpointer	 data);
+						 gpointer	 user_data);
 typedef void		(*GHookMarshaller)	(GHook		*hook,
-						 gpointer	 marshal_data);
+						 gpointer	 user_data);
 typedef gboolean	(*GHookCheckMarshaller)	(GHook		*hook,
-						 gpointer	 marshal_data);
+						 gpointer	 user_data);
 typedef void		(*GHookFunc)		(gpointer	 data);
 typedef gboolean	(*GHookCheckFunc)	(gpointer	 data);
 typedef void		(*GHookFinalizeFunc)	(GHookList      *hook_list,
@@ -13833,6 +14500,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 2008 Red Hat, Inc.
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -13875,6 +14544,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -13906,6 +14577,8 @@ G_END_DECLS
 /* gmain.h - the GLib Main loop
  * Copyright (C) 1998-2000 Red Hat, Inc.
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -13929,6 +14602,8 @@ G_END_DECLS
 
 /* gpoll.h - poll(2) support
  * Copyright (C) 2008 Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14026,6 +14701,9 @@ struct _GPollFD
 #endif
   gushort 	events;
   gushort 	revents;
+#ifdef G_POLLFD_KQUEUE
+  gint	       *kq;
+#endif
 };
 
 /**
@@ -14047,6 +14725,8 @@ G_END_DECLS
 #endif /* __G_POLL_H__ */
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14305,8 +14985,8 @@ typedef struct _GSourceCallbackFuncs    GSourceCallbackFuncs;
  *     connected to a callback using g_source_set_callback(). The @dispatch
  *     function should call the callback function with @user_data and whatever
  *     additional parameters are needed for this type of event source. The
- *     return value of the @dispatch function should be #G_SOURCE_REMOVE if the
- *     source should be removed or #G_SOURCE_CONTINUE to keep it.
+ *     return value of the @dispatch function should be %G_SOURCE_REMOVE if the
+ *     source should be removed or %G_SOURCE_CONTINUE to keep it.
  * @finalize: Called when the source is finalized. At this point, the source
  *     will have been destroyed, had its callback cleared, and have been removed
  *     from its #GMainContext, but it will still have its final reference count,
@@ -14370,10 +15050,24 @@ typedef struct _GSourceFuncs            GSourceFuncs;
  * different type to this type. Use G_SOURCE_FUNC() to avoid warnings about
  * incompatible function types.
  *
- * Returns: %FALSE if the source should be removed. #G_SOURCE_CONTINUE and
- * #G_SOURCE_REMOVE are more memorable names for the return value.
+ * Returns: %FALSE if the source should be removed. %G_SOURCE_CONTINUE and
+ * %G_SOURCE_REMOVE are more memorable names for the return value.
  */
 typedef gboolean (*GSourceFunc)       (gpointer user_data);
+
+/**
+ * GSourceOnceFunc:
+ * @user_data: data passed to the function, set when the source was
+ *   created
+ *
+ * A source function that is only called once before being removed from the main
+ * context automatically.
+ *
+ * See: g_idle_add_once(), g_timeout_add_once()
+ *
+ * Since: 2.74
+ */
+typedef void (* GSourceOnceFunc) (gpointer user_data);
 
 /**
  * G_SOURCE_FUNC:
@@ -14511,8 +15205,8 @@ struct _GSourceFuncs
  *
  * Use this for high priority idle functions.
  *
- * GTK+ uses #G_PRIORITY_HIGH_IDLE + 10 for resizing operations,
- * and #G_PRIORITY_HIGH_IDLE + 20 for redrawing operations. (This is
+ * GTK+ uses %G_PRIORITY_HIGH_IDLE + 10 for resizing operations,
+ * and %G_PRIORITY_HIGH_IDLE + 20 for redrawing operations. (This is
  * done to ensure that any pending resizes are processed before any
  * pending redraws, so that widgets are not redrawn twice unnecessarily.)
  */
@@ -14954,6 +15648,10 @@ GLIB_AVAILABLE_IN_ALL
 guint    g_timeout_add              (guint           interval,
                                      GSourceFunc     function,
                                      gpointer        data);
+GLIB_AVAILABLE_IN_2_74
+guint    g_timeout_add_once         (guint           interval,
+                                     GSourceOnceFunc function,
+                                     gpointer        data);
 GLIB_AVAILABLE_IN_ALL
 guint    g_timeout_add_seconds_full (gint            priority,
                                      guint           interval,
@@ -14982,6 +15680,9 @@ guint    g_idle_add_full            (gint            priority,
                                      GSourceFunc     function,
                                      gpointer        data,
                                      GDestroyNotify  notify);
+GLIB_AVAILABLE_IN_2_74
+guint    g_idle_add_once            (GSourceOnceFunc function,
+                                     gpointer        data);
 GLIB_AVAILABLE_IN_ALL
 gboolean g_idle_remove_by_data      (gpointer        data);
 
@@ -15020,6 +15721,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -15052,6 +15755,8 @@ G_END_DECLS
  *
  *  Copyright (C) 1999, 2000 Tom Tromey
  *  Copyright 2000, 2005 Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -15483,6 +16188,9 @@ typedef enum
  * @G_UNICODE_SCRIPT_TANGSA:               Tangsa. Since: 2.72
  * @G_UNICODE_SCRIPT_TOTO:                 Toto. Since: 2.72
  * @G_UNICODE_SCRIPT_VITHKUQI:             Vithkuqi. Since: 2.72
+ * @G_UNICODE_SCRIPT_MATH:                 Mathematical notation. Since: 2.72
+ * @G_UNICODE_SCRIPT_KAWI:                 Kawi. Since 2.74
+ * @G_UNICODE_SCRIPT_NAG_MUNDARI:          Nag Mundari. Since 2.74
  *
  * The #GUnicodeScript enumeration identifies different writing
  * systems. The values correspond to the names as defined in the
@@ -15688,6 +16396,13 @@ typedef enum
   G_UNICODE_SCRIPT_TANGSA,                 /* Tnsa */
   G_UNICODE_SCRIPT_TOTO,                   /* Toto */
   G_UNICODE_SCRIPT_VITHKUQI,               /* Vith */
+
+  /* not really a Unicode script, but part of ISO 15924 */
+  G_UNICODE_SCRIPT_MATH,                   /* Zmth */
+
+  /* Unicode 15.0 additions */
+  G_UNICODE_SCRIPT_KAWI GLIB_AVAILABLE_ENUMERATOR_IN_2_74,          /* Kawi */
+  G_UNICODE_SCRIPT_NAG_MUNDARI GLIB_AVAILABLE_ENUMERATOR_IN_2_74,   /* Nag Mundari */
 } GUnicodeScript;
 
 GLIB_AVAILABLE_IN_ALL
@@ -16213,6 +16928,7 @@ typedef enum
 
 typedef enum
 {
+  G_IO_FLAG_NONE GLIB_AVAILABLE_ENUMERATOR_IN_2_74 = 0,
   G_IO_FLAG_APPEND = 1 << 0,
   G_IO_FLAG_NONBLOCK = 1 << 1,
   G_IO_FLAG_IS_READABLE = 1 << 2,	/* Read only flag */
@@ -16257,7 +16973,7 @@ struct _GIOChannel
 
 typedef gboolean (*GIOFunc) (GIOChannel   *source,
 			     GIOCondition  condition,
-			     gpointer      data);
+			     gpointer      user_data);
 struct _GIOFuncs
 {
   GIOStatus (*io_read)           (GIOChannel   *channel, 
@@ -16456,6 +17172,8 @@ gint        g_io_channel_unix_get_fd (GIOChannel *channel);
 /* Hook for GClosure / GSource integration. Don't touch */
 GLIB_VAR GSourceFuncs g_io_watch_funcs;
 
+#define G_KQUEUE_WAKEUP_HANDLE -42
+
 #ifdef G_OS_WIN32
 
 /* You can use this "pseudo file descriptor" in a GPollFD to add
@@ -16537,6 +17255,8 @@ G_END_DECLS
  *  Copyright 2004 Red Hat, Inc.
  *
  *  Ray Strode <halfline@hawaii.rr.com>
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16865,6 +17585,8 @@ G_END_DECLS
  *
  * Copyright 2005 Matthias Clasen
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -16919,6 +17641,8 @@ G_END_DECLS
 /* gmarkup.h - Simple XML-like string parser/writer
  *
  *  Copyright 2000 Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16990,6 +17714,7 @@ GQuark g_markup_error_quark (void);
 
 /**
  * GMarkupParseFlags:
+ * @G_MARKUP_DEFAULT_FLAGS: No special behaviour. Since: 2.74
  * @G_MARKUP_DO_NOT_USE_THIS_UNSUPPORTED_FLAG: flag you should not use
  * @G_MARKUP_TREAT_CDATA_AS_TEXT: When this flag is set, CDATA marked
  *     sections are not passed literally to the @passthrough function of
@@ -17010,6 +17735,7 @@ GQuark g_markup_error_quark (void);
  */
 typedef enum
 {
+  G_MARKUP_DEFAULT_FLAGS GLIB_AVAILABLE_ENUMERATOR_IN_2_74 = 0,
   G_MARKUP_DO_NOT_USE_THIS_UNSUPPORTED_FLAG = 1 << 0,
   G_MARKUP_TREAT_CDATA_AS_TEXT              = 1 << 1,
   G_MARKUP_PREFIX_ERROR_POSITION            = 1 << 2,
@@ -17178,6 +17904,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -17211,6 +17939,8 @@ G_END_DECLS
  * Copyright © 2007, 2008 Ryan Lortie
  * Copyright © 2009, 2010 Codethink Limited
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -17237,6 +17967,8 @@ G_END_DECLS
 /*
  * Copyright © 2007, 2008 Ryan Lortie
  * Copyright © 2009, 2010 Codethink Limited
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17949,7 +18681,14 @@ GQuark                          g_variant_parse_error_quark             (void);
  *
  * Since: 2.50
  */
-#define G_VARIANT_BUILDER_INIT(variant_type) { { { 2942751021u, variant_type, { 0, } } } }
+#define G_VARIANT_BUILDER_INIT(variant_type)                                          \
+  {                                                                                   \
+    {                                                                                 \
+      {                                                                               \
+        2942751021u /* == GVSB_MAGIC_PARTIAL, see gvariant.c */, variant_type, { 0, } \
+      }                                                                               \
+    }                                                                                 \
+  }
 
 GLIB_AVAILABLE_IN_ALL
 GVariantBuilder *               g_variant_builder_new                   (const GVariantType   *type);
@@ -18065,7 +18804,14 @@ struct _GVariantDict {
  *
  * Since: 2.50
  */
-#define G_VARIANT_DICT_INIT(asv) { { { asv, 3488698669u, { 0, } } } }
+#define G_VARIANT_DICT_INIT(asv)                                             \
+  {                                                                          \
+    {                                                                        \
+      {                                                                      \
+        asv, 3488698669u /* == GVSD_MAGIC_PARTIAL, see gvariant.c */, { 0, } \
+      }                                                                      \
+    }                                                                        \
+  }
 
 GLIB_AVAILABLE_IN_2_40
 GVariantDict *                  g_variant_dict_new                      (GVariant             *from_asv);
@@ -18324,6 +19070,12 @@ void            g_log_writer_default_set_use_stderr (gboolean use_stderr);
 GLIB_AVAILABLE_IN_2_68
 gboolean        g_log_writer_default_would_drop (GLogLevelFlags  log_level,
                                                  const char     *log_domain);
+
+/* G_MESSAGES_DEBUG enablement */
+GLIB_AVAILABLE_IN_2_72
+gboolean         g_log_get_debug_enabled       (void);
+GLIB_AVAILABLE_IN_2_72
+void             g_log_set_debug_enabled       (gboolean         enabled);
 
 /**
  * G_DEBUG_HERE:
@@ -18760,6 +19512,8 @@ G_END_DECLS
  *
  *  Copyright (C) 2004  Anders Carlsson <andersca@gnome.org>
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -18814,7 +19568,8 @@ typedef struct _GOptionEntry   GOptionEntry;
  * @G_OPTION_FLAG_IN_MAIN: The option appears in the main section of the
  *     `--help` output, even if it is defined in a group.
  * @G_OPTION_FLAG_REVERSE: For options of the %G_OPTION_ARG_NONE kind, this
- *     flag indicates that the sense of the option is reversed.
+ *     flag indicates that the sense of the option is reversed. i.e. %FALSE will
+ *     be stored into the argument rather than %TRUE.
  * @G_OPTION_FLAG_NO_ARG: For options of the %G_OPTION_ARG_CALLBACK kind,
  *     this flag indicates that the callback does not take any argument
  *     (like a %G_OPTION_ARG_NONE option). Since 2.8
@@ -18848,7 +19603,7 @@ typedef enum
 
 /**
  * GOptionArg:
- * @G_OPTION_ARG_NONE: No extra argument. This is useful for simple flags.
+ * @G_OPTION_ARG_NONE: No extra argument. This is useful for simple flags or booleans.
  * @G_OPTION_ARG_STRING: The option takes a UTF-8 string argument.
  * @G_OPTION_ARG_INT: The option takes an integer argument.
  * @G_OPTION_ARG_CALLBACK: The option provides a callback (of type
@@ -18891,8 +19646,8 @@ typedef enum
  *  single dash followed by a single letter (for a short name) or two dashes
  *  followed by a long option name.
  * @value: The value to be parsed.
- * @data: User data added to the #GOptionGroup containing the option when it
- *  was created with g_option_group_new()
+ * @user_data: User data added to the #GOptionGroup containing the option when
+ *  it was created with g_option_group_new()
  * @error: A return location for errors. The error code %G_OPTION_ERROR_FAILED
  *  is intended to be used for errors in #GOptionArgFunc callbacks.
  * 
@@ -18904,15 +19659,15 @@ typedef enum
  */
 typedef gboolean (*GOptionArgFunc) (const gchar    *option_name,
 				    const gchar    *value,
-				    gpointer        data,
+				    gpointer        user_data,
 				    GError        **error);
 
 /**
  * GOptionParseFunc:
  * @context: The active #GOptionContext
  * @group: The group to which the function belongs
- * @data: User data added to the #GOptionGroup containing the option when it
- *  was created with g_option_group_new()
+ * @user_data: User data added to the #GOptionGroup containing the option when
+ *  it was created with g_option_group_new()
  * @error: A return location for error details
  * 
  * The type of function that can be called before and after parsing. 
@@ -18922,22 +19677,22 @@ typedef gboolean (*GOptionArgFunc) (const gchar    *option_name,
  */
 typedef gboolean (*GOptionParseFunc) (GOptionContext *context,
 				      GOptionGroup   *group,
-				      gpointer	      data,
+				      gpointer	      user_data,
 				      GError        **error);
 
 /**
  * GOptionErrorFunc:
  * @context: The active #GOptionContext
  * @group: The group to which the function belongs
- * @data: User data added to the #GOptionGroup containing the option when it
- *  was created with g_option_group_new()
+ * @user_data: User data added to the #GOptionGroup containing the option when
+ *  it was created with g_option_group_new()
  * @error: The #GError containing details about the parse error
  * 
  * The type of function to be used as callback when a parse error occurs.
  */
 typedef void (*GOptionErrorFunc) (GOptionContext *context,
 				  GOptionGroup   *group,
-				  gpointer        data,
+				  gpointer        user_data,
 				  GError        **error);
 
 /**
@@ -19034,7 +19789,7 @@ struct _GOptionEntry
  * or %G_OPTION_ARG_FILENAME_ARRAY.
  * 
  * 
- * Using #G_OPTION_REMAINING instead of simply scanning `argv`
+ * Using %G_OPTION_REMAINING instead of simply scanning `argv`
  * for leftover arguments has the advantage that GOption takes care of 
  * necessary encoding conversions for strings or filenames.
  * 
@@ -19163,6 +19918,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997, 1999  Peter Mattis, Red Hat, Inc.
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19268,6 +20025,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19317,6 +20076,8 @@ G_END_DECLS
  /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19360,6 +20121,8 @@ G_END_DECLS
 #endif /* __G_QSORT_H__ */
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19563,6 +20326,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19662,6 +20427,8 @@ G_END_DECLS
  *
  * Copyright 2018  Emmanuele Bassi
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19755,6 +20522,8 @@ G_END_DECLS
 /* grefcount.h: Reference counting
  *
  * Copyright 2018  Emmanuele Bassi
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19885,6 +20654,8 @@ G_END_DECLS
  *
  * Copyright 2018  Emmanuele Bassi
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19944,6 +20715,8 @@ G_END_DECLS
  * Copyright (C) 1999, 2000 Scott Wimer
  * Copyright (C) 2004, Matthias Clasen <mclasen@redhat.com>
  * Copyright (C) 2005 - 2007, Marco Barisione <marco@barisione.org>
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20155,6 +20928,7 @@ GQuark g_regex_error_quark (void);
 
 /**
  * GRegexCompileFlags:
+ * @G_REGEX_DEFAULT: No special options set. Since: 2.74
  * @G_REGEX_CASELESS: Letters in the pattern match both upper- and
  *     lowercase letters. This option can be changed within a pattern
  *     by a "(?i)" option setting.
@@ -20163,8 +20937,8 @@ GQuark g_regex_error_quark (void);
  *     newlines). The "start of line" metacharacter ("^") matches only
  *     at the start of the string, while the "end of line" metacharacter
  *     ("$") matches only at the end of the string, or before a terminating
- *     newline (unless #G_REGEX_DOLLAR_ENDONLY is set). When
- *     #G_REGEX_MULTILINE is set, the "start of line" and "end of line"
+ *     newline (unless %G_REGEX_DOLLAR_ENDONLY is set). When
+ *     %G_REGEX_MULTILINE is set, the "start of line" and "end of line"
  *     constructs match immediately following or immediately before any
  *     newline in the string, respectively, as well as at the very start
  *     and end. This can be changed within a pattern by a "(?m)" option
@@ -20187,7 +20961,7 @@ GQuark g_regex_error_quark (void);
  *     matches only at the end of the string. Without this option, a
  *     dollar also matches immediately before the final character if
  *     it is a newline (but not before any other newlines). This option
- *     is ignored if #G_REGEX_MULTILINE is set.
+ *     is ignored if %G_REGEX_MULTILINE is set.
  * @G_REGEX_UNGREEDY: Inverts the "greediness" of the quantifiers so that
  *     they are not greedy by default, but become greedy if followed by "?".
  *     It can also be set by a "(?U)" option setting within the pattern.
@@ -20198,9 +20972,13 @@ GQuark g_regex_error_quark (void);
  *     followed by "?" behaves as if it were followed by "?:" but named
  *     parentheses can still be used for capturing (and they acquire numbers
  *     in the usual way).
- * @G_REGEX_OPTIMIZE: Optimize the regular expression. If the pattern will
- *     be used many times, then it may be worth the effort to optimize it
- *     to improve the speed of matches.
+ * @G_REGEX_OPTIMIZE: Since 2.74 and the port to pcre2, requests JIT
+ *     compilation, which, if the just-in-time compiler is available, further
+ *     processes a compiled pattern into machine code that executes much
+ *     faster. However, it comes at the cost of extra processing before the
+ *     match is performed, so it is most beneficial to use this when the same
+ *     compiled pattern is used for matching many times. Before 2.74 this
+ *     option used the built-in non-JIT optimizations in pcre1.
  * @G_REGEX_FIRSTLINE: Limits an unanchored pattern to match before (or at) the
  *     first newline. Since: 2.34
  * @G_REGEX_DUPNAMES: Names used to identify capturing subpatterns need not
@@ -20223,7 +21001,8 @@ GQuark g_regex_error_quark (void);
  *     is recognised. If this option is set, then "\R" only recognizes the newline
  *    characters '\r', '\n' and '\r\n'. Since: 2.34
  * @G_REGEX_JAVASCRIPT_COMPAT: Changes behaviour so that it is compatible with
- *     JavaScript rather than PCRE. Since: 2.34
+ *     JavaScript rather than PCRE. Since GLib 2.74 this is no longer supported,
+ *     as libpcre2 does not support it. Since: 2.34 Deprecated: 2.74
  *
  * Flags specifying compile-time options.
  *
@@ -20234,6 +21013,7 @@ GQuark g_regex_error_quark (void);
  */
 typedef enum
 {
+  G_REGEX_DEFAULT GLIB_AVAILABLE_ENUMERATOR_IN_2_74 = 0,
   G_REGEX_CASELESS          = 1 << 0,
   G_REGEX_MULTILINE         = 1 << 1,
   G_REGEX_DOTALL            = 1 << 2,
@@ -20251,11 +21031,12 @@ typedef enum
   G_REGEX_NEWLINE_CRLF      = G_REGEX_NEWLINE_CR | G_REGEX_NEWLINE_LF,
   G_REGEX_NEWLINE_ANYCRLF   = G_REGEX_NEWLINE_CR | 1 << 22,
   G_REGEX_BSR_ANYCRLF       = 1 << 23,
-  G_REGEX_JAVASCRIPT_COMPAT = 1 << 25
+  G_REGEX_JAVASCRIPT_COMPAT GLIB_DEPRECATED_ENUMERATOR_IN_2_74 = 1 << 25
 } GRegexCompileFlags;
 
 /**
  * GRegexMatchFlags:
+ * @G_REGEX_MATCH_DEFAULT: No special options set. Since: 2.74
  * @G_REGEX_MATCH_ANCHORED: The pattern is forced to be "anchored", that is,
  *     it is constrained to match only at the first matching point in the
  *     string that is being searched. This effect can also be achieved by
@@ -20263,14 +21044,14 @@ typedef enum
  *     metacharacter.
  * @G_REGEX_MATCH_NOTBOL: Specifies that first character of the string is
  *     not the beginning of a line, so the circumflex metacharacter should
- *     not match before it. Setting this without #G_REGEX_MULTILINE (at
+ *     not match before it. Setting this without %G_REGEX_MULTILINE (at
  *     compile time) causes circumflex never to match. This option affects
  *     only the behaviour of the circumflex metacharacter, it does not
  *     affect "\A".
  * @G_REGEX_MATCH_NOTEOL: Specifies that the end of the subject string is
  *     not the end of a line, so the dollar metacharacter should not match
  *     it nor (except in multiline mode) a newline immediately before it.
- *     Setting this without #G_REGEX_MULTILINE (at compile time) causes
+ *     Setting this without %G_REGEX_MULTILINE (at compile time) causes
  *     dollar never to match. This option affects only the behaviour of
  *     the dollar metacharacter, it does not affect "\Z" or "\z".
  * @G_REGEX_MATCH_NOTEMPTY: An empty string is not considered to be a valid
@@ -20307,12 +21088,12 @@ typedef enum
  *     single characters U+000B LINE TABULATION, U+000C FORM FEED (FF),
  *     U+0085 NEXT LINE (NEL), U+2028 LINE SEPARATOR and
  *     U+2029 PARAGRAPH SEPARATOR. Since: 2.34
- * @G_REGEX_MATCH_PARTIAL_SOFT: An alias for #G_REGEX_MATCH_PARTIAL. Since: 2.34
+ * @G_REGEX_MATCH_PARTIAL_SOFT: An alias for %G_REGEX_MATCH_PARTIAL. Since: 2.34
  * @G_REGEX_MATCH_PARTIAL_HARD: Turns on the partial matching feature. In contrast to
- *     to #G_REGEX_MATCH_PARTIAL_SOFT, this stops matching as soon as a partial match
+ *     to %G_REGEX_MATCH_PARTIAL_SOFT, this stops matching as soon as a partial match
  *     is found, without continuing to search for a possible complete match. See
  *     g_match_info_is_partial_match() for more information. Since: 2.34
- * @G_REGEX_MATCH_NOTEMPTY_ATSTART: Like #G_REGEX_MATCH_NOTEMPTY, but only applied to
+ * @G_REGEX_MATCH_NOTEMPTY_ATSTART: Like %G_REGEX_MATCH_NOTEMPTY, but only applied to
  *     the start of the matched string. For anchored
  *     patterns this can only happen for pattern containing "\K". Since: 2.34
  *
@@ -20324,6 +21105,7 @@ typedef enum
  * adding a new flag. */
 typedef enum
 {
+  G_REGEX_MATCH_DEFAULT GLIB_AVAILABLE_ENUMERATOR_IN_2_74 = 0,
   G_REGEX_MATCH_ANCHORED         = 1 << 4,
   G_REGEX_MATCH_NOTBOL           = 1 << 7,
   G_REGEX_MATCH_NOTEOL           = 1 << 8,
@@ -20548,6 +21330,8 @@ G_END_DECLS
 #endif  /*  __G_REGEX_H__ */
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20847,6 +21631,8 @@ G_END_DECLS
  * Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007
  * Soeren Sandmann (sandmann@daimi.au.dk)
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -20876,7 +21662,7 @@ typedef struct _GSequenceNode  GSequenceIter;
 
 typedef gint (* GSequenceIterCompareFunc) (GSequenceIter *a,
                                            GSequenceIter *b,
-                                           gpointer       data);
+                                           gpointer       user_data);
 
 
 /* GSequence */
@@ -21019,6 +21805,8 @@ G_END_DECLS
  *
  *  Copyright 2000 Red Hat, Inc.
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -21073,6 +21861,8 @@ G_END_DECLS
 #endif /* __G_SHELL_H__ */
 /* GLIB sliced memory - fast threaded memory chunk allocator
  * Copyright (C) 2005 Tim Janik
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21189,6 +21979,8 @@ G_END_DECLS
  *
  *  Copyright 2000 Red Hat, Inc.
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -21288,7 +22080,7 @@ typedef enum
 
 /**
  * GSpawnChildSetupFunc:
- * @user_data: (closure): user data to pass to the function.
+ * @user_data: user data to pass to the function.
  *
  * Specifies the type of the setup function passed to g_spawn_async(),
  * g_spawn_sync() and g_spawn_async_with_pipes(), which can, in very
@@ -21348,6 +22140,12 @@ typedef void (* GSpawnChildSetupFunc) (gpointer user_data);
  *     Since: 2.34
  * @G_SPAWN_CLOEXEC_PIPES: create all pipes with the `O_CLOEXEC` flag set.
  *     Since: 2.40
+ * @G_SPAWN_CHILD_INHERITS_STDOUT: the child will inherit the parent's standard output.
+ *     Since: 2.74
+ * @G_SPAWN_CHILD_INHERITS_STDERR: the child will inherit the parent's standard error.
+ *     Since: 2.74
+ * @G_SPAWN_STDIN_FROM_DEV_NULL: the child's standard input is attached to `/dev/null`.
+ *     Since: 2.74
  *
  * Flags passed to g_spawn_sync(), g_spawn_async() and g_spawn_async_with_pipes().
  */
@@ -21364,7 +22162,34 @@ typedef enum
   G_SPAWN_CHILD_INHERITS_STDIN   = 1 << 5,
   G_SPAWN_FILE_AND_ARGV_ZERO     = 1 << 6,
   G_SPAWN_SEARCH_PATH_FROM_ENVP  = 1 << 7,
-  G_SPAWN_CLOEXEC_PIPES          = 1 << 8
+  G_SPAWN_CLOEXEC_PIPES          = 1 << 8,
+
+  /**
+   * G_SPAWN_CHILD_INHERITS_STDOUT:
+   *
+   * The child will inherit the parent's standard output.
+   *
+   * Since: 2.74
+   */
+  G_SPAWN_CHILD_INHERITS_STDOUT  = 1 << 9,
+
+  /**
+   * G_SPAWN_CHILD_INHERITS_STDERR:
+   *
+   * The child will inherit the parent's standard error.
+   *
+   * Since: 2.74
+   */
+  G_SPAWN_CHILD_INHERITS_STDERR  = 1 << 10,
+
+  /**
+   * G_SPAWN_STDIN_FROM_DEV_NULL:
+   *
+   * The child's standard input is attached to `/dev/null`.
+   *
+   * Since: 2.74
+   */
+  G_SPAWN_STDIN_FROM_DEV_NULL    = 1 << 11
 } GSpawnFlags;
 
 GLIB_AVAILABLE_IN_ALL
@@ -21475,6 +22300,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -21504,6 +22331,8 @@ G_END_DECLS
 #endif
 
 #include <stdarg.h>
+#include <string.h>
+
 
 G_BEGIN_DECLS
 
@@ -21606,11 +22435,71 @@ gchar *               g_strrstr_len    (const gchar  *haystack,
 					const gchar  *needle);
 
 GLIB_AVAILABLE_IN_ALL
-gboolean              g_str_has_suffix (const gchar  *str,
-					const gchar  *suffix);
+gboolean             (g_str_has_suffix) (const gchar *str,
+                                         const gchar *suffix);
 GLIB_AVAILABLE_IN_ALL
-gboolean              g_str_has_prefix (const gchar  *str,
-					const gchar  *prefix);
+gboolean             (g_str_has_prefix) (const gchar *str,
+                                         const gchar *prefix);
+
+#if G_GNUC_CHECK_VERSION (2, 0)
+
+/* This macro is defeat a false -Wnonnull warning in GCC.
+ * Without it, it thinks strlen and memcmp may be getting passed NULL
+ * despite the explicit check for NULL right above the calls.
+ */
+#define _G_STR_NONNULL(x) (x + !x)
+
+#undef g_str_has_prefix
+#define g_str_has_prefix(STR, PREFIX)                                         \
+  (__builtin_constant_p (PREFIX)?                                             \
+    G_GNUC_EXTENSION ({                                                       \
+       const char * const __str = (STR);                                      \
+       const char * const __prefix = (PREFIX);                                \
+       gboolean __result = FALSE;                                             \
+                                                                              \
+       if G_UNLIKELY (__str == NULL || __prefix == NULL)                      \
+           __result = (_frida_g_str_has_prefix) (__str, __prefix);                   \
+       else                                                                   \
+         {                                                                    \
+            const size_t __str_len = strlen (_G_STR_NONNULL (__str));         \
+            const size_t __prefix_len = strlen (_G_STR_NONNULL (__prefix));   \
+            if (__str_len >= __prefix_len)                                    \
+              __result = memcmp (_G_STR_NONNULL (__str),                      \
+                                 _G_STR_NONNULL (__prefix),                   \
+                                 __prefix_len) == 0;                          \
+         }                                                                    \
+         __result;                                                            \
+    })                                                                        \
+  :                                                                           \
+    (_frida_g_str_has_prefix) (STR, PREFIX)                                          \
+  )
+
+#undef g_str_has_suffix
+#define g_str_has_suffix(STR, SUFFIX)                                         \
+  (__builtin_constant_p (SUFFIX)?                                             \
+    G_GNUC_EXTENSION ({                                                       \
+       const char * const __str = (STR);                                      \
+       const char * const __suffix = (SUFFIX);                                \
+       gboolean __result = FALSE;                                             \
+                                                                              \
+       if G_UNLIKELY (__str == NULL || __suffix == NULL)                      \
+         __result = (_frida_g_str_has_suffix) (__str, __suffix);                     \
+       else                                                                   \
+         {                                                                    \
+            const size_t __str_len = strlen (_G_STR_NONNULL (__str));         \
+            const size_t __suffix_len = strlen (_G_STR_NONNULL (__suffix));   \
+            if (__str_len >= __suffix_len)                                    \
+              __result = memcmp (__str + __str_len - __suffix_len,            \
+                                 _G_STR_NONNULL (__suffix),                   \
+                                 __suffix_len) == 0;                          \
+         }                                                                    \
+         __result;                                                            \
+    })                                                                        \
+  :                                                                           \
+    (_frida_g_str_has_suffix) (STR, SUFFIX)                                          \
+  )
+
+#endif /* G_GNUC_CHECK_VERSION (2, 0) */
 
 /* String to/from double conversion functions */
 
@@ -21832,11 +22721,58 @@ gboolean              g_ascii_string_to_unsigned   (const gchar  *str,
                                                     guint64      *out_num,
                                                     GError      **error);
 
+/**
+ * g_set_str: (skip)
+ * @str_pointer: (inout) (not optional) (nullable): a pointer to either a string or %NULL
+ * @new_str: (nullable): a string to assign to @str_pointer, or %NULL
+ *
+ * Updates a pointer to a string to a copy of @new_str. The previous string
+ * pointed to by @str_pointer will be freed with g_free().
+ *
+ * @str_pointer must not be %NULL, but can point to a %NULL value.
+ *
+ * One convenient usage of this function is in implementing property settings:
+ * |[
+ *   void
+ *   foo_set_bar (Foo        *foo,
+ *                const char *new_bar)
+ *   {
+ *     g_return_if_fail (IS_FOO (foo));
+ *
+ *     if (g_set_str (&foo->bar, new_bar))
+ *       g_object_notify (foo, "bar");
+ *   }
+ * ]|
+ *
+ * Returns: %TRUE if the value of @str_pointer changed, %FALSE otherwise
+ *
+ * Since: 2.76
+ */
+GLIB_AVAILABLE_STATIC_INLINE_IN_2_76
+static inline gboolean
+g_set_str (char       **str_pointer,
+           const char  *new_str)
+{
+  char *copy;
+
+  if (*str_pointer == new_str ||
+      (*str_pointer && new_str && strcmp (*str_pointer, new_str) == 0))
+    return FALSE;
+
+  copy = g_strdup (new_str);
+  g_free (*str_pointer);
+  *str_pointer = copy;
+
+  return TRUE;
+}
+
 G_END_DECLS
 
 #endif /* __G_STRFUNCS_H__ */
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21894,6 +22830,8 @@ G_END_DECLS
 /*
  * Copyright © 2020 Canonical Ltd.
  * Copyright © 2021 Alexandros Theodotou
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21960,6 +22898,8 @@ G_END_DECLS
  * Copyright (C) 2007 Imendio AB
  * Authors: Tim Janik
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -21982,6 +22922,7 @@ G_END_DECLS
 #endif
 
 #include <errno.h>
+#include <stdlib.h>
 #include <string.h>
 
 G_BEGIN_DECLS
@@ -22229,6 +23170,7 @@ void    g_test_init                     (int            *argc,
  *  - g_get_user_config_dir()
  *  - g_get_system_data_dirs()
  *  - g_get_user_data_dir()
+ *  - g_get_user_state_dir()
  *  - g_get_user_runtime_dir()
  *
  * The subdirectories may not be created by the test harness; as with normal
@@ -22378,6 +23320,7 @@ void    g_test_queue_destroy            (GDestroyNotify destroy_func,
 
 /**
  * GTestTrapFlags:
+ * @G_TEST_TRAP_DEFAULT: Default behaviour. Since: 2.74
  * @G_TEST_TRAP_SILENCE_STDOUT: Redirect stdout of the test child to
  *     `/dev/null` so it cannot be observed on the console during test
  *     runs. The actual output is still captured though to allow later
@@ -22398,6 +23341,7 @@ void    g_test_queue_destroy            (GDestroyNotify destroy_func,
  * #GTestSubprocessFlags.
  */
 typedef enum {
+  G_TEST_TRAP_DEFAULT GLIB_AVAILABLE_ENUMERATOR_IN_2_74 = 0,
   G_TEST_TRAP_SILENCE_STDOUT    = 1 << 7,
   G_TEST_TRAP_SILENCE_STDERR    = 1 << 8,
   G_TEST_TRAP_INHERIT_STDIN     = 1 << 9
@@ -22412,6 +23356,7 @@ gboolean g_test_trap_fork               (guint64              usec_timeout,
 G_GNUC_END_IGNORE_DEPRECATIONS
 
 typedef enum {
+  G_TEST_SUBPROCESS_DEFAULT GLIB_AVAILABLE_ENUMERATOR_IN_2_74 = 0,
   G_TEST_SUBPROCESS_INHERIT_STDIN  = 1 << 0,
   G_TEST_SUBPROCESS_INHERIT_STDOUT = 1 << 1,
   G_TEST_SUBPROCESS_INHERIT_STDERR = 1 << 2
@@ -22660,6 +23605,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -22762,6 +23709,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -22839,6 +23788,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -22896,6 +23847,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -22942,12 +23895,12 @@ typedef struct _GTreeNode GTreeNode;
 
 typedef gboolean (*GTraverseFunc) (gpointer  key,
                                    gpointer  value,
-                                   gpointer  data);
+                                   gpointer  user_data);
 
 /**
  * GTraverseNodeFunc:
  * @node: a #GTreeNode
- * @data: user data passed to g_tree_foreach_node()
+ * @user_data: user data passed to g_tree_foreach_node()
  *
  * Specifies the type of function passed to g_tree_foreach_node(). It is
  * passed each node, together with the @user_data parameter passed to
@@ -22958,7 +23911,7 @@ typedef gboolean (*GTraverseFunc) (gpointer  key,
  * Since: 2.68
  */
 typedef gboolean (*GTraverseNodeFunc) (GTreeNode *node,
-                                       gpointer   data);
+                                       gpointer   user_data);
 
 /* Balanced binary trees
  */
@@ -23073,6 +24026,8 @@ G_END_DECLS
 #endif /* __G_TREE_H__ */
 /* GLIB - Library of useful routines for C programming
  * Copyright © 2020 Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23535,6 +24490,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -23681,6 +24638,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -23754,6 +24713,8 @@ G_END_DECLS
 #endif /* __G_CACHE_H__ */
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23836,6 +24797,8 @@ G_END_DECLS
 #endif /* __G_COMPLETION_H__ */
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23971,6 +24934,8 @@ G_END_DECLS
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -24074,6 +25039,8 @@ G_END_DECLS
 #endif /* __G_REL_H__ */
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24368,6 +25335,8 @@ G_END_DECLS
 /*
  * Copyright © 2015 Canonical Limited
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -24508,6 +25477,8 @@ G_END_DECLS
 /* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 1998, 1999, 2000 Tim Janik and Red Hat, Inc.
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -24529,6 +25500,8 @@ G_END_DECLS
 /* gbinding.h: Binding for object properties
  *
  * Copyright (C) 2010  Intel Corp.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24556,6 +25529,8 @@ G_END_DECLS
 /* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 1998-1999, 2000-2001 Tim Janik and Red Hat, Inc.
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -24579,6 +25554,8 @@ G_END_DECLS
 /* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 1998-1999, 2000-2001 Tim Janik and Red Hat, Inc.
  *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -24599,6 +25576,924 @@ G_END_DECLS
 #error "Only <glib-object.h> can be included directly."
 #endif
 
+#pragma once
+
+#if (defined(_WIN32) || defined(__CYGWIN__)) && !defined(GOBJECT_STATIC_COMPILATION)
+#  define _GOBJECT_EXPORT __declspec(dllexport)
+#  define _GOBJECT_IMPORT __declspec(dllimport)
+#elif __GNUC__ >= 4
+#  define _GOBJECT_EXPORT __attribute__((visibility("default")))
+#  define _GOBJECT_IMPORT
+#else
+#  define _GOBJECT_EXPORT
+#  define _GOBJECT_IMPORT
+#endif
+#ifdef GOBJECT_COMPILATION
+#  define _GOBJECT_API _GOBJECT_EXPORT
+#else
+#  define _GOBJECT_API _GOBJECT_IMPORT
+#endif
+
+#define _GOBJECT_EXTERN _GOBJECT_API extern
+
+#define GOBJECT_VAR _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_IN_ALL _GOBJECT_EXTERN
+
+#ifdef GLIB_DISABLE_DEPRECATION_WARNINGS
+#define GOBJECT_DEPRECATED _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_UNAVAILABLE(maj,min) _GOBJECT_EXTERN
+#define GOBJECT_UNAVAILABLE_STATIC_INLINE(maj,min)
+#else
+#define GOBJECT_DEPRECATED G_DEPRECATED _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_FOR(f) G_DEPRECATED_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_UNAVAILABLE(maj,min) G_UNAVAILABLE(maj,min) _GOBJECT_EXTERN
+#define GOBJECT_UNAVAILABLE_STATIC_INLINE(maj,min) G_UNAVAILABLE(maj,min)
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_26
+#define GOBJECT_DEPRECATED_IN_2_26 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_26_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_26 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_26 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_26_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_26 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_26_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_26 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_26_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_26
+#define GOBJECT_DEPRECATED_MACRO_IN_2_26_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_26
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_26_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_26
+#define GOBJECT_DEPRECATED_TYPE_IN_2_26_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_26
+#define GOBJECT_AVAILABLE_IN_2_26 GOBJECT_UNAVAILABLE (2, 26)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_26 GLIB_UNAVAILABLE_STATIC_INLINE (2, 26)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_26 GLIB_UNAVAILABLE_MACRO (2, 26)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_26 GLIB_UNAVAILABLE_ENUMERATOR (2, 26)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_26 GLIB_UNAVAILABLE_TYPE (2, 26)
+#else
+#define GOBJECT_AVAILABLE_IN_2_26 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_26
+#define GOBJECT_AVAILABLE_MACRO_IN_2_26
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_26
+#define GOBJECT_AVAILABLE_TYPE_IN_2_26
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_28
+#define GOBJECT_DEPRECATED_IN_2_28 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_28_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_28 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_28_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_28 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_28_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_28 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_28_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_28 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_28_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_28
+#define GOBJECT_DEPRECATED_MACRO_IN_2_28_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_28
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_28_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_28
+#define GOBJECT_DEPRECATED_TYPE_IN_2_28_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_28
+#define GOBJECT_AVAILABLE_IN_2_28 GOBJECT_UNAVAILABLE (2, 28)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_28 GLIB_UNAVAILABLE_STATIC_INLINE (2, 28)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_28 GLIB_UNAVAILABLE_MACRO (2, 28)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_28 GLIB_UNAVAILABLE_ENUMERATOR (2, 28)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_28 GLIB_UNAVAILABLE_TYPE (2, 28)
+#else
+#define GOBJECT_AVAILABLE_IN_2_28 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_28
+#define GOBJECT_AVAILABLE_MACRO_IN_2_28
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_28
+#define GOBJECT_AVAILABLE_TYPE_IN_2_28
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_30
+#define GOBJECT_DEPRECATED_IN_2_30 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_30_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_30 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_30_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_30 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_30_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_30 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_30_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_30 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_30_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_30
+#define GOBJECT_DEPRECATED_MACRO_IN_2_30_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_30
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_30_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_30
+#define GOBJECT_DEPRECATED_TYPE_IN_2_30_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_30
+#define GOBJECT_AVAILABLE_IN_2_30 GOBJECT_UNAVAILABLE (2, 30)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_30 GLIB_UNAVAILABLE_STATIC_INLINE (2, 30)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_30 GLIB_UNAVAILABLE_MACRO (2, 30)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_30 GLIB_UNAVAILABLE_ENUMERATOR (2, 30)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_30 GLIB_UNAVAILABLE_TYPE (2, 30)
+#else
+#define GOBJECT_AVAILABLE_IN_2_30 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_30
+#define GOBJECT_AVAILABLE_MACRO_IN_2_30
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_30
+#define GOBJECT_AVAILABLE_TYPE_IN_2_30
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_32
+#define GOBJECT_DEPRECATED_IN_2_32 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_32_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_32 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_32_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_32 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_32_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_32 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_32_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_32 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_32_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_32
+#define GOBJECT_DEPRECATED_MACRO_IN_2_32_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_32
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_32_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_32
+#define GOBJECT_DEPRECATED_TYPE_IN_2_32_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_32
+#define GOBJECT_AVAILABLE_IN_2_32 GOBJECT_UNAVAILABLE (2, 32)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_32 GLIB_UNAVAILABLE_STATIC_INLINE (2, 32)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_32 GLIB_UNAVAILABLE_MACRO (2, 32)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_32 GLIB_UNAVAILABLE_ENUMERATOR (2, 32)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_32 GLIB_UNAVAILABLE_TYPE (2, 32)
+#else
+#define GOBJECT_AVAILABLE_IN_2_32 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_32
+#define GOBJECT_AVAILABLE_MACRO_IN_2_32
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_32
+#define GOBJECT_AVAILABLE_TYPE_IN_2_32
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_34
+#define GOBJECT_DEPRECATED_IN_2_34 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_34_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_34 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_34_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_34 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_34_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_34 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_34_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_34 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_34_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_34
+#define GOBJECT_DEPRECATED_MACRO_IN_2_34_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_34
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_34_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_34
+#define GOBJECT_DEPRECATED_TYPE_IN_2_34_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_34
+#define GOBJECT_AVAILABLE_IN_2_34 GOBJECT_UNAVAILABLE (2, 34)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_34 GLIB_UNAVAILABLE_STATIC_INLINE (2, 34)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_34 GLIB_UNAVAILABLE_MACRO (2, 34)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_34 GLIB_UNAVAILABLE_ENUMERATOR (2, 34)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_34 GLIB_UNAVAILABLE_TYPE (2, 34)
+#else
+#define GOBJECT_AVAILABLE_IN_2_34 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_34
+#define GOBJECT_AVAILABLE_MACRO_IN_2_34
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_34
+#define GOBJECT_AVAILABLE_TYPE_IN_2_34
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_36
+#define GOBJECT_DEPRECATED_IN_2_36 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_36_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_36 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_36_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_36 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_36_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_36 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_36_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_36 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_36_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_36
+#define GOBJECT_DEPRECATED_MACRO_IN_2_36_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_36
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_36_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_36
+#define GOBJECT_DEPRECATED_TYPE_IN_2_36_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_36
+#define GOBJECT_AVAILABLE_IN_2_36 GOBJECT_UNAVAILABLE (2, 36)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_36 GLIB_UNAVAILABLE_STATIC_INLINE (2, 36)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_36 GLIB_UNAVAILABLE_MACRO (2, 36)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_36 GLIB_UNAVAILABLE_ENUMERATOR (2, 36)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_36 GLIB_UNAVAILABLE_TYPE (2, 36)
+#else
+#define GOBJECT_AVAILABLE_IN_2_36 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_36
+#define GOBJECT_AVAILABLE_MACRO_IN_2_36
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_36
+#define GOBJECT_AVAILABLE_TYPE_IN_2_36
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_38
+#define GOBJECT_DEPRECATED_IN_2_38 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_38_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_38 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_38_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_38 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_38_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_38 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_38_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_38 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_38_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_38
+#define GOBJECT_DEPRECATED_MACRO_IN_2_38_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_38
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_38_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_38
+#define GOBJECT_DEPRECATED_TYPE_IN_2_38_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_38
+#define GOBJECT_AVAILABLE_IN_2_38 GOBJECT_UNAVAILABLE (2, 38)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_38 GLIB_UNAVAILABLE_STATIC_INLINE (2, 38)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_38 GLIB_UNAVAILABLE_MACRO (2, 38)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_38 GLIB_UNAVAILABLE_ENUMERATOR (2, 38)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_38 GLIB_UNAVAILABLE_TYPE (2, 38)
+#else
+#define GOBJECT_AVAILABLE_IN_2_38 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_38
+#define GOBJECT_AVAILABLE_MACRO_IN_2_38
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_38
+#define GOBJECT_AVAILABLE_TYPE_IN_2_38
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_40
+#define GOBJECT_DEPRECATED_IN_2_40 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_40_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_40 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_40_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_40 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_40_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_40 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_40_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_40 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_40_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_40
+#define GOBJECT_DEPRECATED_MACRO_IN_2_40_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_40
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_40_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_40
+#define GOBJECT_DEPRECATED_TYPE_IN_2_40_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_40
+#define GOBJECT_AVAILABLE_IN_2_40 GOBJECT_UNAVAILABLE (2, 40)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_40 GLIB_UNAVAILABLE_STATIC_INLINE (2, 40)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_40 GLIB_UNAVAILABLE_MACRO (2, 40)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_40 GLIB_UNAVAILABLE_ENUMERATOR (2, 40)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_40 GLIB_UNAVAILABLE_TYPE (2, 40)
+#else
+#define GOBJECT_AVAILABLE_IN_2_40 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_40
+#define GOBJECT_AVAILABLE_MACRO_IN_2_40
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_40
+#define GOBJECT_AVAILABLE_TYPE_IN_2_40
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_42
+#define GOBJECT_DEPRECATED_IN_2_42 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_42_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_42 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_42_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_42 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_42_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_42 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_42_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_42 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_42_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_42
+#define GOBJECT_DEPRECATED_MACRO_IN_2_42_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_42
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_42_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_42
+#define GOBJECT_DEPRECATED_TYPE_IN_2_42_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_42
+#define GOBJECT_AVAILABLE_IN_2_42 GOBJECT_UNAVAILABLE (2, 42)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_42 GLIB_UNAVAILABLE_STATIC_INLINE (2, 42)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_42 GLIB_UNAVAILABLE_MACRO (2, 42)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_42 GLIB_UNAVAILABLE_ENUMERATOR (2, 42)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_42 GLIB_UNAVAILABLE_TYPE (2, 42)
+#else
+#define GOBJECT_AVAILABLE_IN_2_42 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_42
+#define GOBJECT_AVAILABLE_MACRO_IN_2_42
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_42
+#define GOBJECT_AVAILABLE_TYPE_IN_2_42
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_44
+#define GOBJECT_DEPRECATED_IN_2_44 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_44_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_44 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_44_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_44 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_44_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_44 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_44_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_44 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_44_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_44
+#define GOBJECT_DEPRECATED_MACRO_IN_2_44_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_44
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_44_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_44
+#define GOBJECT_DEPRECATED_TYPE_IN_2_44_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_44
+#define GOBJECT_AVAILABLE_IN_2_44 GOBJECT_UNAVAILABLE (2, 44)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_44 GLIB_UNAVAILABLE_STATIC_INLINE (2, 44)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_44 GLIB_UNAVAILABLE_MACRO (2, 44)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_44 GLIB_UNAVAILABLE_ENUMERATOR (2, 44)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_44 GLIB_UNAVAILABLE_TYPE (2, 44)
+#else
+#define GOBJECT_AVAILABLE_IN_2_44 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_44
+#define GOBJECT_AVAILABLE_MACRO_IN_2_44
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_44
+#define GOBJECT_AVAILABLE_TYPE_IN_2_44
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_46
+#define GOBJECT_DEPRECATED_IN_2_46 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_46_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_46 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_46_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_46 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_46_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_46 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_46_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_46 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_46_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_46
+#define GOBJECT_DEPRECATED_MACRO_IN_2_46_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_46
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_46_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_46
+#define GOBJECT_DEPRECATED_TYPE_IN_2_46_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_46
+#define GOBJECT_AVAILABLE_IN_2_46 GOBJECT_UNAVAILABLE (2, 46)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_46 GLIB_UNAVAILABLE_STATIC_INLINE (2, 46)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_46 GLIB_UNAVAILABLE_MACRO (2, 46)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_46 GLIB_UNAVAILABLE_ENUMERATOR (2, 46)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_46 GLIB_UNAVAILABLE_TYPE (2, 46)
+#else
+#define GOBJECT_AVAILABLE_IN_2_46 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_46
+#define GOBJECT_AVAILABLE_MACRO_IN_2_46
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_46
+#define GOBJECT_AVAILABLE_TYPE_IN_2_46
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_48
+#define GOBJECT_DEPRECATED_IN_2_48 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_48_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_48 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_48_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_48 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_48_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_48 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_48_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_48 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_48_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_48
+#define GOBJECT_DEPRECATED_MACRO_IN_2_48_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_48
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_48_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_48
+#define GOBJECT_DEPRECATED_TYPE_IN_2_48_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_48
+#define GOBJECT_AVAILABLE_IN_2_48 GOBJECT_UNAVAILABLE (2, 48)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_48 GLIB_UNAVAILABLE_STATIC_INLINE (2, 48)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_48 GLIB_UNAVAILABLE_MACRO (2, 48)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_48 GLIB_UNAVAILABLE_ENUMERATOR (2, 48)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_48 GLIB_UNAVAILABLE_TYPE (2, 48)
+#else
+#define GOBJECT_AVAILABLE_IN_2_48 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_48
+#define GOBJECT_AVAILABLE_MACRO_IN_2_48
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_48
+#define GOBJECT_AVAILABLE_TYPE_IN_2_48
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_50
+#define GOBJECT_DEPRECATED_IN_2_50 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_50_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_50 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_50_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_50 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_50_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_50 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_50_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_50 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_50_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_50
+#define GOBJECT_DEPRECATED_MACRO_IN_2_50_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_50
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_50_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_50
+#define GOBJECT_DEPRECATED_TYPE_IN_2_50_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_50
+#define GOBJECT_AVAILABLE_IN_2_50 GOBJECT_UNAVAILABLE (2, 50)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_50 GLIB_UNAVAILABLE_STATIC_INLINE (2, 50)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_50 GLIB_UNAVAILABLE_MACRO (2, 50)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_50 GLIB_UNAVAILABLE_ENUMERATOR (2, 50)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_50 GLIB_UNAVAILABLE_TYPE (2, 50)
+#else
+#define GOBJECT_AVAILABLE_IN_2_50 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_50
+#define GOBJECT_AVAILABLE_MACRO_IN_2_50
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_50
+#define GOBJECT_AVAILABLE_TYPE_IN_2_50
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_52
+#define GOBJECT_DEPRECATED_IN_2_52 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_52_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_52 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_52_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_52 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_52_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_52 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_52_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_52 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_52_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_52
+#define GOBJECT_DEPRECATED_MACRO_IN_2_52_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_52
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_52_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_52
+#define GOBJECT_DEPRECATED_TYPE_IN_2_52_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_52
+#define GOBJECT_AVAILABLE_IN_2_52 GOBJECT_UNAVAILABLE (2, 52)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_52 GLIB_UNAVAILABLE_STATIC_INLINE (2, 52)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_52 GLIB_UNAVAILABLE_MACRO (2, 52)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_52 GLIB_UNAVAILABLE_ENUMERATOR (2, 52)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_52 GLIB_UNAVAILABLE_TYPE (2, 52)
+#else
+#define GOBJECT_AVAILABLE_IN_2_52 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_52
+#define GOBJECT_AVAILABLE_MACRO_IN_2_52
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_52
+#define GOBJECT_AVAILABLE_TYPE_IN_2_52
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_54
+#define GOBJECT_DEPRECATED_IN_2_54 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_54_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_54 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_54_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_54 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_54_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_54 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_54_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_54 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_54_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_54
+#define GOBJECT_DEPRECATED_MACRO_IN_2_54_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_54
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_54_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_54
+#define GOBJECT_DEPRECATED_TYPE_IN_2_54_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_54
+#define GOBJECT_AVAILABLE_IN_2_54 GOBJECT_UNAVAILABLE (2, 54)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_54 GLIB_UNAVAILABLE_STATIC_INLINE (2, 54)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_54 GLIB_UNAVAILABLE_MACRO (2, 54)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_54 GLIB_UNAVAILABLE_ENUMERATOR (2, 54)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_54 GLIB_UNAVAILABLE_TYPE (2, 54)
+#else
+#define GOBJECT_AVAILABLE_IN_2_54 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_54
+#define GOBJECT_AVAILABLE_MACRO_IN_2_54
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_54
+#define GOBJECT_AVAILABLE_TYPE_IN_2_54
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_56
+#define GOBJECT_DEPRECATED_IN_2_56 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_56_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_56 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_56_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_56 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_56_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_56 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_56_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_56 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_56_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_56
+#define GOBJECT_DEPRECATED_MACRO_IN_2_56_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_56
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_56_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_56
+#define GOBJECT_DEPRECATED_TYPE_IN_2_56_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_56
+#define GOBJECT_AVAILABLE_IN_2_56 GOBJECT_UNAVAILABLE (2, 56)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_56 GLIB_UNAVAILABLE_STATIC_INLINE (2, 56)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_56 GLIB_UNAVAILABLE_MACRO (2, 56)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_56 GLIB_UNAVAILABLE_ENUMERATOR (2, 56)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_56 GLIB_UNAVAILABLE_TYPE (2, 56)
+#else
+#define GOBJECT_AVAILABLE_IN_2_56 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_56
+#define GOBJECT_AVAILABLE_MACRO_IN_2_56
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_56
+#define GOBJECT_AVAILABLE_TYPE_IN_2_56
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_58
+#define GOBJECT_DEPRECATED_IN_2_58 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_58_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_58 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_58_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_58 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_58_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_58 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_58_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_58 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_58_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_58
+#define GOBJECT_DEPRECATED_MACRO_IN_2_58_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_58
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_58_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_58
+#define GOBJECT_DEPRECATED_TYPE_IN_2_58_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_58
+#define GOBJECT_AVAILABLE_IN_2_58 GOBJECT_UNAVAILABLE (2, 58)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_58 GLIB_UNAVAILABLE_STATIC_INLINE (2, 58)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_58 GLIB_UNAVAILABLE_MACRO (2, 58)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_58 GLIB_UNAVAILABLE_ENUMERATOR (2, 58)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_58 GLIB_UNAVAILABLE_TYPE (2, 58)
+#else
+#define GOBJECT_AVAILABLE_IN_2_58 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_58
+#define GOBJECT_AVAILABLE_MACRO_IN_2_58
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_58
+#define GOBJECT_AVAILABLE_TYPE_IN_2_58
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_60
+#define GOBJECT_DEPRECATED_IN_2_60 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_60_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_60 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_60_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_60 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_60_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_60 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_60_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_60 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_60_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_60
+#define GOBJECT_DEPRECATED_MACRO_IN_2_60_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_60
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_60_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_60
+#define GOBJECT_DEPRECATED_TYPE_IN_2_60_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_60
+#define GOBJECT_AVAILABLE_IN_2_60 GOBJECT_UNAVAILABLE (2, 60)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_60 GLIB_UNAVAILABLE_STATIC_INLINE (2, 60)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_60 GLIB_UNAVAILABLE_MACRO (2, 60)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_60 GLIB_UNAVAILABLE_ENUMERATOR (2, 60)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_60 GLIB_UNAVAILABLE_TYPE (2, 60)
+#else
+#define GOBJECT_AVAILABLE_IN_2_60 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_60
+#define GOBJECT_AVAILABLE_MACRO_IN_2_60
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_60
+#define GOBJECT_AVAILABLE_TYPE_IN_2_60
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_62
+#define GOBJECT_DEPRECATED_IN_2_62 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_62_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_62 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_62_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_62 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_62_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_62 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_62_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_62 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_62_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_62
+#define GOBJECT_DEPRECATED_MACRO_IN_2_62_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_62
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_62_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_62
+#define GOBJECT_DEPRECATED_TYPE_IN_2_62_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_62
+#define GOBJECT_AVAILABLE_IN_2_62 GOBJECT_UNAVAILABLE (2, 62)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_62 GLIB_UNAVAILABLE_STATIC_INLINE (2, 62)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_62 GLIB_UNAVAILABLE_MACRO (2, 62)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_62 GLIB_UNAVAILABLE_ENUMERATOR (2, 62)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_62 GLIB_UNAVAILABLE_TYPE (2, 62)
+#else
+#define GOBJECT_AVAILABLE_IN_2_62 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_62
+#define GOBJECT_AVAILABLE_MACRO_IN_2_62
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_62
+#define GOBJECT_AVAILABLE_TYPE_IN_2_62
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_64
+#define GOBJECT_DEPRECATED_IN_2_64 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_64_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_64 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_64_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_64 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_64_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_64 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_64_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_64 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_64_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_64
+#define GOBJECT_DEPRECATED_MACRO_IN_2_64_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_64
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_64_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_64
+#define GOBJECT_DEPRECATED_TYPE_IN_2_64_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_64
+#define GOBJECT_AVAILABLE_IN_2_64 GOBJECT_UNAVAILABLE (2, 64)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_64 GLIB_UNAVAILABLE_STATIC_INLINE (2, 64)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_64 GLIB_UNAVAILABLE_MACRO (2, 64)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_64 GLIB_UNAVAILABLE_ENUMERATOR (2, 64)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_64 GLIB_UNAVAILABLE_TYPE (2, 64)
+#else
+#define GOBJECT_AVAILABLE_IN_2_64 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_64
+#define GOBJECT_AVAILABLE_MACRO_IN_2_64
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_64
+#define GOBJECT_AVAILABLE_TYPE_IN_2_64
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_66
+#define GOBJECT_DEPRECATED_IN_2_66 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_66_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_66 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_66_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_66 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_66_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_66 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_66_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_66 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_66_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_66
+#define GOBJECT_DEPRECATED_MACRO_IN_2_66_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_66
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_66_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_66
+#define GOBJECT_DEPRECATED_TYPE_IN_2_66_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_66
+#define GOBJECT_AVAILABLE_IN_2_66 GOBJECT_UNAVAILABLE (2, 66)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_66 GLIB_UNAVAILABLE_STATIC_INLINE (2, 66)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_66 GLIB_UNAVAILABLE_MACRO (2, 66)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_66 GLIB_UNAVAILABLE_ENUMERATOR (2, 66)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_66 GLIB_UNAVAILABLE_TYPE (2, 66)
+#else
+#define GOBJECT_AVAILABLE_IN_2_66 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_66
+#define GOBJECT_AVAILABLE_MACRO_IN_2_66
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_66
+#define GOBJECT_AVAILABLE_TYPE_IN_2_66
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_68
+#define GOBJECT_DEPRECATED_IN_2_68 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_68_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_68 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_68_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_68 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_68_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_68 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_68_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_68 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_68_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_68
+#define GOBJECT_DEPRECATED_MACRO_IN_2_68_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_68
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_68_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_68
+#define GOBJECT_DEPRECATED_TYPE_IN_2_68_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_68
+#define GOBJECT_AVAILABLE_IN_2_68 GOBJECT_UNAVAILABLE (2, 68)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_68 GLIB_UNAVAILABLE_STATIC_INLINE (2, 68)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_68 GLIB_UNAVAILABLE_MACRO (2, 68)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_68 GLIB_UNAVAILABLE_ENUMERATOR (2, 68)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_68 GLIB_UNAVAILABLE_TYPE (2, 68)
+#else
+#define GOBJECT_AVAILABLE_IN_2_68 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_68
+#define GOBJECT_AVAILABLE_MACRO_IN_2_68
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_68
+#define GOBJECT_AVAILABLE_TYPE_IN_2_68
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_70
+#define GOBJECT_DEPRECATED_IN_2_70 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_70_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_70 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_70_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_70 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_70_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_70 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_70_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_70 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_70_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_70
+#define GOBJECT_DEPRECATED_MACRO_IN_2_70_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_70
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_70_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_70
+#define GOBJECT_DEPRECATED_TYPE_IN_2_70_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_70
+#define GOBJECT_AVAILABLE_IN_2_70 GOBJECT_UNAVAILABLE (2, 70)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_70 GLIB_UNAVAILABLE_STATIC_INLINE (2, 70)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_70 GLIB_UNAVAILABLE_MACRO (2, 70)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_70 GLIB_UNAVAILABLE_ENUMERATOR (2, 70)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_70 GLIB_UNAVAILABLE_TYPE (2, 70)
+#else
+#define GOBJECT_AVAILABLE_IN_2_70 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_70
+#define GOBJECT_AVAILABLE_MACRO_IN_2_70
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_70
+#define GOBJECT_AVAILABLE_TYPE_IN_2_70
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_72
+#define GOBJECT_DEPRECATED_IN_2_72 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_72_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_72 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_72_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_72 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_72_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_72 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_72_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_72 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_72_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_72
+#define GOBJECT_DEPRECATED_MACRO_IN_2_72_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_72
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_72_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_72
+#define GOBJECT_DEPRECATED_TYPE_IN_2_72_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_72
+#define GOBJECT_AVAILABLE_IN_2_72 GOBJECT_UNAVAILABLE (2, 72)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_72 GLIB_UNAVAILABLE_STATIC_INLINE (2, 72)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_72 GLIB_UNAVAILABLE_MACRO (2, 72)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_72 GLIB_UNAVAILABLE_ENUMERATOR (2, 72)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_72 GLIB_UNAVAILABLE_TYPE (2, 72)
+#else
+#define GOBJECT_AVAILABLE_IN_2_72 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_72
+#define GOBJECT_AVAILABLE_MACRO_IN_2_72
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_72
+#define GOBJECT_AVAILABLE_TYPE_IN_2_72
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_74
+#define GOBJECT_DEPRECATED_IN_2_74 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_74_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_74 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_74_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_74 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_74_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_74 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_74_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_74 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_74_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_74
+#define GOBJECT_DEPRECATED_MACRO_IN_2_74_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_74
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_74_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_74
+#define GOBJECT_DEPRECATED_TYPE_IN_2_74_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_74
+#define GOBJECT_AVAILABLE_IN_2_74 GOBJECT_UNAVAILABLE (2, 74)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_74 GLIB_UNAVAILABLE_STATIC_INLINE (2, 74)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_74 GLIB_UNAVAILABLE_MACRO (2, 74)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_74 GLIB_UNAVAILABLE_ENUMERATOR (2, 74)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_74 GLIB_UNAVAILABLE_TYPE (2, 74)
+#else
+#define GOBJECT_AVAILABLE_IN_2_74 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_74
+#define GOBJECT_AVAILABLE_MACRO_IN_2_74
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_74
+#define GOBJECT_AVAILABLE_TYPE_IN_2_74
+#endif
+
+#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_76
+#define GOBJECT_DEPRECATED_IN_2_76 GOBJECT_DEPRECATED
+#define GOBJECT_DEPRECATED_IN_2_76_FOR(f) GOBJECT_DEPRECATED_FOR (f)
+#define GOBJECT_DEPRECATED_MACRO_IN_2_76 GLIB_DEPRECATED_MACRO
+#define GOBJECT_DEPRECATED_MACRO_IN_2_76_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_76 GLIB_DEPRECATED_ENUMERATOR
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_76_FOR(f) GLIB_DEPRECATED_ENUMERATOR_FOR (f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_76 GLIB_DEPRECATED_TYPE
+#define GOBJECT_DEPRECATED_TYPE_IN_2_76_FOR(f) GLIB_DEPRECATED_TYPE_FOR (f)
+#else
+#define GOBJECT_DEPRECATED_IN_2_76 _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_IN_2_76_FOR(f) _GOBJECT_EXTERN
+#define GOBJECT_DEPRECATED_MACRO_IN_2_76
+#define GOBJECT_DEPRECATED_MACRO_IN_2_76_FOR(f)
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_76
+#define GOBJECT_DEPRECATED_ENUMERATOR_IN_2_76_FOR(f)
+#define GOBJECT_DEPRECATED_TYPE_IN_2_76
+#define GOBJECT_DEPRECATED_TYPE_IN_2_76_FOR(f)
+#endif
+
+#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_76
+#define GOBJECT_AVAILABLE_IN_2_76 GOBJECT_UNAVAILABLE (2, 76)
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_76 GLIB_UNAVAILABLE_STATIC_INLINE (2, 76)
+#define GOBJECT_AVAILABLE_MACRO_IN_2_76 GLIB_UNAVAILABLE_MACRO (2, 76)
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_76 GLIB_UNAVAILABLE_ENUMERATOR (2, 76)
+#define GOBJECT_AVAILABLE_TYPE_IN_2_76 GLIB_UNAVAILABLE_TYPE (2, 76)
+#else
+#define GOBJECT_AVAILABLE_IN_2_76 _GOBJECT_EXTERN
+#define GOBJECT_AVAILABLE_STATIC_INLINE_IN_2_76
+#define GOBJECT_AVAILABLE_MACRO_IN_2_76
+#define GOBJECT_AVAILABLE_ENUMERATOR_IN_2_76
+#define GOBJECT_AVAILABLE_TYPE_IN_2_76
+#endif
 
 G_BEGIN_DECLS
 
@@ -24649,7 +26544,7 @@ G_BEGIN_DECLS
  * 
  * The fundamental type corresponding to #gchar.
  *
- * The type designated by G_TYPE_CHAR is unconditionally an 8-bit signed integer.
+ * The type designated by %G_TYPE_CHAR is unconditionally an 8-bit signed integer.
  * This may or may not be the same type a the C type "gchar".
  */
 #define G_TYPE_CHAR			G_TYPE_MAKE_FUNDAMENTAL (3)
@@ -24962,7 +26857,7 @@ G_BEGIN_DECLS
  *
  * Since: 2.70
  */
-#define G_TYPE_IS_FINAL(type)                   (g_type_test_flags ((type), G_TYPE_FLAG_FINAL)) GLIB_AVAILABLE_MACRO_IN_2_70
+#define G_TYPE_IS_FINAL(type)                   (g_type_test_flags ((type), G_TYPE_FLAG_FINAL)) GOBJECT_AVAILABLE_MACRO_IN_2_70
 
 
 /* Typedefs
@@ -25231,11 +27126,11 @@ struct _GTypeQuery
  * This macro should only be used in type implementations.
  * 
  * Since: 2.4
- * Deprecated: 2.58: Use %G_ADD_PRIVATE and the generated
+ * Deprecated: 2.58: Use G_ADD_PRIVATE() and the generated
  *   `your_type_get_instance_private()` function instead
  * Returns: (not nullable): a pointer to the private data structure
  */
-#define G_TYPE_INSTANCE_GET_PRIVATE(instance, g_type, c_type)   ((c_type*) g_type_instance_get_private ((GTypeInstance*) (instance), (g_type))) GLIB_DEPRECATED_MACRO_IN_2_58_FOR(G_ADD_PRIVATE)
+#define G_TYPE_INSTANCE_GET_PRIVATE(instance, g_type, c_type)   ((c_type*) g_type_instance_get_private ((GTypeInstance*) (instance), (g_type))) GOBJECT_DEPRECATED_MACRO_IN_2_58_FOR(G_ADD_PRIVATE)
 
 /**
  * G_TYPE_CLASS_GET_PRIVATE:
@@ -25278,77 +27173,84 @@ typedef enum	/*< skip >*/
   G_TYPE_DEBUG_SIGNALS	= 1 << 1,
   G_TYPE_DEBUG_INSTANCE_COUNT = 1 << 2,
   G_TYPE_DEBUG_MASK	= 0x07
-} GTypeDebugFlags GLIB_DEPRECATED_TYPE_IN_2_36;
+} GTypeDebugFlags GOBJECT_DEPRECATED_TYPE_IN_2_36;
 
 
 /* --- prototypes --- */
+GOBJECT_AVAILABLE_IN_2_68
+void                  gobject_init                   (void);
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-GLIB_DEPRECATED_IN_2_36
+GOBJECT_DEPRECATED_IN_2_36
 void                  g_type_init                    (void);
-GLIB_DEPRECATED_IN_2_36
+GOBJECT_DEPRECATED_IN_2_36
 void                  g_type_init_with_debug_flags   (GTypeDebugFlags  debug_flags);
 G_GNUC_END_IGNORE_DEPRECATIONS
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 const gchar *         g_type_name                    (GType            type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GQuark                g_type_qname                   (GType            type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType                 g_type_from_name               (const gchar     *name);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType                 g_type_parent                  (GType            type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 guint                 g_type_depth                   (GType            type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType                 g_type_next_base               (GType            leaf_type,
 						      GType            root_type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean              g_type_is_a                    (GType            type,
 						      GType            is_a_type);
-GLIB_AVAILABLE_IN_ALL
+
+/* Hoist exact GType comparisons into the caller */
+#undef g_type_is_a
+#define g_type_is_a(a,b) ((a) == (b) || (_frida_g_type_is_a) ((a), (b)))
+
+GOBJECT_AVAILABLE_IN_ALL
 gpointer              g_type_class_ref               (GType            type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer              g_type_class_peek              (GType            type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer              g_type_class_peek_static       (GType            type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void                  g_type_class_unref             (gpointer         g_class);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer              g_type_class_peek_parent       (gpointer         g_class);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer              g_type_interface_peek          (gpointer         instance_class,
 						      GType            iface_type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer              g_type_interface_peek_parent   (gpointer         g_iface);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer              g_type_default_interface_ref   (GType            g_type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer              g_type_default_interface_peek  (GType            g_type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void                  g_type_default_interface_unref (gpointer         g_iface);
 
 /* g_free() the returned arrays */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType*                g_type_children                (GType            type,
 						      guint           *n_children);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType*                g_type_interfaces              (GType            type,
 						      guint           *n_interfaces);
 
 /* per-type _static_ data */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void                  g_type_set_qdata               (GType            type,
 						      GQuark           quark,
 						      gpointer         data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer              g_type_get_qdata               (GType            type,
 						      GQuark           quark);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_type_query		     (GType	       type,
 						      GTypeQuery      *query);
 
-GLIB_AVAILABLE_IN_2_44
+GOBJECT_AVAILABLE_IN_2_44
 int                   g_type_get_instance_count      (GType            type);
 
 /* --- type registration --- */
@@ -25603,6 +27505,8 @@ typedef void     (*GTypeInterfaceCheckFunc)  (gpointer	       check_data,
  */
 typedef enum    /*< skip >*/
 {
+  /* There is no G_TYPE_FUNDAMENTAL_FLAGS_NONE: this is implemented to use
+   * the same bits as GTypeFlags */
   G_TYPE_FLAG_CLASSED           = (1 << 0),
   G_TYPE_FLAG_INSTANTIATABLE    = (1 << 1),
   G_TYPE_FLAG_DERIVABLE         = (1 << 2),
@@ -25610,6 +27514,7 @@ typedef enum    /*< skip >*/
 } GTypeFundamentalFlags;
 /**
  * GTypeFlags:
+ * @G_TYPE_FLAG_NONE: No special flags. Since: 2.74
  * @G_TYPE_FLAG_ABSTRACT: Indicates an abstract type. No instances can be
  *  created for an abstract type
  * @G_TYPE_FLAG_VALUE_ABSTRACT: Indicates an abstract value type, i.e. a type
@@ -25622,9 +27527,10 @@ typedef enum    /*< skip >*/
  */
 typedef enum    /*< skip >*/
 {
+  G_TYPE_FLAG_NONE GOBJECT_AVAILABLE_ENUMERATOR_IN_2_74 = 0,
   G_TYPE_FLAG_ABSTRACT = (1 << 4),
   G_TYPE_FLAG_VALUE_ABSTRACT = (1 << 5),
-  G_TYPE_FLAG_FINAL GLIB_AVAILABLE_ENUMERATOR_IN_2_70 = (1 << 6)
+  G_TYPE_FLAG_FINAL GOBJECT_AVAILABLE_ENUMERATOR_IN_2_70 = (1 << 6)
 } GTypeFlags;
 /**
  * GTypeInfo:
@@ -25787,7 +27693,7 @@ struct _GInterfaceInfo
  *  return NULL;
  *  ]|
  *  It should be noted, that it is generally a bad idea to follow the
- *  #G_VALUE_NOCOPY_CONTENTS hint for reference counted types. Due to
+ *  %G_VALUE_NOCOPY_CONTENTS hint for reference counted types. Due to
  *  reentrancy requirements and reference count assertions performed
  *  by the signal emission code, reference counts should always be
  *  incremented for reference counted contents stored in the value->data
@@ -25877,12 +27783,12 @@ struct _GTypeValueTable
 				  GTypeCValue  *collect_values,
 				  guint		collect_flags);
 };
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType g_type_register_static		(GType			     parent_type,
 					 const gchar		    *type_name,
 					 const GTypeInfo	    *info,
 					 GTypeFlags		     flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType g_type_register_static_simple     (GType                       parent_type,
 					 const gchar                *type_name,
 					 guint                       class_size,
@@ -25891,59 +27797,59 @@ GType g_type_register_static_simple     (GType                       parent_type
 					 GInstanceInitFunc           instance_init,
 					 GTypeFlags	             flags);
   
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType g_type_register_dynamic		(GType			     parent_type,
 					 const gchar		    *type_name,
 					 GTypePlugin		    *plugin,
 					 GTypeFlags		     flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType g_type_register_fundamental	(GType			     type_id,
 					 const gchar		    *type_name,
 					 const GTypeInfo	    *info,
 					 const GTypeFundamentalInfo *finfo,
 					 GTypeFlags		     flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void  g_type_add_interface_static	(GType			     instance_type,
 					 GType			     interface_type,
 					 const GInterfaceInfo	    *info);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void  g_type_add_interface_dynamic	(GType			     instance_type,
 					 GType			     interface_type,
 					 GTypePlugin		    *plugin);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void  g_type_interface_add_prerequisite (GType			     interface_type,
 					 GType			     prerequisite_type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType*g_type_interface_prerequisites    (GType                       interface_type,
 					 guint                      *n_prerequisites);
-GLIB_AVAILABLE_IN_2_68
+GOBJECT_AVAILABLE_IN_2_68
 GType g_type_interface_instantiatable_prerequisite
                                         (GType                       interface_type);
-GLIB_DEPRECATED_IN_2_58
+GOBJECT_DEPRECATED_IN_2_58
 void     g_type_class_add_private       (gpointer                    g_class,
                                          gsize                       private_size);
-GLIB_AVAILABLE_IN_2_38
+GOBJECT_AVAILABLE_IN_2_38
 gint     g_type_add_instance_private    (GType                       class_type,
                                          gsize                       private_size);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer g_type_instance_get_private    (GTypeInstance              *instance,
                                          GType                       private_type);
-GLIB_AVAILABLE_IN_2_38
+GOBJECT_AVAILABLE_IN_2_38
 void     g_type_class_adjust_private_offset (gpointer                g_class,
                                              gint                   *private_size_or_offset);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void      g_type_add_class_private      (GType    		     class_type,
 					 gsize    		     private_size);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer  g_type_class_get_private      (GTypeClass 		    *klass,
 					 GType			     private_type);
-GLIB_AVAILABLE_IN_2_38
+GOBJECT_AVAILABLE_IN_2_38
 gint      g_type_class_get_instance_private_offset (gpointer         g_class);
 
-GLIB_AVAILABLE_IN_2_34
+GOBJECT_AVAILABLE_IN_2_34
 void      g_type_ensure                 (GType                       type);
-GLIB_AVAILABLE_IN_2_36
+GOBJECT_AVAILABLE_IN_2_36
 guint     g_type_get_type_registration_serial (void);
 
 
@@ -25976,6 +27882,17 @@ guint     g_type_get_type_registration_serial (void);
  * ...
  *
  * #endif
+ * ]|
+ *
+ * And use it as follow in your C file:
+ *
+ * |[<!-- language="C" -->
+ * struct _MyAppWindow
+ * {
+ *  GtkWindow parent;
+ *  ...
+ * };
+ * G_DEFINE_TYPE (MyAppWindow, my_app_window, GTK_TYPE_WINDOW)
  * ]|
  *
  * This results in the following things happening:
@@ -26066,6 +27983,18 @@ guint     g_type_get_type_registration_serial (void);
  * ...
  *
  * #endif
+ * ]|
+ *
+ * Since the instance structure is public it is often needed to declare a
+ * private struct as follow in your C file:
+ *
+ * |[<!-- language="C" -->
+ * typedef struct _GtkFrobberPrivate GtkFrobberPrivate;
+ * struct _GtkFrobberPrivate
+ * {
+ *   ...
+ * };
+ * G_DEFINE_TYPE_WITH_PRIVATE (GtkFrobber, gtk_frobber, GTK_TYPE_WIDGET)
  * ]|
  *
  * This results in the following things happening:
@@ -26162,6 +28091,18 @@ guint     g_type_get_type_registration_serial (void);
  * #endif
  * ]|
  *
+ * And use it as follow in your C file:
+ *
+ * |[<!-- language="C" -->
+ * G_DEFINE_INTERFACE (MyModel, my_model, G_TYPE_OBJECT);
+ *
+ * static void
+ * my_model_default_init (MyModelInterface *iface)
+ * {
+ *   ...
+ * }
+ * ]|
+ *
  * This results in the following things happening:
  *
  * - the usual `my_model_get_type()` function is declared with a return type of #GType
@@ -26226,7 +28167,7 @@ guint     g_type_get_type_registration_serial (void);
  * 
  * A convenience macro for type implementations.
  *
- * Similar to G_DEFINE_TYPE(), but allows you to insert custom code into the 
+ * Similar to G_DEFINE_TYPE(), but allows you to insert custom code into the
  * `*_get_type()` function, e.g. interface implementations via G_IMPLEMENT_INTERFACE().
  * See G_DEFINE_TYPE_EXTENDED() for an example.
  * 
@@ -26286,7 +28227,7 @@ guint     g_type_get_type_registration_serial (void);
  *
  * Similar to G_DEFINE_TYPE_WITH_CODE(), but defines an abstract type and
  * allows you to insert custom code into the `*_get_type()` function, e.g.
- * interface implementations  via G_IMPLEMENT_INTERFACE().
+ * interface implementations via G_IMPLEMENT_INTERFACE().
  *
  * See G_DEFINE_TYPE_EXTENDED() for an example.
  * 
@@ -26322,7 +28263,7 @@ guint     g_type_get_type_registration_serial (void);
  *
  * Since: 2.70
  */
-#define G_DEFINE_FINAL_TYPE(TN, t_n, T_P)                      G_DEFINE_TYPE_EXTENDED (TN, t_n, T_P, G_TYPE_FLAG_FINAL, {}) GLIB_AVAILABLE_MACRO_IN_2_70
+#define G_DEFINE_FINAL_TYPE(TN, t_n, T_P)                      G_DEFINE_TYPE_EXTENDED (TN, t_n, T_P, G_TYPE_FLAG_FINAL, {}) GOBJECT_AVAILABLE_MACRO_IN_2_70
 /**
  * G_DEFINE_FINAL_TYPE_WITH_CODE:
  * @TN: the name of the new type, in Camel case
@@ -26335,13 +28276,13 @@ guint     g_type_get_type_registration_serial (void);
  *
  * Similar to G_DEFINE_TYPE_WITH_CODE(), but defines a final type and
  * allows you to insert custom code into the `*_get_type()` function, e.g.
- * interface implementations  via G_IMPLEMENT_INTERFACE().
+ * interface implementations via G_IMPLEMENT_INTERFACE().
  *
  * See G_DEFINE_TYPE_EXTENDED() for an example.
  *
  * Since: 2.70
  */
-#define G_DEFINE_FINAL_TYPE_WITH_CODE(TN, t_n, T_P, _C_)       _G_DEFINE_TYPE_EXTENDED_BEGIN (TN, t_n, T_P, G_TYPE_FLAG_FINAL) {_C_;} _G_DEFINE_TYPE_EXTENDED_END() GLIB_AVAILABLE_MACRO_IN_2_70
+#define G_DEFINE_FINAL_TYPE_WITH_CODE(TN, t_n, T_P, _C_)       _G_DEFINE_TYPE_EXTENDED_BEGIN (TN, t_n, T_P, G_TYPE_FLAG_FINAL) {_C_;} _G_DEFINE_TYPE_EXTENDED_END() GOBJECT_AVAILABLE_MACRO_IN_2_70
 /**
  * G_DEFINE_FINAL_TYPE_WITH_PRIVATE:
  * @TN: the name of the new type, in Camel case
@@ -26357,7 +28298,7 @@ guint     g_type_get_type_registration_serial (void);
  *
  * Since: 2.70
  */
-#define G_DEFINE_FINAL_TYPE_WITH_PRIVATE(TN, t_n, T_P)         G_DEFINE_TYPE_EXTENDED (TN, t_n, T_P, G_TYPE_FLAG_FINAL, G_ADD_PRIVATE (TN)) GLIB_AVAILABLE_MACRO_IN_2_70
+#define G_DEFINE_FINAL_TYPE_WITH_PRIVATE(TN, t_n, T_P)         G_DEFINE_TYPE_EXTENDED (TN, t_n, T_P, G_TYPE_FLAG_FINAL, G_ADD_PRIVATE (TN)) GOBJECT_AVAILABLE_MACRO_IN_2_70
 /**
  * G_DEFINE_TYPE_EXTENDED:
  * @TN: The name of the new type, in Camel case.
@@ -26558,6 +28499,12 @@ guint     g_type_get_type_registration_serial (void);
  *   }
  * ]|
  *
+ * Since GLib 2.72, the returned `MyObjectPrivate` pointer is guaranteed to be
+ * aligned to at least the alignment of the largest basic GLib type (typically
+ * this is #guint64 or #gdouble). If you need larger alignment for an element in
+ * the struct, you should allocate it on the heap (aligned), or arrange for your
+ * `MyObjectPrivate` struct to be appropriately padded.
+ *
  * Note that this macro can only be used together with the `G_DEFINE_TYPE_*`
  * macros, since it depends on variable names from those macros.
  *
@@ -26686,7 +28633,7 @@ type_name##_get_type (void) \
   return static_g_define_type_id; \
 } /* closes type_name##_get_type() */ \
 \
-G_GNUC_NO_INLINE \
+G_NO_INLINE \
 static GType \
 type_name##_get_type_once (void) \
 { \
@@ -26712,6 +28659,8 @@ type_name##_get_type_once (void) \
   _G_DEFINE_TYPE_EXTENDED_BEGIN_PRE(TypeName, type_name, TYPE_PARENT) \
   _G_DEFINE_TYPE_EXTENDED_BEGIN_REGISTER(TypeName, type_name, TYPE_PARENT, flags) \
 
+/* Intentionally using (GTypeFlags) 0 instead of G_TYPE_FLAG_NONE here,
+ * to avoid deprecation warnings with older GLIB_VERSION_MAX_ALLOWED */
 #define _G_DEFINE_INTERFACE_EXTENDED_BEGIN(TypeName, type_name, TYPE_PREREQ) \
 \
 static void     type_name##_default_init        (TypeName##Interface *klass); \
@@ -26756,14 +28705,49 @@ type_name##_get_type (void) \
  * a `type_name_get_type()` function which will return the newly defined
  * #GType, enabling lazy instantiation.
  *
+ * You might start by putting declarations in a header as follows:
+ *
+ * |[<!-- language="C" -->
+ * #define MY_TYPE_STRUCT my_struct_get_type ()
+ * GType my_struct_get_type (void) G_GNUC_CONST;
+ *
+ * MyStruct *    my_struct_new (void);
+ * void          my_struct_free (MyStruct *self);
+ * MyStruct *    my_struct_copy (MyStruct *self);
+ * ]|
+ *
+ * And then use this macro and define your implementation in the source file as
+ * follows:
+ *
  * |[<!-- language="C" --> 
+ * MyStruct *
+ * my_struct_new (void)
+ * {
+ *   // ... your code to allocate a new MyStruct ...
+ * }
+ *
+ * void
+ * my_struct_free (MyStruct *self)
+ * {
+ *   // ... your code to free a MyStruct ...
+ * }
+ *
+ * MyStruct *
+ * my_struct_copy (MyStruct *self)
+ * {
+ *   // ... your code return a newly allocated copy of a MyStruct ...
+ * }
+ *
  * G_DEFINE_BOXED_TYPE (MyStruct, my_struct, my_struct_copy, my_struct_free)
  *
  * void 
  * foo ()
  * {
- *   GType type = my_struct_get_type ();
+ *   MyStruct *ms;
+ *
+ *   ms = my_struct_new ();
  *   // ... your code ...
+ *   my_struct_free (ms);
  * }
  * ]|
  *
@@ -26792,7 +28776,7 @@ type_name##_get_type (void) \
  *                                register_rectangle_transform_funcs (g_define_type_id))
  * ]|
  *
- * Similarly to the %G_DEFINE_TYPE family of macros, the #GType of the newly
+ * Similarly to the `G_DEFINE_TYPE_*` family of macros, the #GType of the newly
  * defined boxed type is exposed in the `g_define_type_id` variable.
  *
  * Since: 2.26
@@ -26802,7 +28786,7 @@ type_name##_get_type (void) \
 /* Only use this in non-C++ on GCC >= 2.7, except for Darwin/ppc64.
  * See https://bugzilla.gnome.org/show_bug.cgi?id=647145
  */
-#if !defined (__cplusplus) && (G_GNUC_CHECK_VERSION(2, 7)) && !(defined (__APPLE__) && defined (__ppc64__))
+#if !defined (__cplusplus) && (G_GNUC_CHECK_VERSION(2, 7)) && !(defined (G_OS_DARWIN) && defined (__ppc64__))
 #define _G_DEFINE_BOXED_TYPE_BEGIN(TypeName, type_name, copy_func, free_func) \
 static GType type_name##_get_type_once (void); \
 \
@@ -26818,7 +28802,7 @@ type_name##_get_type (void) \
   return static_g_define_type_id; \
 } \
 \
-G_GNUC_NO_INLINE \
+G_NO_INLINE \
 static GType \
 type_name##_get_type_once (void) \
 { \
@@ -26855,7 +28839,7 @@ type_name##_get_type (void) \
   return static_g_define_type_id; \
 } \
 \
-G_GNUC_NO_INLINE \
+G_NO_INLINE \
 static GType \
 type_name##_get_type_once (void) \
 { \
@@ -26908,7 +28892,7 @@ type_name##_get_type (void) \
   return static_g_define_type_id; \
 } \
 \
-G_GNUC_NO_INLINE \
+G_NO_INLINE \
 static GType \
 type_name##_get_type_once (void) \
 { \
@@ -26917,87 +28901,88 @@ type_name##_get_type_once (void) \
   { /* custom code follows */
 
 /* --- protected (for fundamental type implementations) --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GTypePlugin*	 g_type_get_plugin		(GType		     type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GTypePlugin*	 g_type_interface_get_plugin	(GType		     instance_type,
 						 GType               interface_type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType		 g_type_fundamental_next	(void);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType		 g_type_fundamental		(GType		     type_id);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GTypeInstance*   g_type_create_instance         (GType               type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void             g_type_free_instance           (GTypeInstance      *instance);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		 g_type_add_class_cache_func    (gpointer	     cache_data,
 						 GTypeClassCacheFunc cache_func);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		 g_type_remove_class_cache_func (gpointer	     cache_data,
 						 GTypeClassCacheFunc cache_func);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void             g_type_class_unref_uncached    (gpointer            g_class);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void             g_type_add_interface_check     (gpointer	         check_data,
 						 GTypeInterfaceCheckFunc check_func);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void             g_type_remove_interface_check  (gpointer	         check_data,
 						 GTypeInterfaceCheckFunc check_func);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GTypeValueTable* g_type_value_table_peek        (GType		     type);
 
 
 /*< private >*/
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean	 g_type_check_instance          (GTypeInstance      *instance) G_GNUC_PURE;
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GTypeInstance*   g_type_check_instance_cast     (GTypeInstance      *instance,
 						 GType               iface_type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean         g_type_check_instance_is_a	(GTypeInstance      *instance,
 						 GType               iface_type) G_GNUC_PURE;
-GLIB_AVAILABLE_IN_2_42
+GOBJECT_AVAILABLE_IN_2_42
 gboolean         g_type_check_instance_is_fundamentally_a (GTypeInstance *instance,
                                                            GType          fundamental_type) G_GNUC_PURE;
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GTypeClass*      g_type_check_class_cast        (GTypeClass         *g_class,
 						 GType               is_a_type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean         g_type_check_class_is_a        (GTypeClass         *g_class,
 						 GType               is_a_type) G_GNUC_PURE;
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean	 g_type_check_is_value_type     (GType		     type) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean	 g_type_check_value             (const GValue       *value) G_GNUC_PURE;
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean	 g_type_check_value_holds	(const GValue	    *value,
 						 GType		     type) G_GNUC_PURE;
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean         g_type_test_flags              (GType               type,
 						 guint               flags) G_GNUC_CONST;
 
 
 /* --- debugging functions --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 const gchar *    g_type_name_from_instance      (GTypeInstance	*instance);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 const gchar *    g_type_name_from_class         (GTypeClass	*g_class);
 
 
 /* --- implementation bits --- */
-#ifndef G_DISABLE_CAST_CHECKS
-#  define _G_TYPE_CIC(ip, gt, ct) \
-    ((ct*) g_type_check_instance_cast ((GTypeInstance*) ip, gt))
-#  define _G_TYPE_CCC(cp, gt, ct) \
-    ((ct*) g_type_check_class_cast ((GTypeClass*) cp, gt))
-#else /* G_DISABLE_CAST_CHECKS */
+#if defined(G_DISABLE_CAST_CHECKS) || defined(__OPTIMIZE__)
 #  define _G_TYPE_CIC(ip, gt, ct)       ((ct*) ip)
 #  define _G_TYPE_CCC(cp, gt, ct)       ((ct*) cp)
-#endif /* G_DISABLE_CAST_CHECKS */
+#else
+#  define _G_TYPE_CIC(ip, gt, ct) \
+    ((ct*) (void *) g_type_check_instance_cast ((GTypeInstance*) ip, gt))
+#  define _G_TYPE_CCC(cp, gt, ct) \
+    ((ct*) (void *) g_type_check_class_cast ((GTypeClass*) cp, gt))
+#endif
+
 #define _G_TYPE_CHI(ip)			(g_type_check_instance ((GTypeInstance*) ip))
 #define _G_TYPE_CHV(vl)			(g_type_check_value ((GValue*) vl))
 #define _G_TYPE_IGC(ip, gt, ct)         ((ct*) (((GTypeInstance*) ip)->g_class))
@@ -27051,6 +29036,8 @@ G_END_DECLS
 #endif /* __G_TYPE_H__ */
 /* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 1997-1999, 2000-2001 Tim Janik and Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27179,42 +29166,42 @@ struct _GValue
 
 
 /* --- prototypes --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GValue*         g_value_init	   	(GValue       *value,
 					 GType         g_type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void            g_value_copy    	(const GValue *src_value,
 					 GValue       *dest_value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GValue*         g_value_reset   	(GValue       *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void            g_value_unset   	(GValue       *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		g_value_set_instance	(GValue	      *value,
 					 gpointer      instance);
-GLIB_AVAILABLE_IN_2_42
+GOBJECT_AVAILABLE_IN_2_42
 void            g_value_init_from_instance   (GValue       *value,
                                               gpointer      instance);
 
 
 /* --- private --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean	g_value_fits_pointer	(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer	g_value_peek_pointer	(const GValue *value);
 
 
 /* --- implementation details --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean g_value_type_compatible	(GType		 src_type,
 					 GType		 dest_type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean g_value_type_transformable	(GType           src_type,
 					 GType           dest_type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean g_value_transform		(const GValue   *src_value,
 					 GValue         *dest_value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	g_value_register_transform_func	(GType		 src_type,
 					 GType		 dest_type,
 					 GValueTransform transform_func);
@@ -27237,7 +29224,7 @@ void	g_value_register_transform_func	(GType		 src_type,
  *
  * Since: 2.66
  */
-#define G_VALUE_INTERNED_STRING (1 << 28) GLIB_AVAILABLE_MACRO_IN_2_66
+#define G_VALUE_INTERNED_STRING (1 << 28) GOBJECT_AVAILABLE_MACRO_IN_2_66
 
 /**
  * G_VALUE_INIT:
@@ -27260,6 +29247,8 @@ G_END_DECLS
 #endif /* __G_VALUE_H__ */
 /* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 1997-1999, 2000-2001 Tim Janik and Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27417,7 +29406,7 @@ typedef enum
   G_PARAM_CONSTRUCT_ONLY      = 1 << 3,
   G_PARAM_LAX_VALIDATION      = 1 << 4,
   G_PARAM_STATIC_NAME	      = 1 << 5,
-  G_PARAM_PRIVATE GLIB_DEPRECATED_ENUMERATOR_IN_2_26 = G_PARAM_STATIC_NAME,
+  G_PARAM_PRIVATE GOBJECT_DEPRECATED_ENUMERATOR_IN_2_26 = G_PARAM_STATIC_NAME,
   G_PARAM_STATIC_NICK	      = 1 << 6,
   G_PARAM_STATIC_BLURB	      = 1 << 7,
   /* User defined flags go here */
@@ -27431,6 +29420,12 @@ typedef enum
  * 
  * #GParamFlags value alias for %G_PARAM_STATIC_NAME | %G_PARAM_STATIC_NICK | %G_PARAM_STATIC_BLURB.
  * 
+ * It is recommended to use this for all properties by default, as it allows for
+ * internal performance improvements in GObject.
+ *
+ * It is very rare that a property would have a dynamically constructed name,
+ * nickname or blurb.
+ *
  * Since 2.13.0
  */
 #define	G_PARAM_STATIC_STRINGS (G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB)
@@ -27452,10 +29447,10 @@ typedef enum
 /* --- typedefs & structures --- */
 typedef struct _GParamSpec      GParamSpec;
 typedef struct _GParamSpecClass GParamSpecClass;
-typedef struct _GParameter	GParameter GLIB_DEPRECATED_TYPE_IN_2_54;
+typedef struct _GParameter	GParameter GOBJECT_DEPRECATED_TYPE_IN_2_54;
 typedef struct _GParamSpecPool  GParamSpecPool;
 /**
- * GParamSpec: (ref-func g_param_spec_ref_sink) (unref-func g_param_spec_uref) (set-value-func g_value_set_param) (get-value-func g_value_get_param)
+ * GParamSpec: (ref-func g_param_spec_ref_sink) (unref-func g_param_spec_unref) (set-value-func g_value_set_param) (get-value-func g_value_get_param)
  * @g_type_instance: private #GTypeInstance portion
  * @name: name of this parameter: always an interned string
  * @flags: #GParamFlags flags for this parameter
@@ -27495,7 +29490,10 @@ struct _GParamSpec
  *  g_param_value_validate().
  * @values_cmp: Compares @value1 with @value2 according to this type
  *  (recommended, the default is memcmp()), see g_param_values_cmp().
- * 
+ * @value_is_valid: Checks if contents of @value comply with the specifications
+ *   set out by this type, without modifying the value. This vfunc is optional.
+ *   If it isn't set, GObject will use @value_validate. Since 2.74
+ *
  * The class structure for the GParamSpec type.
  * Normally, GParamSpec classes are filled by
  * g_param_type_register_static().
@@ -27516,8 +29514,12 @@ struct _GParamSpecClass
   gint          (*values_cmp)           (GParamSpec   *pspec,
 					 const GValue *value1,
 					 const GValue *value2);
+
+  gboolean      (*value_is_valid)       (GParamSpec   *pspec,
+                                         const GValue *value);
+
   /*< private >*/
-  gpointer	  dummy[4];
+  gpointer	  dummy[3];
 };
 /**
  * GParameter:
@@ -27533,79 +29535,82 @@ struct _GParameter /* auxiliary structure for _setv() variants */
 {
   const gchar *name;
   GValue       value;
-} GLIB_DEPRECATED_TYPE_IN_2_54;
+} GOBJECT_DEPRECATED_TYPE_IN_2_54;
 
 
 /* --- prototypes --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_ref		(GParamSpec    *pspec);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		g_param_spec_unref		(GParamSpec    *pspec);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		g_param_spec_sink		(GParamSpec    *pspec);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_ref_sink   	(GParamSpec    *pspec);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer        g_param_spec_get_qdata		(GParamSpec    *pspec,
 						 GQuark         quark);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void            g_param_spec_set_qdata		(GParamSpec    *pspec,
 						 GQuark         quark,
 						 gpointer       data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void            g_param_spec_set_qdata_full	(GParamSpec    *pspec,
 						 GQuark         quark,
 						 gpointer       data,
 						 GDestroyNotify destroy);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer        g_param_spec_steal_qdata	(GParamSpec    *pspec,
 						 GQuark         quark);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*     g_param_spec_get_redirect_target (GParamSpec   *pspec);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		g_param_value_set_default	(GParamSpec    *pspec,
 						 GValue	       *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean	g_param_value_defaults		(GParamSpec    *pspec,
 						 const GValue  *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean	g_param_value_validate		(GParamSpec    *pspec,
 						 GValue	       *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_2_74
+gboolean        g_param_value_is_valid          (GParamSpec    *pspec,
+                                                 const GValue  *value);
+GOBJECT_AVAILABLE_IN_ALL
 gboolean	g_param_value_convert		(GParamSpec    *pspec,
 						 const GValue  *src_value,
 						 GValue	       *dest_value,
 						 gboolean	strict_validation);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gint		g_param_values_cmp		(GParamSpec    *pspec,
 						 const GValue  *value1,
 						 const GValue  *value2);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 const gchar *   g_param_spec_get_name           (GParamSpec    *pspec);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 const gchar *   g_param_spec_get_nick           (GParamSpec    *pspec);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 const gchar *   g_param_spec_get_blurb          (GParamSpec    *pspec);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void            g_value_set_param               (GValue	       *value,
 						 GParamSpec    *param);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*     g_value_get_param               (const GValue  *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*     g_value_dup_param               (const GValue  *value);
 
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void           g_value_take_param               (GValue        *value,
 					         GParamSpec    *param);
-GLIB_DEPRECATED_FOR(g_value_take_param)
+GOBJECT_DEPRECATED_FOR(g_value_take_param)
 void           g_value_set_param_take_ownership (GValue        *value,
                                                  GParamSpec    *param);
-GLIB_AVAILABLE_IN_2_36
+GOBJECT_AVAILABLE_IN_2_36
 const GValue *  g_param_spec_get_default_value  (GParamSpec    *pspec);
 
-GLIB_AVAILABLE_IN_2_46
+GOBJECT_AVAILABLE_IN_2_46
 GQuark          g_param_spec_get_name_quark     (GParamSpec    *pspec);
 
 /* --- convenience functions --- */
@@ -27653,11 +29658,11 @@ struct _GParamSpecTypeInfo
 					 const GValue *value1,
 					 const GValue *value2);
 };
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType	g_param_type_register_static	(const gchar		  *name,
 					 const GParamSpecTypeInfo *pspec_info);
 
-GLIB_AVAILABLE_IN_2_66
+GOBJECT_AVAILABLE_IN_2_66
 gboolean g_param_spec_is_valid_name    (const gchar              *name);
 
 /* For registering builting types */
@@ -27667,30 +29672,30 @@ GType  _g_param_type_register_static_constant (const gchar              *name,
 
 
 /* --- protected --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer	g_param_spec_internal		(GType	        param_type,
 						 const gchar   *name,
 						 const gchar   *nick,
 						 const gchar   *blurb,
 						 GParamFlags    flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpecPool* g_param_spec_pool_new		(gboolean	type_prefixing);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		g_param_spec_pool_insert	(GParamSpecPool	*pool,
 						 GParamSpec	*pspec,
 						 GType		 owner_type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		g_param_spec_pool_remove	(GParamSpecPool	*pool,
 						 GParamSpec	*pspec);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_pool_lookup	(GParamSpecPool	*pool,
 						 const gchar	*param_name,
 						 GType		 owner_type,
 						 gboolean	 walk_ancestors);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GList*		g_param_spec_pool_list_owned	(GParamSpecPool	*pool,
 						 GType		 owner_type);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec**	g_param_spec_pool_list		(GParamSpecPool	*pool,
 						 GType		 owner_type,
 						 guint		*n_pspecs_p);
@@ -27718,6 +29723,8 @@ G_END_DECLS
 /* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 2000-2001 Red Hat, Inc.
  * Copyright (C) 2005 Imendio AB
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27826,7 +29833,7 @@ typedef void  (*GClosureNotify)		(gpointer	 data,
  *  callback of @closure
  * @invocation_hint: (nullable): the invocation hint given as the
  *  last argument to g_closure_invoke()
- * @marshal_data: (nullable): additional data specified when
+ * @user_data: (nullable): additional data specified when
  *  registering the marshaller, see g_closure_set_marshal() and
  *  g_closure_set_meta_marshal()
  * 
@@ -27837,7 +29844,7 @@ typedef void  (*GClosureMarshal)	(GClosure	*closure,
 					 guint           n_param_values,
 					 const GValue   *param_values,
 					 gpointer        invocation_hint,
-					 gpointer	 marshal_data);
+					 gpointer	 user_data);
 
 /**
  * GVaClosureMarshal:
@@ -27941,62 +29948,62 @@ struct _GCClosure
 
 
 /* --- prototypes --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GClosure* g_cclosure_new			(GCallback	callback_func,
 						 gpointer	user_data,
 						 GClosureNotify destroy_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GClosure* g_cclosure_new_swap			(GCallback	callback_func,
 						 gpointer	user_data,
 						 GClosureNotify destroy_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GClosure* g_signal_type_cclosure_new		(GType          itype,
 						 guint          struct_offset);
 
 
 /* --- prototypes --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GClosure* g_closure_ref				(GClosure	*closure);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	  g_closure_sink			(GClosure	*closure);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	  g_closure_unref			(GClosure	*closure);
 /* intimidating */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GClosure* g_closure_new_simple			(guint		 sizeof_closure,
 						 gpointer	 data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	  g_closure_add_finalize_notifier	(GClosure       *closure,
 						 gpointer	 notify_data,
 						 GClosureNotify	 notify_func);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	  g_closure_remove_finalize_notifier	(GClosure       *closure,
 						 gpointer	 notify_data,
 						 GClosureNotify	 notify_func);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	  g_closure_add_invalidate_notifier	(GClosure       *closure,
 						 gpointer	 notify_data,
 						 GClosureNotify	 notify_func);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	  g_closure_remove_invalidate_notifier	(GClosure       *closure,
 						 gpointer	 notify_data,
 						 GClosureNotify	 notify_func);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	  g_closure_add_marshal_guards		(GClosure	*closure,
 						 gpointer        pre_marshal_data,
 						 GClosureNotify	 pre_marshal_notify,
 						 gpointer        post_marshal_data,
 						 GClosureNotify	 post_marshal_notify);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	  g_closure_set_marshal			(GClosure	*closure,
 						 GClosureMarshal marshal);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	  g_closure_set_meta_marshal		(GClosure       *closure,
 						 gpointer	 marshal_data,
 						 GClosureMarshal meta_marshal);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	  g_closure_invalidate			(GClosure	*closure);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	  g_closure_invoke			(GClosure 	*closure,
 						 GValue	/*out*/	*return_value,
 						 guint		 n_param_values,
@@ -28014,7 +30021,7 @@ void	  g_closure_invoke			(GClosure 	*closure,
    - provide marshaller collection, virtually covering anything out there
 */
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_generic (GClosure     *closure,
                                  GValue       *return_gvalue,
                                  guint         n_param_values,
@@ -28022,7 +30029,7 @@ void g_cclosure_marshal_generic (GClosure     *closure,
                                  gpointer      invocation_hint,
                                  gpointer      marshal_data);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_generic_va (GClosure *closure,
 				    GValue   *return_value,
 				    gpointer  instance,
@@ -28037,6 +30044,8 @@ G_END_DECLS
 #endif /* __G_CLOSURE_H__ */
 /* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 2000-2001 Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28080,14 +30089,14 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 /* VOID:VOID */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__VOID (GClosure     *closure,
                                     GValue       *return_value,
                                     guint         n_param_values,
                                     const GValue *param_values,
                                     gpointer      invocation_hint,
                                     gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__VOIDv (GClosure *closure,
                                      GValue   *return_value,
                                      gpointer  instance,
@@ -28097,14 +30106,14 @@ void g_cclosure_marshal_VOID__VOIDv (GClosure *closure,
                                      GType    *param_types);
 
 /* VOID:BOOLEAN */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__BOOLEAN (GClosure     *closure,
                                        GValue       *return_value,
                                        guint         n_param_values,
                                        const GValue *param_values,
                                        gpointer      invocation_hint,
                                        gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__BOOLEANv (GClosure *closure,
                                         GValue   *return_value,
                                         gpointer  instance,
@@ -28114,14 +30123,14 @@ void g_cclosure_marshal_VOID__BOOLEANv (GClosure *closure,
                                         GType    *param_types);
 
 /* VOID:CHAR */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__CHAR (GClosure     *closure,
                                     GValue       *return_value,
                                     guint         n_param_values,
                                     const GValue *param_values,
                                     gpointer      invocation_hint,
                                     gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__CHARv (GClosure *closure,
                                      GValue   *return_value,
                                      gpointer  instance,
@@ -28131,14 +30140,14 @@ void g_cclosure_marshal_VOID__CHARv (GClosure *closure,
                                      GType    *param_types);
 
 /* VOID:UCHAR */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__UCHAR (GClosure     *closure,
                                      GValue       *return_value,
                                      guint         n_param_values,
                                      const GValue *param_values,
                                      gpointer      invocation_hint,
                                      gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__UCHARv (GClosure *closure,
                                       GValue   *return_value,
                                       gpointer  instance,
@@ -28148,14 +30157,14 @@ void g_cclosure_marshal_VOID__UCHARv (GClosure *closure,
                                       GType    *param_types);
 
 /* VOID:INT */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__INT (GClosure     *closure,
                                    GValue       *return_value,
                                    guint         n_param_values,
                                    const GValue *param_values,
                                    gpointer      invocation_hint,
                                    gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__INTv (GClosure *closure,
                                     GValue   *return_value,
                                     gpointer  instance,
@@ -28165,14 +30174,14 @@ void g_cclosure_marshal_VOID__INTv (GClosure *closure,
                                     GType    *param_types);
 
 /* VOID:UINT */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__UINT (GClosure     *closure,
                                     GValue       *return_value,
                                     guint         n_param_values,
                                     const GValue *param_values,
                                     gpointer      invocation_hint,
                                     gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__UINTv (GClosure *closure,
                                      GValue   *return_value,
                                      gpointer  instance,
@@ -28182,14 +30191,14 @@ void g_cclosure_marshal_VOID__UINTv (GClosure *closure,
                                      GType    *param_types);
 
 /* VOID:LONG */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__LONG (GClosure     *closure,
                                     GValue       *return_value,
                                     guint         n_param_values,
                                     const GValue *param_values,
                                     gpointer      invocation_hint,
                                     gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__LONGv (GClosure *closure,
                                      GValue   *return_value,
                                      gpointer  instance,
@@ -28199,14 +30208,14 @@ void g_cclosure_marshal_VOID__LONGv (GClosure *closure,
                                      GType    *param_types);
 
 /* VOID:ULONG */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__ULONG (GClosure     *closure,
                                      GValue       *return_value,
                                      guint         n_param_values,
                                      const GValue *param_values,
                                      gpointer      invocation_hint,
                                      gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__ULONGv (GClosure *closure,
                                       GValue   *return_value,
                                       gpointer  instance,
@@ -28216,14 +30225,14 @@ void g_cclosure_marshal_VOID__ULONGv (GClosure *closure,
                                       GType    *param_types);
 
 /* VOID:ENUM */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__ENUM (GClosure     *closure,
                                     GValue       *return_value,
                                     guint         n_param_values,
                                     const GValue *param_values,
                                     gpointer      invocation_hint,
                                     gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__ENUMv (GClosure *closure,
                                      GValue   *return_value,
                                      gpointer  instance,
@@ -28233,14 +30242,14 @@ void g_cclosure_marshal_VOID__ENUMv (GClosure *closure,
                                      GType    *param_types);
 
 /* VOID:FLAGS */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__FLAGS (GClosure     *closure,
                                      GValue       *return_value,
                                      guint         n_param_values,
                                      const GValue *param_values,
                                      gpointer      invocation_hint,
                                      gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__FLAGSv (GClosure *closure,
                                       GValue   *return_value,
                                       gpointer  instance,
@@ -28250,14 +30259,14 @@ void g_cclosure_marshal_VOID__FLAGSv (GClosure *closure,
                                       GType    *param_types);
 
 /* VOID:FLOAT */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__FLOAT (GClosure     *closure,
                                      GValue       *return_value,
                                      guint         n_param_values,
                                      const GValue *param_values,
                                      gpointer      invocation_hint,
                                      gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__FLOATv (GClosure *closure,
                                       GValue   *return_value,
                                       gpointer  instance,
@@ -28267,14 +30276,14 @@ void g_cclosure_marshal_VOID__FLOATv (GClosure *closure,
                                       GType    *param_types);
 
 /* VOID:DOUBLE */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__DOUBLE (GClosure     *closure,
                                       GValue       *return_value,
                                       guint         n_param_values,
                                       const GValue *param_values,
                                       gpointer      invocation_hint,
                                       gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__DOUBLEv (GClosure *closure,
                                        GValue   *return_value,
                                        gpointer  instance,
@@ -28284,14 +30293,14 @@ void g_cclosure_marshal_VOID__DOUBLEv (GClosure *closure,
                                        GType    *param_types);
 
 /* VOID:STRING */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__STRING (GClosure     *closure,
                                       GValue       *return_value,
                                       guint         n_param_values,
                                       const GValue *param_values,
                                       gpointer      invocation_hint,
                                       gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__STRINGv (GClosure *closure,
                                        GValue   *return_value,
                                        gpointer  instance,
@@ -28301,14 +30310,14 @@ void g_cclosure_marshal_VOID__STRINGv (GClosure *closure,
                                        GType    *param_types);
 
 /* VOID:PARAM */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__PARAM (GClosure     *closure,
                                      GValue       *return_value,
                                      guint         n_param_values,
                                      const GValue *param_values,
                                      gpointer      invocation_hint,
                                      gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__PARAMv (GClosure *closure,
                                       GValue   *return_value,
                                       gpointer  instance,
@@ -28318,14 +30327,14 @@ void g_cclosure_marshal_VOID__PARAMv (GClosure *closure,
                                       GType    *param_types);
 
 /* VOID:BOXED */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__BOXED (GClosure     *closure,
                                      GValue       *return_value,
                                      guint         n_param_values,
                                      const GValue *param_values,
                                      gpointer      invocation_hint,
                                      gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__BOXEDv (GClosure *closure,
                                       GValue   *return_value,
                                       gpointer  instance,
@@ -28335,14 +30344,14 @@ void g_cclosure_marshal_VOID__BOXEDv (GClosure *closure,
                                       GType    *param_types);
 
 /* VOID:POINTER */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__POINTER (GClosure     *closure,
                                        GValue       *return_value,
                                        guint         n_param_values,
                                        const GValue *param_values,
                                        gpointer      invocation_hint,
                                        gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__POINTERv (GClosure *closure,
                                         GValue   *return_value,
                                         gpointer  instance,
@@ -28352,14 +30361,14 @@ void g_cclosure_marshal_VOID__POINTERv (GClosure *closure,
                                         GType    *param_types);
 
 /* VOID:OBJECT */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__OBJECT (GClosure     *closure,
                                       GValue       *return_value,
                                       guint         n_param_values,
                                       const GValue *param_values,
                                       gpointer      invocation_hint,
                                       gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__OBJECTv (GClosure *closure,
                                        GValue   *return_value,
                                        gpointer  instance,
@@ -28369,14 +30378,14 @@ void g_cclosure_marshal_VOID__OBJECTv (GClosure *closure,
                                        GType    *param_types);
 
 /* VOID:VARIANT */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__VARIANT (GClosure     *closure,
                                        GValue       *return_value,
                                        guint         n_param_values,
                                        const GValue *param_values,
                                        gpointer      invocation_hint,
                                        gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__VARIANTv (GClosure *closure,
                                         GValue   *return_value,
                                         gpointer  instance,
@@ -28386,14 +30395,14 @@ void g_cclosure_marshal_VOID__VARIANTv (GClosure *closure,
                                         GType    *param_types);
 
 /* VOID:UINT,POINTER */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__UINT_POINTER (GClosure     *closure,
                                             GValue       *return_value,
                                             guint         n_param_values,
                                             const GValue *param_values,
                                             gpointer      invocation_hint,
                                             gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_VOID__UINT_POINTERv (GClosure *closure,
                                              GValue   *return_value,
                                              gpointer  instance,
@@ -28403,14 +30412,14 @@ void g_cclosure_marshal_VOID__UINT_POINTERv (GClosure *closure,
                                              GType    *param_types);
 
 /* BOOL:FLAGS */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_BOOLEAN__FLAGS (GClosure     *closure,
                                         GValue       *return_value,
                                         guint         n_param_values,
                                         const GValue *param_values,
                                         gpointer      invocation_hint,
                                         gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_BOOLEAN__FLAGSv (GClosure *closure,
                                          GValue   *return_value,
                                          gpointer  instance,
@@ -28438,14 +30447,14 @@ void g_cclosure_marshal_BOOLEAN__FLAGSv (GClosure *closure,
 #define g_cclosure_marshal_BOOL__FLAGS	g_cclosure_marshal_BOOLEAN__FLAGS
 
 /* STRING:OBJECT,POINTER */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_STRING__OBJECT_POINTER (GClosure     *closure,
                                                 GValue       *return_value,
                                                 guint         n_param_values,
                                                 const GValue *param_values,
                                                 gpointer      invocation_hint,
                                                 gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_STRING__OBJECT_POINTERv (GClosure *closure,
                                                  GValue   *return_value,
                                                  gpointer  instance,
@@ -28455,14 +30464,14 @@ void g_cclosure_marshal_STRING__OBJECT_POINTERv (GClosure *closure,
                                                  GType    *param_types);
 
 /* BOOL:BOXED,BOXED */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_BOOLEAN__BOXED_BOXED (GClosure     *closure,
                                               GValue       *return_value,
                                               guint         n_param_values,
                                               const GValue *param_values,
                                               gpointer      invocation_hint,
                                               gpointer      marshal_data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_cclosure_marshal_BOOLEAN__BOXED_BOXEDv (GClosure *closure,
                                                GValue   *return_value,
                                                gpointer  instance,
@@ -28525,14 +30534,14 @@ typedef GVaClosureMarshal		 GSignalCVaMarshaller;
  *  the instance on which the signal was emitted.
  * @param_values: (array length=n_param_values): the instance on which
  *  the signal was emitted, followed by the parameters of the emission.
- * @data: user data associated with the hook.
+ * @user_data: user data associated with the hook.
  * 
  * A simple function pointer to get invoked when the signal is emitted.
  *
  * Emission hooks allow you to tie a hook to the signal type, so that it will
  * trap all emissions of that signal, from any object.
  * 
- * You may not attach these to signals created with the #G_SIGNAL_NO_HOOKS flag.
+ * You may not attach these to signals created with the %G_SIGNAL_NO_HOOKS flag.
  * 
  * Returns: whether it wants to stay connected. If it returns %FALSE, the signal 
  *  hook is disconnected (and destroyed).
@@ -28540,14 +30549,14 @@ typedef GVaClosureMarshal		 GSignalCVaMarshaller;
 typedef gboolean (*GSignalEmissionHook) (GSignalInvocationHint *ihint,
 					 guint			n_param_values,
 					 const GValue	       *param_values,
-					 gpointer		data);
+					 gpointer		user_data);
 /**
  * GSignalAccumulator:
  * @ihint: Signal invocation hint, see #GSignalInvocationHint.
  * @return_accu: Accumulator to collect callback return values in, this
  *  is the return value of the current signal emission.
  * @handler_return: A #GValue holding the return value of the signal handler.
- * @data: Callback data that was specified when creating the signal.
+ * @user_data: Callback data that was specified when creating the signal.
  * 
  * The signal accumulator is a special callback function that can be used
  * to collect return values of the various callbacks that are called
@@ -28568,7 +30577,7 @@ typedef gboolean (*GSignalEmissionHook) (GSignalInvocationHint *ihint,
 typedef gboolean (*GSignalAccumulator)	(GSignalInvocationHint *ihint,
 					 GValue		       *return_accu,
 					 const GValue	       *handler_return,
-					 gpointer               data);
+					 gpointer               user_data);
 
 
 /* --- run, match and connect types --- */
@@ -28622,9 +30631,11 @@ typedef enum
 #define G_SIGNAL_FLAGS_MASK  0x1ff
 /**
  * GConnectFlags:
- * @G_CONNECT_AFTER: whether the handler should be called before or after the 
- *  default handler of the signal.
- * @G_CONNECT_SWAPPED: whether the instance and data should be swapped when
+ * @G_CONNECT_DEFAULT: Default behaviour (no special flags). Since: 2.74
+ * @G_CONNECT_AFTER: If set, the handler should be called after the
+ *  default handler of the signal. Normally, the handler is called before
+ *  the default handler.
+ * @G_CONNECT_SWAPPED: If set, the instance and data should be swapped when
  *  calling the handler; see g_signal_connect_swapped() for an example.
  * 
  * The connection flags are used to specify the behaviour of a signal's 
@@ -28632,6 +30643,7 @@ typedef enum
  */
 typedef enum
 {
+  G_CONNECT_DEFAULT GOBJECT_AVAILABLE_ENUMERATOR_IN_2_74 = 0,
   G_CONNECT_AFTER	= 1 << 0,
   G_CONNECT_SWAPPED	= 1 << 1
 } GConnectFlags;
@@ -28740,7 +30752,7 @@ struct _GSignalQuery
 
 
 /* --- signals --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 guint                 g_signal_newv         (const gchar        *signal_name,
 					     GType               itype,
 					     GSignalFlags        signal_flags,
@@ -28751,7 +30763,7 @@ guint                 g_signal_newv         (const gchar        *signal_name,
 					     GType               return_type,
 					     guint               n_params,
 					     GType              *param_types);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 guint                 g_signal_new_valist   (const gchar        *signal_name,
 					     GType               itype,
 					     GSignalFlags        signal_flags,
@@ -28762,7 +30774,7 @@ guint                 g_signal_new_valist   (const gchar        *signal_name,
 					     GType               return_type,
 					     guint               n_params,
 					     va_list             args);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 guint                 g_signal_new          (const gchar        *signal_name,
 					     GType               itype,
 					     GSignalFlags        signal_flags,
@@ -28773,7 +30785,7 @@ guint                 g_signal_new          (const gchar        *signal_name,
 					     GType               return_type,
 					     guint               n_params,
 					     ...);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 guint            g_signal_new_class_handler (const gchar        *signal_name,
                                              GType               itype,
                                              GSignalFlags        signal_flags,
@@ -28784,109 +30796,109 @@ guint            g_signal_new_class_handler (const gchar        *signal_name,
                                              GType               return_type,
                                              guint               n_params,
                                              ...);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void             g_signal_set_va_marshaller (guint              signal_id,
 					     GType              instance_type,
 					     GSignalCVaMarshaller va_marshaller);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void                  g_signal_emitv        (const GValue       *instance_and_params,
 					     guint               signal_id,
 					     GQuark              detail,
 					     GValue             *return_value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void                  g_signal_emit_valist  (gpointer            instance,
 					     guint               signal_id,
 					     GQuark              detail,
 					     va_list             var_args);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void                  g_signal_emit         (gpointer            instance,
 					     guint               signal_id,
 					     GQuark              detail,
 					     ...);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void                  g_signal_emit_by_name (gpointer            instance,
 					     const gchar        *detailed_signal,
 					     ...);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 guint                 g_signal_lookup       (const gchar        *name,
 					     GType               itype);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 const gchar *         g_signal_name         (guint               signal_id);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void                  g_signal_query        (guint               signal_id,
 					     GSignalQuery       *query);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 guint*                g_signal_list_ids     (GType               itype,
 					     guint              *n_ids);
-GLIB_AVAILABLE_IN_2_66
+GOBJECT_AVAILABLE_IN_2_66
 gboolean              g_signal_is_valid_name (const gchar      *name);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean	      g_signal_parse_name   (const gchar	*detailed_signal,
 					     GType		 itype,
 					     guint		*signal_id_p,
 					     GQuark		*detail_p,
 					     gboolean		 force_detail_quark);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GSignalInvocationHint* g_signal_get_invocation_hint (gpointer    instance);
 
 
 /* --- signal emissions --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	g_signal_stop_emission		    (gpointer		  instance,
 					     guint		  signal_id,
 					     GQuark		  detail);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	g_signal_stop_emission_by_name	    (gpointer		  instance,
 					     const gchar	 *detailed_signal);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gulong	g_signal_add_emission_hook	    (guint		  signal_id,
 					     GQuark		  detail,
 					     GSignalEmissionHook  hook_func,
 					     gpointer	       	  hook_data,
 					     GDestroyNotify	  data_destroy);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	g_signal_remove_emission_hook	    (guint		  signal_id,
 					     gulong		  hook_id);
 
 
 /* --- signal handlers --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean g_signal_has_handler_pending	      (gpointer		  instance,
 					       guint		  signal_id,
 					       GQuark		  detail,
 					       gboolean		  may_be_blocked);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gulong	 g_signal_connect_closure_by_id	      (gpointer		  instance,
 					       guint		  signal_id,
 					       GQuark		  detail,
 					       GClosure		 *closure,
 					       gboolean		  after);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gulong	 g_signal_connect_closure	      (gpointer		  instance,
 					       const gchar       *detailed_signal,
 					       GClosure		 *closure,
 					       gboolean		  after);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gulong	 g_signal_connect_data		      (gpointer		  instance,
 					       const gchar	 *detailed_signal,
 					       GCallback	  c_handler,
 					       gpointer		  data,
 					       GClosureNotify	  destroy_data,
 					       GConnectFlags	  connect_flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	 g_signal_handler_block		      (gpointer		  instance,
 					       gulong		  handler_id);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	 g_signal_handler_unblock	      (gpointer		  instance,
 					       gulong		  handler_id);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	 g_signal_handler_disconnect	      (gpointer		  instance,
 					       gulong		  handler_id);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean g_signal_handler_is_connected	      (gpointer		  instance,
 					       gulong		  handler_id);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gulong	 g_signal_handler_find		      (gpointer		  instance,
 					       GSignalMatchType	  mask,
 					       guint		  signal_id,
@@ -28894,7 +30906,7 @@ gulong	 g_signal_handler_find		      (gpointer		  instance,
 					       GClosure		 *closure,
 					       gpointer		  func,
 					       gpointer		  data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 guint	 g_signal_handlers_block_matched      (gpointer		  instance,
 					       GSignalMatchType	  mask,
 					       guint		  signal_id,
@@ -28902,7 +30914,7 @@ guint	 g_signal_handlers_block_matched      (gpointer		  instance,
 					       GClosure		 *closure,
 					       gpointer		  func,
 					       gpointer		  data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 guint	 g_signal_handlers_unblock_matched    (gpointer		  instance,
 					       GSignalMatchType	  mask,
 					       guint		  signal_id,
@@ -28910,7 +30922,7 @@ guint	 g_signal_handlers_unblock_matched    (gpointer		  instance,
 					       GClosure		 *closure,
 					       gpointer		  func,
 					       gpointer		  data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 guint	 g_signal_handlers_disconnect_matched (gpointer		  instance,
 					       GSignalMatchType	  mask,
 					       guint		  signal_id,
@@ -28919,7 +30931,7 @@ guint	 g_signal_handlers_disconnect_matched (gpointer		  instance,
 					       gpointer		  func,
 					       gpointer		  data);
 
-GLIB_AVAILABLE_IN_2_62
+GOBJECT_AVAILABLE_IN_2_62
 void	 g_clear_signal_handler		      (gulong            *handler_id_ptr,
 					       gpointer           instance);
 
@@ -28936,21 +30948,21 @@ void	 g_clear_signal_handler		      (gulong            *handler_id_ptr,
         g_signal_handler_disconnect (_instance, _handler_id);       \
       }                                                             \
   } G_STMT_END                                                      \
-  GLIB_AVAILABLE_MACRO_IN_2_62
+  GOBJECT_AVAILABLE_MACRO_IN_2_62
 
 /* --- overriding and chaining --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void    g_signal_override_class_closure       (guint              signal_id,
                                                GType              instance_type,
                                                GClosure          *class_closure);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void    g_signal_override_class_handler       (const gchar       *signal_name,
                                                GType              instance_type,
                                                GCallback          class_handler);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void    g_signal_chain_from_overridden        (const GValue      *instance_and_params,
                                                GValue            *return_value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void   g_signal_chain_from_overridden_handler (gpointer           instance,
                                                ...);
 
@@ -28965,13 +30977,15 @@ void   g_signal_chain_from_overridden_handler (gpointer           instance,
  * 
  * Connects a #GCallback function to a signal for a particular object.
  * 
- * The handler will be called before the default handler of the signal.
+ * The handler will be called synchronously, before the default handler of the signal. g_signal_emit() will not return control until all handlers are called.
  *
  * See [memory management of signal handlers][signal-memory-management] for
  * details on how to handle the return value and memory management of @data.
  * 
  * Returns: the handler ID, of type #gulong (always greater than 0 for successful connections)
  */
+/* Intentionally not using G_CONNECT_DEFAULT here to avoid deprecation
+ * warnings with older GLIB_VERSION_MAX_ALLOWED */
 #define g_signal_connect(instance, detailed_signal, c_handler, data) \
     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
 /**
@@ -28983,7 +30997,7 @@ void   g_signal_chain_from_overridden_handler (gpointer           instance,
  * 
  * Connects a #GCallback function to a signal for a particular object.
  * 
- * The handler will be called after the default handler of the signal.
+ * The handler will be called synchronously, after the default handler of the signal.
  * 
  * Returns: the handler ID, of type #gulong (always greater than 0 for successful connections)
  */
@@ -29086,20 +31100,20 @@ void   g_signal_chain_from_overridden_handler (gpointer           instance,
 				          0, 0, NULL, (func), (data))
 
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean g_signal_accumulator_true_handled (GSignalInvocationHint *ihint,
 					    GValue                *return_accu,
 					    const GValue          *handler_return,
 					    gpointer               dummy);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean g_signal_accumulator_first_wins   (GSignalInvocationHint *ihint,
                                             GValue                *return_accu,
                                             const GValue          *handler_return,
                                             gpointer               dummy);
 
 /*< private >*/
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	 g_signal_handlers_destroy	      (gpointer		  instance);
 void	 _g_signals_destroy		      (GType		  itype);
 
@@ -29108,6 +31122,8 @@ G_END_DECLS
 #endif /* __G_SIGNAL_H__ */
 /* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 2000-2001 Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29133,6 +31149,8 @@ G_END_DECLS
 #ifndef __GI_SCANNER__
 /* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 2000-2001 Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29176,7 +31194,7 @@ typedef gsize GType;
  * The #GType for a boxed type holding a %NULL-terminated array of strings.
  *
  * The code fragments in the following example show the use of a property of
- * type #G_TYPE_STRV with g_object_class_install_property(), g_object_set()
+ * type %G_TYPE_STRV with g_object_class_install_property(), g_object_set()
  * and g_object_get().
  *
  * |[
@@ -29186,7 +31204,7 @@ typedef gsize GType;
  *                                                      _("Authors"),
  *                                                      _("List of authors"),
  *                                                      G_TYPE_STRV,
- *                                                      G_PARAM_READWRITE));
+ *                                                      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
  *
  * gchar *authors[] = { "Owen", "Tim", NULL };
  * g_object_set (obj, "authors", authors, NULL);
@@ -29456,70 +31474,81 @@ typedef gsize GType;
  */
 #define G_TYPE_PATTERN_SPEC (g_pattern_spec_get_type ())
 
-GLIB_AVAILABLE_IN_ALL
-GType   g_date_get_type            (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_strv_get_type            (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_gstring_get_type         (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_hash_table_get_type      (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_array_get_type           (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_byte_array_get_type      (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_ptr_array_get_type       (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_bytes_get_type           (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_variant_type_get_gtype   (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_regex_get_type           (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_2_30
-GType   g_match_info_get_type      (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_error_get_type           (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_date_time_get_type       (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_time_zone_get_type       (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_io_channel_get_type      (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_io_condition_get_type    (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_variant_builder_get_type (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_2_40
-GType   g_variant_dict_get_type    (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
-GType   g_key_file_get_type        (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_2_30
-GType   g_main_loop_get_type       (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_2_30
-GType   g_main_context_get_type    (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_2_30
-GType   g_source_get_type          (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_2_36
-GType   g_pollfd_get_type          (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_2_36
-GType   g_thread_get_type          (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_2_36
-GType   g_checksum_get_type        (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_2_36
-GType   g_markup_parse_context_get_type (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_2_40
-GType   g_mapped_file_get_type (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_2_44
-GType   g_option_group_get_type    (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_2_66
-GType   g_uri_get_type             (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_2_68
-GType   g_tree_get_type            (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_2_70
-GType g_pattern_spec_get_type (void) G_GNUC_CONST;
+/**
+ * G_TYPE_BOOKMARK_FILE:
+ *
+ * The #GType for a boxed type holding a #GBookmarkFile.
+ *
+ * Since: 2.76
+ */
+#define G_TYPE_BOOKMARK_FILE (g_bookmark_file_get_type ())
 
-GLIB_DEPRECATED_FOR('G_TYPE_VARIANT')
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_date_get_type            (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_strv_get_type            (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_gstring_get_type         (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_hash_table_get_type      (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_array_get_type           (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_byte_array_get_type      (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_ptr_array_get_type       (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_bytes_get_type           (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_variant_type_get_gtype   (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_regex_get_type           (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_30
+GType   g_match_info_get_type      (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_error_get_type           (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_date_time_get_type       (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_time_zone_get_type       (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_io_channel_get_type      (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_io_condition_get_type    (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_variant_builder_get_type (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_40
+GType   g_variant_dict_get_type    (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_ALL
+GType   g_key_file_get_type        (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_30
+GType   g_main_loop_get_type       (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_30
+GType   g_main_context_get_type    (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_30
+GType   g_source_get_type          (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_36
+GType   g_pollfd_get_type          (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_36
+GType   g_thread_get_type          (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_36
+GType   g_checksum_get_type        (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_36
+GType   g_markup_parse_context_get_type (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_40
+GType   g_mapped_file_get_type (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_44
+GType   g_option_group_get_type    (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_66
+GType   g_uri_get_type             (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_68
+GType   g_tree_get_type            (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_70
+GType g_pattern_spec_get_type (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_76
+GType   g_bookmark_file_get_type   (void) G_GNUC_CONST;
+
+GOBJECT_DEPRECATED_FOR('G_TYPE_VARIANT')
 GType   g_variant_get_gtype        (void) G_GNUC_CONST;
 
 G_END_DECLS
@@ -29566,32 +31595,32 @@ typedef void (*GBoxedFreeFunc) (gpointer boxed);
 
 
 /* --- prototypes --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer g_boxed_copy                     (GType boxed_type,
                                            gconstpointer  src_boxed);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void     g_boxed_free                     (GType          boxed_type,
                                            gpointer       boxed);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void     g_value_set_boxed                (GValue        *value,
                                            gconstpointer  v_boxed);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void     g_value_set_static_boxed         (GValue        *value,
                                            gconstpointer  v_boxed);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void     g_value_take_boxed               (GValue        *value,
                                            gconstpointer  v_boxed);
-GLIB_DEPRECATED_FOR(g_value_take_boxed)
+GOBJECT_DEPRECATED_FOR(g_value_take_boxed)
 void     g_value_set_boxed_take_ownership (GValue        *value,
                                            gconstpointer  v_boxed);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer g_value_get_boxed                (const GValue  *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer g_value_dup_boxed                (const GValue  *value);
 
 
 /* --- convenience --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType    g_boxed_type_register_static     (const gchar   *name,
                                            GBoxedCopyFunc boxed_copy,
                                            GBoxedFreeFunc boxed_free);
@@ -29612,9 +31641,9 @@ GType    g_boxed_type_register_static     (const gchar   *name,
  */
 #define G_TYPE_VALUE (g_value_get_type ())
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType   g_closure_get_type         (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType   g_value_get_type           (void) G_GNUC_CONST;
 
 G_END_DECLS
@@ -29846,6 +31875,14 @@ typedef void (*GWeakNotify)		(gpointer      data,
  * 
  * All the fields in the `GObject` structure are private to the implementation
  * and should never be accessed directly.
+ *
+ * Since GLib 2.72, all #GObjects are guaranteed to be aligned to at least the
+ * alignment of the largest basic GLib type (typically this is #guint64 or
+ * #gdouble). If you need larger alignment for an element in a #GObject, you
+ * should allocate it on the heap (aligned), or arrange for your #GObject to be
+ * appropriately padded. This guarantee applies to the #GObject (or derived)
+ * struct, the #GObjectClass (or derived) struct, and any private data allocated
+ * by G_ADD_PRIVATE().
  */
 struct  _GObject
 {
@@ -29954,8 +31991,13 @@ struct  _GObjectClass
   /*< private >*/
   gsize		flags;
 
+  gsize         n_construct_properties;
+
+  gpointer pspecs;
+  gsize n_pspecs;
+
   /* padding */
-  gpointer	pdummy[6];
+  gpointer	pdummy[3];
 };
 
 /**
@@ -29988,44 +32030,44 @@ struct _GObjectConstructParam
 
 
 /* --- prototypes --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType       g_initially_unowned_get_type      (void);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_class_install_property   (GObjectClass   *oclass,
 					       guint           property_id,
 					       GParamSpec     *pspec);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec* g_object_class_find_property      (GObjectClass   *oclass,
 					       const gchar    *property_name);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec**g_object_class_list_properties    (GObjectClass   *oclass,
 					       guint	      *n_properties);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_class_override_property  (GObjectClass   *oclass,
 					       guint           property_id,
 					       const gchar    *name);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_class_install_properties (GObjectClass   *oclass,
                                                guint           n_pspecs,
                                                GParamSpec    **pspecs);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_interface_install_property (gpointer     g_iface,
 						 GParamSpec  *pspec);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec* g_object_interface_find_property    (gpointer     g_iface,
 						 const gchar *property_name);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec**g_object_interface_list_properties  (gpointer     g_iface,
 						 guint       *n_properties_p);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType       g_object_get_type                 (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer    g_object_new                      (GType           object_type,
 					       const gchar    *first_property_name,
 					       ...);
-GLIB_AVAILABLE_IN_2_54
+GOBJECT_AVAILABLE_IN_2_54
 GObject*    g_object_new_with_properties      (GType           object_type,
                                                guint           n_properties,
                                                const char     *names[],
@@ -30033,91 +32075,91 @@ GObject*    g_object_new_with_properties      (GType           object_type,
 
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 
-GLIB_DEPRECATED_IN_2_54_FOR(g_object_new_with_properties)
+GOBJECT_DEPRECATED_IN_2_54_FOR(g_object_new_with_properties)
 gpointer    g_object_newv		      (GType           object_type,
 					       guint	       n_parameters,
 					       GParameter     *parameters);
 
 G_GNUC_END_IGNORE_DEPRECATIONS
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GObject*    g_object_new_valist               (GType           object_type,
 					       const gchar    *first_property_name,
 					       va_list         var_args);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	    g_object_set                      (gpointer	       object,
 					       const gchar    *first_property_name,
 					       ...) G_GNUC_NULL_TERMINATED;
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_get                      (gpointer        object,
 					       const gchar    *first_property_name,
 					       ...) G_GNUC_NULL_TERMINATED;
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer    g_object_connect                  (gpointer	       object,
 					       const gchar    *signal_spec,
 					       ...) G_GNUC_NULL_TERMINATED;
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	    g_object_disconnect               (gpointer	       object,
 					       const gchar    *signal_spec,
 					       ...) G_GNUC_NULL_TERMINATED;
-GLIB_AVAILABLE_IN_2_54
+GOBJECT_AVAILABLE_IN_2_54
 void        g_object_setv                     (GObject        *object,
                                                guint           n_properties,
                                                const gchar    *names[],
                                                const GValue    values[]);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_set_valist               (GObject        *object,
 					       const gchar    *first_property_name,
 					       va_list         var_args);
-GLIB_AVAILABLE_IN_2_54
+GOBJECT_AVAILABLE_IN_2_54
 void        g_object_getv                     (GObject        *object,
                                                guint           n_properties,
                                                const gchar    *names[],
                                                GValue          values[]);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_get_valist               (GObject        *object,
 					       const gchar    *first_property_name,
 					       va_list         var_args);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_set_property             (GObject        *object,
 					       const gchar    *property_name,
 					       const GValue   *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_get_property             (GObject        *object,
 					       const gchar    *property_name,
 					       GValue         *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_freeze_notify            (GObject        *object);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_notify                   (GObject        *object,
 					       const gchar    *property_name);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_notify_by_pspec          (GObject        *object,
 					       GParamSpec     *pspec);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_thaw_notify              (GObject        *object);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean    g_object_is_floating    	      (gpointer        object);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer    g_object_ref_sink       	      (gpointer	       object);
-GLIB_AVAILABLE_IN_2_70
+GOBJECT_AVAILABLE_IN_2_70
 gpointer    g_object_take_ref                 (gpointer        object);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer    g_object_ref                      (gpointer        object);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_unref                    (gpointer        object);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	    g_object_weak_ref		      (GObject	      *object,
 					       GWeakNotify     notify,
 					       gpointer	       data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	    g_object_weak_unref		      (GObject	      *object,
 					       GWeakNotify     notify,
 					       gpointer	       data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_add_weak_pointer         (GObject        *object, 
                                                gpointer       *weak_pointer_location);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_remove_weak_pointer      (GObject        *object, 
                                                gpointer       *weak_pointer_location);
 
@@ -30147,37 +32189,37 @@ typedef void (*GToggleNotify) (gpointer      data,
 			       GObject      *object,
 			       gboolean      is_last_ref);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_object_add_toggle_ref    (GObject       *object,
 				 GToggleNotify  notify,
 				 gpointer       data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_object_remove_toggle_ref (GObject       *object,
 				 GToggleNotify  notify,
 				 gpointer       data);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer    g_object_get_qdata                (GObject        *object,
 					       GQuark          quark);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_set_qdata                (GObject        *object,
 					       GQuark          quark,
 					       gpointer        data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_set_qdata_full           (GObject        *object,
 					       GQuark          quark,
 					       gpointer        data,
 					       GDestroyNotify  destroy);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer    g_object_steal_qdata              (GObject        *object,
 					       GQuark          quark);
 
-GLIB_AVAILABLE_IN_2_34
+GOBJECT_AVAILABLE_IN_2_34
 gpointer    g_object_dup_qdata                (GObject        *object,
                                                GQuark          quark,
                                                GDuplicateFunc  dup_func,
 					       gpointer         user_data);
-GLIB_AVAILABLE_IN_2_34
+GOBJECT_AVAILABLE_IN_2_34
 gboolean    g_object_replace_qdata            (GObject        *object,
                                                GQuark          quark,
                                                gpointer        oldval,
@@ -30185,28 +32227,28 @@ gboolean    g_object_replace_qdata            (GObject        *object,
                                                GDestroyNotify  destroy,
 					       GDestroyNotify *old_destroy);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer    g_object_get_data                 (GObject        *object,
 					       const gchar    *key);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_set_data                 (GObject        *object,
 					       const gchar    *key,
 					       gpointer        data);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_set_data_full            (GObject        *object,
 					       const gchar    *key,
 					       gpointer        data,
 					       GDestroyNotify  destroy);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer    g_object_steal_data               (GObject        *object,
 					       const gchar    *key);
 
-GLIB_AVAILABLE_IN_2_34
+GOBJECT_AVAILABLE_IN_2_34
 gpointer    g_object_dup_data                 (GObject        *object,
                                                const gchar    *key,
                                                GDuplicateFunc  dup_func,
 					       gpointer         user_data);
-GLIB_AVAILABLE_IN_2_34
+GOBJECT_AVAILABLE_IN_2_34
 gboolean    g_object_replace_data             (GObject        *object,
                                                const gchar    *key,
                                                gpointer        oldval,
@@ -30215,26 +32257,26 @@ gboolean    g_object_replace_data             (GObject        *object,
 					       GDestroyNotify *old_destroy);
 
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_watch_closure            (GObject        *object,
 					       GClosure       *closure);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GClosure*   g_cclosure_new_object             (GCallback       callback_func,
 					       GObject	      *object);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GClosure*   g_cclosure_new_object_swap        (GCallback       callback_func,
 					       GObject	      *object);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GClosure*   g_closure_new_object              (guint           sizeof_closure,
 					       GObject        *object);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_value_set_object                (GValue         *value,
 					       gpointer        v_object);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer    g_value_get_object                (const GValue   *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer    g_value_dup_object                (const GValue   *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gulong	    g_signal_connect_object           (gpointer	       instance,
 					       const gchar    *detailed_signal,
 					       GCallback       c_handler,
@@ -30242,20 +32284,20 @@ gulong	    g_signal_connect_object           (gpointer	       instance,
 					       GConnectFlags   connect_flags);
 
 /*< protected >*/
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_force_floating           (GObject        *object);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_object_run_dispose	      (GObject	      *object);
 
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void        g_value_take_object               (GValue         *value,
 					       gpointer        v_object);
-GLIB_DEPRECATED_FOR(g_value_take_object)
+GOBJECT_DEPRECATED_FOR(g_value_take_object)
 void        g_value_set_object_take_ownership (GValue         *value,
                                                gpointer        v_object);
 
-GLIB_DEPRECATED
+GOBJECT_DEPRECATED
 gsize	    g_object_compat_control	      (gsize	       what,
 					       gpointer	       data);
 
@@ -30292,7 +32334,7 @@ G_STMT_START { \
 #define G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec) \
     G_OBJECT_WARN_INVALID_PSPEC ((object), "property", (property_id), (pspec))
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void    g_clear_object (GObject **object_ptr);
 #undef g_clear_object
 #define g_clear_object(object_ptr) g_clear_pointer ((object_ptr), g_object_unref)
@@ -30372,7 +32414,7 @@ static inline gboolean
     (void) (0 ? *(object_ptr) = (new_object), FALSE : FALSE); \
     (g_set_object) (_object_ptr.out, (GObject *) new_object); \
   })) \
-  GLIB_AVAILABLE_MACRO_IN_2_44
+  GOBJECT_AVAILABLE_MACRO_IN_2_44
 
 #else  /* if !defined(__GNUC__) */
 
@@ -30525,14 +32567,14 @@ typedef struct {
     union { gpointer p; } priv;
 } GWeakRef;
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void     g_weak_ref_init       (GWeakRef *weak_ref,
                                 gpointer  object);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void     g_weak_ref_clear      (GWeakRef *weak_ref);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer g_weak_ref_get        (GWeakRef *weak_ref);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void     g_weak_ref_set        (GWeakRef *weak_ref,
                                 gpointer  object);
 
@@ -30614,35 +32656,35 @@ typedef enum { /*< prefix=G_BINDING >*/
   G_BINDING_INVERT_BOOLEAN = 1 << 2
 } GBindingFlags;
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType                 g_binding_flags_get_type      (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType                 g_binding_get_type            (void) G_GNUC_CONST;
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GBindingFlags         g_binding_get_flags           (GBinding *binding);
-GLIB_DEPRECATED_IN_2_68_FOR(g_binding_dup_source)
+GOBJECT_DEPRECATED_IN_2_68_FOR(g_binding_dup_source)
 GObject *             g_binding_get_source          (GBinding *binding);
-GLIB_AVAILABLE_IN_2_68
+GOBJECT_AVAILABLE_IN_2_68
 GObject *             g_binding_dup_source          (GBinding *binding);
-GLIB_DEPRECATED_IN_2_68_FOR(g_binding_dup_target)
+GOBJECT_DEPRECATED_IN_2_68_FOR(g_binding_dup_target)
 GObject *             g_binding_get_target          (GBinding *binding);
-GLIB_AVAILABLE_IN_2_68
+GOBJECT_AVAILABLE_IN_2_68
 GObject *             g_binding_dup_target          (GBinding *binding);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 const gchar *         g_binding_get_source_property (GBinding *binding);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 const gchar *         g_binding_get_target_property (GBinding *binding);
-GLIB_AVAILABLE_IN_2_38
+GOBJECT_AVAILABLE_IN_2_38
 void                  g_binding_unbind              (GBinding *binding);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GBinding *g_object_bind_property               (gpointer               source,
                                                 const gchar           *source_property,
                                                 gpointer               target,
                                                 const gchar           *target_property,
                                                 GBindingFlags          flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GBinding *g_object_bind_property_full          (gpointer               source,
                                                 const gchar           *source_property,
                                                 gpointer               target,
@@ -30652,7 +32694,7 @@ GBinding *g_object_bind_property_full          (gpointer               source,
                                                 GBindingTransformFunc  transform_from,
                                                 gpointer               user_data,
                                                 GDestroyNotify         notify);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GBinding *g_object_bind_property_with_closures (gpointer               source,
                                                 const gchar           *source_property,
                                                 gpointer               target,
@@ -30665,7 +32707,91 @@ G_END_DECLS
 
 #endif /* __G_BINDING_H__ */
 /* GObject - GLib Type, Object, Parameter and Signal Library
+ *
+ * Copyright (C) 2015-2022 Christian Hergert <christian@hergert.me>
+ * Copyright (C) 2015 Garrett Regier <garrettregier@gmail.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General
+ * Public License along with this library; if not, see <http://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ */
+
+#ifndef __G_BINDING_GROUP_H__
+#define __G_BINDING_GROUP_H__
+
+#if !defined (__GLIB_GOBJECT_H_INSIDE__) && !defined (GOBJECT_COMPILATION)
+#error "Only <glib-object.h> can be included directly."
+#endif
+
+
+G_BEGIN_DECLS
+
+#define G_BINDING_GROUP(obj)    (G_TYPE_CHECK_INSTANCE_CAST ((obj), G_TYPE_BINDING_GROUP, GBindingGroup))
+#define G_IS_BINDING_GROUP(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), G_TYPE_BINDING_GROUP))
+#define G_TYPE_BINDING_GROUP    (g_binding_group_get_type())
+
+/**
+ * GBindingGroup:
+ *
+ * GBindingGroup is an opaque structure whose members
+ * cannot be accessed directly.
+ *
+ * Since: 2.72
+ */
+typedef struct _GBindingGroup GBindingGroup;
+
+GOBJECT_AVAILABLE_IN_2_72
+GType          g_binding_group_get_type           (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_72
+GBindingGroup *g_binding_group_new                (void);
+GOBJECT_AVAILABLE_IN_2_72
+gpointer       g_binding_group_dup_source         (GBindingGroup         *self);
+GOBJECT_AVAILABLE_IN_2_72
+void           g_binding_group_set_source         (GBindingGroup         *self,
+                                                   gpointer               source);
+GOBJECT_AVAILABLE_IN_2_72
+void           g_binding_group_bind               (GBindingGroup         *self,
+                                                   const gchar           *source_property,
+                                                   gpointer               target,
+                                                   const gchar           *target_property,
+                                                   GBindingFlags          flags);
+GOBJECT_AVAILABLE_IN_2_72
+void           g_binding_group_bind_full          (GBindingGroup         *self,
+                                                   const gchar           *source_property,
+                                                   gpointer               target,
+                                                   const gchar           *target_property,
+                                                   GBindingFlags          flags,
+                                                   GBindingTransformFunc  transform_to,
+                                                   GBindingTransformFunc  transform_from,
+                                                   gpointer               user_data,
+                                                   GDestroyNotify         user_data_destroy);
+GOBJECT_AVAILABLE_IN_2_72
+void           g_binding_group_bind_with_closures (GBindingGroup         *self,
+                                                   const gchar           *source_property,
+                                                   gpointer               target,
+                                                   const gchar           *target_property,
+                                                   GBindingFlags          flags,
+                                                   GClosure              *transform_to,
+                                                   GClosure              *transform_from);
+
+G_END_DECLS
+
+#endif /* __G_BINDING_GROUP_H__ */
+/* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 1998-1999, 2000-2001 Tim Janik and Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30880,39 +33006,39 @@ struct _GFlagsValue
 
 
 /* --- prototypes --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GEnumValue*	g_enum_get_value		(GEnumClass	*enum_class,
 						 gint		 value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GEnumValue*	g_enum_get_value_by_name	(GEnumClass	*enum_class,
 						 const gchar	*name);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GEnumValue*	g_enum_get_value_by_nick	(GEnumClass	*enum_class,
 						 const gchar	*nick);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GFlagsValue*	g_flags_get_first_value		(GFlagsClass	*flags_class,
 						 guint		 value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GFlagsValue*	g_flags_get_value_by_name	(GFlagsClass	*flags_class,
 						 const gchar	*name);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GFlagsValue*	g_flags_get_value_by_nick	(GFlagsClass	*flags_class,
 						 const gchar	*nick);
-GLIB_AVAILABLE_IN_2_54
+GOBJECT_AVAILABLE_IN_2_54
 gchar          *g_enum_to_string                (GType           g_enum_type,
                                                  gint            value);
-GLIB_AVAILABLE_IN_2_54
+GOBJECT_AVAILABLE_IN_2_54
 gchar          *g_flags_to_string               (GType           flags_type,
                                                  guint           value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void            g_value_set_enum        	(GValue         *value,
 						 gint            v_enum);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gint            g_value_get_enum        	(const GValue   *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void            g_value_set_flags       	(GValue         *value,
 						 guint           v_flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 guint           g_value_get_flags       	(const GValue   *value);
 
 
@@ -30921,23 +33047,123 @@ guint           g_value_get_flags       	(const GValue   *value);
 /* const_static_values is a NULL terminated array of enum/flags
  * values that is taken over!
  */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType	g_enum_register_static	   (const gchar	      *name,
 				    const GEnumValue  *const_static_values);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType	g_flags_register_static	   (const gchar	      *name,
 				    const GFlagsValue *const_static_values);
 /* functions to complete the type information
  * for enums/flags implemented by plugins
  */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	g_enum_complete_type_info  (GType	       g_enum_type,
 				    GTypeInfo	      *info,
 				    const GEnumValue  *const_values);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	g_flags_complete_type_info (GType	       g_flags_type,
 				    GTypeInfo	      *info,
 				    const GFlagsValue *const_values);
+
+/* {{{ Macros */
+
+/**
+ * G_DEFINE_ENUM_VALUE:
+ * @EnumValue: an enumeration value
+ * @EnumNick: a short string representing the enumeration value
+ *
+ * Defines an enumeration value, and maps it to a "nickname".
+ *
+ * This macro can only be used with G_DEFINE_ENUM_TYPE() and
+ * G_DEFINE_FLAGS_TYPE().
+ *
+ * Since: 2.74
+ */
+#define G_DEFINE_ENUM_VALUE(EnumValue, EnumNick) \
+  { EnumValue, #EnumValue, EnumNick } \
+  GOBJECT_AVAILABLE_MACRO_IN_2_74
+
+/**
+ * G_DEFINE_ENUM_TYPE:
+ * @TypeName: the enumeration type, in `CamelCase`
+ * @type_name: the enumeration type prefixed, in `snake_case`
+ * @...: a list of enumeration values, defined using G_DEFINE_ENUM_VALUE()
+ *
+ * A convenience macro for defining enumeration types.
+ *
+ * This macro will generate a `*_get_type()` function for the
+ * given @TypeName, using @type_name as the function prefix.
+ *
+ * |[<!-- language="C" -->
+ * G_DEFINE_ENUM_TYPE (GtkOrientation, gtk_orientation,
+ *   G_DEFINE_ENUM_VALUE (GTK_ORIENTATION_HORIZONTAL, "horizontal"),
+ *   G_DEFINE_ENUM_VALUE (GTK_ORIENTATION_VERTICAL, "vertical"))
+ * ]|
+ *
+ * For projects that have multiple enumeration types, or enumeration
+ * types with many values, you should consider using glib-mkenums to
+ * generate the type function.
+ *
+ * Since: 2.74
+ */
+#define G_DEFINE_ENUM_TYPE(TypeName, type_name, ...) \
+GType \
+type_name ## _get_type (void) { \
+  static gsize g_define_type__static = 0; \
+  if (g_once_init_enter (&g_define_type__static)) { \
+    static const GEnumValue enum_values[] = { \
+      __VA_ARGS__ , \
+      { 0, NULL, NULL }, \
+    }; \
+    GType g_define_type = g_enum_register_static (g_intern_static_string (#TypeName), enum_values); \
+    g_once_init_leave (&g_define_type__static, g_define_type); \
+  } \
+  return g_define_type__static; \
+} \
+  GOBJECT_AVAILABLE_MACRO_IN_2_74
+
+/**
+ * G_DEFINE_FLAGS_TYPE:
+ * @TypeName: the enumeration type, in `CamelCase`
+ * @type_name: the enumeration type prefixed, in `snake_case`
+ * @...: a list of enumeration values, defined using G_DEFINE_ENUM_VALUE()
+ *
+ * A convenience macro for defining flag types.
+ *
+ * This macro will generate a `*_get_type()` function for the
+ * given @TypeName, using @type_name as the function prefix.
+ *
+ * |[<!-- language="C" -->
+ * G_DEFINE_FLAGS_TYPE (GSettingsBindFlags, g_settings_bind_flags,
+ *   G_DEFINE_ENUM_VALUE (G_SETTINGS_BIND_DEFAULT, "default"),
+ *   G_DEFINE_ENUM_VALUE (G_SETTINGS_BIND_GET, "get"),
+ *   G_DEFINE_ENUM_VALUE (G_SETTINGS_BIND_SET, "set"),
+ *   G_DEFINE_ENUM_VALUE (G_SETTINGS_BIND_NO_SENSITIVITY, "no-sensitivity"),
+ *   G_DEFINE_ENUM_VALUE (G_SETTINGS_BIND_GET_NO_CHANGES, "get-no-changes"),
+ *   G_DEFINE_ENUM_VALUE (G_SETTINGS_BIND_INVERT_BOOLEAN, "invert-boolean"))
+ * ]|
+ *
+ * For projects that have multiple enumeration types, or enumeration
+ * types with many values, you should consider using glib-mkenums to
+ * generate the type function.
+ *
+ * Since: 2.74
+ */
+#define G_DEFINE_FLAGS_TYPE(TypeName, type_name, ...) \
+GType \
+type_name ## _get_type (void) { \
+  static gsize g_define_type__static = 0; \
+  if (g_once_init_enter (&g_define_type__static)) { \
+    static const GFlagsValue flags_values[] = { \
+      __VA_ARGS__ , \
+      { 0, NULL, NULL }, \
+    }; \
+    GType g_define_type = g_flags_register_static (g_intern_static_string (#TypeName), flags_values); \
+    g_once_init_leave (&g_define_type__static, g_define_type); \
+  } \
+  return g_define_type__static; \
+} \
+  GOBJECT_AVAILABLE_MACRO_IN_2_74
 
 G_END_DECLS
 
@@ -30952,13 +33178,13 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 /* enumerations from "../../../deps/glib/gobject/../glib/gunicode.h" */
-GLIB_AVAILABLE_IN_2_60 GType g_unicode_type_get_type (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_60 GType g_unicode_type_get_type (void) G_GNUC_CONST;
 #define G_TYPE_UNICODE_TYPE (g_unicode_type_get_type ())
-GLIB_AVAILABLE_IN_2_60 GType g_unicode_break_type_get_type (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_60 GType g_unicode_break_type_get_type (void) G_GNUC_CONST;
 #define G_TYPE_UNICODE_BREAK_TYPE (g_unicode_break_type_get_type ())
-GLIB_AVAILABLE_IN_2_60 GType g_unicode_script_get_type (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_60 GType g_unicode_script_get_type (void) G_GNUC_CONST;
 #define G_TYPE_UNICODE_SCRIPT (g_unicode_script_get_type ())
-GLIB_AVAILABLE_IN_2_60 GType g_normalize_mode_get_type (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_60 GType g_normalize_mode_get_type (void) G_GNUC_CONST;
 #define G_TYPE_NORMALIZE_MODE (g_normalize_mode_get_type ())
 G_END_DECLS
 
@@ -30968,6 +33194,8 @@ G_END_DECLS
 
 /* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 1997-1999, 2000-2001 Tim Janik and Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31416,7 +33644,7 @@ G_BEGIN_DECLS
  *
  * Deprecated: 2.32: Use #GArray instead of #GValueArray
  */
-#define	G_TYPE_PARAM_VALUE_ARRAY	   (g_param_spec_types[18]) GLIB_DEPRECATED_MACRO_IN_2_32
+#define	G_TYPE_PARAM_VALUE_ARRAY	   (g_param_spec_types[18]) GOBJECT_DEPRECATED_MACRO_IN_2_32
 /**
  * G_IS_PARAM_SPEC_VALUE_ARRAY:
  * @pspec: a valid #GParamSpec instance
@@ -31427,7 +33655,7 @@ G_BEGIN_DECLS
  *
  * Deprecated: 2.32: Use #GArray instead of #GValueArray
  */
-#define G_IS_PARAM_SPEC_VALUE_ARRAY(pspec) (G_TYPE_CHECK_INSTANCE_TYPE ((pspec), G_TYPE_PARAM_VALUE_ARRAY)) GLIB_DEPRECATED_MACRO_IN_2_32
+#define G_IS_PARAM_SPEC_VALUE_ARRAY(pspec) (G_TYPE_CHECK_INSTANCE_TYPE ((pspec), G_TYPE_PARAM_VALUE_ARRAY)) GOBJECT_DEPRECATED_MACRO_IN_2_32
 /**
  * G_PARAM_SPEC_VALUE_ARRAY:
  * @pspec: a valid #GParamSpec instance
@@ -31436,7 +33664,7 @@ G_BEGIN_DECLS
  *
  * Deprecated: 2.32: Use #GArray instead of #GValueArray
  */
-#define G_PARAM_SPEC_VALUE_ARRAY(pspec)    (G_TYPE_CHECK_INSTANCE_CAST ((pspec), G_TYPE_PARAM_VALUE_ARRAY, GParamSpecValueArray)) GLIB_DEPRECATED_MACRO_IN_2_32
+#define G_PARAM_SPEC_VALUE_ARRAY(pspec)    (G_TYPE_CHECK_INSTANCE_CAST ((pspec), G_TYPE_PARAM_VALUE_ARRAY, GParamSpecValueArray)) GOBJECT_DEPRECATED_MACRO_IN_2_32
 
 /**
  * G_TYPE_PARAM_OBJECT:
@@ -31948,7 +34176,7 @@ struct _GParamSpecVariant
 };
 
 /* --- GParamSpec prototypes --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_char	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
@@ -31956,7 +34184,7 @@ GParamSpec*	g_param_spec_char	 (const gchar	 *name,
 					  gint8		  maximum,
 					  gint8		  default_value,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_uchar	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
@@ -31964,13 +34192,13 @@ GParamSpec*	g_param_spec_uchar	 (const gchar	 *name,
 					  guint8	  maximum,
 					  guint8	  default_value,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_boolean	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
 					  gboolean	  default_value,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_int	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
@@ -31978,7 +34206,7 @@ GParamSpec*	g_param_spec_int	 (const gchar	 *name,
 					  gint		  maximum,
 					  gint		  default_value,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_uint	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
@@ -31986,7 +34214,7 @@ GParamSpec*	g_param_spec_uint	 (const gchar	 *name,
 					  guint		  maximum,
 					  guint		  default_value,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_long	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
@@ -31994,7 +34222,7 @@ GParamSpec*	g_param_spec_long	 (const gchar	 *name,
 					  glong		  maximum,
 					  glong		  default_value,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_ulong	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
@@ -32002,7 +34230,7 @@ GParamSpec*	g_param_spec_ulong	 (const gchar	 *name,
 					  gulong	  maximum,
 					  gulong	  default_value,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_int64	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
@@ -32010,7 +34238,7 @@ GParamSpec*	g_param_spec_int64	 (const gchar	 *name,
 					  gint64       	  maximum,
 					  gint64       	  default_value,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_uint64	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
@@ -32018,27 +34246,27 @@ GParamSpec*	g_param_spec_uint64	 (const gchar	 *name,
 					  guint64	  maximum,
 					  guint64	  default_value,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_unichar      (const gchar    *name,
 				          const gchar    *nick,
 				          const gchar    *blurb,
 				          gunichar	  default_value,
 				          GParamFlags     flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_enum	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
 					  GType		  enum_type,
 					  gint		  default_value,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_flags	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
 					  GType		  flags_type,
 					  guint		  default_value,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_float	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
@@ -32046,7 +34274,7 @@ GParamSpec*	g_param_spec_float	 (const gchar	 *name,
 					  gfloat	  maximum,
 					  gfloat	  default_value,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_double	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
@@ -32054,51 +34282,51 @@ GParamSpec*	g_param_spec_double	 (const gchar	 *name,
 					  gdouble	  maximum,
 					  gdouble	  default_value,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_string	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
 					  const gchar	 *default_value,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_param	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
 					  GType		  param_type,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_boxed	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
 					  GType		  boxed_type,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_pointer	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_value_array (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
 					  GParamSpec	 *element_spec,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_object	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
 					  GType		  object_type,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_override    (const gchar    *name,
 					  GParamSpec     *overridden);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_gtype	 (const gchar	 *name,
 					  const gchar	 *nick,
 					  const gchar	 *blurb,
 					  GType           is_a_type,
 					  GParamFlags	  flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GParamSpec*	g_param_spec_variant	 (const gchar        *name,
 					  const gchar        *nick,
 					  const gchar	     *blurb,
@@ -32106,37 +34334,110 @@ GParamSpec*	g_param_spec_variant	 (const gchar        *name,
 					  GVariant           *default_value,
 					  GParamFlags         flags);
 
-/* --- internal --- */
-/* We prefix variable declarations so they can
- * properly get exported in windows dlls.
- */
-#ifndef GOBJECT_VAR
-#  ifdef G_PLATFORM_WIN32
-#    ifdef GOBJECT_STATIC_COMPILATION
-#      define GOBJECT_VAR extern
-#    else /* !GOBJECT_STATIC_COMPILATION */
-#      ifdef GOBJECT_COMPILATION
-#        ifdef DLL_EXPORT
-#          define GOBJECT_VAR extern __declspec(dllexport)
-#        else /* !DLL_EXPORT */
-#          define GOBJECT_VAR extern
-#        endif /* !DLL_EXPORT */
-#      else /* !GOBJECT_COMPILATION */
-#        define GOBJECT_VAR extern __declspec(dllimport)
-#      endif /* !GOBJECT_COMPILATION */
-#    endif /* !GOBJECT_STATIC_COMPILATION */
-#  else /* !G_PLATFORM_WIN32 */
-#    define GOBJECT_VAR _GLIB_EXTERN
-#  endif /* !G_PLATFORM_WIN32 */
-#endif /* GOBJECT_VAR */
-
 GOBJECT_VAR GType *g_param_spec_types;
 
 G_END_DECLS
 
 #endif /* __G_PARAMSPECS_H__ */
 /* GObject - GLib Type, Object, Parameter and Signal Library
+ *
+ * Copyright (C) 2015-2022 Christian Hergert <christian@hergert.me>
+ * Copyright (C) 2015 Garrett Regier <garrettregier@gmail.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General
+ * Public License along with this library; if not, see <http://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ */
+
+#ifndef __G_SIGNAL_GROUP_H__
+#define __G_SIGNAL_GROUP_H__
+
+#if !defined (__GLIB_GOBJECT_H_INSIDE__) && !defined (GOBJECT_COMPILATION)
+#error "Only <glib-object.h> can be included directly."
+#endif
+
+
+G_BEGIN_DECLS
+
+#define G_SIGNAL_GROUP(obj)    (G_TYPE_CHECK_INSTANCE_CAST ((obj), G_TYPE_SIGNAL_GROUP, GSignalGroup))
+#define G_IS_SIGNAL_GROUP(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), G_TYPE_SIGNAL_GROUP))
+#define G_TYPE_SIGNAL_GROUP    (g_signal_group_get_type())
+
+/**
+ * GSignalGroup:
+ *
+ * #GSignalGroup is an opaque structure whose members
+ * cannot be accessed directly.
+ *
+ * Since: 2.72
+ */
+typedef struct _GSignalGroup GSignalGroup;
+
+GOBJECT_AVAILABLE_IN_2_72
+GType         g_signal_group_get_type        (void) G_GNUC_CONST;
+GOBJECT_AVAILABLE_IN_2_72
+GSignalGroup *g_signal_group_new             (GType           target_type);
+GOBJECT_AVAILABLE_IN_2_72
+void          g_signal_group_set_target      (GSignalGroup   *self,
+                                              gpointer        target);
+GOBJECT_AVAILABLE_IN_2_72
+gpointer      g_signal_group_dup_target      (GSignalGroup   *self);
+GOBJECT_AVAILABLE_IN_2_72
+void          g_signal_group_block           (GSignalGroup   *self);
+GOBJECT_AVAILABLE_IN_2_72
+void          g_signal_group_unblock         (GSignalGroup   *self);
+GOBJECT_AVAILABLE_IN_2_74
+void          g_signal_group_connect_closure (GSignalGroup   *self,
+                                              const gchar    *detailed_signal,
+                                              GClosure       *closure,
+                                              gboolean        after);
+GOBJECT_AVAILABLE_IN_2_72
+void          g_signal_group_connect_object  (GSignalGroup   *self,
+                                              const gchar    *detailed_signal,
+                                              GCallback       c_handler,
+                                              gpointer        object,
+                                              GConnectFlags   flags);
+GOBJECT_AVAILABLE_IN_2_72
+void          g_signal_group_connect_data    (GSignalGroup   *self,
+                                              const gchar    *detailed_signal,
+                                              GCallback       c_handler,
+                                              gpointer        data,
+                                              GClosureNotify  notify,
+                                              GConnectFlags   flags);
+GOBJECT_AVAILABLE_IN_2_72
+void          g_signal_group_connect         (GSignalGroup   *self,
+                                              const gchar    *detailed_signal,
+                                              GCallback       c_handler,
+                                              gpointer        data);
+GOBJECT_AVAILABLE_IN_2_72
+void          g_signal_group_connect_after   (GSignalGroup   *self,
+                                              const gchar    *detailed_signal,
+                                              GCallback       c_handler,
+                                              gpointer        data);
+GOBJECT_AVAILABLE_IN_2_72
+void          g_signal_group_connect_swapped (GSignalGroup   *self,
+                                              const gchar    *detailed_signal,
+                                              GCallback       c_handler,
+                                              gpointer        data);
+
+G_END_DECLS
+
+#endif /* __G_SIGNAL_GROUP_H__ */
+/* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 2001 Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32161,11 +34462,11 @@ G_END_DECLS
 
 G_BEGIN_DECLS
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_source_set_closure        (GSource  *source,
 				  GClosure *closure);
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_source_set_dummy_callback (GSource  *source);
 
 G_END_DECLS
@@ -32173,6 +34474,8 @@ G_END_DECLS
 #endif /* __G_SOURCECLOSURE_H__ */
 /* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 2000 Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32437,31 +34740,31 @@ type_name##_register_type (GTypeModule *type_module) \
   TypeName##_private_offset = sizeof (TypeName##Private); \
 }
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType    g_type_module_get_type       (void) G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean g_type_module_use            (GTypeModule          *module);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void     g_type_module_unuse          (GTypeModule          *module);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void     g_type_module_set_name       (GTypeModule          *module,
                                        const gchar          *name);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType    g_type_module_register_type  (GTypeModule          *module,
                                        GType                 parent_type,
                                        const gchar          *type_name,
                                        const GTypeInfo      *type_info,
                                        GTypeFlags            flags);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void     g_type_module_add_interface  (GTypeModule          *module,
                                        GType                 instance_type,
                                        GType                 interface_type,
                                        const GInterfaceInfo *interface_info);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType    g_type_module_register_enum  (GTypeModule          *module,
                                        const gchar          *name,
                                        const GEnumValue     *const_static_values);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType    g_type_module_register_flags (GTypeModule          *module,
                                        const gchar          *name,
                                        const GFlagsValue    *const_static_values);
@@ -32471,6 +34774,8 @@ G_END_DECLS
 #endif /* __G_TYPE_MODULE_H__ */
 /* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 2000 Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32582,18 +34887,18 @@ struct _GTypePluginClass
 
 
 /* --- prototypes --- */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType	g_type_plugin_get_type			(void)	G_GNUC_CONST;
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	g_type_plugin_use			(GTypePlugin	 *plugin);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	g_type_plugin_unuse			(GTypePlugin	 *plugin);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	g_type_plugin_complete_type_info	(GTypePlugin     *plugin,
 						 GType            g_type,
 						 GTypeInfo       *info,
 						 GTypeValueTable *value_table);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void	g_type_plugin_complete_interface_info	(GTypePlugin     *plugin,
 						 GType            instance_type,
 						 GType            interface_type,
@@ -32604,6 +34909,8 @@ G_END_DECLS
 #endif /* __G_TYPE_PLUGIN_H__ */
 /* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 2001 Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32638,7 +34945,7 @@ G_BEGIN_DECLS
  *
  * Deprecated: 2.32: Use #GArray instead of #GValueArray
  */
-#define G_TYPE_VALUE_ARRAY (g_value_array_get_type ()) GLIB_DEPRECATED_MACRO_IN_2_32_FOR(G_TYPE_ARRAY)
+#define G_TYPE_VALUE_ARRAY (g_value_array_get_type ()) GOBJECT_DEPRECATED_MACRO_IN_2_32_FOR(G_TYPE_ARRAY)
 
 /* --- typedefs & structs --- */
 typedef struct _GValueArray GValueArray;
@@ -32659,44 +34966,44 @@ struct _GValueArray
 };
 
 /* --- prototypes --- */
-GLIB_DEPRECATED_IN_2_32_FOR(GArray)
+GOBJECT_DEPRECATED_IN_2_32_FOR(GArray)
 GType           g_value_array_get_type       (void) G_GNUC_CONST;
 
-GLIB_DEPRECATED_IN_2_32_FOR(GArray)
+GOBJECT_DEPRECATED_IN_2_32_FOR(GArray)
 GValue*		g_value_array_get_nth	     (GValueArray	*value_array,
 					      guint		 index_);
 
-GLIB_DEPRECATED_IN_2_32_FOR(GArray)
+GOBJECT_DEPRECATED_IN_2_32_FOR(GArray)
 GValueArray*	g_value_array_new	     (guint		 n_prealloced);
 
-GLIB_DEPRECATED_IN_2_32_FOR(GArray)
+GOBJECT_DEPRECATED_IN_2_32_FOR(GArray)
 void		g_value_array_free	     (GValueArray	*value_array);
 
-GLIB_DEPRECATED_IN_2_32_FOR(GArray)
+GOBJECT_DEPRECATED_IN_2_32_FOR(GArray)
 GValueArray*	g_value_array_copy	     (const GValueArray *value_array);
 
-GLIB_DEPRECATED_IN_2_32_FOR(GArray)
+GOBJECT_DEPRECATED_IN_2_32_FOR(GArray)
 GValueArray*	g_value_array_prepend	     (GValueArray	*value_array,
 					      const GValue	*value);
 
-GLIB_DEPRECATED_IN_2_32_FOR(GArray)
+GOBJECT_DEPRECATED_IN_2_32_FOR(GArray)
 GValueArray*	g_value_array_append	     (GValueArray	*value_array,
 					      const GValue	*value);
 
-GLIB_DEPRECATED_IN_2_32_FOR(GArray)
+GOBJECT_DEPRECATED_IN_2_32_FOR(GArray)
 GValueArray*	g_value_array_insert	     (GValueArray	*value_array,
 					      guint		 index_,
 					      const GValue	*value);
 
-GLIB_DEPRECATED_IN_2_32_FOR(GArray)
+GOBJECT_DEPRECATED_IN_2_32_FOR(GArray)
 GValueArray*	g_value_array_remove	     (GValueArray	*value_array,
 					      guint		 index_);
 
-GLIB_DEPRECATED_IN_2_32_FOR(GArray)
+GOBJECT_DEPRECATED_IN_2_32_FOR(GArray)
 GValueArray*	g_value_array_sort	     (GValueArray	*value_array,
 					      GCompareFunc	 compare_func);
 
-GLIB_DEPRECATED_IN_2_32_FOR(GArray)
+GOBJECT_DEPRECATED_IN_2_32_FOR(GArray)
 GValueArray*	g_value_array_sort_with_data (GValueArray	*value_array,
 					      GCompareDataFunc	 compare_func,
 					      gpointer		 user_data);
@@ -32707,6 +35014,8 @@ G_END_DECLS
 #endif /* __G_VALUE_ARRAY_H__ */
 /* GObject - GLib Type, Object, Parameter and Signal Library
  * Copyright (C) 1997-1999, 2000-2001 Tim Janik and Red Hat, Inc.
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32854,7 +35163,7 @@ G_BEGIN_DECLS
  *
  * Since: 2.66
  */
-#define G_VALUE_IS_INTERNED_STRING(value) (G_VALUE_HOLDS_STRING (value) && ((value)->data[1].v_uint & G_VALUE_INTERNED_STRING)) GLIB_AVAILABLE_MACRO_IN_2_66
+#define G_VALUE_IS_INTERNED_STRING(value) (G_VALUE_HOLDS_STRING (value) && ((value)->data[1].v_uint & G_VALUE_INTERNED_STRING)) GOBJECT_AVAILABLE_MACRO_IN_2_66
 /**
  * G_VALUE_HOLDS_POINTER:
  * @value: a valid #GValue structure
@@ -32894,116 +35203,116 @@ G_BEGIN_DECLS
 
 
 /* --- prototypes --- */
-GLIB_DEPRECATED_IN_2_32_FOR(g_value_set_schar)
+GOBJECT_DEPRECATED_IN_2_32_FOR(g_value_set_schar)
 void                  g_value_set_char          (GValue       *value,
                                                  gchar         v_char);
-GLIB_DEPRECATED_IN_2_32_FOR(g_value_get_schar)
+GOBJECT_DEPRECATED_IN_2_32_FOR(g_value_get_schar)
 gchar                 g_value_get_char          (const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_schar		(GValue	      *value,
 						 gint8	       v_char);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gint8		      g_value_get_schar		(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_uchar		(GValue	      *value,
 						 guchar	       v_uchar);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 guchar		      g_value_get_uchar		(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_boolean	(GValue	      *value,
 						 gboolean      v_boolean);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gboolean	      g_value_get_boolean	(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_int		(GValue	      *value,
 						 gint	       v_int);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gint		      g_value_get_int		(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_uint		(GValue	      *value,
 						 guint	       v_uint);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 guint		      g_value_get_uint		(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_long		(GValue	      *value,
 						 glong	       v_long);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 glong		      g_value_get_long		(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_ulong		(GValue	      *value,
 						 gulong	       v_ulong);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gulong		      g_value_get_ulong		(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_int64		(GValue	      *value,
 						 gint64	       v_int64);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gint64		      g_value_get_int64		(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_uint64	(GValue	      *value,
 						 guint64      v_uint64);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 guint64		      g_value_get_uint64	(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_float		(GValue	      *value,
 						 gfloat	       v_float);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gfloat		      g_value_get_float		(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_double	(GValue	      *value,
 						 gdouble       v_double);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gdouble		      g_value_get_double	(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_string	(GValue	      *value,
 						 const gchar  *v_string);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_static_string (GValue	      *value,
 						 const gchar  *v_string);
-GLIB_AVAILABLE_IN_2_66
+GOBJECT_AVAILABLE_IN_2_66
 void		      g_value_set_interned_string (GValue      *value,
 						   const gchar  *v_string);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 const gchar *         g_value_get_string	(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gchar*		      g_value_dup_string	(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_pointer	(GValue	      *value,
 						 gpointer      v_pointer);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gpointer	      g_value_get_pointer	(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType		      g_gtype_get_type		(void);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_gtype	        (GValue	      *value,
 						 GType         v_gtype);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType	              g_value_get_gtype	        (const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_set_variant	(GValue	      *value,
 						 GVariant     *variant);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void		      g_value_take_variant	(GValue	      *value,
 						 GVariant     *variant);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GVariant*	      g_value_get_variant	(const GValue *value);
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GVariant*	      g_value_dup_variant	(const GValue *value);
 
 
 /* Convenience for registering new pointer types */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 GType                 g_pointer_type_register_static (const gchar *name);
 
 /* debugging aid, describe value contents as string */
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 gchar*                g_strdup_value_contents   (const GValue *value);
 
 
-GLIB_AVAILABLE_IN_ALL
+GOBJECT_AVAILABLE_IN_ALL
 void g_value_take_string		        (GValue		   *value,
 						 gchar		   *v_string);
-GLIB_DEPRECATED_FOR(g_value_take_string)
+GOBJECT_DEPRECATED_FOR(g_value_take_string)
 void g_value_set_string_take_ownership          (GValue            *value,
                                                  gchar             *v_string);
 
@@ -33012,7 +35321,7 @@ void g_value_set_string_take_ownership          (GValue            *value,
 /**
  * gchararray:
  * 
- * A C representable type name for #G_TYPE_STRING.
+ * A C representable type name for %G_TYPE_STRING.
  */
 typedef gchar* gchararray;
 
@@ -33023,6 +35332,8 @@ G_END_DECLS
 
 /*
  * Copyright © 2015 Canonical Limited
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33054,9 +35365,6 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTypeClass, g_type_class_unref)
 G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(GValue, g_value_unset)
 
 #undef __GLIB_GOBJECT_H_INSIDE__
-
-GLIB_AVAILABLE_IN_2_68
-void                            gobject_init                            (void);
 
 #endif /* __GLIB_GOBJECT_H__ */
 
@@ -33230,6 +35538,8 @@ enum _GumOS
   GUM_OS_MACOS,
   GUM_OS_LINUX,
   GUM_OS_IOS,
+  GUM_OS_WATCHOS,
+  GUM_OS_TVOS,
   GUM_OS_ANDROID,
   GUM_OS_FREEBSD,
   GUM_OS_QNX
@@ -33769,6 +36079,7 @@ struct _GumReturnAddressDetails
   gchar function_name[GUM_MAX_SYMBOL_NAME + 1];
   gchar file_name[GUM_MAX_PATH + 1];
   guint line_number;
+  guint column;
 };
 
 struct _GumReturnAddressArray
@@ -34187,6 +36498,8 @@ GUM_API guint gum_thread_try_get_ranges (GumMemoryRange * ranges,
     guint max_length);
 GUM_API gint gum_thread_get_system_error (void);
 GUM_API void gum_thread_set_system_error (gint value);
+GUM_API gboolean gum_thread_suspend (GumThreadId thread_id, GError ** error);
+GUM_API gboolean gum_thread_resume (GumThreadId thread_id, GError ** error);
 GUM_API gboolean gum_module_load (const gchar * module_name, GError ** error);
 GUM_API gboolean gum_module_ensure_initialized (const gchar * module_name);
 GUM_API void gum_module_enumerate_imports (const gchar * module_name,
@@ -34407,8 +36720,6 @@ G_END_DECLS
 #ifndef __GUM_DARWIN_MODULE_H__
 #define __GUM_DARWIN_MODULE_H__
 
-
-#define GUM_DARWIN_EXPORT_SYMBOL_FLAGS_KIND_ABSOLUTE 2
 
 G_BEGIN_DECLS
 
@@ -35326,7 +37637,8 @@ typedef enum
   GUM_ATTACH_OK               =  0,
   GUM_ATTACH_WRONG_SIGNATURE  = -1,
   GUM_ATTACH_ALREADY_ATTACHED = -2,
-  GUM_ATTACH_POLICY_VIOLATION = -3
+  GUM_ATTACH_POLICY_VIOLATION = -3,
+  GUM_ATTACH_WRONG_TYPE       = -4,
 } GumAttachReturn;
 
 typedef enum
@@ -35334,7 +37646,8 @@ typedef enum
   GUM_REPLACE_OK               =  0,
   GUM_REPLACE_WRONG_SIGNATURE  = -1,
   GUM_REPLACE_ALREADY_REPLACED = -2,
-  GUM_REPLACE_POLICY_VIOLATION = -3
+  GUM_REPLACE_POLICY_VIOLATION = -3,
+  GUM_REPLACE_WRONG_TYPE       = -4,
 } GumReplaceReturn;
 
 GUM_API GumInterceptor * gum_interceptor_obtain (void);
@@ -35348,6 +37661,9 @@ GUM_API void gum_interceptor_detach (GumInterceptor * self,
 GUM_API GumReplaceReturn gum_interceptor_replace (GumInterceptor * self,
     gpointer function_address, gpointer replacement_function,
     gpointer replacement_data, gpointer * original_function);
+GumReplaceReturn gum_interceptor_replace_fast (GumInterceptor * self,
+    gpointer function_address, gpointer replacement_function,
+    gpointer * original_function);
 GUM_API void gum_interceptor_revert (GumInterceptor * self,
     gpointer function_address);
 
@@ -36009,6 +38325,7 @@ typedef enum cs_mode {
 	CS_MODE_QPX = 1 << 4, ///< Quad Processing eXtensions mode (PPC)
 	CS_MODE_SPE = 1 << 5, ///< Signal Processing Engine mode (PPC)
 	CS_MODE_BOOKE = 1 << 6, ///< Book-E mode (PPC)
+	CS_MODE_PS = 1 << 7, ///< Paired-singles mode (PPC)
 	CS_MODE_M68K_000 = 1 << 1, ///< M68K 68000 mode
 	CS_MODE_M68K_010 = 1 << 2, ///< M68K 68010 mode
 	CS_MODE_M68K_020 = 1 << 3, ///< M68K 68020 mode
@@ -37177,2372 +39494,3144 @@ extern "C" {
 
 
 #ifdef _MSC_VER
-#pragma warning(disable:4201)
+#pragma warning(disable : 4201)
 #endif
 
 /// ARM64 shift type
 typedef enum arm64_shifter {
-	ARM64_SFT_INVALID = 0,
-	ARM64_SFT_LSL = 1,
-	ARM64_SFT_MSL = 2,
-	ARM64_SFT_LSR = 3,
-	ARM64_SFT_ASR = 4,
-	ARM64_SFT_ROR = 5,
+  ARM64_SFT_INVALID = 0,
+  ARM64_SFT_LSL = 1,
+  ARM64_SFT_MSL = 2,
+  ARM64_SFT_LSR = 3,
+  ARM64_SFT_ASR = 4,
+  ARM64_SFT_ROR = 5,
 } arm64_shifter;
 
 /// ARM64 extender type
 typedef enum arm64_extender {
-	ARM64_EXT_INVALID = 0,
-	ARM64_EXT_UXTB = 1,
-	ARM64_EXT_UXTH = 2,
-	ARM64_EXT_UXTW = 3,
-	ARM64_EXT_UXTX = 4,
-	ARM64_EXT_SXTB = 5,
-	ARM64_EXT_SXTH = 6,
-	ARM64_EXT_SXTW = 7,
-	ARM64_EXT_SXTX = 8,
+  ARM64_EXT_INVALID = 0,
+  ARM64_EXT_UXTB = 1,
+  ARM64_EXT_UXTH = 2,
+  ARM64_EXT_UXTW = 3,
+  ARM64_EXT_UXTX = 4,
+  ARM64_EXT_SXTB = 5,
+  ARM64_EXT_SXTH = 6,
+  ARM64_EXT_SXTW = 7,
+  ARM64_EXT_SXTX = 8,
 } arm64_extender;
 
 /// ARM64 condition code
 typedef enum arm64_cc {
-	ARM64_CC_INVALID = 0,
-	ARM64_CC_EQ = 1,     ///< Equal
-	ARM64_CC_NE = 2,     ///< Not equal:                 Not equal, or unordered
-	ARM64_CC_HS = 3,     ///< Unsigned higher or same:   >, ==, or unordered
-	ARM64_CC_LO = 4,     ///< Unsigned lower or same:    Less than
-	ARM64_CC_MI = 5,     ///< Minus, negative:           Less than
-	ARM64_CC_PL = 6,     ///< Plus, positive or zero:    >, ==, or unordered
-	ARM64_CC_VS = 7,     ///< Overflow:                  Unordered
-	ARM64_CC_VC = 8,     ///< No overflow:               Ordered
-	ARM64_CC_HI = 9,     ///< Unsigned higher:           Greater than, or unordered
-	ARM64_CC_LS = 10,     ///< Unsigned lower or same:    Less than or equal
-	ARM64_CC_GE = 11,     ///< Greater than or equal:     Greater than or equal
-	ARM64_CC_LT = 12,     ///< Less than:                 Less than, or unordered
-	ARM64_CC_GT = 13,     ///< Signed greater than:       Greater than
-	ARM64_CC_LE = 14,     ///< Signed less than or equal: <, ==, or unordered
-	ARM64_CC_AL = 15,     ///< Always (unconditional):    Always (unconditional)
-	ARM64_CC_NV = 16,     ///< Always (unconditional):   Always (unconditional)
-	//< Note the NV exists purely to disassemble 0b1111. Execution is "always".
+  ARM64_CC_INVALID = 0,
+  ARM64_CC_EQ = 1,  ///< Equal
+  ARM64_CC_NE = 2,  ///< Not equal:                 Not equal, or unordered
+  ARM64_CC_HS = 3,  ///< Unsigned higher or same:   >, ==, or unordered
+  ARM64_CC_LO = 4,  ///< Unsigned lower or same:    Less than
+  ARM64_CC_MI = 5,  ///< Minus, negative:           Less than
+  ARM64_CC_PL = 6,  ///< Plus, positive or zero:    >, ==, or unordered
+  ARM64_CC_VS = 7,  ///< Overflow:                  Unordered
+  ARM64_CC_VC = 8,  ///< No overflow:               Ordered
+  ARM64_CC_HI = 9,  ///< Unsigned higher:           Greater than, or unordered
+  ARM64_CC_LS = 10, ///< Unsigned lower or same:    Less than or equal
+  ARM64_CC_GE = 11, ///< Greater than or equal:     Greater than or equal
+  ARM64_CC_LT = 12, ///< Less than:                 Less than, or unordered
+  ARM64_CC_GT = 13, ///< Signed greater than:       Greater than
+  ARM64_CC_LE = 14, ///< Signed less than or equal: <, ==, or unordered
+  ARM64_CC_AL = 15, ///< Always (unconditional):    Always (unconditional)
+  ARM64_CC_NV = 16, ///< Always (unconditional):   Always (unconditional)
+  //< Note the NV exists purely to disassemble 0b1111. Execution is "always".
 } arm64_cc;
 
 /// System registers
 typedef enum arm64_sysreg {
-	// System registers for MRS
-	ARM64_SYSREG_INVALID           = 0,
+  // System registers for MRS
+  ARM64_SYSREG_INVALID = 0,
 
-	ARM64_SYSREG_MDCCSR_EL0 = 0x9808,
-	ARM64_SYSREG_DBGDTRRX_EL0 = 0x9828,
-	ARM64_SYSREG_MDRAR_EL1 = 0x8080,
-	ARM64_SYSREG_OSLSR_EL1 = 0x808C,
-	ARM64_SYSREG_DBGAUTHSTATUS_EL1 = 0x83F6,
-	ARM64_SYSREG_PMCEID0_EL0 = 0xDCE6,
-	ARM64_SYSREG_PMCEID1_EL0 = 0xDCE7,
-	ARM64_SYSREG_MIDR_EL1 = 0xC000,
-	ARM64_SYSREG_CCSIDR_EL1 = 0xC800,
-	ARM64_SYSREG_CCSIDR2_EL1 = 0xC802,
-	ARM64_SYSREG_CLIDR_EL1 = 0xC801,
-	ARM64_SYSREG_CTR_EL0 = 0xD801,
-	ARM64_SYSREG_MPIDR_EL1 = 0xC005,
-	ARM64_SYSREG_REVIDR_EL1 = 0xC006,
-	ARM64_SYSREG_AIDR_EL1 = 0xC807,
-	ARM64_SYSREG_DCZID_EL0 = 0xD807,
-	ARM64_SYSREG_ID_PFR0_EL1 = 0xC008,
-	ARM64_SYSREG_ID_PFR1_EL1 = 0xC009,
-	ARM64_SYSREG_ID_DFR0_EL1 = 0xC00A,
-	ARM64_SYSREG_ID_AFR0_EL1 = 0xC00B,
-	ARM64_SYSREG_ID_MMFR0_EL1 = 0xC00C,
-	ARM64_SYSREG_ID_MMFR1_EL1 = 0xC00D,
-	ARM64_SYSREG_ID_MMFR2_EL1 = 0xC00E,
-	ARM64_SYSREG_ID_MMFR3_EL1 = 0xC00F,
-	ARM64_SYSREG_ID_ISAR0_EL1 = 0xC010,
-	ARM64_SYSREG_ID_ISAR1_EL1 = 0xC011,
-	ARM64_SYSREG_ID_ISAR2_EL1 = 0xC012,
-	ARM64_SYSREG_ID_ISAR3_EL1 = 0xC013,
-	ARM64_SYSREG_ID_ISAR4_EL1 = 0xC014,
-	ARM64_SYSREG_ID_ISAR5_EL1 = 0xC015,
-	ARM64_SYSREG_ID_ISAR6_EL1 = 0xC017,
-	ARM64_SYSREG_ID_AA64PFR0_EL1 = 0xC020,
-	ARM64_SYSREG_ID_AA64PFR1_EL1 = 0xC021,
-	ARM64_SYSREG_ID_AA64DFR0_EL1 = 0xC028,
-	ARM64_SYSREG_ID_AA64DFR1_EL1 = 0xC029,
-	ARM64_SYSREG_ID_AA64AFR0_EL1 = 0xC02C,
-	ARM64_SYSREG_ID_AA64AFR1_EL1 = 0xC02D,
-	ARM64_SYSREG_ID_AA64ISAR0_EL1 = 0xC030,
-	ARM64_SYSREG_ID_AA64ISAR1_EL1 = 0xC031,
-	ARM64_SYSREG_ID_AA64MMFR0_EL1 = 0xC038,
-	ARM64_SYSREG_ID_AA64MMFR1_EL1 = 0xC039,
-	ARM64_SYSREG_ID_AA64MMFR2_EL1 = 0xC03A,
-	ARM64_SYSREG_MVFR0_EL1 = 0xC018,
-	ARM64_SYSREG_MVFR1_EL1 = 0xC019,
-	ARM64_SYSREG_MVFR2_EL1 = 0xC01A,
-	ARM64_SYSREG_RVBAR_EL1 = 0xC601,
-	ARM64_SYSREG_RVBAR_EL2 = 0xE601,
-	ARM64_SYSREG_RVBAR_EL3 = 0xF601,
-	ARM64_SYSREG_ISR_EL1 = 0xC608,
-	ARM64_SYSREG_CNTPCT_EL0 = 0xDF01,
-	ARM64_SYSREG_CNTVCT_EL0 = 0xDF02,
-	ARM64_SYSREG_ID_MMFR4_EL1 = 0xC016,
-	ARM64_SYSREG_TRCSTATR = 0x8818,
-	ARM64_SYSREG_TRCIDR8 = 0x8806,
-	ARM64_SYSREG_TRCIDR9 = 0x880E,
-	ARM64_SYSREG_TRCIDR10 = 0x8816,
-	ARM64_SYSREG_TRCIDR11 = 0x881E,
-	ARM64_SYSREG_TRCIDR12 = 0x8826,
-	ARM64_SYSREG_TRCIDR13 = 0x882E,
-	ARM64_SYSREG_TRCIDR0 = 0x8847,
-	ARM64_SYSREG_TRCIDR1 = 0x884F,
-	ARM64_SYSREG_TRCIDR2 = 0x8857,
-	ARM64_SYSREG_TRCIDR3 = 0x885F,
-	ARM64_SYSREG_TRCIDR4 = 0x8867,
-	ARM64_SYSREG_TRCIDR5 = 0x886F,
-	ARM64_SYSREG_TRCIDR6 = 0x8877,
-	ARM64_SYSREG_TRCIDR7 = 0x887F,
-	ARM64_SYSREG_TRCOSLSR = 0x888C,
-	ARM64_SYSREG_TRCPDSR = 0x88AC,
-	ARM64_SYSREG_TRCDEVAFF0 = 0x8BD6,
-	ARM64_SYSREG_TRCDEVAFF1 = 0x8BDE,
-	ARM64_SYSREG_TRCLSR = 0x8BEE,
-	ARM64_SYSREG_TRCAUTHSTATUS = 0x8BF6,
-	ARM64_SYSREG_TRCDEVARCH = 0x8BFE,
-	ARM64_SYSREG_TRCDEVID = 0x8B97,
-	ARM64_SYSREG_TRCDEVTYPE = 0x8B9F,
-	ARM64_SYSREG_TRCPIDR4 = 0x8BA7,
-	ARM64_SYSREG_TRCPIDR5 = 0x8BAF,
-	ARM64_SYSREG_TRCPIDR6 = 0x8BB7,
-	ARM64_SYSREG_TRCPIDR7 = 0x8BBF,
-	ARM64_SYSREG_TRCPIDR0 = 0x8BC7,
-	ARM64_SYSREG_TRCPIDR1 = 0x8BCF,
-	ARM64_SYSREG_TRCPIDR2 = 0x8BD7,
-	ARM64_SYSREG_TRCPIDR3 = 0x8BDF,
-	ARM64_SYSREG_TRCCIDR0 = 0x8BE7,
-	ARM64_SYSREG_TRCCIDR1 = 0x8BEF,
-	ARM64_SYSREG_TRCCIDR2 = 0x8BF7,
-	ARM64_SYSREG_TRCCIDR3 = 0x8BFF,
-	ARM64_SYSREG_ICC_IAR1_EL1 = 0xC660,
-	ARM64_SYSREG_ICC_IAR0_EL1 = 0xC640,
-	ARM64_SYSREG_ICC_HPPIR1_EL1 = 0xC662,
-	ARM64_SYSREG_ICC_HPPIR0_EL1 = 0xC642,
-	ARM64_SYSREG_ICC_RPR_EL1 = 0xC65B,
-	ARM64_SYSREG_ICH_VTR_EL2 = 0xE659,
-	ARM64_SYSREG_ICH_EISR_EL2 = 0xE65B,
-	ARM64_SYSREG_ICH_ELRSR_EL2 = 0xE65D,
-	ARM64_SYSREG_ID_AA64ZFR0_EL1 = 0xC024,
-	ARM64_SYSREG_LORID_EL1 = 0xC527,
-	ARM64_SYSREG_ERRIDR_EL1 = 0xC298,
-	ARM64_SYSREG_ERXFR_EL1 = 0xC2A0,
-	ARM64_SYSREG_DBGDTRTX_EL0 = 0x9828,
-	ARM64_SYSREG_OSLAR_EL1 = 0x8084,
-	ARM64_SYSREG_PMSWINC_EL0 = 0xDCE4,
-	ARM64_SYSREG_TRCOSLAR = 0x8884,
-	ARM64_SYSREG_TRCLAR = 0x8BE6,
-	ARM64_SYSREG_ICC_EOIR1_EL1 = 0xC661,
-	ARM64_SYSREG_ICC_EOIR0_EL1 = 0xC641,
-	ARM64_SYSREG_ICC_DIR_EL1 = 0xC659,
-	ARM64_SYSREG_ICC_SGI1R_EL1 = 0xC65D,
-	ARM64_SYSREG_ICC_ASGI1R_EL1 = 0xC65E,
-	ARM64_SYSREG_ICC_SGI0R_EL1 = 0xC65F,
-	ARM64_SYSREG_OSDTRRX_EL1 = 0x8002,
-	ARM64_SYSREG_OSDTRTX_EL1 = 0x801A,
-	ARM64_SYSREG_TEECR32_EL1 = 0x9000,
-	ARM64_SYSREG_MDCCINT_EL1 = 0x8010,
-	ARM64_SYSREG_MDSCR_EL1 = 0x8012,
-	ARM64_SYSREG_DBGDTR_EL0 = 0x9820,
-	ARM64_SYSREG_OSECCR_EL1 = 0x8032,
-	ARM64_SYSREG_DBGVCR32_EL2 = 0xA038,
-	ARM64_SYSREG_DBGBVR0_EL1 = 0x8004,
-	ARM64_SYSREG_DBGBVR1_EL1 = 0x800C,
-	ARM64_SYSREG_DBGBVR2_EL1 = 0x8014,
-	ARM64_SYSREG_DBGBVR3_EL1 = 0x801C,
-	ARM64_SYSREG_DBGBVR4_EL1 = 0x8024,
-	ARM64_SYSREG_DBGBVR5_EL1 = 0x802C,
-	ARM64_SYSREG_DBGBVR6_EL1 = 0x8034,
-	ARM64_SYSREG_DBGBVR7_EL1 = 0x803C,
-	ARM64_SYSREG_DBGBVR8_EL1 = 0x8044,
-	ARM64_SYSREG_DBGBVR9_EL1 = 0x804C,
-	ARM64_SYSREG_DBGBVR10_EL1 = 0x8054,
-	ARM64_SYSREG_DBGBVR11_EL1 = 0x805C,
-	ARM64_SYSREG_DBGBVR12_EL1 = 0x8064,
-	ARM64_SYSREG_DBGBVR13_EL1 = 0x806C,
-	ARM64_SYSREG_DBGBVR14_EL1 = 0x8074,
-	ARM64_SYSREG_DBGBVR15_EL1 = 0x807C,
-	ARM64_SYSREG_DBGBCR0_EL1 = 0x8005,
-	ARM64_SYSREG_DBGBCR1_EL1 = 0x800D,
-	ARM64_SYSREG_DBGBCR2_EL1 = 0x8015,
-	ARM64_SYSREG_DBGBCR3_EL1 = 0x801D,
-	ARM64_SYSREG_DBGBCR4_EL1 = 0x8025,
-	ARM64_SYSREG_DBGBCR5_EL1 = 0x802D,
-	ARM64_SYSREG_DBGBCR6_EL1 = 0x8035,
-	ARM64_SYSREG_DBGBCR7_EL1 = 0x803D,
-	ARM64_SYSREG_DBGBCR8_EL1 = 0x8045,
-	ARM64_SYSREG_DBGBCR9_EL1 = 0x804D,
-	ARM64_SYSREG_DBGBCR10_EL1 = 0x8055,
-	ARM64_SYSREG_DBGBCR11_EL1 = 0x805D,
-	ARM64_SYSREG_DBGBCR12_EL1 = 0x8065,
-	ARM64_SYSREG_DBGBCR13_EL1 = 0x806D,
-	ARM64_SYSREG_DBGBCR14_EL1 = 0x8075,
-	ARM64_SYSREG_DBGBCR15_EL1 = 0x807D,
-	ARM64_SYSREG_DBGWVR0_EL1 = 0x8006,
-	ARM64_SYSREG_DBGWVR1_EL1 = 0x800E,
-	ARM64_SYSREG_DBGWVR2_EL1 = 0x8016,
-	ARM64_SYSREG_DBGWVR3_EL1 = 0x801E,
-	ARM64_SYSREG_DBGWVR4_EL1 = 0x8026,
-	ARM64_SYSREG_DBGWVR5_EL1 = 0x802E,
-	ARM64_SYSREG_DBGWVR6_EL1 = 0x8036,
-	ARM64_SYSREG_DBGWVR7_EL1 = 0x803E,
-	ARM64_SYSREG_DBGWVR8_EL1 = 0x8046,
-	ARM64_SYSREG_DBGWVR9_EL1 = 0x804E,
-	ARM64_SYSREG_DBGWVR10_EL1 = 0x8056,
-	ARM64_SYSREG_DBGWVR11_EL1 = 0x805E,
-	ARM64_SYSREG_DBGWVR12_EL1 = 0x8066,
-	ARM64_SYSREG_DBGWVR13_EL1 = 0x806E,
-	ARM64_SYSREG_DBGWVR14_EL1 = 0x8076,
-	ARM64_SYSREG_DBGWVR15_EL1 = 0x807E,
-	ARM64_SYSREG_DBGWCR0_EL1 = 0x8007,
-	ARM64_SYSREG_DBGWCR1_EL1 = 0x800F,
-	ARM64_SYSREG_DBGWCR2_EL1 = 0x8017,
-	ARM64_SYSREG_DBGWCR3_EL1 = 0x801F,
-	ARM64_SYSREG_DBGWCR4_EL1 = 0x8027,
-	ARM64_SYSREG_DBGWCR5_EL1 = 0x802F,
-	ARM64_SYSREG_DBGWCR6_EL1 = 0x8037,
-	ARM64_SYSREG_DBGWCR7_EL1 = 0x803F,
-	ARM64_SYSREG_DBGWCR8_EL1 = 0x8047,
-	ARM64_SYSREG_DBGWCR9_EL1 = 0x804F,
-	ARM64_SYSREG_DBGWCR10_EL1 = 0x8057,
-	ARM64_SYSREG_DBGWCR11_EL1 = 0x805F,
-	ARM64_SYSREG_DBGWCR12_EL1 = 0x8067,
-	ARM64_SYSREG_DBGWCR13_EL1 = 0x806F,
-	ARM64_SYSREG_DBGWCR14_EL1 = 0x8077,
-	ARM64_SYSREG_DBGWCR15_EL1 = 0x807F,
-	ARM64_SYSREG_TEEHBR32_EL1 = 0x9080,
-	ARM64_SYSREG_OSDLR_EL1 = 0x809C,
-	ARM64_SYSREG_DBGPRCR_EL1 = 0x80A4,
-	ARM64_SYSREG_DBGCLAIMSET_EL1 = 0x83C6,
-	ARM64_SYSREG_DBGCLAIMCLR_EL1 = 0x83CE,
-	ARM64_SYSREG_CSSELR_EL1 = 0xD000,
-	ARM64_SYSREG_VPIDR_EL2 = 0xE000,
-	ARM64_SYSREG_VMPIDR_EL2 = 0xE005,
-	ARM64_SYSREG_CPACR_EL1 = 0xC082,
-	ARM64_SYSREG_SCTLR_EL1 = 0xC080,
-	ARM64_SYSREG_SCTLR_EL2 = 0xE080,
-	ARM64_SYSREG_SCTLR_EL3 = 0xF080,
-	ARM64_SYSREG_ACTLR_EL1 = 0xC081,
-	ARM64_SYSREG_ACTLR_EL2 = 0xE081,
-	ARM64_SYSREG_ACTLR_EL3 = 0xF081,
-	ARM64_SYSREG_HCR_EL2 = 0xE088,
-	ARM64_SYSREG_SCR_EL3 = 0xF088,
-	ARM64_SYSREG_MDCR_EL2 = 0xE089,
-	ARM64_SYSREG_SDER32_EL3 = 0xF089,
-	ARM64_SYSREG_CPTR_EL2 = 0xE08A,
-	ARM64_SYSREG_CPTR_EL3 = 0xF08A,
-	ARM64_SYSREG_HSTR_EL2 = 0xE08B,
-	ARM64_SYSREG_HACR_EL2 = 0xE08F,
-	ARM64_SYSREG_MDCR_EL3 = 0xF099,
-	ARM64_SYSREG_TTBR0_EL1 = 0xC100,
-	ARM64_SYSREG_TTBR0_EL2 = 0xE100,
-	ARM64_SYSREG_TTBR0_EL3 = 0xF100,
-	ARM64_SYSREG_TTBR1_EL1 = 0xC101,
-	ARM64_SYSREG_TCR_EL1 = 0xC102,
-	ARM64_SYSREG_TCR_EL2 = 0xE102,
-	ARM64_SYSREG_TCR_EL3 = 0xF102,
-	ARM64_SYSREG_VTTBR_EL2 = 0xE108,
-	ARM64_SYSREG_VTCR_EL2 = 0xE10A,
-	ARM64_SYSREG_DACR32_EL2 = 0xE180,
-	ARM64_SYSREG_SPSR_EL1 = 0xC200,
-	ARM64_SYSREG_SPSR_EL2 = 0xE200,
-	ARM64_SYSREG_SPSR_EL3 = 0xF200,
-	ARM64_SYSREG_ELR_EL1 = 0xC201,
-	ARM64_SYSREG_ELR_EL2 = 0xE201,
-	ARM64_SYSREG_ELR_EL3 = 0xF201,
-	ARM64_SYSREG_SP_EL0 = 0xC208,
-	ARM64_SYSREG_SP_EL1 = 0xE208,
-	ARM64_SYSREG_SP_EL2 = 0xF208,
-	ARM64_SYSREG_SPSEL = 0xC210,
-	ARM64_SYSREG_NZCV = 0xDA10,
-	ARM64_SYSREG_DAIF = 0xDA11,
-	ARM64_SYSREG_CURRENTEL = 0xC212,
-	ARM64_SYSREG_SPSR_IRQ = 0xE218,
-	ARM64_SYSREG_SPSR_ABT = 0xE219,
-	ARM64_SYSREG_SPSR_UND = 0xE21A,
-	ARM64_SYSREG_SPSR_FIQ = 0xE21B,
-	ARM64_SYSREG_FPCR = 0xDA20,
-	ARM64_SYSREG_FPSR = 0xDA21,
-	ARM64_SYSREG_DSPSR_EL0 = 0xDA28,
-	ARM64_SYSREG_DLR_EL0 = 0xDA29,
-	ARM64_SYSREG_IFSR32_EL2 = 0xE281,
-	ARM64_SYSREG_AFSR0_EL1 = 0xC288,
-	ARM64_SYSREG_AFSR0_EL2 = 0xE288,
-	ARM64_SYSREG_AFSR0_EL3 = 0xF288,
-	ARM64_SYSREG_AFSR1_EL1 = 0xC289,
-	ARM64_SYSREG_AFSR1_EL2 = 0xE289,
-	ARM64_SYSREG_AFSR1_EL3 = 0xF289,
-	ARM64_SYSREG_ESR_EL1 = 0xC290,
-	ARM64_SYSREG_ESR_EL2 = 0xE290,
-	ARM64_SYSREG_ESR_EL3 = 0xF290,
-	ARM64_SYSREG_FPEXC32_EL2 = 0xE298,
-	ARM64_SYSREG_FAR_EL1 = 0xC300,
-	ARM64_SYSREG_FAR_EL2 = 0xE300,
-	ARM64_SYSREG_FAR_EL3 = 0xF300,
-	ARM64_SYSREG_HPFAR_EL2 = 0xE304,
-	ARM64_SYSREG_PAR_EL1 = 0xC3A0,
-	ARM64_SYSREG_PMCR_EL0 = 0xDCE0,
-	ARM64_SYSREG_PMCNTENSET_EL0 = 0xDCE1,
-	ARM64_SYSREG_PMCNTENCLR_EL0 = 0xDCE2,
-	ARM64_SYSREG_PMOVSCLR_EL0 = 0xDCE3,
-	ARM64_SYSREG_PMSELR_EL0 = 0xDCE5,
-	ARM64_SYSREG_PMCCNTR_EL0 = 0xDCE8,
-	ARM64_SYSREG_PMXEVTYPER_EL0 = 0xDCE9,
-	ARM64_SYSREG_PMXEVCNTR_EL0 = 0xDCEA,
-	ARM64_SYSREG_PMUSERENR_EL0 = 0xDCF0,
-	ARM64_SYSREG_PMINTENSET_EL1 = 0xC4F1,
-	ARM64_SYSREG_PMINTENCLR_EL1 = 0xC4F2,
-	ARM64_SYSREG_PMOVSSET_EL0 = 0xDCF3,
-	ARM64_SYSREG_MAIR_EL1 = 0xC510,
-	ARM64_SYSREG_MAIR_EL2 = 0xE510,
-	ARM64_SYSREG_MAIR_EL3 = 0xF510,
-	ARM64_SYSREG_AMAIR_EL1 = 0xC518,
-	ARM64_SYSREG_AMAIR_EL2 = 0xE518,
-	ARM64_SYSREG_AMAIR_EL3 = 0xF518,
-	ARM64_SYSREG_VBAR_EL1 = 0xC600,
-	ARM64_SYSREG_VBAR_EL2 = 0xE600,
-	ARM64_SYSREG_VBAR_EL3 = 0xF600,
-	ARM64_SYSREG_RMR_EL1 = 0xC602,
-	ARM64_SYSREG_RMR_EL2 = 0xE602,
-	ARM64_SYSREG_RMR_EL3 = 0xF602,
-	ARM64_SYSREG_CONTEXTIDR_EL1 = 0xC681,
-	ARM64_SYSREG_TPIDR_EL0 = 0xDE82,
-	ARM64_SYSREG_TPIDR_EL2 = 0xE682,
-	ARM64_SYSREG_TPIDR_EL3 = 0xF682,
-	ARM64_SYSREG_TPIDRRO_EL0 = 0xDE83,
-	ARM64_SYSREG_TPIDR_EL1 = 0xC684,
-	ARM64_SYSREG_CNTFRQ_EL0 = 0xDF00,
-	ARM64_SYSREG_CNTVOFF_EL2 = 0xE703,
-	ARM64_SYSREG_CNTKCTL_EL1 = 0xC708,
-	ARM64_SYSREG_CNTHCTL_EL2 = 0xE708,
-	ARM64_SYSREG_CNTP_TVAL_EL0 = 0xDF10,
-	ARM64_SYSREG_CNTHP_TVAL_EL2 = 0xE710,
-	ARM64_SYSREG_CNTPS_TVAL_EL1 = 0xFF10,
-	ARM64_SYSREG_CNTP_CTL_EL0 = 0xDF11,
-	ARM64_SYSREG_CNTHP_CTL_EL2 = 0xE711,
-	ARM64_SYSREG_CNTPS_CTL_EL1 = 0xFF11,
-	ARM64_SYSREG_CNTP_CVAL_EL0 = 0xDF12,
-	ARM64_SYSREG_CNTHP_CVAL_EL2 = 0xE712,
-	ARM64_SYSREG_CNTPS_CVAL_EL1 = 0xFF12,
-	ARM64_SYSREG_CNTV_TVAL_EL0 = 0xDF18,
-	ARM64_SYSREG_CNTV_CTL_EL0 = 0xDF19,
-	ARM64_SYSREG_CNTV_CVAL_EL0 = 0xDF1A,
-	ARM64_SYSREG_PMEVCNTR0_EL0 = 0xDF40,
-	ARM64_SYSREG_PMEVCNTR1_EL0 = 0xDF41,
-	ARM64_SYSREG_PMEVCNTR2_EL0 = 0xDF42,
-	ARM64_SYSREG_PMEVCNTR3_EL0 = 0xDF43,
-	ARM64_SYSREG_PMEVCNTR4_EL0 = 0xDF44,
-	ARM64_SYSREG_PMEVCNTR5_EL0 = 0xDF45,
-	ARM64_SYSREG_PMEVCNTR6_EL0 = 0xDF46,
-	ARM64_SYSREG_PMEVCNTR7_EL0 = 0xDF47,
-	ARM64_SYSREG_PMEVCNTR8_EL0 = 0xDF48,
-	ARM64_SYSREG_PMEVCNTR9_EL0 = 0xDF49,
-	ARM64_SYSREG_PMEVCNTR10_EL0 = 0xDF4A,
-	ARM64_SYSREG_PMEVCNTR11_EL0 = 0xDF4B,
-	ARM64_SYSREG_PMEVCNTR12_EL0 = 0xDF4C,
-	ARM64_SYSREG_PMEVCNTR13_EL0 = 0xDF4D,
-	ARM64_SYSREG_PMEVCNTR14_EL0 = 0xDF4E,
-	ARM64_SYSREG_PMEVCNTR15_EL0 = 0xDF4F,
-	ARM64_SYSREG_PMEVCNTR16_EL0 = 0xDF50,
-	ARM64_SYSREG_PMEVCNTR17_EL0 = 0xDF51,
-	ARM64_SYSREG_PMEVCNTR18_EL0 = 0xDF52,
-	ARM64_SYSREG_PMEVCNTR19_EL0 = 0xDF53,
-	ARM64_SYSREG_PMEVCNTR20_EL0 = 0xDF54,
-	ARM64_SYSREG_PMEVCNTR21_EL0 = 0xDF55,
-	ARM64_SYSREG_PMEVCNTR22_EL0 = 0xDF56,
-	ARM64_SYSREG_PMEVCNTR23_EL0 = 0xDF57,
-	ARM64_SYSREG_PMEVCNTR24_EL0 = 0xDF58,
-	ARM64_SYSREG_PMEVCNTR25_EL0 = 0xDF59,
-	ARM64_SYSREG_PMEVCNTR26_EL0 = 0xDF5A,
-	ARM64_SYSREG_PMEVCNTR27_EL0 = 0xDF5B,
-	ARM64_SYSREG_PMEVCNTR28_EL0 = 0xDF5C,
-	ARM64_SYSREG_PMEVCNTR29_EL0 = 0xDF5D,
-	ARM64_SYSREG_PMEVCNTR30_EL0 = 0xDF5E,
-	ARM64_SYSREG_PMCCFILTR_EL0 = 0xDF7F,
-	ARM64_SYSREG_PMEVTYPER0_EL0 = 0xDF60,
-	ARM64_SYSREG_PMEVTYPER1_EL0 = 0xDF61,
-	ARM64_SYSREG_PMEVTYPER2_EL0 = 0xDF62,
-	ARM64_SYSREG_PMEVTYPER3_EL0 = 0xDF63,
-	ARM64_SYSREG_PMEVTYPER4_EL0 = 0xDF64,
-	ARM64_SYSREG_PMEVTYPER5_EL0 = 0xDF65,
-	ARM64_SYSREG_PMEVTYPER6_EL0 = 0xDF66,
-	ARM64_SYSREG_PMEVTYPER7_EL0 = 0xDF67,
-	ARM64_SYSREG_PMEVTYPER8_EL0 = 0xDF68,
-	ARM64_SYSREG_PMEVTYPER9_EL0 = 0xDF69,
-	ARM64_SYSREG_PMEVTYPER10_EL0 = 0xDF6A,
-	ARM64_SYSREG_PMEVTYPER11_EL0 = 0xDF6B,
-	ARM64_SYSREG_PMEVTYPER12_EL0 = 0xDF6C,
-	ARM64_SYSREG_PMEVTYPER13_EL0 = 0xDF6D,
-	ARM64_SYSREG_PMEVTYPER14_EL0 = 0xDF6E,
-	ARM64_SYSREG_PMEVTYPER15_EL0 = 0xDF6F,
-	ARM64_SYSREG_PMEVTYPER16_EL0 = 0xDF70,
-	ARM64_SYSREG_PMEVTYPER17_EL0 = 0xDF71,
-	ARM64_SYSREG_PMEVTYPER18_EL0 = 0xDF72,
-	ARM64_SYSREG_PMEVTYPER19_EL0 = 0xDF73,
-	ARM64_SYSREG_PMEVTYPER20_EL0 = 0xDF74,
-	ARM64_SYSREG_PMEVTYPER21_EL0 = 0xDF75,
-	ARM64_SYSREG_PMEVTYPER22_EL0 = 0xDF76,
-	ARM64_SYSREG_PMEVTYPER23_EL0 = 0xDF77,
-	ARM64_SYSREG_PMEVTYPER24_EL0 = 0xDF78,
-	ARM64_SYSREG_PMEVTYPER25_EL0 = 0xDF79,
-	ARM64_SYSREG_PMEVTYPER26_EL0 = 0xDF7A,
-	ARM64_SYSREG_PMEVTYPER27_EL0 = 0xDF7B,
-	ARM64_SYSREG_PMEVTYPER28_EL0 = 0xDF7C,
-	ARM64_SYSREG_PMEVTYPER29_EL0 = 0xDF7D,
-	ARM64_SYSREG_PMEVTYPER30_EL0 = 0xDF7E,
-	ARM64_SYSREG_TRCPRGCTLR = 0x8808,
-	ARM64_SYSREG_TRCPROCSELR = 0x8810,
-	ARM64_SYSREG_TRCCONFIGR = 0x8820,
-	ARM64_SYSREG_TRCAUXCTLR = 0x8830,
-	ARM64_SYSREG_TRCEVENTCTL0R = 0x8840,
-	ARM64_SYSREG_TRCEVENTCTL1R = 0x8848,
-	ARM64_SYSREG_TRCSTALLCTLR = 0x8858,
-	ARM64_SYSREG_TRCTSCTLR = 0x8860,
-	ARM64_SYSREG_TRCSYNCPR = 0x8868,
-	ARM64_SYSREG_TRCCCCTLR = 0x8870,
-	ARM64_SYSREG_TRCBBCTLR = 0x8878,
-	ARM64_SYSREG_TRCTRACEIDR = 0x8801,
-	ARM64_SYSREG_TRCQCTLR = 0x8809,
-	ARM64_SYSREG_TRCVICTLR = 0x8802,
-	ARM64_SYSREG_TRCVIIECTLR = 0x880A,
-	ARM64_SYSREG_TRCVISSCTLR = 0x8812,
-	ARM64_SYSREG_TRCVIPCSSCTLR = 0x881A,
-	ARM64_SYSREG_TRCVDCTLR = 0x8842,
-	ARM64_SYSREG_TRCVDSACCTLR = 0x884A,
-	ARM64_SYSREG_TRCVDARCCTLR = 0x8852,
-	ARM64_SYSREG_TRCSEQEVR0 = 0x8804,
-	ARM64_SYSREG_TRCSEQEVR1 = 0x880C,
-	ARM64_SYSREG_TRCSEQEVR2 = 0x8814,
-	ARM64_SYSREG_TRCSEQRSTEVR = 0x8834,
-	ARM64_SYSREG_TRCSEQSTR = 0x883C,
-	ARM64_SYSREG_TRCEXTINSELR = 0x8844,
-	ARM64_SYSREG_TRCCNTRLDVR0 = 0x8805,
-	ARM64_SYSREG_TRCCNTRLDVR1 = 0x880D,
-	ARM64_SYSREG_TRCCNTRLDVR2 = 0x8815,
-	ARM64_SYSREG_TRCCNTRLDVR3 = 0x881D,
-	ARM64_SYSREG_TRCCNTCTLR0 = 0x8825,
-	ARM64_SYSREG_TRCCNTCTLR1 = 0x882D,
-	ARM64_SYSREG_TRCCNTCTLR2 = 0x8835,
-	ARM64_SYSREG_TRCCNTCTLR3 = 0x883D,
-	ARM64_SYSREG_TRCCNTVR0 = 0x8845,
-	ARM64_SYSREG_TRCCNTVR1 = 0x884D,
-	ARM64_SYSREG_TRCCNTVR2 = 0x8855,
-	ARM64_SYSREG_TRCCNTVR3 = 0x885D,
-	ARM64_SYSREG_TRCIMSPEC0 = 0x8807,
-	ARM64_SYSREG_TRCIMSPEC1 = 0x880F,
-	ARM64_SYSREG_TRCIMSPEC2 = 0x8817,
-	ARM64_SYSREG_TRCIMSPEC3 = 0x881F,
-	ARM64_SYSREG_TRCIMSPEC4 = 0x8827,
-	ARM64_SYSREG_TRCIMSPEC5 = 0x882F,
-	ARM64_SYSREG_TRCIMSPEC6 = 0x8837,
-	ARM64_SYSREG_TRCIMSPEC7 = 0x883F,
-	ARM64_SYSREG_TRCRSCTLR2 = 0x8890,
-	ARM64_SYSREG_TRCRSCTLR3 = 0x8898,
-	ARM64_SYSREG_TRCRSCTLR4 = 0x88A0,
-	ARM64_SYSREG_TRCRSCTLR5 = 0x88A8,
-	ARM64_SYSREG_TRCRSCTLR6 = 0x88B0,
-	ARM64_SYSREG_TRCRSCTLR7 = 0x88B8,
-	ARM64_SYSREG_TRCRSCTLR8 = 0x88C0,
-	ARM64_SYSREG_TRCRSCTLR9 = 0x88C8,
-	ARM64_SYSREG_TRCRSCTLR10 = 0x88D0,
-	ARM64_SYSREG_TRCRSCTLR11 = 0x88D8,
-	ARM64_SYSREG_TRCRSCTLR12 = 0x88E0,
-	ARM64_SYSREG_TRCRSCTLR13 = 0x88E8,
-	ARM64_SYSREG_TRCRSCTLR14 = 0x88F0,
-	ARM64_SYSREG_TRCRSCTLR15 = 0x88F8,
-	ARM64_SYSREG_TRCRSCTLR16 = 0x8881,
-	ARM64_SYSREG_TRCRSCTLR17 = 0x8889,
-	ARM64_SYSREG_TRCRSCTLR18 = 0x8891,
-	ARM64_SYSREG_TRCRSCTLR19 = 0x8899,
-	ARM64_SYSREG_TRCRSCTLR20 = 0x88A1,
-	ARM64_SYSREG_TRCRSCTLR21 = 0x88A9,
-	ARM64_SYSREG_TRCRSCTLR22 = 0x88B1,
-	ARM64_SYSREG_TRCRSCTLR23 = 0x88B9,
-	ARM64_SYSREG_TRCRSCTLR24 = 0x88C1,
-	ARM64_SYSREG_TRCRSCTLR25 = 0x88C9,
-	ARM64_SYSREG_TRCRSCTLR26 = 0x88D1,
-	ARM64_SYSREG_TRCRSCTLR27 = 0x88D9,
-	ARM64_SYSREG_TRCRSCTLR28 = 0x88E1,
-	ARM64_SYSREG_TRCRSCTLR29 = 0x88E9,
-	ARM64_SYSREG_TRCRSCTLR30 = 0x88F1,
-	ARM64_SYSREG_TRCRSCTLR31 = 0x88F9,
-	ARM64_SYSREG_TRCSSCCR0 = 0x8882,
-	ARM64_SYSREG_TRCSSCCR1 = 0x888A,
-	ARM64_SYSREG_TRCSSCCR2 = 0x8892,
-	ARM64_SYSREG_TRCSSCCR3 = 0x889A,
-	ARM64_SYSREG_TRCSSCCR4 = 0x88A2,
-	ARM64_SYSREG_TRCSSCCR5 = 0x88AA,
-	ARM64_SYSREG_TRCSSCCR6 = 0x88B2,
-	ARM64_SYSREG_TRCSSCCR7 = 0x88BA,
-	ARM64_SYSREG_TRCSSCSR0 = 0x88C2,
-	ARM64_SYSREG_TRCSSCSR1 = 0x88CA,
-	ARM64_SYSREG_TRCSSCSR2 = 0x88D2,
-	ARM64_SYSREG_TRCSSCSR3 = 0x88DA,
-	ARM64_SYSREG_TRCSSCSR4 = 0x88E2,
-	ARM64_SYSREG_TRCSSCSR5 = 0x88EA,
-	ARM64_SYSREG_TRCSSCSR6 = 0x88F2,
-	ARM64_SYSREG_TRCSSCSR7 = 0x88FA,
-	ARM64_SYSREG_TRCSSPCICR0 = 0x8883,
-	ARM64_SYSREG_TRCSSPCICR1 = 0x888B,
-	ARM64_SYSREG_TRCSSPCICR2 = 0x8893,
-	ARM64_SYSREG_TRCSSPCICR3 = 0x889B,
-	ARM64_SYSREG_TRCSSPCICR4 = 0x88A3,
-	ARM64_SYSREG_TRCSSPCICR5 = 0x88AB,
-	ARM64_SYSREG_TRCSSPCICR6 = 0x88B3,
-	ARM64_SYSREG_TRCSSPCICR7 = 0x88BB,
-	ARM64_SYSREG_TRCPDCR = 0x88A4,
-	ARM64_SYSREG_TRCACVR0 = 0x8900,
-	ARM64_SYSREG_TRCACVR1 = 0x8910,
-	ARM64_SYSREG_TRCACVR2 = 0x8920,
-	ARM64_SYSREG_TRCACVR3 = 0x8930,
-	ARM64_SYSREG_TRCACVR4 = 0x8940,
-	ARM64_SYSREG_TRCACVR5 = 0x8950,
-	ARM64_SYSREG_TRCACVR6 = 0x8960,
-	ARM64_SYSREG_TRCACVR7 = 0x8970,
-	ARM64_SYSREG_TRCACVR8 = 0x8901,
-	ARM64_SYSREG_TRCACVR9 = 0x8911,
-	ARM64_SYSREG_TRCACVR10 = 0x8921,
-	ARM64_SYSREG_TRCACVR11 = 0x8931,
-	ARM64_SYSREG_TRCACVR12 = 0x8941,
-	ARM64_SYSREG_TRCACVR13 = 0x8951,
-	ARM64_SYSREG_TRCACVR14 = 0x8961,
-	ARM64_SYSREG_TRCACVR15 = 0x8971,
-	ARM64_SYSREG_TRCACATR0 = 0x8902,
-	ARM64_SYSREG_TRCACATR1 = 0x8912,
-	ARM64_SYSREG_TRCACATR2 = 0x8922,
-	ARM64_SYSREG_TRCACATR3 = 0x8932,
-	ARM64_SYSREG_TRCACATR4 = 0x8942,
-	ARM64_SYSREG_TRCACATR5 = 0x8952,
-	ARM64_SYSREG_TRCACATR6 = 0x8962,
-	ARM64_SYSREG_TRCACATR7 = 0x8972,
-	ARM64_SYSREG_TRCACATR8 = 0x8903,
-	ARM64_SYSREG_TRCACATR9 = 0x8913,
-	ARM64_SYSREG_TRCACATR10 = 0x8923,
-	ARM64_SYSREG_TRCACATR11 = 0x8933,
-	ARM64_SYSREG_TRCACATR12 = 0x8943,
-	ARM64_SYSREG_TRCACATR13 = 0x8953,
-	ARM64_SYSREG_TRCACATR14 = 0x8963,
-	ARM64_SYSREG_TRCACATR15 = 0x8973,
-	ARM64_SYSREG_TRCDVCVR0 = 0x8904,
-	ARM64_SYSREG_TRCDVCVR1 = 0x8924,
-	ARM64_SYSREG_TRCDVCVR2 = 0x8944,
-	ARM64_SYSREG_TRCDVCVR3 = 0x8964,
-	ARM64_SYSREG_TRCDVCVR4 = 0x8905,
-	ARM64_SYSREG_TRCDVCVR5 = 0x8925,
-	ARM64_SYSREG_TRCDVCVR6 = 0x8945,
-	ARM64_SYSREG_TRCDVCVR7 = 0x8965,
-	ARM64_SYSREG_TRCDVCMR0 = 0x8906,
-	ARM64_SYSREG_TRCDVCMR1 = 0x8926,
-	ARM64_SYSREG_TRCDVCMR2 = 0x8946,
-	ARM64_SYSREG_TRCDVCMR3 = 0x8966,
-	ARM64_SYSREG_TRCDVCMR4 = 0x8907,
-	ARM64_SYSREG_TRCDVCMR5 = 0x8927,
-	ARM64_SYSREG_TRCDVCMR6 = 0x8947,
-	ARM64_SYSREG_TRCDVCMR7 = 0x8967,
-	ARM64_SYSREG_TRCCIDCVR0 = 0x8980,
-	ARM64_SYSREG_TRCCIDCVR1 = 0x8990,
-	ARM64_SYSREG_TRCCIDCVR2 = 0x89A0,
-	ARM64_SYSREG_TRCCIDCVR3 = 0x89B0,
-	ARM64_SYSREG_TRCCIDCVR4 = 0x89C0,
-	ARM64_SYSREG_TRCCIDCVR5 = 0x89D0,
-	ARM64_SYSREG_TRCCIDCVR6 = 0x89E0,
-	ARM64_SYSREG_TRCCIDCVR7 = 0x89F0,
-	ARM64_SYSREG_TRCVMIDCVR0 = 0x8981,
-	ARM64_SYSREG_TRCVMIDCVR1 = 0x8991,
-	ARM64_SYSREG_TRCVMIDCVR2 = 0x89A1,
-	ARM64_SYSREG_TRCVMIDCVR3 = 0x89B1,
-	ARM64_SYSREG_TRCVMIDCVR4 = 0x89C1,
-	ARM64_SYSREG_TRCVMIDCVR5 = 0x89D1,
-	ARM64_SYSREG_TRCVMIDCVR6 = 0x89E1,
-	ARM64_SYSREG_TRCVMIDCVR7 = 0x89F1,
-	ARM64_SYSREG_TRCCIDCCTLR0 = 0x8982,
-	ARM64_SYSREG_TRCCIDCCTLR1 = 0x898A,
-	ARM64_SYSREG_TRCVMIDCCTLR0 = 0x8992,
-	ARM64_SYSREG_TRCVMIDCCTLR1 = 0x899A,
-	ARM64_SYSREG_TRCITCTRL = 0x8B84,
-	ARM64_SYSREG_TRCCLAIMSET = 0x8BC6,
-	ARM64_SYSREG_TRCCLAIMCLR = 0x8BCE,
-	ARM64_SYSREG_ICC_BPR1_EL1 = 0xC663,
-	ARM64_SYSREG_ICC_BPR0_EL1 = 0xC643,
-	ARM64_SYSREG_ICC_PMR_EL1 = 0xC230,
-	ARM64_SYSREG_ICC_CTLR_EL1 = 0xC664,
-	ARM64_SYSREG_ICC_CTLR_EL3 = 0xF664,
-	ARM64_SYSREG_ICC_SRE_EL1 = 0xC665,
-	ARM64_SYSREG_ICC_SRE_EL2 = 0xE64D,
-	ARM64_SYSREG_ICC_SRE_EL3 = 0xF665,
-	ARM64_SYSREG_ICC_IGRPEN0_EL1 = 0xC666,
-	ARM64_SYSREG_ICC_IGRPEN1_EL1 = 0xC667,
-	ARM64_SYSREG_ICC_IGRPEN1_EL3 = 0xF667,
-	ARM64_SYSREG_ICC_SEIEN_EL1 = 0xC668,
-	ARM64_SYSREG_ICC_AP0R0_EL1 = 0xC644,
-	ARM64_SYSREG_ICC_AP0R1_EL1 = 0xC645,
-	ARM64_SYSREG_ICC_AP0R2_EL1 = 0xC646,
-	ARM64_SYSREG_ICC_AP0R3_EL1 = 0xC647,
-	ARM64_SYSREG_ICC_AP1R0_EL1 = 0xC648,
-	ARM64_SYSREG_ICC_AP1R1_EL1 = 0xC649,
-	ARM64_SYSREG_ICC_AP1R2_EL1 = 0xC64A,
-	ARM64_SYSREG_ICC_AP1R3_EL1 = 0xC64B,
-	ARM64_SYSREG_ICH_AP0R0_EL2 = 0xE640,
-	ARM64_SYSREG_ICH_AP0R1_EL2 = 0xE641,
-	ARM64_SYSREG_ICH_AP0R2_EL2 = 0xE642,
-	ARM64_SYSREG_ICH_AP0R3_EL2 = 0xE643,
-	ARM64_SYSREG_ICH_AP1R0_EL2 = 0xE648,
-	ARM64_SYSREG_ICH_AP1R1_EL2 = 0xE649,
-	ARM64_SYSREG_ICH_AP1R2_EL2 = 0xE64A,
-	ARM64_SYSREG_ICH_AP1R3_EL2 = 0xE64B,
-	ARM64_SYSREG_ICH_HCR_EL2 = 0xE658,
-	ARM64_SYSREG_ICH_MISR_EL2 = 0xE65A,
-	ARM64_SYSREG_ICH_VMCR_EL2 = 0xE65F,
-	ARM64_SYSREG_ICH_VSEIR_EL2 = 0xE64C,
-	ARM64_SYSREG_ICH_LR0_EL2 = 0xE660,
-	ARM64_SYSREG_ICH_LR1_EL2 = 0xE661,
-	ARM64_SYSREG_ICH_LR2_EL2 = 0xE662,
-	ARM64_SYSREG_ICH_LR3_EL2 = 0xE663,
-	ARM64_SYSREG_ICH_LR4_EL2 = 0xE664,
-	ARM64_SYSREG_ICH_LR5_EL2 = 0xE665,
-	ARM64_SYSREG_ICH_LR6_EL2 = 0xE666,
-	ARM64_SYSREG_ICH_LR7_EL2 = 0xE667,
-	ARM64_SYSREG_ICH_LR8_EL2 = 0xE668,
-	ARM64_SYSREG_ICH_LR9_EL2 = 0xE669,
-	ARM64_SYSREG_ICH_LR10_EL2 = 0xE66A,
-	ARM64_SYSREG_ICH_LR11_EL2 = 0xE66B,
-	ARM64_SYSREG_ICH_LR12_EL2 = 0xE66C,
-	ARM64_SYSREG_ICH_LR13_EL2 = 0xE66D,
-	ARM64_SYSREG_ICH_LR14_EL2 = 0xE66E,
-	ARM64_SYSREG_ICH_LR15_EL2 = 0xE66F,
-	ARM64_SYSREG_PAN = 0xC213,
-	ARM64_SYSREG_LORSA_EL1 = 0xC520,
-	ARM64_SYSREG_LOREA_EL1 = 0xC521,
-	ARM64_SYSREG_LORN_EL1 = 0xC522,
-	ARM64_SYSREG_LORC_EL1 = 0xC523,
-	ARM64_SYSREG_TTBR1_EL2 = 0xE101,
-	ARM64_SYSREG_CONTEXTIDR_EL2 = 0xE681,
-	ARM64_SYSREG_CNTHV_TVAL_EL2 = 0xE718,
-	ARM64_SYSREG_CNTHV_CVAL_EL2 = 0xE71A,
-	ARM64_SYSREG_CNTHV_CTL_EL2 = 0xE719,
-	ARM64_SYSREG_SCTLR_EL12 = 0xE880,
-	ARM64_SYSREG_CPACR_EL12 = 0xE882,
-	ARM64_SYSREG_TTBR0_EL12 = 0xE900,
-	ARM64_SYSREG_TTBR1_EL12 = 0xE901,
-	ARM64_SYSREG_TCR_EL12 = 0xE902,
-	ARM64_SYSREG_AFSR0_EL12 = 0xEA88,
-	ARM64_SYSREG_AFSR1_EL12 = 0xEA89,
-	ARM64_SYSREG_ESR_EL12 = 0xEA90,
-	ARM64_SYSREG_FAR_EL12 = 0xEB00,
-	ARM64_SYSREG_MAIR_EL12 = 0xED10,
-	ARM64_SYSREG_AMAIR_EL12 = 0xED18,
-	ARM64_SYSREG_VBAR_EL12 = 0xEE00,
-	ARM64_SYSREG_CONTEXTIDR_EL12 = 0xEE81,
-	ARM64_SYSREG_CNTKCTL_EL12 = 0xEF08,
-	ARM64_SYSREG_CNTP_TVAL_EL02 = 0xEF10,
-	ARM64_SYSREG_CNTP_CTL_EL02 = 0xEF11,
-	ARM64_SYSREG_CNTP_CVAL_EL02 = 0xEF12,
-	ARM64_SYSREG_CNTV_TVAL_EL02 = 0xEF18,
-	ARM64_SYSREG_CNTV_CTL_EL02 = 0xEF19,
-	ARM64_SYSREG_CNTV_CVAL_EL02 = 0xEF1A,
-	ARM64_SYSREG_SPSR_EL12 = 0xEA00,
-	ARM64_SYSREG_ELR_EL12 = 0xEA01,
-	ARM64_SYSREG_UAO = 0xC214,
-	ARM64_SYSREG_PMBLIMITR_EL1 = 0xC4D0,
-	ARM64_SYSREG_PMBPTR_EL1 = 0xC4D1,
-	ARM64_SYSREG_PMBSR_EL1 = 0xC4D3,
-	ARM64_SYSREG_PMBIDR_EL1 = 0xC4D7,
-	ARM64_SYSREG_PMSCR_EL2 = 0xE4C8,
-	ARM64_SYSREG_PMSCR_EL12 = 0xECC8,
-	ARM64_SYSREG_PMSCR_EL1 = 0xC4C8,
-	ARM64_SYSREG_PMSICR_EL1 = 0xC4CA,
-	ARM64_SYSREG_PMSIRR_EL1 = 0xC4CB,
-	ARM64_SYSREG_PMSFCR_EL1 = 0xC4CC,
-	ARM64_SYSREG_PMSEVFR_EL1 = 0xC4CD,
-	ARM64_SYSREG_PMSLATFR_EL1 = 0xC4CE,
-	ARM64_SYSREG_PMSIDR_EL1 = 0xC4CF,
-	ARM64_SYSREG_ERRSELR_EL1 = 0xC299,
-	ARM64_SYSREG_ERXCTLR_EL1 = 0xC2A1,
-	ARM64_SYSREG_ERXSTATUS_EL1 = 0xC2A2,
-	ARM64_SYSREG_ERXADDR_EL1 = 0xC2A3,
-	ARM64_SYSREG_ERXMISC0_EL1 = 0xC2A8,
-	ARM64_SYSREG_ERXMISC1_EL1 = 0xC2A9,
-	ARM64_SYSREG_DISR_EL1 = 0xC609,
-	ARM64_SYSREG_VDISR_EL2 = 0xE609,
-	ARM64_SYSREG_VSESR_EL2 = 0xE293,
-	ARM64_SYSREG_APIAKEYLO_EL1 = 0xC108,
-	ARM64_SYSREG_APIAKEYHI_EL1 = 0xC109,
-	ARM64_SYSREG_APIBKEYLO_EL1 = 0xC10A,
-	ARM64_SYSREG_APIBKEYHI_EL1 = 0xC10B,
-	ARM64_SYSREG_APDAKEYLO_EL1 = 0xC110,
-	ARM64_SYSREG_APDAKEYHI_EL1 = 0xC111,
-	ARM64_SYSREG_APDBKEYLO_EL1 = 0xC112,
-	ARM64_SYSREG_APDBKEYHI_EL1 = 0xC113,
-	ARM64_SYSREG_APGAKEYLO_EL1 = 0xC118,
-	ARM64_SYSREG_APGAKEYHI_EL1 = 0xC119,
-	ARM64_SYSREG_VSTCR_EL2 = 0xE132,
-	ARM64_SYSREG_VSTTBR_EL2 = 0xE130,
-	ARM64_SYSREG_CNTHVS_TVAL_EL2 = 0xE720,
-	ARM64_SYSREG_CNTHVS_CVAL_EL2 = 0xE722,
-	ARM64_SYSREG_CNTHVS_CTL_EL2 = 0xE721,
-	ARM64_SYSREG_CNTHPS_TVAL_EL2 = 0xE728,
-	ARM64_SYSREG_CNTHPS_CVAL_EL2 = 0xE72A,
-	ARM64_SYSREG_CNTHPS_CTL_EL2 = 0xE729,
-	ARM64_SYSREG_SDER32_EL2 = 0xE099,
-	ARM64_SYSREG_ERXPFGCTL_EL1 = 0xC2A5,
-	ARM64_SYSREG_ERXPFGCDN_EL1 = 0xC2A6,
-	ARM64_SYSREG_ERXTS_EL1 = 0xC2AF,
-	ARM64_SYSREG_ERXMISC2_EL1 = 0xC2AA,
-	ARM64_SYSREG_ERXMISC3_EL1 = 0xC2AB,
-	ARM64_SYSREG_ERXPFGF_EL1 = 0xC2A4,
-	ARM64_SYSREG_MPAM0_EL1 = 0xC529,
-	ARM64_SYSREG_MPAM1_EL1 = 0xC528,
-	ARM64_SYSREG_MPAM2_EL2 = 0xE528,
-	ARM64_SYSREG_MPAM3_EL3 = 0xF528,
-	ARM64_SYSREG_MPAM1_EL12 = 0xED28,
-	ARM64_SYSREG_MPAMHCR_EL2 = 0xE520,
-	ARM64_SYSREG_MPAMVPMV_EL2 = 0xE521,
-	ARM64_SYSREG_MPAMVPM0_EL2 = 0xE530,
-	ARM64_SYSREG_MPAMVPM1_EL2 = 0xE531,
-	ARM64_SYSREG_MPAMVPM2_EL2 = 0xE532,
-	ARM64_SYSREG_MPAMVPM3_EL2 = 0xE533,
-	ARM64_SYSREG_MPAMVPM4_EL2 = 0xE534,
-	ARM64_SYSREG_MPAMVPM5_EL2 = 0xE535,
-	ARM64_SYSREG_MPAMVPM6_EL2 = 0xE536,
-	ARM64_SYSREG_MPAMVPM7_EL2 = 0xE537,
-	ARM64_SYSREG_MPAMIDR_EL1 = 0xC524,
-	ARM64_SYSREG_AMCR_EL0 = 0xDE90,
-	ARM64_SYSREG_AMCFGR_EL0 = 0xDE91,
-	ARM64_SYSREG_AMCGCR_EL0 = 0xDE92,
-	ARM64_SYSREG_AMUSERENR_EL0 = 0xDE93,
-	ARM64_SYSREG_AMCNTENCLR0_EL0 = 0xDE94,
-	ARM64_SYSREG_AMCNTENSET0_EL0 = 0xDE95,
-	ARM64_SYSREG_AMEVCNTR00_EL0 = 0xDEA0,
-	ARM64_SYSREG_AMEVCNTR01_EL0 = 0xDEA1,
-	ARM64_SYSREG_AMEVCNTR02_EL0 = 0xDEA2,
-	ARM64_SYSREG_AMEVCNTR03_EL0 = 0xDEA3,
-	ARM64_SYSREG_AMEVTYPER00_EL0 = 0xDEB0,
-	ARM64_SYSREG_AMEVTYPER01_EL0 = 0xDEB1,
-	ARM64_SYSREG_AMEVTYPER02_EL0 = 0xDEB2,
-	ARM64_SYSREG_AMEVTYPER03_EL0 = 0xDEB3,
-	ARM64_SYSREG_AMCNTENCLR1_EL0 = 0xDE98,
-	ARM64_SYSREG_AMCNTENSET1_EL0 = 0xDE99,
-	ARM64_SYSREG_AMEVCNTR10_EL0 = 0xDEE0,
-	ARM64_SYSREG_AMEVCNTR11_EL0 = 0xDEE1,
-	ARM64_SYSREG_AMEVCNTR12_EL0 = 0xDEE2,
-	ARM64_SYSREG_AMEVCNTR13_EL0 = 0xDEE3,
-	ARM64_SYSREG_AMEVCNTR14_EL0 = 0xDEE4,
-	ARM64_SYSREG_AMEVCNTR15_EL0 = 0xDEE5,
-	ARM64_SYSREG_AMEVCNTR16_EL0 = 0xDEE6,
-	ARM64_SYSREG_AMEVCNTR17_EL0 = 0xDEE7,
-	ARM64_SYSREG_AMEVCNTR18_EL0 = 0xDEE8,
-	ARM64_SYSREG_AMEVCNTR19_EL0 = 0xDEE9,
-	ARM64_SYSREG_AMEVCNTR110_EL0 = 0xDEEA,
-	ARM64_SYSREG_AMEVCNTR111_EL0 = 0xDEEB,
-	ARM64_SYSREG_AMEVCNTR112_EL0 = 0xDEEC,
-	ARM64_SYSREG_AMEVCNTR113_EL0 = 0xDEED,
-	ARM64_SYSREG_AMEVCNTR114_EL0 = 0xDEEE,
-	ARM64_SYSREG_AMEVCNTR115_EL0 = 0xDEEF,
-	ARM64_SYSREG_AMEVTYPER10_EL0 = 0xDEF0,
-	ARM64_SYSREG_AMEVTYPER11_EL0 = 0xDEF1,
-	ARM64_SYSREG_AMEVTYPER12_EL0 = 0xDEF2,
-	ARM64_SYSREG_AMEVTYPER13_EL0 = 0xDEF3,
-	ARM64_SYSREG_AMEVTYPER14_EL0 = 0xDEF4,
-	ARM64_SYSREG_AMEVTYPER15_EL0 = 0xDEF5,
-	ARM64_SYSREG_AMEVTYPER16_EL0 = 0xDEF6,
-	ARM64_SYSREG_AMEVTYPER17_EL0 = 0xDEF7,
-	ARM64_SYSREG_AMEVTYPER18_EL0 = 0xDEF8,
-	ARM64_SYSREG_AMEVTYPER19_EL0 = 0xDEF9,
-	ARM64_SYSREG_AMEVTYPER110_EL0 = 0xDEFA,
-	ARM64_SYSREG_AMEVTYPER111_EL0 = 0xDEFB,
-	ARM64_SYSREG_AMEVTYPER112_EL0 = 0xDEFC,
-	ARM64_SYSREG_AMEVTYPER113_EL0 = 0xDEFD,
-	ARM64_SYSREG_AMEVTYPER114_EL0 = 0xDEFE,
-	ARM64_SYSREG_AMEVTYPER115_EL0 = 0xDEFF,
-	ARM64_SYSREG_TRFCR_EL1 = 0xC091,
-	ARM64_SYSREG_TRFCR_EL2 = 0xE091,
-	ARM64_SYSREG_TRFCR_EL12 = 0xE891,
-	ARM64_SYSREG_DIT = 0xDA15,
-	ARM64_SYSREG_VNCR_EL2 = 0xE110,
-	ARM64_SYSREG_ZCR_EL1 = 0xC090,
-	ARM64_SYSREG_ZCR_EL2 = 0xE090,
-	ARM64_SYSREG_ZCR_EL3 = 0xF090,
-	ARM64_SYSREG_ZCR_EL12 = 0xE890,
-	ARM64_SYSREG_CPM_IOACC_CTL_EL3 = 0xFF90,
+  ARM64_SYSREG_ACCDATA_EL1 = 0xC685,
+  ARM64_SYSREG_ACTLR_EL1 = 0xC081,
+  ARM64_SYSREG_ACTLR_EL2 = 0xE081,
+  ARM64_SYSREG_ACTLR_EL3 = 0xF081,
+  ARM64_SYSREG_AFSR0_EL1 = 0xC288,
+  ARM64_SYSREG_AFSR0_EL12 = 0xEA88,
+  ARM64_SYSREG_AFSR0_EL2 = 0xE288,
+  ARM64_SYSREG_AFSR0_EL3 = 0xF288,
+  ARM64_SYSREG_AFSR1_EL1 = 0xC289,
+  ARM64_SYSREG_AFSR1_EL12 = 0xEA89,
+  ARM64_SYSREG_AFSR1_EL2 = 0xE289,
+  ARM64_SYSREG_AFSR1_EL3 = 0xF289,
+  ARM64_SYSREG_AIDR_EL1 = 0xC807,
+  ARM64_SYSREG_AMAIR_EL1 = 0xC518,
+  ARM64_SYSREG_AMAIR_EL12 = 0xED18,
+  ARM64_SYSREG_AMAIR_EL2 = 0xE518,
+  ARM64_SYSREG_AMAIR_EL3 = 0xF518,
+  ARM64_SYSREG_AMCFGR_EL0 = 0xDE91,
+  ARM64_SYSREG_AMCGCR_EL0 = 0xDE92,
+  ARM64_SYSREG_AMCNTENCLR0_EL0 = 0xDE94,
+  ARM64_SYSREG_AMCNTENCLR1_EL0 = 0xDE98,
+  ARM64_SYSREG_AMCNTENSET0_EL0 = 0xDE95,
+  ARM64_SYSREG_AMCNTENSET1_EL0 = 0xDE99,
+  ARM64_SYSREG_AMCR_EL0 = 0xDE90,
+  ARM64_SYSREG_AMEVCNTR00_EL0 = 0xDEA0,
+  ARM64_SYSREG_AMEVCNTR01_EL0 = 0xDEA1,
+  ARM64_SYSREG_AMEVCNTR02_EL0 = 0xDEA2,
+  ARM64_SYSREG_AMEVCNTR03_EL0 = 0xDEA3,
+  ARM64_SYSREG_AMEVCNTR10_EL0 = 0xDEE0,
+  ARM64_SYSREG_AMEVCNTR110_EL0 = 0xDEEA,
+  ARM64_SYSREG_AMEVCNTR111_EL0 = 0xDEEB,
+  ARM64_SYSREG_AMEVCNTR112_EL0 = 0xDEEC,
+  ARM64_SYSREG_AMEVCNTR113_EL0 = 0xDEED,
+  ARM64_SYSREG_AMEVCNTR114_EL0 = 0xDEEE,
+  ARM64_SYSREG_AMEVCNTR115_EL0 = 0xDEEF,
+  ARM64_SYSREG_AMEVCNTR11_EL0 = 0xDEE1,
+  ARM64_SYSREG_AMEVCNTR12_EL0 = 0xDEE2,
+  ARM64_SYSREG_AMEVCNTR13_EL0 = 0xDEE3,
+  ARM64_SYSREG_AMEVCNTR14_EL0 = 0xDEE4,
+  ARM64_SYSREG_AMEVCNTR15_EL0 = 0xDEE5,
+  ARM64_SYSREG_AMEVCNTR16_EL0 = 0xDEE6,
+  ARM64_SYSREG_AMEVCNTR17_EL0 = 0xDEE7,
+  ARM64_SYSREG_AMEVCNTR18_EL0 = 0xDEE8,
+  ARM64_SYSREG_AMEVCNTR19_EL0 = 0xDEE9,
+  ARM64_SYSREG_AMEVCNTVOFF00_EL2 = 0xE6C0,
+  ARM64_SYSREG_AMEVCNTVOFF010_EL2 = 0xE6CA,
+  ARM64_SYSREG_AMEVCNTVOFF011_EL2 = 0xE6CB,
+  ARM64_SYSREG_AMEVCNTVOFF012_EL2 = 0xE6CC,
+  ARM64_SYSREG_AMEVCNTVOFF013_EL2 = 0xE6CD,
+  ARM64_SYSREG_AMEVCNTVOFF014_EL2 = 0xE6CE,
+  ARM64_SYSREG_AMEVCNTVOFF015_EL2 = 0xE6CF,
+  ARM64_SYSREG_AMEVCNTVOFF01_EL2 = 0xE6C1,
+  ARM64_SYSREG_AMEVCNTVOFF02_EL2 = 0xE6C2,
+  ARM64_SYSREG_AMEVCNTVOFF03_EL2 = 0xE6C3,
+  ARM64_SYSREG_AMEVCNTVOFF04_EL2 = 0xE6C4,
+  ARM64_SYSREG_AMEVCNTVOFF05_EL2 = 0xE6C5,
+  ARM64_SYSREG_AMEVCNTVOFF06_EL2 = 0xE6C6,
+  ARM64_SYSREG_AMEVCNTVOFF07_EL2 = 0xE6C7,
+  ARM64_SYSREG_AMEVCNTVOFF08_EL2 = 0xE6C8,
+  ARM64_SYSREG_AMEVCNTVOFF09_EL2 = 0xE6C9,
+  ARM64_SYSREG_AMEVCNTVOFF10_EL2 = 0xE6D0,
+  ARM64_SYSREG_AMEVCNTVOFF110_EL2 = 0xE6DA,
+  ARM64_SYSREG_AMEVCNTVOFF111_EL2 = 0xE6DB,
+  ARM64_SYSREG_AMEVCNTVOFF112_EL2 = 0xE6DC,
+  ARM64_SYSREG_AMEVCNTVOFF113_EL2 = 0xE6DD,
+  ARM64_SYSREG_AMEVCNTVOFF114_EL2 = 0xE6DE,
+  ARM64_SYSREG_AMEVCNTVOFF115_EL2 = 0xE6DF,
+  ARM64_SYSREG_AMEVCNTVOFF11_EL2 = 0xE6D1,
+  ARM64_SYSREG_AMEVCNTVOFF12_EL2 = 0xE6D2,
+  ARM64_SYSREG_AMEVCNTVOFF13_EL2 = 0xE6D3,
+  ARM64_SYSREG_AMEVCNTVOFF14_EL2 = 0xE6D4,
+  ARM64_SYSREG_AMEVCNTVOFF15_EL2 = 0xE6D5,
+  ARM64_SYSREG_AMEVCNTVOFF16_EL2 = 0xE6D6,
+  ARM64_SYSREG_AMEVCNTVOFF17_EL2 = 0xE6D7,
+  ARM64_SYSREG_AMEVCNTVOFF18_EL2 = 0xE6D8,
+  ARM64_SYSREG_AMEVCNTVOFF19_EL2 = 0xE6D9,
+  ARM64_SYSREG_AMEVTYPER00_EL0 = 0xDEB0,
+  ARM64_SYSREG_AMEVTYPER01_EL0 = 0xDEB1,
+  ARM64_SYSREG_AMEVTYPER02_EL0 = 0xDEB2,
+  ARM64_SYSREG_AMEVTYPER03_EL0 = 0xDEB3,
+  ARM64_SYSREG_AMEVTYPER10_EL0 = 0xDEF0,
+  ARM64_SYSREG_AMEVTYPER110_EL0 = 0xDEFA,
+  ARM64_SYSREG_AMEVTYPER111_EL0 = 0xDEFB,
+  ARM64_SYSREG_AMEVTYPER112_EL0 = 0xDEFC,
+  ARM64_SYSREG_AMEVTYPER113_EL0 = 0xDEFD,
+  ARM64_SYSREG_AMEVTYPER114_EL0 = 0xDEFE,
+  ARM64_SYSREG_AMEVTYPER115_EL0 = 0xDEFF,
+  ARM64_SYSREG_AMEVTYPER11_EL0 = 0xDEF1,
+  ARM64_SYSREG_AMEVTYPER12_EL0 = 0xDEF2,
+  ARM64_SYSREG_AMEVTYPER13_EL0 = 0xDEF3,
+  ARM64_SYSREG_AMEVTYPER14_EL0 = 0xDEF4,
+  ARM64_SYSREG_AMEVTYPER15_EL0 = 0xDEF5,
+  ARM64_SYSREG_AMEVTYPER16_EL0 = 0xDEF6,
+  ARM64_SYSREG_AMEVTYPER17_EL0 = 0xDEF7,
+  ARM64_SYSREG_AMEVTYPER18_EL0 = 0xDEF8,
+  ARM64_SYSREG_AMEVTYPER19_EL0 = 0xDEF9,
+  ARM64_SYSREG_AMUSERENR_EL0 = 0xDE93,
+  ARM64_SYSREG_APDAKEYHI_EL1 = 0xC111,
+  ARM64_SYSREG_APDAKEYLO_EL1 = 0xC110,
+  ARM64_SYSREG_APDBKEYHI_EL1 = 0xC113,
+  ARM64_SYSREG_APDBKEYLO_EL1 = 0xC112,
+  ARM64_SYSREG_APGAKEYHI_EL1 = 0xC119,
+  ARM64_SYSREG_APGAKEYLO_EL1 = 0xC118,
+  ARM64_SYSREG_APIAKEYHI_EL1 = 0xC109,
+  ARM64_SYSREG_APIAKEYLO_EL1 = 0xC108,
+  ARM64_SYSREG_APIBKEYHI_EL1 = 0xC10B,
+  ARM64_SYSREG_APIBKEYLO_EL1 = 0xC10A,
+  ARM64_SYSREG_BRBCR_EL1 = 0x8C80,
+  ARM64_SYSREG_BRBCR_EL12 = 0xAC80,
+  ARM64_SYSREG_BRBCR_EL2 = 0xA480,
+  ARM64_SYSREG_BRBFCR_EL1 = 0x8C81,
+  ARM64_SYSREG_BRBIDR0_EL1 = 0x8C90,
+  ARM64_SYSREG_BRBINF0_EL1 = 0x8C00,
+  ARM64_SYSREG_BRBINF10_EL1 = 0x8C50,
+  ARM64_SYSREG_BRBINF11_EL1 = 0x8C58,
+  ARM64_SYSREG_BRBINF12_EL1 = 0x8C60,
+  ARM64_SYSREG_BRBINF13_EL1 = 0x8C68,
+  ARM64_SYSREG_BRBINF14_EL1 = 0x8C70,
+  ARM64_SYSREG_BRBINF15_EL1 = 0x8C78,
+  ARM64_SYSREG_BRBINF16_EL1 = 0x8C04,
+  ARM64_SYSREG_BRBINF17_EL1 = 0x8C0C,
+  ARM64_SYSREG_BRBINF18_EL1 = 0x8C14,
+  ARM64_SYSREG_BRBINF19_EL1 = 0x8C1C,
+  ARM64_SYSREG_BRBINF1_EL1 = 0x8C08,
+  ARM64_SYSREG_BRBINF20_EL1 = 0x8C24,
+  ARM64_SYSREG_BRBINF21_EL1 = 0x8C2C,
+  ARM64_SYSREG_BRBINF22_EL1 = 0x8C34,
+  ARM64_SYSREG_BRBINF23_EL1 = 0x8C3C,
+  ARM64_SYSREG_BRBINF24_EL1 = 0x8C44,
+  ARM64_SYSREG_BRBINF25_EL1 = 0x8C4C,
+  ARM64_SYSREG_BRBINF26_EL1 = 0x8C54,
+  ARM64_SYSREG_BRBINF27_EL1 = 0x8C5C,
+  ARM64_SYSREG_BRBINF28_EL1 = 0x8C64,
+  ARM64_SYSREG_BRBINF29_EL1 = 0x8C6C,
+  ARM64_SYSREG_BRBINF2_EL1 = 0x8C10,
+  ARM64_SYSREG_BRBINF30_EL1 = 0x8C74,
+  ARM64_SYSREG_BRBINF31_EL1 = 0x8C7C,
+  ARM64_SYSREG_BRBINF3_EL1 = 0x8C18,
+  ARM64_SYSREG_BRBINF4_EL1 = 0x8C20,
+  ARM64_SYSREG_BRBINF5_EL1 = 0x8C28,
+  ARM64_SYSREG_BRBINF6_EL1 = 0x8C30,
+  ARM64_SYSREG_BRBINF7_EL1 = 0x8C38,
+  ARM64_SYSREG_BRBINF8_EL1 = 0x8C40,
+  ARM64_SYSREG_BRBINF9_EL1 = 0x8C48,
+  ARM64_SYSREG_BRBINFINJ_EL1 = 0x8C88,
+  ARM64_SYSREG_BRBSRC0_EL1 = 0x8C01,
+  ARM64_SYSREG_BRBSRC10_EL1 = 0x8C51,
+  ARM64_SYSREG_BRBSRC11_EL1 = 0x8C59,
+  ARM64_SYSREG_BRBSRC12_EL1 = 0x8C61,
+  ARM64_SYSREG_BRBSRC13_EL1 = 0x8C69,
+  ARM64_SYSREG_BRBSRC14_EL1 = 0x8C71,
+  ARM64_SYSREG_BRBSRC15_EL1 = 0x8C79,
+  ARM64_SYSREG_BRBSRC16_EL1 = 0x8C05,
+  ARM64_SYSREG_BRBSRC17_EL1 = 0x8C0D,
+  ARM64_SYSREG_BRBSRC18_EL1 = 0x8C15,
+  ARM64_SYSREG_BRBSRC19_EL1 = 0x8C1D,
+  ARM64_SYSREG_BRBSRC1_EL1 = 0x8C09,
+  ARM64_SYSREG_BRBSRC20_EL1 = 0x8C25,
+  ARM64_SYSREG_BRBSRC21_EL1 = 0x8C2D,
+  ARM64_SYSREG_BRBSRC22_EL1 = 0x8C35,
+  ARM64_SYSREG_BRBSRC23_EL1 = 0x8C3D,
+  ARM64_SYSREG_BRBSRC24_EL1 = 0x8C45,
+  ARM64_SYSREG_BRBSRC25_EL1 = 0x8C4D,
+  ARM64_SYSREG_BRBSRC26_EL1 = 0x8C55,
+  ARM64_SYSREG_BRBSRC27_EL1 = 0x8C5D,
+  ARM64_SYSREG_BRBSRC28_EL1 = 0x8C65,
+  ARM64_SYSREG_BRBSRC29_EL1 = 0x8C6D,
+  ARM64_SYSREG_BRBSRC2_EL1 = 0x8C11,
+  ARM64_SYSREG_BRBSRC30_EL1 = 0x8C75,
+  ARM64_SYSREG_BRBSRC31_EL1 = 0x8C7D,
+  ARM64_SYSREG_BRBSRC3_EL1 = 0x8C19,
+  ARM64_SYSREG_BRBSRC4_EL1 = 0x8C21,
+  ARM64_SYSREG_BRBSRC5_EL1 = 0x8C29,
+  ARM64_SYSREG_BRBSRC6_EL1 = 0x8C31,
+  ARM64_SYSREG_BRBSRC7_EL1 = 0x8C39,
+  ARM64_SYSREG_BRBSRC8_EL1 = 0x8C41,
+  ARM64_SYSREG_BRBSRC9_EL1 = 0x8C49,
+  ARM64_SYSREG_BRBSRCINJ_EL1 = 0x8C89,
+  ARM64_SYSREG_BRBTGT0_EL1 = 0x8C02,
+  ARM64_SYSREG_BRBTGT10_EL1 = 0x8C52,
+  ARM64_SYSREG_BRBTGT11_EL1 = 0x8C5A,
+  ARM64_SYSREG_BRBTGT12_EL1 = 0x8C62,
+  ARM64_SYSREG_BRBTGT13_EL1 = 0x8C6A,
+  ARM64_SYSREG_BRBTGT14_EL1 = 0x8C72,
+  ARM64_SYSREG_BRBTGT15_EL1 = 0x8C7A,
+  ARM64_SYSREG_BRBTGT16_EL1 = 0x8C06,
+  ARM64_SYSREG_BRBTGT17_EL1 = 0x8C0E,
+  ARM64_SYSREG_BRBTGT18_EL1 = 0x8C16,
+  ARM64_SYSREG_BRBTGT19_EL1 = 0x8C1E,
+  ARM64_SYSREG_BRBTGT1_EL1 = 0x8C0A,
+  ARM64_SYSREG_BRBTGT20_EL1 = 0x8C26,
+  ARM64_SYSREG_BRBTGT21_EL1 = 0x8C2E,
+  ARM64_SYSREG_BRBTGT22_EL1 = 0x8C36,
+  ARM64_SYSREG_BRBTGT23_EL1 = 0x8C3E,
+  ARM64_SYSREG_BRBTGT24_EL1 = 0x8C46,
+  ARM64_SYSREG_BRBTGT25_EL1 = 0x8C4E,
+  ARM64_SYSREG_BRBTGT26_EL1 = 0x8C56,
+  ARM64_SYSREG_BRBTGT27_EL1 = 0x8C5E,
+  ARM64_SYSREG_BRBTGT28_EL1 = 0x8C66,
+  ARM64_SYSREG_BRBTGT29_EL1 = 0x8C6E,
+  ARM64_SYSREG_BRBTGT2_EL1 = 0x8C12,
+  ARM64_SYSREG_BRBTGT30_EL1 = 0x8C76,
+  ARM64_SYSREG_BRBTGT31_EL1 = 0x8C7E,
+  ARM64_SYSREG_BRBTGT3_EL1 = 0x8C1A,
+  ARM64_SYSREG_BRBTGT4_EL1 = 0x8C22,
+  ARM64_SYSREG_BRBTGT5_EL1 = 0x8C2A,
+  ARM64_SYSREG_BRBTGT6_EL1 = 0x8C32,
+  ARM64_SYSREG_BRBTGT7_EL1 = 0x8C3A,
+  ARM64_SYSREG_BRBTGT8_EL1 = 0x8C42,
+  ARM64_SYSREG_BRBTGT9_EL1 = 0x8C4A,
+  ARM64_SYSREG_BRBTGTINJ_EL1 = 0x8C8A,
+  ARM64_SYSREG_BRBTS_EL1 = 0x8C82,
+  ARM64_SYSREG_CCSIDR2_EL1 = 0xC802,
+  ARM64_SYSREG_CCSIDR_EL1 = 0xC800,
+  ARM64_SYSREG_CLIDR_EL1 = 0xC801,
+  ARM64_SYSREG_CNTFRQ_EL0 = 0xDF00,
+  ARM64_SYSREG_CNTHCTL_EL2 = 0xE708,
+  ARM64_SYSREG_CNTHPS_CTL_EL2 = 0xE729,
+  ARM64_SYSREG_CNTHPS_CVAL_EL2 = 0xE72A,
+  ARM64_SYSREG_CNTHPS_TVAL_EL2 = 0xE728,
+  ARM64_SYSREG_CNTHP_CTL_EL2 = 0xE711,
+  ARM64_SYSREG_CNTHP_CVAL_EL2 = 0xE712,
+  ARM64_SYSREG_CNTHP_TVAL_EL2 = 0xE710,
+  ARM64_SYSREG_CNTHVS_CTL_EL2 = 0xE721,
+  ARM64_SYSREG_CNTHVS_CVAL_EL2 = 0xE722,
+  ARM64_SYSREG_CNTHVS_TVAL_EL2 = 0xE720,
+  ARM64_SYSREG_CNTHV_CTL_EL2 = 0xE719,
+  ARM64_SYSREG_CNTHV_CVAL_EL2 = 0xE71A,
+  ARM64_SYSREG_CNTHV_TVAL_EL2 = 0xE718,
+  ARM64_SYSREG_CNTISCALE_EL2 = 0xE705,
+  ARM64_SYSREG_CNTKCTL_EL1 = 0xC708,
+  ARM64_SYSREG_CNTKCTL_EL12 = 0xEF08,
+  ARM64_SYSREG_CNTPCTSS_EL0 = 0xDF05,
+  ARM64_SYSREG_CNTPCT_EL0 = 0xDF01,
+  ARM64_SYSREG_CNTPOFF_EL2 = 0xE706,
+  ARM64_SYSREG_CNTPS_CTL_EL1 = 0xFF11,
+  ARM64_SYSREG_CNTPS_CVAL_EL1 = 0xFF12,
+  ARM64_SYSREG_CNTPS_TVAL_EL1 = 0xFF10,
+  ARM64_SYSREG_CNTP_CTL_EL0 = 0xDF11,
+  ARM64_SYSREG_CNTP_CTL_EL02 = 0xEF11,
+  ARM64_SYSREG_CNTP_CVAL_EL0 = 0xDF12,
+  ARM64_SYSREG_CNTP_CVAL_EL02 = 0xEF12,
+  ARM64_SYSREG_CNTP_TVAL_EL0 = 0xDF10,
+  ARM64_SYSREG_CNTP_TVAL_EL02 = 0xEF10,
+  ARM64_SYSREG_CNTSCALE_EL2 = 0xE704,
+  ARM64_SYSREG_CNTVCTSS_EL0 = 0xDF06,
+  ARM64_SYSREG_CNTVCT_EL0 = 0xDF02,
+  ARM64_SYSREG_CNTVFRQ_EL2 = 0xE707,
+  ARM64_SYSREG_CNTVOFF_EL2 = 0xE703,
+  ARM64_SYSREG_CNTV_CTL_EL0 = 0xDF19,
+  ARM64_SYSREG_CNTV_CTL_EL02 = 0xEF19,
+  ARM64_SYSREG_CNTV_CVAL_EL0 = 0xDF1A,
+  ARM64_SYSREG_CNTV_CVAL_EL02 = 0xEF1A,
+  ARM64_SYSREG_CNTV_TVAL_EL0 = 0xDF18,
+  ARM64_SYSREG_CNTV_TVAL_EL02 = 0xEF18,
+  ARM64_SYSREG_CONTEXTIDR_EL1 = 0xC681,
+  ARM64_SYSREG_CONTEXTIDR_EL12 = 0xEE81,
+  ARM64_SYSREG_CONTEXTIDR_EL2 = 0xE681,
+  ARM64_SYSREG_CPACR_EL1 = 0xC082,
+  ARM64_SYSREG_CPACR_EL12 = 0xE882,
+  ARM64_SYSREG_CPM_IOACC_CTL_EL3 = 0xFF90,
+  ARM64_SYSREG_CPTR_EL2 = 0xE08A,
+  ARM64_SYSREG_CPTR_EL3 = 0xF08A,
+  ARM64_SYSREG_CSSELR_EL1 = 0xD000,
+  ARM64_SYSREG_CTR_EL0 = 0xD801,
+  ARM64_SYSREG_CURRENTEL = 0xC212,
+  ARM64_SYSREG_DACR32_EL2 = 0xE180,
+  ARM64_SYSREG_DAIF = 0xDA11,
+  ARM64_SYSREG_DBGAUTHSTATUS_EL1 = 0x83F6,
+  ARM64_SYSREG_DBGBCR0_EL1 = 0x8005,
+  ARM64_SYSREG_DBGBCR10_EL1 = 0x8055,
+  ARM64_SYSREG_DBGBCR11_EL1 = 0x805D,
+  ARM64_SYSREG_DBGBCR12_EL1 = 0x8065,
+  ARM64_SYSREG_DBGBCR13_EL1 = 0x806D,
+  ARM64_SYSREG_DBGBCR14_EL1 = 0x8075,
+  ARM64_SYSREG_DBGBCR15_EL1 = 0x807D,
+  ARM64_SYSREG_DBGBCR1_EL1 = 0x800D,
+  ARM64_SYSREG_DBGBCR2_EL1 = 0x8015,
+  ARM64_SYSREG_DBGBCR3_EL1 = 0x801D,
+  ARM64_SYSREG_DBGBCR4_EL1 = 0x8025,
+  ARM64_SYSREG_DBGBCR5_EL1 = 0x802D,
+  ARM64_SYSREG_DBGBCR6_EL1 = 0x8035,
+  ARM64_SYSREG_DBGBCR7_EL1 = 0x803D,
+  ARM64_SYSREG_DBGBCR8_EL1 = 0x8045,
+  ARM64_SYSREG_DBGBCR9_EL1 = 0x804D,
+  ARM64_SYSREG_DBGBVR0_EL1 = 0x8004,
+  ARM64_SYSREG_DBGBVR10_EL1 = 0x8054,
+  ARM64_SYSREG_DBGBVR11_EL1 = 0x805C,
+  ARM64_SYSREG_DBGBVR12_EL1 = 0x8064,
+  ARM64_SYSREG_DBGBVR13_EL1 = 0x806C,
+  ARM64_SYSREG_DBGBVR14_EL1 = 0x8074,
+  ARM64_SYSREG_DBGBVR15_EL1 = 0x807C,
+  ARM64_SYSREG_DBGBVR1_EL1 = 0x800C,
+  ARM64_SYSREG_DBGBVR2_EL1 = 0x8014,
+  ARM64_SYSREG_DBGBVR3_EL1 = 0x801C,
+  ARM64_SYSREG_DBGBVR4_EL1 = 0x8024,
+  ARM64_SYSREG_DBGBVR5_EL1 = 0x802C,
+  ARM64_SYSREG_DBGBVR6_EL1 = 0x8034,
+  ARM64_SYSREG_DBGBVR7_EL1 = 0x803C,
+  ARM64_SYSREG_DBGBVR8_EL1 = 0x8044,
+  ARM64_SYSREG_DBGBVR9_EL1 = 0x804C,
+  ARM64_SYSREG_DBGCLAIMCLR_EL1 = 0x83CE,
+  ARM64_SYSREG_DBGCLAIMSET_EL1 = 0x83C6,
+  ARM64_SYSREG_DBGDTRRX_EL0 = 0x9828,
+  ARM64_SYSREG_DBGDTRTX_EL0 = 0x9828,
+  ARM64_SYSREG_DBGDTR_EL0 = 0x9820,
+  ARM64_SYSREG_DBGPRCR_EL1 = 0x80A4,
+  ARM64_SYSREG_DBGVCR32_EL2 = 0xA038,
+  ARM64_SYSREG_DBGWCR0_EL1 = 0x8007,
+  ARM64_SYSREG_DBGWCR10_EL1 = 0x8057,
+  ARM64_SYSREG_DBGWCR11_EL1 = 0x805F,
+  ARM64_SYSREG_DBGWCR12_EL1 = 0x8067,
+  ARM64_SYSREG_DBGWCR13_EL1 = 0x806F,
+  ARM64_SYSREG_DBGWCR14_EL1 = 0x8077,
+  ARM64_SYSREG_DBGWCR15_EL1 = 0x807F,
+  ARM64_SYSREG_DBGWCR1_EL1 = 0x800F,
+  ARM64_SYSREG_DBGWCR2_EL1 = 0x8017,
+  ARM64_SYSREG_DBGWCR3_EL1 = 0x801F,
+  ARM64_SYSREG_DBGWCR4_EL1 = 0x8027,
+  ARM64_SYSREG_DBGWCR5_EL1 = 0x802F,
+  ARM64_SYSREG_DBGWCR6_EL1 = 0x8037,
+  ARM64_SYSREG_DBGWCR7_EL1 = 0x803F,
+  ARM64_SYSREG_DBGWCR8_EL1 = 0x8047,
+  ARM64_SYSREG_DBGWCR9_EL1 = 0x804F,
+  ARM64_SYSREG_DBGWVR0_EL1 = 0x8006,
+  ARM64_SYSREG_DBGWVR10_EL1 = 0x8056,
+  ARM64_SYSREG_DBGWVR11_EL1 = 0x805E,
+  ARM64_SYSREG_DBGWVR12_EL1 = 0x8066,
+  ARM64_SYSREG_DBGWVR13_EL1 = 0x806E,
+  ARM64_SYSREG_DBGWVR14_EL1 = 0x8076,
+  ARM64_SYSREG_DBGWVR15_EL1 = 0x807E,
+  ARM64_SYSREG_DBGWVR1_EL1 = 0x800E,
+  ARM64_SYSREG_DBGWVR2_EL1 = 0x8016,
+  ARM64_SYSREG_DBGWVR3_EL1 = 0x801E,
+  ARM64_SYSREG_DBGWVR4_EL1 = 0x8026,
+  ARM64_SYSREG_DBGWVR5_EL1 = 0x802E,
+  ARM64_SYSREG_DBGWVR6_EL1 = 0x8036,
+  ARM64_SYSREG_DBGWVR7_EL1 = 0x803E,
+  ARM64_SYSREG_DBGWVR8_EL1 = 0x8046,
+  ARM64_SYSREG_DBGWVR9_EL1 = 0x804E,
+  ARM64_SYSREG_DCZID_EL0 = 0xD807,
+  ARM64_SYSREG_DISR_EL1 = 0xC609,
+  ARM64_SYSREG_DIT = 0xDA15,
+  ARM64_SYSREG_DLR_EL0 = 0xDA29,
+  ARM64_SYSREG_DSPSR_EL0 = 0xDA28,
+  ARM64_SYSREG_ELR_EL1 = 0xC201,
+  ARM64_SYSREG_ELR_EL12 = 0xEA01,
+  ARM64_SYSREG_ELR_EL2 = 0xE201,
+  ARM64_SYSREG_ELR_EL3 = 0xF201,
+  ARM64_SYSREG_ERRIDR_EL1 = 0xC298,
+  ARM64_SYSREG_ERRSELR_EL1 = 0xC299,
+  ARM64_SYSREG_ERXADDR_EL1 = 0xC2A3,
+  ARM64_SYSREG_ERXCTLR_EL1 = 0xC2A1,
+  ARM64_SYSREG_ERXFR_EL1 = 0xC2A0,
+  ARM64_SYSREG_ERXMISC0_EL1 = 0xC2A8,
+  ARM64_SYSREG_ERXMISC1_EL1 = 0xC2A9,
+  ARM64_SYSREG_ERXMISC2_EL1 = 0xC2AA,
+  ARM64_SYSREG_ERXMISC3_EL1 = 0xC2AB,
+  ARM64_SYSREG_ERXPFGCDN_EL1 = 0xC2A6,
+  ARM64_SYSREG_ERXPFGCTL_EL1 = 0xC2A5,
+  ARM64_SYSREG_ERXPFGF_EL1 = 0xC2A4,
+  ARM64_SYSREG_ERXSTATUS_EL1 = 0xC2A2,
+  ARM64_SYSREG_ESR_EL1 = 0xC290,
+  ARM64_SYSREG_ESR_EL12 = 0xEA90,
+  ARM64_SYSREG_ESR_EL2 = 0xE290,
+  ARM64_SYSREG_ESR_EL3 = 0xF290,
+  ARM64_SYSREG_FAR_EL1 = 0xC300,
+  ARM64_SYSREG_FAR_EL12 = 0xEB00,
+  ARM64_SYSREG_FAR_EL2 = 0xE300,
+  ARM64_SYSREG_FAR_EL3 = 0xF300,
+  ARM64_SYSREG_FPCR = 0xDA20,
+  ARM64_SYSREG_FPEXC32_EL2 = 0xE298,
+  ARM64_SYSREG_FPSR = 0xDA21,
+  ARM64_SYSREG_GCR_EL1 = 0xC086,
+  ARM64_SYSREG_GMID_EL1 = 0xC804,
+  ARM64_SYSREG_GPCCR_EL3 = 0xF10E,
+  ARM64_SYSREG_GPTBR_EL3 = 0xF10C,
+  ARM64_SYSREG_HACR_EL2 = 0xE08F,
+  ARM64_SYSREG_HCRX_EL2 = 0xE092,
+  ARM64_SYSREG_HCR_EL2 = 0xE088,
+  ARM64_SYSREG_HDFGRTR_EL2 = 0xE18C,
+  ARM64_SYSREG_HDFGWTR_EL2 = 0xE18D,
+  ARM64_SYSREG_HFGITR_EL2 = 0xE08E,
+  ARM64_SYSREG_HFGRTR_EL2 = 0xE08C,
+  ARM64_SYSREG_HFGWTR_EL2 = 0xE08D,
+  ARM64_SYSREG_HPFAR_EL2 = 0xE304,
+  ARM64_SYSREG_HSTR_EL2 = 0xE08B,
+  ARM64_SYSREG_ICC_AP0R0_EL1 = 0xC644,
+  ARM64_SYSREG_ICC_AP0R1_EL1 = 0xC645,
+  ARM64_SYSREG_ICC_AP0R2_EL1 = 0xC646,
+  ARM64_SYSREG_ICC_AP0R3_EL1 = 0xC647,
+  ARM64_SYSREG_ICC_AP1R0_EL1 = 0xC648,
+  ARM64_SYSREG_ICC_AP1R1_EL1 = 0xC649,
+  ARM64_SYSREG_ICC_AP1R2_EL1 = 0xC64A,
+  ARM64_SYSREG_ICC_AP1R3_EL1 = 0xC64B,
+  ARM64_SYSREG_ICC_ASGI1R_EL1 = 0xC65E,
+  ARM64_SYSREG_ICC_BPR0_EL1 = 0xC643,
+  ARM64_SYSREG_ICC_BPR1_EL1 = 0xC663,
+  ARM64_SYSREG_ICC_CTLR_EL1 = 0xC664,
+  ARM64_SYSREG_ICC_CTLR_EL3 = 0xF664,
+  ARM64_SYSREG_ICC_DIR_EL1 = 0xC659,
+  ARM64_SYSREG_ICC_EOIR0_EL1 = 0xC641,
+  ARM64_SYSREG_ICC_EOIR1_EL1 = 0xC661,
+  ARM64_SYSREG_ICC_HPPIR0_EL1 = 0xC642,
+  ARM64_SYSREG_ICC_HPPIR1_EL1 = 0xC662,
+  ARM64_SYSREG_ICC_IAR0_EL1 = 0xC640,
+  ARM64_SYSREG_ICC_IAR1_EL1 = 0xC660,
+  ARM64_SYSREG_ICC_IGRPEN0_EL1 = 0xC666,
+  ARM64_SYSREG_ICC_IGRPEN1_EL1 = 0xC667,
+  ARM64_SYSREG_ICC_IGRPEN1_EL3 = 0xF667,
+  ARM64_SYSREG_ICC_PMR_EL1 = 0xC230,
+  ARM64_SYSREG_ICC_RPR_EL1 = 0xC65B,
+  ARM64_SYSREG_ICC_SGI0R_EL1 = 0xC65F,
+  ARM64_SYSREG_ICC_SGI1R_EL1 = 0xC65D,
+  ARM64_SYSREG_ICC_SRE_EL1 = 0xC665,
+  ARM64_SYSREG_ICC_SRE_EL2 = 0xE64D,
+  ARM64_SYSREG_ICC_SRE_EL3 = 0xF665,
+  ARM64_SYSREG_ICH_AP0R0_EL2 = 0xE640,
+  ARM64_SYSREG_ICH_AP0R1_EL2 = 0xE641,
+  ARM64_SYSREG_ICH_AP0R2_EL2 = 0xE642,
+  ARM64_SYSREG_ICH_AP0R3_EL2 = 0xE643,
+  ARM64_SYSREG_ICH_AP1R0_EL2 = 0xE648,
+  ARM64_SYSREG_ICH_AP1R1_EL2 = 0xE649,
+  ARM64_SYSREG_ICH_AP1R2_EL2 = 0xE64A,
+  ARM64_SYSREG_ICH_AP1R3_EL2 = 0xE64B,
+  ARM64_SYSREG_ICH_EISR_EL2 = 0xE65B,
+  ARM64_SYSREG_ICH_ELRSR_EL2 = 0xE65D,
+  ARM64_SYSREG_ICH_HCR_EL2 = 0xE658,
+  ARM64_SYSREG_ICH_LR0_EL2 = 0xE660,
+  ARM64_SYSREG_ICH_LR10_EL2 = 0xE66A,
+  ARM64_SYSREG_ICH_LR11_EL2 = 0xE66B,
+  ARM64_SYSREG_ICH_LR12_EL2 = 0xE66C,
+  ARM64_SYSREG_ICH_LR13_EL2 = 0xE66D,
+  ARM64_SYSREG_ICH_LR14_EL2 = 0xE66E,
+  ARM64_SYSREG_ICH_LR15_EL2 = 0xE66F,
+  ARM64_SYSREG_ICH_LR1_EL2 = 0xE661,
+  ARM64_SYSREG_ICH_LR2_EL2 = 0xE662,
+  ARM64_SYSREG_ICH_LR3_EL2 = 0xE663,
+  ARM64_SYSREG_ICH_LR4_EL2 = 0xE664,
+  ARM64_SYSREG_ICH_LR5_EL2 = 0xE665,
+  ARM64_SYSREG_ICH_LR6_EL2 = 0xE666,
+  ARM64_SYSREG_ICH_LR7_EL2 = 0xE667,
+  ARM64_SYSREG_ICH_LR8_EL2 = 0xE668,
+  ARM64_SYSREG_ICH_LR9_EL2 = 0xE669,
+  ARM64_SYSREG_ICH_MISR_EL2 = 0xE65A,
+  ARM64_SYSREG_ICH_VMCR_EL2 = 0xE65F,
+  ARM64_SYSREG_ICH_VTR_EL2 = 0xE659,
+  ARM64_SYSREG_ID_AA64AFR0_EL1 = 0xC02C,
+  ARM64_SYSREG_ID_AA64AFR1_EL1 = 0xC02D,
+  ARM64_SYSREG_ID_AA64DFR0_EL1 = 0xC028,
+  ARM64_SYSREG_ID_AA64DFR1_EL1 = 0xC029,
+  ARM64_SYSREG_ID_AA64ISAR0_EL1 = 0xC030,
+  ARM64_SYSREG_ID_AA64ISAR1_EL1 = 0xC031,
+  ARM64_SYSREG_ID_AA64ISAR2_EL1 = 0xC032,
+  ARM64_SYSREG_ID_AA64MMFR0_EL1 = 0xC038,
+  ARM64_SYSREG_ID_AA64MMFR1_EL1 = 0xC039,
+  ARM64_SYSREG_ID_AA64MMFR2_EL1 = 0xC03A,
+  ARM64_SYSREG_ID_AA64PFR0_EL1 = 0xC020,
+  ARM64_SYSREG_ID_AA64PFR1_EL1 = 0xC021,
+  ARM64_SYSREG_ID_AA64SMFR0_EL1 = 0xC025,
+  ARM64_SYSREG_ID_AA64ZFR0_EL1 = 0xC024,
+  ARM64_SYSREG_ID_AFR0_EL1 = 0xC00B,
+  ARM64_SYSREG_ID_DFR0_EL1 = 0xC00A,
+  ARM64_SYSREG_ID_ISAR0_EL1 = 0xC010,
+  ARM64_SYSREG_ID_ISAR1_EL1 = 0xC011,
+  ARM64_SYSREG_ID_ISAR2_EL1 = 0xC012,
+  ARM64_SYSREG_ID_ISAR3_EL1 = 0xC013,
+  ARM64_SYSREG_ID_ISAR4_EL1 = 0xC014,
+  ARM64_SYSREG_ID_ISAR5_EL1 = 0xC015,
+  ARM64_SYSREG_ID_ISAR6_EL1 = 0xC017,
+  ARM64_SYSREG_ID_MMFR0_EL1 = 0xC00C,
+  ARM64_SYSREG_ID_MMFR1_EL1 = 0xC00D,
+  ARM64_SYSREG_ID_MMFR2_EL1 = 0xC00E,
+  ARM64_SYSREG_ID_MMFR3_EL1 = 0xC00F,
+  ARM64_SYSREG_ID_MMFR4_EL1 = 0xC016,
+  ARM64_SYSREG_ID_MMFR5_EL1 = 0xC01E,
+  ARM64_SYSREG_ID_PFR0_EL1 = 0xC008,
+  ARM64_SYSREG_ID_PFR1_EL1 = 0xC009,
+  ARM64_SYSREG_ID_PFR2_EL1 = 0xC01C,
+  ARM64_SYSREG_IFSR32_EL2 = 0xE281,
+  ARM64_SYSREG_ISR_EL1 = 0xC608,
+  ARM64_SYSREG_LORC_EL1 = 0xC523,
+  ARM64_SYSREG_LOREA_EL1 = 0xC521,
+  ARM64_SYSREG_LORID_EL1 = 0xC527,
+  ARM64_SYSREG_LORN_EL1 = 0xC522,
+  ARM64_SYSREG_LORSA_EL1 = 0xC520,
+  ARM64_SYSREG_MAIR_EL1 = 0xC510,
+  ARM64_SYSREG_MAIR_EL12 = 0xED10,
+  ARM64_SYSREG_MAIR_EL2 = 0xE510,
+  ARM64_SYSREG_MAIR_EL3 = 0xF510,
+  ARM64_SYSREG_MDCCINT_EL1 = 0x8010,
+  ARM64_SYSREG_MDCCSR_EL0 = 0x9808,
+  ARM64_SYSREG_MDCR_EL2 = 0xE089,
+  ARM64_SYSREG_MDCR_EL3 = 0xF099,
+  ARM64_SYSREG_MDRAR_EL1 = 0x8080,
+  ARM64_SYSREG_MDSCR_EL1 = 0x8012,
+  ARM64_SYSREG_MFAR_EL3 = 0xF305,
+  ARM64_SYSREG_MIDR_EL1 = 0xC000,
+  ARM64_SYSREG_MPAM0_EL1 = 0xC529,
+  ARM64_SYSREG_MPAM1_EL1 = 0xC528,
+  ARM64_SYSREG_MPAM1_EL12 = 0xED28,
+  ARM64_SYSREG_MPAM2_EL2 = 0xE528,
+  ARM64_SYSREG_MPAM3_EL3 = 0xF528,
+  ARM64_SYSREG_MPAMHCR_EL2 = 0xE520,
+  ARM64_SYSREG_MPAMIDR_EL1 = 0xC524,
+  ARM64_SYSREG_MPAMSM_EL1 = 0xC52B,
+  ARM64_SYSREG_MPAMVPM0_EL2 = 0xE530,
+  ARM64_SYSREG_MPAMVPM1_EL2 = 0xE531,
+  ARM64_SYSREG_MPAMVPM2_EL2 = 0xE532,
+  ARM64_SYSREG_MPAMVPM3_EL2 = 0xE533,
+  ARM64_SYSREG_MPAMVPM4_EL2 = 0xE534,
+  ARM64_SYSREG_MPAMVPM5_EL2 = 0xE535,
+  ARM64_SYSREG_MPAMVPM6_EL2 = 0xE536,
+  ARM64_SYSREG_MPAMVPM7_EL2 = 0xE537,
+  ARM64_SYSREG_MPAMVPMV_EL2 = 0xE521,
+  ARM64_SYSREG_MPIDR_EL1 = 0xC005,
+  ARM64_SYSREG_MPUIR_EL1 = 0xC004,
+  ARM64_SYSREG_MPUIR_EL2 = 0xE004,
+  ARM64_SYSREG_MVFR0_EL1 = 0xC018,
+  ARM64_SYSREG_MVFR1_EL1 = 0xC019,
+  ARM64_SYSREG_MVFR2_EL1 = 0xC01A,
+  ARM64_SYSREG_NZCV = 0xDA10,
+  ARM64_SYSREG_OSDLR_EL1 = 0x809C,
+  ARM64_SYSREG_OSDTRRX_EL1 = 0x8002,
+  ARM64_SYSREG_OSDTRTX_EL1 = 0x801A,
+  ARM64_SYSREG_OSECCR_EL1 = 0x8032,
+  ARM64_SYSREG_OSLAR_EL1 = 0x8084,
+  ARM64_SYSREG_OSLSR_EL1 = 0x808C,
+  ARM64_SYSREG_PAN = 0xC213,
+  ARM64_SYSREG_PAR_EL1 = 0xC3A0,
+  ARM64_SYSREG_PMBIDR_EL1 = 0xC4D7,
+  ARM64_SYSREG_PMBLIMITR_EL1 = 0xC4D0,
+  ARM64_SYSREG_PMBPTR_EL1 = 0xC4D1,
+  ARM64_SYSREG_PMBSR_EL1 = 0xC4D3,
+  ARM64_SYSREG_PMCCFILTR_EL0 = 0xDF7F,
+  ARM64_SYSREG_PMCCNTR_EL0 = 0xDCE8,
+  ARM64_SYSREG_PMCEID0_EL0 = 0xDCE6,
+  ARM64_SYSREG_PMCEID1_EL0 = 0xDCE7,
+  ARM64_SYSREG_PMCNTENCLR_EL0 = 0xDCE2,
+  ARM64_SYSREG_PMCNTENSET_EL0 = 0xDCE1,
+  ARM64_SYSREG_PMCR_EL0 = 0xDCE0,
+  ARM64_SYSREG_PMEVCNTR0_EL0 = 0xDF40,
+  ARM64_SYSREG_PMEVCNTR10_EL0 = 0xDF4A,
+  ARM64_SYSREG_PMEVCNTR11_EL0 = 0xDF4B,
+  ARM64_SYSREG_PMEVCNTR12_EL0 = 0xDF4C,
+  ARM64_SYSREG_PMEVCNTR13_EL0 = 0xDF4D,
+  ARM64_SYSREG_PMEVCNTR14_EL0 = 0xDF4E,
+  ARM64_SYSREG_PMEVCNTR15_EL0 = 0xDF4F,
+  ARM64_SYSREG_PMEVCNTR16_EL0 = 0xDF50,
+  ARM64_SYSREG_PMEVCNTR17_EL0 = 0xDF51,
+  ARM64_SYSREG_PMEVCNTR18_EL0 = 0xDF52,
+  ARM64_SYSREG_PMEVCNTR19_EL0 = 0xDF53,
+  ARM64_SYSREG_PMEVCNTR1_EL0 = 0xDF41,
+  ARM64_SYSREG_PMEVCNTR20_EL0 = 0xDF54,
+  ARM64_SYSREG_PMEVCNTR21_EL0 = 0xDF55,
+  ARM64_SYSREG_PMEVCNTR22_EL0 = 0xDF56,
+  ARM64_SYSREG_PMEVCNTR23_EL0 = 0xDF57,
+  ARM64_SYSREG_PMEVCNTR24_EL0 = 0xDF58,
+  ARM64_SYSREG_PMEVCNTR25_EL0 = 0xDF59,
+  ARM64_SYSREG_PMEVCNTR26_EL0 = 0xDF5A,
+  ARM64_SYSREG_PMEVCNTR27_EL0 = 0xDF5B,
+  ARM64_SYSREG_PMEVCNTR28_EL0 = 0xDF5C,
+  ARM64_SYSREG_PMEVCNTR29_EL0 = 0xDF5D,
+  ARM64_SYSREG_PMEVCNTR2_EL0 = 0xDF42,
+  ARM64_SYSREG_PMEVCNTR30_EL0 = 0xDF5E,
+  ARM64_SYSREG_PMEVCNTR3_EL0 = 0xDF43,
+  ARM64_SYSREG_PMEVCNTR4_EL0 = 0xDF44,
+  ARM64_SYSREG_PMEVCNTR5_EL0 = 0xDF45,
+  ARM64_SYSREG_PMEVCNTR6_EL0 = 0xDF46,
+  ARM64_SYSREG_PMEVCNTR7_EL0 = 0xDF47,
+  ARM64_SYSREG_PMEVCNTR8_EL0 = 0xDF48,
+  ARM64_SYSREG_PMEVCNTR9_EL0 = 0xDF49,
+  ARM64_SYSREG_PMEVTYPER0_EL0 = 0xDF60,
+  ARM64_SYSREG_PMEVTYPER10_EL0 = 0xDF6A,
+  ARM64_SYSREG_PMEVTYPER11_EL0 = 0xDF6B,
+  ARM64_SYSREG_PMEVTYPER12_EL0 = 0xDF6C,
+  ARM64_SYSREG_PMEVTYPER13_EL0 = 0xDF6D,
+  ARM64_SYSREG_PMEVTYPER14_EL0 = 0xDF6E,
+  ARM64_SYSREG_PMEVTYPER15_EL0 = 0xDF6F,
+  ARM64_SYSREG_PMEVTYPER16_EL0 = 0xDF70,
+  ARM64_SYSREG_PMEVTYPER17_EL0 = 0xDF71,
+  ARM64_SYSREG_PMEVTYPER18_EL0 = 0xDF72,
+  ARM64_SYSREG_PMEVTYPER19_EL0 = 0xDF73,
+  ARM64_SYSREG_PMEVTYPER1_EL0 = 0xDF61,
+  ARM64_SYSREG_PMEVTYPER20_EL0 = 0xDF74,
+  ARM64_SYSREG_PMEVTYPER21_EL0 = 0xDF75,
+  ARM64_SYSREG_PMEVTYPER22_EL0 = 0xDF76,
+  ARM64_SYSREG_PMEVTYPER23_EL0 = 0xDF77,
+  ARM64_SYSREG_PMEVTYPER24_EL0 = 0xDF78,
+  ARM64_SYSREG_PMEVTYPER25_EL0 = 0xDF79,
+  ARM64_SYSREG_PMEVTYPER26_EL0 = 0xDF7A,
+  ARM64_SYSREG_PMEVTYPER27_EL0 = 0xDF7B,
+  ARM64_SYSREG_PMEVTYPER28_EL0 = 0xDF7C,
+  ARM64_SYSREG_PMEVTYPER29_EL0 = 0xDF7D,
+  ARM64_SYSREG_PMEVTYPER2_EL0 = 0xDF62,
+  ARM64_SYSREG_PMEVTYPER30_EL0 = 0xDF7E,
+  ARM64_SYSREG_PMEVTYPER3_EL0 = 0xDF63,
+  ARM64_SYSREG_PMEVTYPER4_EL0 = 0xDF64,
+  ARM64_SYSREG_PMEVTYPER5_EL0 = 0xDF65,
+  ARM64_SYSREG_PMEVTYPER6_EL0 = 0xDF66,
+  ARM64_SYSREG_PMEVTYPER7_EL0 = 0xDF67,
+  ARM64_SYSREG_PMEVTYPER8_EL0 = 0xDF68,
+  ARM64_SYSREG_PMEVTYPER9_EL0 = 0xDF69,
+  ARM64_SYSREG_PMINTENCLR_EL1 = 0xC4F2,
+  ARM64_SYSREG_PMINTENSET_EL1 = 0xC4F1,
+  ARM64_SYSREG_PMMIR_EL1 = 0xC4F6,
+  ARM64_SYSREG_PMOVSCLR_EL0 = 0xDCE3,
+  ARM64_SYSREG_PMOVSSET_EL0 = 0xDCF3,
+  ARM64_SYSREG_PMSCR_EL1 = 0xC4C8,
+  ARM64_SYSREG_PMSCR_EL12 = 0xECC8,
+  ARM64_SYSREG_PMSCR_EL2 = 0xE4C8,
+  ARM64_SYSREG_PMSELR_EL0 = 0xDCE5,
+  ARM64_SYSREG_PMSEVFR_EL1 = 0xC4CD,
+  ARM64_SYSREG_PMSFCR_EL1 = 0xC4CC,
+  ARM64_SYSREG_PMSICR_EL1 = 0xC4CA,
+  ARM64_SYSREG_PMSIDR_EL1 = 0xC4CF,
+  ARM64_SYSREG_PMSIRR_EL1 = 0xC4CB,
+  ARM64_SYSREG_PMSLATFR_EL1 = 0xC4CE,
+  ARM64_SYSREG_PMSNEVFR_EL1 = 0xC4C9,
+  ARM64_SYSREG_PMSWINC_EL0 = 0xDCE4,
+  ARM64_SYSREG_PMUSERENR_EL0 = 0xDCF0,
+  ARM64_SYSREG_PMXEVCNTR_EL0 = 0xDCEA,
+  ARM64_SYSREG_PMXEVTYPER_EL0 = 0xDCE9,
+  ARM64_SYSREG_PRBAR10_EL1 = 0xC368,
+  ARM64_SYSREG_PRBAR10_EL2 = 0xE368,
+  ARM64_SYSREG_PRBAR11_EL1 = 0xC36C,
+  ARM64_SYSREG_PRBAR11_EL2 = 0xE36C,
+  ARM64_SYSREG_PRBAR12_EL1 = 0xC370,
+  ARM64_SYSREG_PRBAR12_EL2 = 0xE370,
+  ARM64_SYSREG_PRBAR13_EL1 = 0xC374,
+  ARM64_SYSREG_PRBAR13_EL2 = 0xE374,
+  ARM64_SYSREG_PRBAR14_EL1 = 0xC378,
+  ARM64_SYSREG_PRBAR14_EL2 = 0xE378,
+  ARM64_SYSREG_PRBAR15_EL1 = 0xC37C,
+  ARM64_SYSREG_PRBAR15_EL2 = 0xE37C,
+  ARM64_SYSREG_PRBAR1_EL1 = 0xC344,
+  ARM64_SYSREG_PRBAR1_EL2 = 0xE344,
+  ARM64_SYSREG_PRBAR2_EL1 = 0xC348,
+  ARM64_SYSREG_PRBAR2_EL2 = 0xE348,
+  ARM64_SYSREG_PRBAR3_EL1 = 0xC34C,
+  ARM64_SYSREG_PRBAR3_EL2 = 0xE34C,
+  ARM64_SYSREG_PRBAR4_EL1 = 0xC350,
+  ARM64_SYSREG_PRBAR4_EL2 = 0xE350,
+  ARM64_SYSREG_PRBAR5_EL1 = 0xC354,
+  ARM64_SYSREG_PRBAR5_EL2 = 0xE354,
+  ARM64_SYSREG_PRBAR6_EL1 = 0xC358,
+  ARM64_SYSREG_PRBAR6_EL2 = 0xE358,
+  ARM64_SYSREG_PRBAR7_EL1 = 0xC35C,
+  ARM64_SYSREG_PRBAR7_EL2 = 0xE35C,
+  ARM64_SYSREG_PRBAR8_EL1 = 0xC360,
+  ARM64_SYSREG_PRBAR8_EL2 = 0xE360,
+  ARM64_SYSREG_PRBAR9_EL1 = 0xC364,
+  ARM64_SYSREG_PRBAR9_EL2 = 0xE364,
+  ARM64_SYSREG_PRBAR_EL1 = 0xC340,
+  ARM64_SYSREG_PRBAR_EL2 = 0xE340,
+  ARM64_SYSREG_PRENR_EL1 = 0xC309,
+  ARM64_SYSREG_PRENR_EL2 = 0xE309,
+  ARM64_SYSREG_PRLAR10_EL1 = 0xC369,
+  ARM64_SYSREG_PRLAR10_EL2 = 0xE369,
+  ARM64_SYSREG_PRLAR11_EL1 = 0xC36D,
+  ARM64_SYSREG_PRLAR11_EL2 = 0xE36D,
+  ARM64_SYSREG_PRLAR12_EL1 = 0xC371,
+  ARM64_SYSREG_PRLAR12_EL2 = 0xE371,
+  ARM64_SYSREG_PRLAR13_EL1 = 0xC375,
+  ARM64_SYSREG_PRLAR13_EL2 = 0xE375,
+  ARM64_SYSREG_PRLAR14_EL1 = 0xC379,
+  ARM64_SYSREG_PRLAR14_EL2 = 0xE379,
+  ARM64_SYSREG_PRLAR15_EL1 = 0xC37D,
+  ARM64_SYSREG_PRLAR15_EL2 = 0xE37D,
+  ARM64_SYSREG_PRLAR1_EL1 = 0xC345,
+  ARM64_SYSREG_PRLAR1_EL2 = 0xE345,
+  ARM64_SYSREG_PRLAR2_EL1 = 0xC349,
+  ARM64_SYSREG_PRLAR2_EL2 = 0xE349,
+  ARM64_SYSREG_PRLAR3_EL1 = 0xC34D,
+  ARM64_SYSREG_PRLAR3_EL2 = 0xE34D,
+  ARM64_SYSREG_PRLAR4_EL1 = 0xC351,
+  ARM64_SYSREG_PRLAR4_EL2 = 0xE351,
+  ARM64_SYSREG_PRLAR5_EL1 = 0xC355,
+  ARM64_SYSREG_PRLAR5_EL2 = 0xE355,
+  ARM64_SYSREG_PRLAR6_EL1 = 0xC359,
+  ARM64_SYSREG_PRLAR6_EL2 = 0xE359,
+  ARM64_SYSREG_PRLAR7_EL1 = 0xC35D,
+  ARM64_SYSREG_PRLAR7_EL2 = 0xE35D,
+  ARM64_SYSREG_PRLAR8_EL1 = 0xC361,
+  ARM64_SYSREG_PRLAR8_EL2 = 0xE361,
+  ARM64_SYSREG_PRLAR9_EL1 = 0xC365,
+  ARM64_SYSREG_PRLAR9_EL2 = 0xE365,
+  ARM64_SYSREG_PRLAR_EL1 = 0xC341,
+  ARM64_SYSREG_PRLAR_EL2 = 0xE341,
+  ARM64_SYSREG_PRSELR_EL1 = 0xC311,
+  ARM64_SYSREG_PRSELR_EL2 = 0xE311,
+  ARM64_SYSREG_REVIDR_EL1 = 0xC006,
+  ARM64_SYSREG_RGSR_EL1 = 0xC085,
+  ARM64_SYSREG_RMR_EL1 = 0xC602,
+  ARM64_SYSREG_RMR_EL2 = 0xE602,
+  ARM64_SYSREG_RMR_EL3 = 0xF602,
+  ARM64_SYSREG_RNDR = 0xD920,
+  ARM64_SYSREG_RNDRRS = 0xD921,
+  ARM64_SYSREG_RVBAR_EL1 = 0xC601,
+  ARM64_SYSREG_RVBAR_EL2 = 0xE601,
+  ARM64_SYSREG_RVBAR_EL3 = 0xF601,
+  ARM64_SYSREG_SCR_EL3 = 0xF088,
+  ARM64_SYSREG_SCTLR_EL1 = 0xC080,
+  ARM64_SYSREG_SCTLR_EL12 = 0xE880,
+  ARM64_SYSREG_SCTLR_EL2 = 0xE080,
+  ARM64_SYSREG_SCTLR_EL3 = 0xF080,
+  ARM64_SYSREG_SCXTNUM_EL0 = 0xDE87,
+  ARM64_SYSREG_SCXTNUM_EL1 = 0xC687,
+  ARM64_SYSREG_SCXTNUM_EL12 = 0xEE87,
+  ARM64_SYSREG_SCXTNUM_EL2 = 0xE687,
+  ARM64_SYSREG_SCXTNUM_EL3 = 0xF687,
+  ARM64_SYSREG_SDER32_EL2 = 0xE099,
+  ARM64_SYSREG_SDER32_EL3 = 0xF089,
+  ARM64_SYSREG_SMCR_EL1 = 0xC096,
+  ARM64_SYSREG_SMCR_EL12 = 0xE896,
+  ARM64_SYSREG_SMCR_EL2 = 0xE096,
+  ARM64_SYSREG_SMCR_EL3 = 0xF096,
+  ARM64_SYSREG_SMIDR_EL1 = 0xC806,
+  ARM64_SYSREG_SMPRIMAP_EL2 = 0xE095,
+  ARM64_SYSREG_SMPRI_EL1 = 0xC094,
+  ARM64_SYSREG_SPSEL = 0xC210,
+  ARM64_SYSREG_SPSR_ABT = 0xE219,
+  ARM64_SYSREG_SPSR_EL1 = 0xC200,
+  ARM64_SYSREG_SPSR_EL12 = 0xEA00,
+  ARM64_SYSREG_SPSR_EL2 = 0xE200,
+  ARM64_SYSREG_SPSR_EL3 = 0xF200,
+  ARM64_SYSREG_SPSR_FIQ = 0xE21B,
+  ARM64_SYSREG_SPSR_IRQ = 0xE218,
+  ARM64_SYSREG_SPSR_UND = 0xE21A,
+  ARM64_SYSREG_SP_EL0 = 0xC208,
+  ARM64_SYSREG_SP_EL1 = 0xE208,
+  ARM64_SYSREG_SP_EL2 = 0xF208,
+  ARM64_SYSREG_SSBS = 0xDA16,
+  ARM64_SYSREG_SVCR = 0xDA12,
+  ARM64_SYSREG_TCO = 0xDA17,
+  ARM64_SYSREG_TCR_EL1 = 0xC102,
+  ARM64_SYSREG_TCR_EL12 = 0xE902,
+  ARM64_SYSREG_TCR_EL2 = 0xE102,
+  ARM64_SYSREG_TCR_EL3 = 0xF102,
+  ARM64_SYSREG_TEECR32_EL1 = 0x9000,
+  ARM64_SYSREG_TEEHBR32_EL1 = 0x9080,
+  ARM64_SYSREG_TFSRE0_EL1 = 0xC2B1,
+  ARM64_SYSREG_TFSR_EL1 = 0xC2B0,
+  ARM64_SYSREG_TFSR_EL12 = 0xEAB0,
+  ARM64_SYSREG_TFSR_EL2 = 0xE2B0,
+  ARM64_SYSREG_TFSR_EL3 = 0xF2B0,
+  ARM64_SYSREG_TPIDR2_EL0 = 0xDE85,
+  ARM64_SYSREG_TPIDRRO_EL0 = 0xDE83,
+  ARM64_SYSREG_TPIDR_EL0 = 0xDE82,
+  ARM64_SYSREG_TPIDR_EL1 = 0xC684,
+  ARM64_SYSREG_TPIDR_EL2 = 0xE682,
+  ARM64_SYSREG_TPIDR_EL3 = 0xF682,
+  ARM64_SYSREG_TRBBASER_EL1 = 0xC4DA,
+  ARM64_SYSREG_TRBIDR_EL1 = 0xC4DF,
+  ARM64_SYSREG_TRBLIMITR_EL1 = 0xC4D8,
+  ARM64_SYSREG_TRBMAR_EL1 = 0xC4DC,
+  ARM64_SYSREG_TRBPTR_EL1 = 0xC4D9,
+  ARM64_SYSREG_TRBSR_EL1 = 0xC4DB,
+  ARM64_SYSREG_TRBTRG_EL1 = 0xC4DE,
+  ARM64_SYSREG_TRCACATR0 = 0x8902,
+  ARM64_SYSREG_TRCACATR1 = 0x8912,
+  ARM64_SYSREG_TRCACATR10 = 0x8923,
+  ARM64_SYSREG_TRCACATR11 = 0x8933,
+  ARM64_SYSREG_TRCACATR12 = 0x8943,
+  ARM64_SYSREG_TRCACATR13 = 0x8953,
+  ARM64_SYSREG_TRCACATR14 = 0x8963,
+  ARM64_SYSREG_TRCACATR15 = 0x8973,
+  ARM64_SYSREG_TRCACATR2 = 0x8922,
+  ARM64_SYSREG_TRCACATR3 = 0x8932,
+  ARM64_SYSREG_TRCACATR4 = 0x8942,
+  ARM64_SYSREG_TRCACATR5 = 0x8952,
+  ARM64_SYSREG_TRCACATR6 = 0x8962,
+  ARM64_SYSREG_TRCACATR7 = 0x8972,
+  ARM64_SYSREG_TRCACATR8 = 0x8903,
+  ARM64_SYSREG_TRCACATR9 = 0x8913,
+  ARM64_SYSREG_TRCACVR0 = 0x8900,
+  ARM64_SYSREG_TRCACVR1 = 0x8910,
+  ARM64_SYSREG_TRCACVR10 = 0x8921,
+  ARM64_SYSREG_TRCACVR11 = 0x8931,
+  ARM64_SYSREG_TRCACVR12 = 0x8941,
+  ARM64_SYSREG_TRCACVR13 = 0x8951,
+  ARM64_SYSREG_TRCACVR14 = 0x8961,
+  ARM64_SYSREG_TRCACVR15 = 0x8971,
+  ARM64_SYSREG_TRCACVR2 = 0x8920,
+  ARM64_SYSREG_TRCACVR3 = 0x8930,
+  ARM64_SYSREG_TRCACVR4 = 0x8940,
+  ARM64_SYSREG_TRCACVR5 = 0x8950,
+  ARM64_SYSREG_TRCACVR6 = 0x8960,
+  ARM64_SYSREG_TRCACVR7 = 0x8970,
+  ARM64_SYSREG_TRCACVR8 = 0x8901,
+  ARM64_SYSREG_TRCACVR9 = 0x8911,
+  ARM64_SYSREG_TRCAUTHSTATUS = 0x8BF6,
+  ARM64_SYSREG_TRCAUXCTLR = 0x8830,
+  ARM64_SYSREG_TRCBBCTLR = 0x8878,
+  ARM64_SYSREG_TRCCCCTLR = 0x8870,
+  ARM64_SYSREG_TRCCIDCCTLR0 = 0x8982,
+  ARM64_SYSREG_TRCCIDCCTLR1 = 0x898A,
+  ARM64_SYSREG_TRCCIDCVR0 = 0x8980,
+  ARM64_SYSREG_TRCCIDCVR1 = 0x8990,
+  ARM64_SYSREG_TRCCIDCVR2 = 0x89A0,
+  ARM64_SYSREG_TRCCIDCVR3 = 0x89B0,
+  ARM64_SYSREG_TRCCIDCVR4 = 0x89C0,
+  ARM64_SYSREG_TRCCIDCVR5 = 0x89D0,
+  ARM64_SYSREG_TRCCIDCVR6 = 0x89E0,
+  ARM64_SYSREG_TRCCIDCVR7 = 0x89F0,
+  ARM64_SYSREG_TRCCIDR0 = 0x8BE7,
+  ARM64_SYSREG_TRCCIDR1 = 0x8BEF,
+  ARM64_SYSREG_TRCCIDR2 = 0x8BF7,
+  ARM64_SYSREG_TRCCIDR3 = 0x8BFF,
+  ARM64_SYSREG_TRCCLAIMCLR = 0x8BCE,
+  ARM64_SYSREG_TRCCLAIMSET = 0x8BC6,
+  ARM64_SYSREG_TRCCNTCTLR0 = 0x8825,
+  ARM64_SYSREG_TRCCNTCTLR1 = 0x882D,
+  ARM64_SYSREG_TRCCNTCTLR2 = 0x8835,
+  ARM64_SYSREG_TRCCNTCTLR3 = 0x883D,
+  ARM64_SYSREG_TRCCNTRLDVR0 = 0x8805,
+  ARM64_SYSREG_TRCCNTRLDVR1 = 0x880D,
+  ARM64_SYSREG_TRCCNTRLDVR2 = 0x8815,
+  ARM64_SYSREG_TRCCNTRLDVR3 = 0x881D,
+  ARM64_SYSREG_TRCCNTVR0 = 0x8845,
+  ARM64_SYSREG_TRCCNTVR1 = 0x884D,
+  ARM64_SYSREG_TRCCNTVR2 = 0x8855,
+  ARM64_SYSREG_TRCCNTVR3 = 0x885D,
+  ARM64_SYSREG_TRCCONFIGR = 0x8820,
+  ARM64_SYSREG_TRCDEVAFF0 = 0x8BD6,
+  ARM64_SYSREG_TRCDEVAFF1 = 0x8BDE,
+  ARM64_SYSREG_TRCDEVARCH = 0x8BFE,
+  ARM64_SYSREG_TRCDEVID = 0x8B97,
+  ARM64_SYSREG_TRCDEVTYPE = 0x8B9F,
+  ARM64_SYSREG_TRCDVCMR0 = 0x8906,
+  ARM64_SYSREG_TRCDVCMR1 = 0x8926,
+  ARM64_SYSREG_TRCDVCMR2 = 0x8946,
+  ARM64_SYSREG_TRCDVCMR3 = 0x8966,
+  ARM64_SYSREG_TRCDVCMR4 = 0x8907,
+  ARM64_SYSREG_TRCDVCMR5 = 0x8927,
+  ARM64_SYSREG_TRCDVCMR6 = 0x8947,
+  ARM64_SYSREG_TRCDVCMR7 = 0x8967,
+  ARM64_SYSREG_TRCDVCVR0 = 0x8904,
+  ARM64_SYSREG_TRCDVCVR1 = 0x8924,
+  ARM64_SYSREG_TRCDVCVR2 = 0x8944,
+  ARM64_SYSREG_TRCDVCVR3 = 0x8964,
+  ARM64_SYSREG_TRCDVCVR4 = 0x8905,
+  ARM64_SYSREG_TRCDVCVR5 = 0x8925,
+  ARM64_SYSREG_TRCDVCVR6 = 0x8945,
+  ARM64_SYSREG_TRCDVCVR7 = 0x8965,
+  ARM64_SYSREG_TRCEVENTCTL0R = 0x8840,
+  ARM64_SYSREG_TRCEVENTCTL1R = 0x8848,
+  ARM64_SYSREG_TRCEXTINSELR = 0x8844,
+  ARM64_SYSREG_TRCEXTINSELR0 = 0x8844,
+  ARM64_SYSREG_TRCEXTINSELR1 = 0x884C,
+  ARM64_SYSREG_TRCEXTINSELR2 = 0x8854,
+  ARM64_SYSREG_TRCEXTINSELR3 = 0x885C,
+  ARM64_SYSREG_TRCIDR0 = 0x8847,
+  ARM64_SYSREG_TRCIDR1 = 0x884F,
+  ARM64_SYSREG_TRCIDR10 = 0x8816,
+  ARM64_SYSREG_TRCIDR11 = 0x881E,
+  ARM64_SYSREG_TRCIDR12 = 0x8826,
+  ARM64_SYSREG_TRCIDR13 = 0x882E,
+  ARM64_SYSREG_TRCIDR2 = 0x8857,
+  ARM64_SYSREG_TRCIDR3 = 0x885F,
+  ARM64_SYSREG_TRCIDR4 = 0x8867,
+  ARM64_SYSREG_TRCIDR5 = 0x886F,
+  ARM64_SYSREG_TRCIDR6 = 0x8877,
+  ARM64_SYSREG_TRCIDR7 = 0x887F,
+  ARM64_SYSREG_TRCIDR8 = 0x8806,
+  ARM64_SYSREG_TRCIDR9 = 0x880E,
+  ARM64_SYSREG_TRCIMSPEC0 = 0x8807,
+  ARM64_SYSREG_TRCIMSPEC1 = 0x880F,
+  ARM64_SYSREG_TRCIMSPEC2 = 0x8817,
+  ARM64_SYSREG_TRCIMSPEC3 = 0x881F,
+  ARM64_SYSREG_TRCIMSPEC4 = 0x8827,
+  ARM64_SYSREG_TRCIMSPEC5 = 0x882F,
+  ARM64_SYSREG_TRCIMSPEC6 = 0x8837,
+  ARM64_SYSREG_TRCIMSPEC7 = 0x883F,
+  ARM64_SYSREG_TRCITCTRL = 0x8B84,
+  ARM64_SYSREG_TRCLAR = 0x8BE6,
+  ARM64_SYSREG_TRCLSR = 0x8BEE,
+  ARM64_SYSREG_TRCOSLAR = 0x8884,
+  ARM64_SYSREG_TRCOSLSR = 0x888C,
+  ARM64_SYSREG_TRCPDCR = 0x88A4,
+  ARM64_SYSREG_TRCPDSR = 0x88AC,
+  ARM64_SYSREG_TRCPIDR0 = 0x8BC7,
+  ARM64_SYSREG_TRCPIDR1 = 0x8BCF,
+  ARM64_SYSREG_TRCPIDR2 = 0x8BD7,
+  ARM64_SYSREG_TRCPIDR3 = 0x8BDF,
+  ARM64_SYSREG_TRCPIDR4 = 0x8BA7,
+  ARM64_SYSREG_TRCPIDR5 = 0x8BAF,
+  ARM64_SYSREG_TRCPIDR6 = 0x8BB7,
+  ARM64_SYSREG_TRCPIDR7 = 0x8BBF,
+  ARM64_SYSREG_TRCPRGCTLR = 0x8808,
+  ARM64_SYSREG_TRCPROCSELR = 0x8810,
+  ARM64_SYSREG_TRCQCTLR = 0x8809,
+  ARM64_SYSREG_TRCRSCTLR10 = 0x88D0,
+  ARM64_SYSREG_TRCRSCTLR11 = 0x88D8,
+  ARM64_SYSREG_TRCRSCTLR12 = 0x88E0,
+  ARM64_SYSREG_TRCRSCTLR13 = 0x88E8,
+  ARM64_SYSREG_TRCRSCTLR14 = 0x88F0,
+  ARM64_SYSREG_TRCRSCTLR15 = 0x88F8,
+  ARM64_SYSREG_TRCRSCTLR16 = 0x8881,
+  ARM64_SYSREG_TRCRSCTLR17 = 0x8889,
+  ARM64_SYSREG_TRCRSCTLR18 = 0x8891,
+  ARM64_SYSREG_TRCRSCTLR19 = 0x8899,
+  ARM64_SYSREG_TRCRSCTLR2 = 0x8890,
+  ARM64_SYSREG_TRCRSCTLR20 = 0x88A1,
+  ARM64_SYSREG_TRCRSCTLR21 = 0x88A9,
+  ARM64_SYSREG_TRCRSCTLR22 = 0x88B1,
+  ARM64_SYSREG_TRCRSCTLR23 = 0x88B9,
+  ARM64_SYSREG_TRCRSCTLR24 = 0x88C1,
+  ARM64_SYSREG_TRCRSCTLR25 = 0x88C9,
+  ARM64_SYSREG_TRCRSCTLR26 = 0x88D1,
+  ARM64_SYSREG_TRCRSCTLR27 = 0x88D9,
+  ARM64_SYSREG_TRCRSCTLR28 = 0x88E1,
+  ARM64_SYSREG_TRCRSCTLR29 = 0x88E9,
+  ARM64_SYSREG_TRCRSCTLR3 = 0x8898,
+  ARM64_SYSREG_TRCRSCTLR30 = 0x88F1,
+  ARM64_SYSREG_TRCRSCTLR31 = 0x88F9,
+  ARM64_SYSREG_TRCRSCTLR4 = 0x88A0,
+  ARM64_SYSREG_TRCRSCTLR5 = 0x88A8,
+  ARM64_SYSREG_TRCRSCTLR6 = 0x88B0,
+  ARM64_SYSREG_TRCRSCTLR7 = 0x88B8,
+  ARM64_SYSREG_TRCRSCTLR8 = 0x88C0,
+  ARM64_SYSREG_TRCRSCTLR9 = 0x88C8,
+  ARM64_SYSREG_TRCRSR = 0x8850,
+  ARM64_SYSREG_TRCSEQEVR0 = 0x8804,
+  ARM64_SYSREG_TRCSEQEVR1 = 0x880C,
+  ARM64_SYSREG_TRCSEQEVR2 = 0x8814,
+  ARM64_SYSREG_TRCSEQRSTEVR = 0x8834,
+  ARM64_SYSREG_TRCSEQSTR = 0x883C,
+  ARM64_SYSREG_TRCSSCCR0 = 0x8882,
+  ARM64_SYSREG_TRCSSCCR1 = 0x888A,
+  ARM64_SYSREG_TRCSSCCR2 = 0x8892,
+  ARM64_SYSREG_TRCSSCCR3 = 0x889A,
+  ARM64_SYSREG_TRCSSCCR4 = 0x88A2,
+  ARM64_SYSREG_TRCSSCCR5 = 0x88AA,
+  ARM64_SYSREG_TRCSSCCR6 = 0x88B2,
+  ARM64_SYSREG_TRCSSCCR7 = 0x88BA,
+  ARM64_SYSREG_TRCSSCSR0 = 0x88C2,
+  ARM64_SYSREG_TRCSSCSR1 = 0x88CA,
+  ARM64_SYSREG_TRCSSCSR2 = 0x88D2,
+  ARM64_SYSREG_TRCSSCSR3 = 0x88DA,
+  ARM64_SYSREG_TRCSSCSR4 = 0x88E2,
+  ARM64_SYSREG_TRCSSCSR5 = 0x88EA,
+  ARM64_SYSREG_TRCSSCSR6 = 0x88F2,
+  ARM64_SYSREG_TRCSSCSR7 = 0x88FA,
+  ARM64_SYSREG_TRCSSPCICR0 = 0x8883,
+  ARM64_SYSREG_TRCSSPCICR1 = 0x888B,
+  ARM64_SYSREG_TRCSSPCICR2 = 0x8893,
+  ARM64_SYSREG_TRCSSPCICR3 = 0x889B,
+  ARM64_SYSREG_TRCSSPCICR4 = 0x88A3,
+  ARM64_SYSREG_TRCSSPCICR5 = 0x88AB,
+  ARM64_SYSREG_TRCSSPCICR6 = 0x88B3,
+  ARM64_SYSREG_TRCSSPCICR7 = 0x88BB,
+  ARM64_SYSREG_TRCSTALLCTLR = 0x8858,
+  ARM64_SYSREG_TRCSTATR = 0x8818,
+  ARM64_SYSREG_TRCSYNCPR = 0x8868,
+  ARM64_SYSREG_TRCTRACEIDR = 0x8801,
+  ARM64_SYSREG_TRCTSCTLR = 0x8860,
+  ARM64_SYSREG_TRCVDARCCTLR = 0x8852,
+  ARM64_SYSREG_TRCVDCTLR = 0x8842,
+  ARM64_SYSREG_TRCVDSACCTLR = 0x884A,
+  ARM64_SYSREG_TRCVICTLR = 0x8802,
+  ARM64_SYSREG_TRCVIIECTLR = 0x880A,
+  ARM64_SYSREG_TRCVIPCSSCTLR = 0x881A,
+  ARM64_SYSREG_TRCVISSCTLR = 0x8812,
+  ARM64_SYSREG_TRCVMIDCCTLR0 = 0x8992,
+  ARM64_SYSREG_TRCVMIDCCTLR1 = 0x899A,
+  ARM64_SYSREG_TRCVMIDCVR0 = 0x8981,
+  ARM64_SYSREG_TRCVMIDCVR1 = 0x8991,
+  ARM64_SYSREG_TRCVMIDCVR2 = 0x89A1,
+  ARM64_SYSREG_TRCVMIDCVR3 = 0x89B1,
+  ARM64_SYSREG_TRCVMIDCVR4 = 0x89C1,
+  ARM64_SYSREG_TRCVMIDCVR5 = 0x89D1,
+  ARM64_SYSREG_TRCVMIDCVR6 = 0x89E1,
+  ARM64_SYSREG_TRCVMIDCVR7 = 0x89F1,
+  ARM64_SYSREG_TRFCR_EL1 = 0xC091,
+  ARM64_SYSREG_TRFCR_EL12 = 0xE891,
+  ARM64_SYSREG_TRFCR_EL2 = 0xE091,
+  ARM64_SYSREG_TTBR0_EL1 = 0xC100,
+  ARM64_SYSREG_TTBR0_EL12 = 0xE900,
+  ARM64_SYSREG_TTBR0_EL2 = 0xE100,
+  ARM64_SYSREG_TTBR0_EL3 = 0xF100,
+  ARM64_SYSREG_TTBR1_EL1 = 0xC101,
+  ARM64_SYSREG_TTBR1_EL12 = 0xE901,
+  ARM64_SYSREG_TTBR1_EL2 = 0xE101,
+  ARM64_SYSREG_UAO = 0xC214,
+  ARM64_SYSREG_VBAR_EL1 = 0xC600,
+  ARM64_SYSREG_VBAR_EL12 = 0xEE00,
+  ARM64_SYSREG_VBAR_EL2 = 0xE600,
+  ARM64_SYSREG_VBAR_EL3 = 0xF600,
+  ARM64_SYSREG_VDISR_EL2 = 0xE609,
+  ARM64_SYSREG_VMPIDR_EL2 = 0xE005,
+  ARM64_SYSREG_VNCR_EL2 = 0xE110,
+  ARM64_SYSREG_VPIDR_EL2 = 0xE000,
+  ARM64_SYSREG_VSCTLR_EL2 = 0xE100,
+  ARM64_SYSREG_VSESR_EL2 = 0xE293,
+  ARM64_SYSREG_VSTCR_EL2 = 0xE132,
+  ARM64_SYSREG_VSTTBR_EL2 = 0xE130,
+  ARM64_SYSREG_VTCR_EL2 = 0xE10A,
+  ARM64_SYSREG_VTTBR_EL2 = 0xE108,
+  ARM64_SYSREG_ZCR_EL1 = 0xC090,
+  ARM64_SYSREG_ZCR_EL12 = 0xE890,
+  ARM64_SYSREG_ZCR_EL2 = 0xE090,
+  ARM64_SYSREG_ZCR_EL3 = 0xF090,
 } arm64_sysreg;
 
 /// System PState Field (MSR instruction)
 typedef enum arm64_pstate {
-	ARM64_PSTATE_INVALID = 0,
-	ARM64_PSTATE_SPSEL = 0x05,
-	ARM64_PSTATE_DAIFSET = 0x1e,
-	ARM64_PSTATE_DAIFCLR = 0x1f,
-	ARM64_PSTATE_PAN = 0x4,
-	ARM64_PSTATE_UAO = 0x3,
-	ARM64_PSTATE_DIT = 0x1a,
+  ARM64_PSTATE_INVALID = 0,
+  ARM64_PSTATE_SPSEL = 0x05,
+  ARM64_PSTATE_DAIFSET = 0x1e,
+  ARM64_PSTATE_DAIFCLR = 0x1f,
+  ARM64_PSTATE_PAN = 0x4,
+  ARM64_PSTATE_UAO = 0x3,
+  ARM64_PSTATE_DIT = 0x1a,
 } arm64_pstate;
 
 /// Vector arrangement specifier (for FloatingPoint/Advanced SIMD insn)
 typedef enum arm64_vas {
-	ARM64_VAS_INVALID = 0,
-	ARM64_VAS_16B,
-	ARM64_VAS_8B,
-	ARM64_VAS_4B,
-	ARM64_VAS_1B,
-	ARM64_VAS_8H,
-	ARM64_VAS_4H,
-	ARM64_VAS_2H,
-	ARM64_VAS_1H,
-	ARM64_VAS_4S,
-	ARM64_VAS_2S,
-	ARM64_VAS_1S,
-	ARM64_VAS_2D,
-	ARM64_VAS_1D,
-	ARM64_VAS_1Q,
+  ARM64_VAS_INVALID = 0,
+  ARM64_VAS_16B,
+  ARM64_VAS_8B,
+  ARM64_VAS_4B,
+  ARM64_VAS_1B,
+  ARM64_VAS_8H,
+  ARM64_VAS_4H,
+  ARM64_VAS_2H,
+  ARM64_VAS_1H,
+  ARM64_VAS_4S,
+  ARM64_VAS_2S,
+  ARM64_VAS_1S,
+  ARM64_VAS_2D,
+  ARM64_VAS_1D,
+  ARM64_VAS_1Q,
 } arm64_vas;
 
 /// Memory barrier operands
 typedef enum arm64_barrier_op {
-	ARM64_BARRIER_INVALID = 0,
-	ARM64_BARRIER_OSHLD = 0x1,
-	ARM64_BARRIER_OSHST = 0x2,
-	ARM64_BARRIER_OSH =   0x3,
-	ARM64_BARRIER_NSHLD = 0x5,
-	ARM64_BARRIER_NSHST = 0x6,
-	ARM64_BARRIER_NSH =   0x7,
-	ARM64_BARRIER_ISHLD = 0x9,
-	ARM64_BARRIER_ISHST = 0xa,
-	ARM64_BARRIER_ISH =   0xb,
-	ARM64_BARRIER_LD =    0xd,
-	ARM64_BARRIER_ST =    0xe,
-	ARM64_BARRIER_SY =    0xf
+  ARM64_BARRIER_INVALID = 0,
+  ARM64_BARRIER_OSHLD = 0x1,
+  ARM64_BARRIER_OSHST = 0x2,
+  ARM64_BARRIER_OSH = 0x3,
+  ARM64_BARRIER_NSHLD = 0x5,
+  ARM64_BARRIER_NSHST = 0x6,
+  ARM64_BARRIER_NSH = 0x7,
+  ARM64_BARRIER_ISHLD = 0x9,
+  ARM64_BARRIER_ISHST = 0xa,
+  ARM64_BARRIER_ISH = 0xb,
+  ARM64_BARRIER_LD = 0xd,
+  ARM64_BARRIER_ST = 0xe,
+  ARM64_BARRIER_SY = 0xf
 } arm64_barrier_op;
 
 /// Operand type for instruction's operands
 typedef enum arm64_op_type {
-	ARM64_OP_INVALID = 0, ///< = CS_OP_INVALID (Uninitialized).
-	ARM64_OP_REG, ///< = CS_OP_REG (Register operand).
-	ARM64_OP_IMM, ///< = CS_OP_IMM (Immediate operand).
-	ARM64_OP_MEM, ///< = CS_OP_MEM (Memory operand).
-	ARM64_OP_FP,  ///< = CS_OP_FP (Floating-Point operand).
-	ARM64_OP_CIMM = 64, ///< C-Immediate
-	ARM64_OP_REG_MRS, ///< MRS register operand.
-	ARM64_OP_REG_MSR, ///< MSR register operand.
-	ARM64_OP_PSTATE, ///< PState operand.
-	ARM64_OP_SYS, ///< SYS operand for IC/DC/AT/TLBI instructions.
-	ARM64_OP_PREFETCH, ///< Prefetch operand (PRFM).
-	ARM64_OP_BARRIER, ///< Memory barrier operand (ISB/DMB/DSB instructions).
+  ARM64_OP_INVALID = 0, ///< = CS_OP_INVALID (Uninitialized).
+  ARM64_OP_REG,		///< = CS_OP_REG (Register operand).
+  ARM64_OP_IMM,		///< = CS_OP_IMM (Immediate operand).
+  ARM64_OP_MEM,		///< = CS_OP_MEM (Memory operand).
+  ARM64_OP_FP,		///< = CS_OP_FP (Floating-Point operand).
+  ARM64_OP_CIMM = 64,	///< C-Immediate
+  ARM64_OP_REG_MRS,	///< MRS register operand.
+  ARM64_OP_REG_MSR,	///< MSR register operand.
+  ARM64_OP_PSTATE,	///< PState operand.
+  ARM64_OP_SYS,		///< SYS operand for IC/DC/AT/TLBI instructions.
+  ARM64_OP_SVCR,	///< SVCR operand for MSR SVCR instructions.
+  ARM64_OP_PREFETCH,	///< Prefetch operand (PRFM).
+  ARM64_OP_BARRIER,	///< Memory barrier operand (ISB/DMB/DSB instructions).
+  ARM64_OP_SME_INDEX,	///< SME instruction operand with with index.
 } arm64_op_type;
 
-/// TLBI operations
-typedef enum arm64_tlbi_op {
-	ARM64_TLBI_INVALID = 0,
+/// SYS operands (IC/DC/AC/TLBI)
+typedef enum arm64_sys_op {
+  ARM64_SYS_INVALID = 0,
 
-	ARM64_TLBI_IPAS2E1IS,
-	ARM64_TLBI_IPAS2LE1IS,
-	ARM64_TLBI_VMALLE1IS,
-	ARM64_TLBI_ALLE2IS,
-	ARM64_TLBI_ALLE3IS,
-	ARM64_TLBI_VAE1IS,
-	ARM64_TLBI_VAE2IS,
-	ARM64_TLBI_VAE3IS,
-	ARM64_TLBI_ASIDE1IS,
-	ARM64_TLBI_VAAE1IS,
-	ARM64_TLBI_ALLE1IS,
-	ARM64_TLBI_VALE1IS,
-	ARM64_TLBI_VALE2IS,
-	ARM64_TLBI_VALE3IS,
-	ARM64_TLBI_VMALLS12E1IS,
-	ARM64_TLBI_VAALE1IS,
-	ARM64_TLBI_IPAS2E1,
-	ARM64_TLBI_IPAS2LE1,
-	ARM64_TLBI_VMALLE1,
-	ARM64_TLBI_ALLE2,
-	ARM64_TLBI_ALLE3,
-	ARM64_TLBI_VAE1,
-	ARM64_TLBI_VAE2,
-	ARM64_TLBI_VAE3,
-	ARM64_TLBI_ASIDE1,
-	ARM64_TLBI_VAAE1,
-	ARM64_TLBI_ALLE1,
-	ARM64_TLBI_VALE1,
-	ARM64_TLBI_VALE2,
-	ARM64_TLBI_VALE3,
-	ARM64_TLBI_VMALLS12E1,
-	ARM64_TLBI_VAALE1,
-	ARM64_TLBI_VMALLE1OS,
-	ARM64_TLBI_VAE1OS,
-	ARM64_TLBI_ASIDE1OS,
-	ARM64_TLBI_VAAE1OS,
-	ARM64_TLBI_VALE1OS,
-	ARM64_TLBI_VAALE1OS,
-	ARM64_TLBI_IPAS2E1OS,
-	ARM64_TLBI_IPAS2LE1OS,
-	ARM64_TLBI_VAE2OS,
-	ARM64_TLBI_VALE2OS,
-	ARM64_TLBI_VMALLS12E1OS,
-	ARM64_TLBI_VAE3OS,
-	ARM64_TLBI_VALE3OS,
-	ARM64_TLBI_ALLE2OS,
-	ARM64_TLBI_ALLE1OS,
-	ARM64_TLBI_ALLE3OS,
-	ARM64_TLBI_RVAE1,
-	ARM64_TLBI_RVAAE1,
-	ARM64_TLBI_RVALE1,
-	ARM64_TLBI_RVAALE1,
-	ARM64_TLBI_RVAE1IS,
-	ARM64_TLBI_RVAAE1IS,
-	ARM64_TLBI_RVALE1IS,
-	ARM64_TLBI_RVAALE1IS,
-	ARM64_TLBI_RVAE1OS,
-	ARM64_TLBI_RVAAE1OS,
-	ARM64_TLBI_RVALE1OS,
-	ARM64_TLBI_RVAALE1OS,
-	ARM64_TLBI_RIPAS2E1IS,
-	ARM64_TLBI_RIPAS2LE1IS,
-	ARM64_TLBI_RIPAS2E1,
-	ARM64_TLBI_RIPAS2LE1,
-	ARM64_TLBI_RIPAS2E1OS,
-	ARM64_TLBI_RIPAS2LE1OS,
-	ARM64_TLBI_RVAE2,
-	ARM64_TLBI_RVALE2,
-	ARM64_TLBI_RVAE2IS,
-	ARM64_TLBI_RVALE2IS,
-	ARM64_TLBI_RVAE2OS,
-	ARM64_TLBI_RVALE2OS,
-	ARM64_TLBI_RVAE3,
-	ARM64_TLBI_RVALE3,
-	ARM64_TLBI_RVAE3IS,
-	ARM64_TLBI_RVALE3IS,
-	ARM64_TLBI_RVAE3OS,
-	ARM64_TLBI_RVALE3OS,
-} arm64_tlbi_op;
+  /// TLBI operations
+  ARM64_TLBI_ALLE1,
+  ARM64_TLBI_ALLE1IS,
+  ARM64_TLBI_ALLE1ISNXS,
+  ARM64_TLBI_ALLE1NXS,
+  ARM64_TLBI_ALLE1OS,
+  ARM64_TLBI_ALLE1OSNXS,
+  ARM64_TLBI_ALLE2,
+  ARM64_TLBI_ALLE2IS,
+  ARM64_TLBI_ALLE2ISNXS,
+  ARM64_TLBI_ALLE2NXS,
+  ARM64_TLBI_ALLE2OS,
+  ARM64_TLBI_ALLE2OSNXS,
+  ARM64_TLBI_ALLE3,
+  ARM64_TLBI_ALLE3IS,
+  ARM64_TLBI_ALLE3ISNXS,
+  ARM64_TLBI_ALLE3NXS,
+  ARM64_TLBI_ALLE3OS,
+  ARM64_TLBI_ALLE3OSNXS,
+  ARM64_TLBI_ASIDE1,
+  ARM64_TLBI_ASIDE1IS,
+  ARM64_TLBI_ASIDE1ISNXS,
+  ARM64_TLBI_ASIDE1NXS,
+  ARM64_TLBI_ASIDE1OS,
+  ARM64_TLBI_ASIDE1OSNXS,
+  ARM64_TLBI_IPAS2E1,
+  ARM64_TLBI_IPAS2E1IS,
+  ARM64_TLBI_IPAS2E1ISNXS,
+  ARM64_TLBI_IPAS2E1NXS,
+  ARM64_TLBI_IPAS2E1OS,
+  ARM64_TLBI_IPAS2E1OSNXS,
+  ARM64_TLBI_IPAS2LE1,
+  ARM64_TLBI_IPAS2LE1IS,
+  ARM64_TLBI_IPAS2LE1ISNXS,
+  ARM64_TLBI_IPAS2LE1NXS,
+  ARM64_TLBI_IPAS2LE1OS,
+  ARM64_TLBI_IPAS2LE1OSNXS,
+  ARM64_TLBI_PAALL,
+  ARM64_TLBI_PAALLNXS,
+  ARM64_TLBI_PAALLOS,
+  ARM64_TLBI_PAALLOSNXS,
+  ARM64_TLBI_RIPAS2E1,
+  ARM64_TLBI_RIPAS2E1IS,
+  ARM64_TLBI_RIPAS2E1ISNXS,
+  ARM64_TLBI_RIPAS2E1NXS,
+  ARM64_TLBI_RIPAS2E1OS,
+  ARM64_TLBI_RIPAS2E1OSNXS,
+  ARM64_TLBI_RIPAS2LE1,
+  ARM64_TLBI_RIPAS2LE1IS,
+  ARM64_TLBI_RIPAS2LE1ISNXS,
+  ARM64_TLBI_RIPAS2LE1NXS,
+  ARM64_TLBI_RIPAS2LE1OS,
+  ARM64_TLBI_RIPAS2LE1OSNXS,
+  ARM64_TLBI_RPALOS,
+  ARM64_TLBI_RPALOSNXS,
+  ARM64_TLBI_RPAOS,
+  ARM64_TLBI_RPAOSNXS,
+  ARM64_TLBI_RVAAE1,
+  ARM64_TLBI_RVAAE1IS,
+  ARM64_TLBI_RVAAE1ISNXS,
+  ARM64_TLBI_RVAAE1NXS,
+  ARM64_TLBI_RVAAE1OS,
+  ARM64_TLBI_RVAAE1OSNXS,
+  ARM64_TLBI_RVAALE1,
+  ARM64_TLBI_RVAALE1IS,
+  ARM64_TLBI_RVAALE1ISNXS,
+  ARM64_TLBI_RVAALE1NXS,
+  ARM64_TLBI_RVAALE1OS,
+  ARM64_TLBI_RVAALE1OSNXS,
+  ARM64_TLBI_RVAE1,
+  ARM64_TLBI_RVAE1IS,
+  ARM64_TLBI_RVAE1ISNXS,
+  ARM64_TLBI_RVAE1NXS,
+  ARM64_TLBI_RVAE1OS,
+  ARM64_TLBI_RVAE1OSNXS,
+  ARM64_TLBI_RVAE2,
+  ARM64_TLBI_RVAE2IS,
+  ARM64_TLBI_RVAE2ISNXS,
+  ARM64_TLBI_RVAE2NXS,
+  ARM64_TLBI_RVAE2OS,
+  ARM64_TLBI_RVAE2OSNXS,
+  ARM64_TLBI_RVAE3,
+  ARM64_TLBI_RVAE3IS,
+  ARM64_TLBI_RVAE3ISNXS,
+  ARM64_TLBI_RVAE3NXS,
+  ARM64_TLBI_RVAE3OS,
+  ARM64_TLBI_RVAE3OSNXS,
+  ARM64_TLBI_RVALE1,
+  ARM64_TLBI_RVALE1IS,
+  ARM64_TLBI_RVALE1ISNXS,
+  ARM64_TLBI_RVALE1NXS,
+  ARM64_TLBI_RVALE1OS,
+  ARM64_TLBI_RVALE1OSNXS,
+  ARM64_TLBI_RVALE2,
+  ARM64_TLBI_RVALE2IS,
+  ARM64_TLBI_RVALE2ISNXS,
+  ARM64_TLBI_RVALE2NXS,
+  ARM64_TLBI_RVALE2OS,
+  ARM64_TLBI_RVALE2OSNXS,
+  ARM64_TLBI_RVALE3,
+  ARM64_TLBI_RVALE3IS,
+  ARM64_TLBI_RVALE3ISNXS,
+  ARM64_TLBI_RVALE3NXS,
+  ARM64_TLBI_RVALE3OS,
+  ARM64_TLBI_RVALE3OSNXS,
+  ARM64_TLBI_VAAE1,
+  ARM64_TLBI_VAAE1IS,
+  ARM64_TLBI_VAAE1ISNXS,
+  ARM64_TLBI_VAAE1NXS,
+  ARM64_TLBI_VAAE1OS,
+  ARM64_TLBI_VAAE1OSNXS,
+  ARM64_TLBI_VAALE1,
+  ARM64_TLBI_VAALE1IS,
+  ARM64_TLBI_VAALE1ISNXS,
+  ARM64_TLBI_VAALE1NXS,
+  ARM64_TLBI_VAALE1OS,
+  ARM64_TLBI_VAALE1OSNXS,
+  ARM64_TLBI_VAE1,
+  ARM64_TLBI_VAE1IS,
+  ARM64_TLBI_VAE1ISNXS,
+  ARM64_TLBI_VAE1NXS,
+  ARM64_TLBI_VAE1OS,
+  ARM64_TLBI_VAE1OSNXS,
+  ARM64_TLBI_VAE2,
+  ARM64_TLBI_VAE2IS,
+  ARM64_TLBI_VAE2ISNXS,
+  ARM64_TLBI_VAE2NXS,
+  ARM64_TLBI_VAE2OS,
+  ARM64_TLBI_VAE2OSNXS,
+  ARM64_TLBI_VAE3,
+  ARM64_TLBI_VAE3IS,
+  ARM64_TLBI_VAE3ISNXS,
+  ARM64_TLBI_VAE3NXS,
+  ARM64_TLBI_VAE3OS,
+  ARM64_TLBI_VAE3OSNXS,
+  ARM64_TLBI_VALE1,
+  ARM64_TLBI_VALE1IS,
+  ARM64_TLBI_VALE1ISNXS,
+  ARM64_TLBI_VALE1NXS,
+  ARM64_TLBI_VALE1OS,
+  ARM64_TLBI_VALE1OSNXS,
+  ARM64_TLBI_VALE2,
+  ARM64_TLBI_VALE2IS,
+  ARM64_TLBI_VALE2ISNXS,
+  ARM64_TLBI_VALE2NXS,
+  ARM64_TLBI_VALE2OS,
+  ARM64_TLBI_VALE2OSNXS,
+  ARM64_TLBI_VALE3,
+  ARM64_TLBI_VALE3IS,
+  ARM64_TLBI_VALE3ISNXS,
+  ARM64_TLBI_VALE3NXS,
+  ARM64_TLBI_VALE3OS,
+  ARM64_TLBI_VALE3OSNXS,
+  ARM64_TLBI_VMALLE1,
+  ARM64_TLBI_VMALLE1IS,
+  ARM64_TLBI_VMALLE1ISNXS,
+  ARM64_TLBI_VMALLE1NXS,
+  ARM64_TLBI_VMALLE1OS,
+  ARM64_TLBI_VMALLE1OSNXS,
+  ARM64_TLBI_VMALLS12E1,
+  ARM64_TLBI_VMALLS12E1IS,
+  ARM64_TLBI_VMALLS12E1ISNXS,
+  ARM64_TLBI_VMALLS12E1NXS,
+  ARM64_TLBI_VMALLS12E1OS,
+  ARM64_TLBI_VMALLS12E1OSNXS,
 
-/// AT operations
-typedef enum arm64_at_op {
-	ARM64_AT_S1E1R,
-	ARM64_AT_S1E2R,
-	ARM64_AT_S1E3R,
-	ARM64_AT_S1E1W,
-	ARM64_AT_S1E2W,
-	ARM64_AT_S1E3W,
-	ARM64_AT_S1E0R,
-	ARM64_AT_S1E0W,
-	ARM64_AT_S12E1R,
-	ARM64_AT_S12E1W,
-	ARM64_AT_S12E0R,
-	ARM64_AT_S12E0W,
-	ARM64_AT_S1E1RP,
-	ARM64_AT_S1E1WP,
-} arm64_at_op;
+  /// AT operations
+  ARM64_AT_S1E1R,
+  ARM64_AT_S1E2R,
+  ARM64_AT_S1E3R,
+  ARM64_AT_S1E1W,
+  ARM64_AT_S1E2W,
+  ARM64_AT_S1E3W,
+  ARM64_AT_S1E0R,
+  ARM64_AT_S1E0W,
+  ARM64_AT_S12E1R,
+  ARM64_AT_S12E1W,
+  ARM64_AT_S12E0R,
+  ARM64_AT_S12E0W,
+  ARM64_AT_S1E1RP,
+  ARM64_AT_S1E1WP,
 
-/// DC operations
-typedef enum arm64_dc_op {
-	ARM64_DC_INVALID = 0,
-	ARM64_DC_ZVA,
-	ARM64_DC_IVAC,
-	ARM64_DC_ISW,
-	ARM64_DC_CVAC,
-	ARM64_DC_CSW,
-	ARM64_DC_CVAU,
-	ARM64_DC_CIVAC,
-	ARM64_DC_CISW,
-	ARM64_DC_CVAP,
-} arm64_dc_op;
+  /// DC operations
+  ARM64_DC_CGDSW,
+  ARM64_DC_CGDVAC,
+  ARM64_DC_CGDVADP,
+  ARM64_DC_CGDVAP,
+  ARM64_DC_CGSW,
+  ARM64_DC_CGVAC,
+  ARM64_DC_CGVADP,
+  ARM64_DC_CGVAP,
+  ARM64_DC_CIGDSW,
+  ARM64_DC_CIGDVAC,
+  ARM64_DC_CIGSW,
+  ARM64_DC_CIGVAC,
+  ARM64_DC_CISW,
+  ARM64_DC_CIVAC,
+  ARM64_DC_CSW,
+  ARM64_DC_CVAC,
+  ARM64_DC_CVADP,
+  ARM64_DC_CVAP,
+  ARM64_DC_CVAU,
+  ARM64_DC_GVA,
+  ARM64_DC_GZVA,
+  ARM64_DC_IGDSW,
+  ARM64_DC_IGDVAC,
+  ARM64_DC_IGSW,
+  ARM64_DC_IGVAC,
+  ARM64_DC_ISW,
+  ARM64_DC_IVAC,
+  ARM64_DC_ZVA,
 
-/// IC operations
-typedef enum arm64_ic_op {
-	ARM64_IC_INVALID = 0,
-	ARM64_IC_IALLUIS,
-	ARM64_IC_IALLU,
-	ARM64_IC_IVAU,
-} arm64_ic_op;
+  /// IC operations
+  ARM64_IC_IALLUIS,
+  ARM64_IC_IALLU,
+  ARM64_IC_IVAU,
+} arm64_sys_op;
+
+/// SVCR operands
+typedef enum arm64_svcr_op {
+  ARM64_SVCR_INVALID = 0,
+
+  ARM64_SVCR_SVCRSM = 0x1,
+  ARM64_SVCR_SVCRSMZA = 0x3,
+  ARM64_SVCR_SVCRZA = 0x2,
+} arm64_svcr_op;
 
 /// Prefetch operations (PRFM)
 typedef enum arm64_prefetch_op {
-	ARM64_PRFM_INVALID = 0,
-	ARM64_PRFM_PLDL1KEEP = 0x00 + 1,
-	ARM64_PRFM_PLDL1STRM = 0x01 + 1,
-	ARM64_PRFM_PLDL2KEEP = 0x02 + 1,
-	ARM64_PRFM_PLDL2STRM = 0x03 + 1,
-	ARM64_PRFM_PLDL3KEEP = 0x04 + 1,
-	ARM64_PRFM_PLDL3STRM = 0x05 + 1,
-	ARM64_PRFM_PLIL1KEEP = 0x08 + 1,
-	ARM64_PRFM_PLIL1STRM = 0x09 + 1,
-	ARM64_PRFM_PLIL2KEEP = 0x0a + 1,
-	ARM64_PRFM_PLIL2STRM = 0x0b + 1,
-	ARM64_PRFM_PLIL3KEEP = 0x0c + 1,
-	ARM64_PRFM_PLIL3STRM = 0x0d + 1,
-	ARM64_PRFM_PSTL1KEEP = 0x10 + 1,
-	ARM64_PRFM_PSTL1STRM = 0x11 + 1,
-	ARM64_PRFM_PSTL2KEEP = 0x12 + 1,
-	ARM64_PRFM_PSTL2STRM = 0x13 + 1,
-	ARM64_PRFM_PSTL3KEEP = 0x14 + 1,
-	ARM64_PRFM_PSTL3STRM = 0x15 + 1,
+  ARM64_PRFM_INVALID = 0,
+  ARM64_PRFM_PLDL1KEEP = 0x00 + 1,
+  ARM64_PRFM_PLDL1STRM = 0x01 + 1,
+  ARM64_PRFM_PLDL2KEEP = 0x02 + 1,
+  ARM64_PRFM_PLDL2STRM = 0x03 + 1,
+  ARM64_PRFM_PLDL3KEEP = 0x04 + 1,
+  ARM64_PRFM_PLDL3STRM = 0x05 + 1,
+  ARM64_PRFM_PLIL1KEEP = 0x08 + 1,
+  ARM64_PRFM_PLIL1STRM = 0x09 + 1,
+  ARM64_PRFM_PLIL2KEEP = 0x0a + 1,
+  ARM64_PRFM_PLIL2STRM = 0x0b + 1,
+  ARM64_PRFM_PLIL3KEEP = 0x0c + 1,
+  ARM64_PRFM_PLIL3STRM = 0x0d + 1,
+  ARM64_PRFM_PSTL1KEEP = 0x10 + 1,
+  ARM64_PRFM_PSTL1STRM = 0x11 + 1,
+  ARM64_PRFM_PSTL2KEEP = 0x12 + 1,
+  ARM64_PRFM_PSTL2STRM = 0x13 + 1,
+  ARM64_PRFM_PSTL3KEEP = 0x14 + 1,
+  ARM64_PRFM_PSTL3STRM = 0x15 + 1,
 } arm64_prefetch_op;
 
 /// ARM64 registers
 typedef enum arm64_reg {
-	ARM64_REG_INVALID = 0,
+  ARM64_REG_INVALID = 0,
 
-	ARM64_REG_FFR = 1,
-	ARM64_REG_FP = 2,
-	ARM64_REG_LR = 3,
-	ARM64_REG_NZCV = 4,
-	ARM64_REG_SP = 5,
-	ARM64_REG_WSP = 6,
-	ARM64_REG_WZR = 7,
-	ARM64_REG_XZR = 8,
-	ARM64_REG_B0 = 9,
-	ARM64_REG_B1 = 10,
-	ARM64_REG_B2 = 11,
-	ARM64_REG_B3 = 12,
-	ARM64_REG_B4 = 13,
-	ARM64_REG_B5 = 14,
-	ARM64_REG_B6 = 15,
-	ARM64_REG_B7 = 16,
-	ARM64_REG_B8 = 17,
-	ARM64_REG_B9 = 18,
-	ARM64_REG_B10 = 19,
-	ARM64_REG_B11 = 20,
-	ARM64_REG_B12 = 21,
-	ARM64_REG_B13 = 22,
-	ARM64_REG_B14 = 23,
-	ARM64_REG_B15 = 24,
-	ARM64_REG_B16 = 25,
-	ARM64_REG_B17 = 26,
-	ARM64_REG_B18 = 27,
-	ARM64_REG_B19 = 28,
-	ARM64_REG_B20 = 29,
-	ARM64_REG_B21 = 30,
-	ARM64_REG_B22 = 31,
-	ARM64_REG_B23 = 32,
-	ARM64_REG_B24 = 33,
-	ARM64_REG_B25 = 34,
-	ARM64_REG_B26 = 35,
-	ARM64_REG_B27 = 36,
-	ARM64_REG_B28 = 37,
-	ARM64_REG_B29 = 38,
-	ARM64_REG_B30 = 39,
-	ARM64_REG_B31 = 40,
-	ARM64_REG_D0 = 41,
-	ARM64_REG_D1 = 42,
-	ARM64_REG_D2 = 43,
-	ARM64_REG_D3 = 44,
-	ARM64_REG_D4 = 45,
-	ARM64_REG_D5 = 46,
-	ARM64_REG_D6 = 47,
-	ARM64_REG_D7 = 48,
-	ARM64_REG_D8 = 49,
-	ARM64_REG_D9 = 50,
-	ARM64_REG_D10 = 51,
-	ARM64_REG_D11 = 52,
-	ARM64_REG_D12 = 53,
-	ARM64_REG_D13 = 54,
-	ARM64_REG_D14 = 55,
-	ARM64_REG_D15 = 56,
-	ARM64_REG_D16 = 57,
-	ARM64_REG_D17 = 58,
-	ARM64_REG_D18 = 59,
-	ARM64_REG_D19 = 60,
-	ARM64_REG_D20 = 61,
-	ARM64_REG_D21 = 62,
-	ARM64_REG_D22 = 63,
-	ARM64_REG_D23 = 64,
-	ARM64_REG_D24 = 65,
-	ARM64_REG_D25 = 66,
-	ARM64_REG_D26 = 67,
-	ARM64_REG_D27 = 68,
-	ARM64_REG_D28 = 69,
-	ARM64_REG_D29 = 70,
-	ARM64_REG_D30 = 71,
-	ARM64_REG_D31 = 72,
-	ARM64_REG_H0 = 73,
-	ARM64_REG_H1 = 74,
-	ARM64_REG_H2 = 75,
-	ARM64_REG_H3 = 76,
-	ARM64_REG_H4 = 77,
-	ARM64_REG_H5 = 78,
-	ARM64_REG_H6 = 79,
-	ARM64_REG_H7 = 80,
-	ARM64_REG_H8 = 81,
-	ARM64_REG_H9 = 82,
-	ARM64_REG_H10 = 83,
-	ARM64_REG_H11 = 84,
-	ARM64_REG_H12 = 85,
-	ARM64_REG_H13 = 86,
-	ARM64_REG_H14 = 87,
-	ARM64_REG_H15 = 88,
-	ARM64_REG_H16 = 89,
-	ARM64_REG_H17 = 90,
-	ARM64_REG_H18 = 91,
-	ARM64_REG_H19 = 92,
-	ARM64_REG_H20 = 93,
-	ARM64_REG_H21 = 94,
-	ARM64_REG_H22 = 95,
-	ARM64_REG_H23 = 96,
-	ARM64_REG_H24 = 97,
-	ARM64_REG_H25 = 98,
-	ARM64_REG_H26 = 99,
-	ARM64_REG_H27 = 100,
-	ARM64_REG_H28 = 101,
-	ARM64_REG_H29 = 102,
-	ARM64_REG_H30 = 103,
-	ARM64_REG_H31 = 104,
-	ARM64_REG_P0 = 105,
-	ARM64_REG_P1 = 106,
-	ARM64_REG_P2 = 107,
-	ARM64_REG_P3 = 108,
-	ARM64_REG_P4 = 109,
-	ARM64_REG_P5 = 110,
-	ARM64_REG_P6 = 111,
-	ARM64_REG_P7 = 112,
-	ARM64_REG_P8 = 113,
-	ARM64_REG_P9 = 114,
-	ARM64_REG_P10 = 115,
-	ARM64_REG_P11 = 116,
-	ARM64_REG_P12 = 117,
-	ARM64_REG_P13 = 118,
-	ARM64_REG_P14 = 119,
-	ARM64_REG_P15 = 120,
-	ARM64_REG_Q0 = 121,
-	ARM64_REG_Q1 = 122,
-	ARM64_REG_Q2 = 123,
-	ARM64_REG_Q3 = 124,
-	ARM64_REG_Q4 = 125,
-	ARM64_REG_Q5 = 126,
-	ARM64_REG_Q6 = 127,
-	ARM64_REG_Q7 = 128,
-	ARM64_REG_Q8 = 129,
-	ARM64_REG_Q9 = 130,
-	ARM64_REG_Q10 = 131,
-	ARM64_REG_Q11 = 132,
-	ARM64_REG_Q12 = 133,
-	ARM64_REG_Q13 = 134,
-	ARM64_REG_Q14 = 135,
-	ARM64_REG_Q15 = 136,
-	ARM64_REG_Q16 = 137,
-	ARM64_REG_Q17 = 138,
-	ARM64_REG_Q18 = 139,
-	ARM64_REG_Q19 = 140,
-	ARM64_REG_Q20 = 141,
-	ARM64_REG_Q21 = 142,
-	ARM64_REG_Q22 = 143,
-	ARM64_REG_Q23 = 144,
-	ARM64_REG_Q24 = 145,
-	ARM64_REG_Q25 = 146,
-	ARM64_REG_Q26 = 147,
-	ARM64_REG_Q27 = 148,
-	ARM64_REG_Q28 = 149,
-	ARM64_REG_Q29 = 150,
-	ARM64_REG_Q30 = 151,
-	ARM64_REG_Q31 = 152,
-	ARM64_REG_S0 = 153,
-	ARM64_REG_S1 = 154,
-	ARM64_REG_S2 = 155,
-	ARM64_REG_S3 = 156,
-	ARM64_REG_S4 = 157,
-	ARM64_REG_S5 = 158,
-	ARM64_REG_S6 = 159,
-	ARM64_REG_S7 = 160,
-	ARM64_REG_S8 = 161,
-	ARM64_REG_S9 = 162,
-	ARM64_REG_S10 = 163,
-	ARM64_REG_S11 = 164,
-	ARM64_REG_S12 = 165,
-	ARM64_REG_S13 = 166,
-	ARM64_REG_S14 = 167,
-	ARM64_REG_S15 = 168,
-	ARM64_REG_S16 = 169,
-	ARM64_REG_S17 = 170,
-	ARM64_REG_S18 = 171,
-	ARM64_REG_S19 = 172,
-	ARM64_REG_S20 = 173,
-	ARM64_REG_S21 = 174,
-	ARM64_REG_S22 = 175,
-	ARM64_REG_S23 = 176,
-	ARM64_REG_S24 = 177,
-	ARM64_REG_S25 = 178,
-	ARM64_REG_S26 = 179,
-	ARM64_REG_S27 = 180,
-	ARM64_REG_S28 = 181,
-	ARM64_REG_S29 = 182,
-	ARM64_REG_S30 = 183,
-	ARM64_REG_S31 = 184,
-	ARM64_REG_W0 = 185,
-	ARM64_REG_W1 = 186,
-	ARM64_REG_W2 = 187,
-	ARM64_REG_W3 = 188,
-	ARM64_REG_W4 = 189,
-	ARM64_REG_W5 = 190,
-	ARM64_REG_W6 = 191,
-	ARM64_REG_W7 = 192,
-	ARM64_REG_W8 = 193,
-	ARM64_REG_W9 = 194,
-	ARM64_REG_W10 = 195,
-	ARM64_REG_W11 = 196,
-	ARM64_REG_W12 = 197,
-	ARM64_REG_W13 = 198,
-	ARM64_REG_W14 = 199,
-	ARM64_REG_W15 = 200,
-	ARM64_REG_W16 = 201,
-	ARM64_REG_W17 = 202,
-	ARM64_REG_W18 = 203,
-	ARM64_REG_W19 = 204,
-	ARM64_REG_W20 = 205,
-	ARM64_REG_W21 = 206,
-	ARM64_REG_W22 = 207,
-	ARM64_REG_W23 = 208,
-	ARM64_REG_W24 = 209,
-	ARM64_REG_W25 = 210,
-	ARM64_REG_W26 = 211,
-	ARM64_REG_W27 = 212,
-	ARM64_REG_W28 = 213,
-	ARM64_REG_W29 = 214,
-	ARM64_REG_W30 = 215,
-	ARM64_REG_X0 = 216,
-	ARM64_REG_X1 = 217,
-	ARM64_REG_X2 = 218,
-	ARM64_REG_X3 = 219,
-	ARM64_REG_X4 = 220,
-	ARM64_REG_X5 = 221,
-	ARM64_REG_X6 = 222,
-	ARM64_REG_X7 = 223,
-	ARM64_REG_X8 = 224,
-	ARM64_REG_X9 = 225,
-	ARM64_REG_X10 = 226,
-	ARM64_REG_X11 = 227,
-	ARM64_REG_X12 = 228,
-	ARM64_REG_X13 = 229,
-	ARM64_REG_X14 = 230,
-	ARM64_REG_X15 = 231,
-	ARM64_REG_X16 = 232,
-	ARM64_REG_X17 = 233,
-	ARM64_REG_X18 = 234,
-	ARM64_REG_X19 = 235,
-	ARM64_REG_X20 = 236,
-	ARM64_REG_X21 = 237,
-	ARM64_REG_X22 = 238,
-	ARM64_REG_X23 = 239,
-	ARM64_REG_X24 = 240,
-	ARM64_REG_X25 = 241,
-	ARM64_REG_X26 = 242,
-	ARM64_REG_X27 = 243,
-	ARM64_REG_X28 = 244,
-	ARM64_REG_Z0 = 245,
-	ARM64_REG_Z1 = 246,
-	ARM64_REG_Z2 = 247,
-	ARM64_REG_Z3 = 248,
-	ARM64_REG_Z4 = 249,
-	ARM64_REG_Z5 = 250,
-	ARM64_REG_Z6 = 251,
-	ARM64_REG_Z7 = 252,
-	ARM64_REG_Z8 = 253,
-	ARM64_REG_Z9 = 254,
-	ARM64_REG_Z10 = 255,
-	ARM64_REG_Z11 = 256,
-	ARM64_REG_Z12 = 257,
-	ARM64_REG_Z13 = 258,
-	ARM64_REG_Z14 = 259,
-	ARM64_REG_Z15 = 260,
-	ARM64_REG_Z16 = 261,
-	ARM64_REG_Z17 = 262,
-	ARM64_REG_Z18 = 263,
-	ARM64_REG_Z19 = 264,
-	ARM64_REG_Z20 = 265,
-	ARM64_REG_Z21 = 266,
-	ARM64_REG_Z22 = 267,
-	ARM64_REG_Z23 = 268,
-	ARM64_REG_Z24 = 269,
-	ARM64_REG_Z25 = 270,
-	ARM64_REG_Z26 = 271,
-	ARM64_REG_Z27 = 272,
-	ARM64_REG_Z28 = 273,
-	ARM64_REG_Z29 = 274,
-	ARM64_REG_Z30 = 275,
-	ARM64_REG_Z31 = 276,
+  ARM64_REG_FFR = 1,
+  ARM64_REG_FP = 2,
+  ARM64_REG_LR = 3,
+  ARM64_REG_NZCV = 4,
+  ARM64_REG_SP = 5,
+  ARM64_REG_VG = 6,
+  ARM64_REG_WSP = 7,
+  ARM64_REG_WZR = 8,
+  ARM64_REG_XZR = 9,
+  ARM64_REG_ZA = 10,
+  ARM64_REG_B0 = 11,
+  ARM64_REG_B1 = 12,
+  ARM64_REG_B2 = 13,
+  ARM64_REG_B3 = 14,
+  ARM64_REG_B4 = 15,
+  ARM64_REG_B5 = 16,
+  ARM64_REG_B6 = 17,
+  ARM64_REG_B7 = 18,
+  ARM64_REG_B8 = 19,
+  ARM64_REG_B9 = 20,
+  ARM64_REG_B10 = 21,
+  ARM64_REG_B11 = 22,
+  ARM64_REG_B12 = 23,
+  ARM64_REG_B13 = 24,
+  ARM64_REG_B14 = 25,
+  ARM64_REG_B15 = 26,
+  ARM64_REG_B16 = 27,
+  ARM64_REG_B17 = 28,
+  ARM64_REG_B18 = 29,
+  ARM64_REG_B19 = 30,
+  ARM64_REG_B20 = 31,
+  ARM64_REG_B21 = 32,
+  ARM64_REG_B22 = 33,
+  ARM64_REG_B23 = 34,
+  ARM64_REG_B24 = 35,
+  ARM64_REG_B25 = 36,
+  ARM64_REG_B26 = 37,
+  ARM64_REG_B27 = 38,
+  ARM64_REG_B28 = 39,
+  ARM64_REG_B29 = 40,
+  ARM64_REG_B30 = 41,
+  ARM64_REG_B31 = 42,
+  ARM64_REG_D0 = 43,
+  ARM64_REG_D1 = 44,
+  ARM64_REG_D2 = 45,
+  ARM64_REG_D3 = 46,
+  ARM64_REG_D4 = 47,
+  ARM64_REG_D5 = 48,
+  ARM64_REG_D6 = 49,
+  ARM64_REG_D7 = 50,
+  ARM64_REG_D8 = 51,
+  ARM64_REG_D9 = 52,
+  ARM64_REG_D10 = 53,
+  ARM64_REG_D11 = 54,
+  ARM64_REG_D12 = 55,
+  ARM64_REG_D13 = 56,
+  ARM64_REG_D14 = 57,
+  ARM64_REG_D15 = 58,
+  ARM64_REG_D16 = 59,
+  ARM64_REG_D17 = 60,
+  ARM64_REG_D18 = 61,
+  ARM64_REG_D19 = 62,
+  ARM64_REG_D20 = 63,
+  ARM64_REG_D21 = 64,
+  ARM64_REG_D22 = 65,
+  ARM64_REG_D23 = 66,
+  ARM64_REG_D24 = 67,
+  ARM64_REG_D25 = 68,
+  ARM64_REG_D26 = 69,
+  ARM64_REG_D27 = 70,
+  ARM64_REG_D28 = 71,
+  ARM64_REG_D29 = 72,
+  ARM64_REG_D30 = 73,
+  ARM64_REG_D31 = 74,
+  ARM64_REG_H0 = 75,
+  ARM64_REG_H1 = 76,
+  ARM64_REG_H2 = 77,
+  ARM64_REG_H3 = 78,
+  ARM64_REG_H4 = 79,
+  ARM64_REG_H5 = 80,
+  ARM64_REG_H6 = 81,
+  ARM64_REG_H7 = 82,
+  ARM64_REG_H8 = 83,
+  ARM64_REG_H9 = 84,
+  ARM64_REG_H10 = 85,
+  ARM64_REG_H11 = 86,
+  ARM64_REG_H12 = 87,
+  ARM64_REG_H13 = 88,
+  ARM64_REG_H14 = 89,
+  ARM64_REG_H15 = 90,
+  ARM64_REG_H16 = 91,
+  ARM64_REG_H17 = 92,
+  ARM64_REG_H18 = 93,
+  ARM64_REG_H19 = 94,
+  ARM64_REG_H20 = 95,
+  ARM64_REG_H21 = 96,
+  ARM64_REG_H22 = 97,
+  ARM64_REG_H23 = 98,
+  ARM64_REG_H24 = 99,
+  ARM64_REG_H25 = 100,
+  ARM64_REG_H26 = 101,
+  ARM64_REG_H27 = 102,
+  ARM64_REG_H28 = 103,
+  ARM64_REG_H29 = 104,
+  ARM64_REG_H30 = 105,
+  ARM64_REG_H31 = 106,
+  ARM64_REG_P0 = 107,
+  ARM64_REG_P1 = 108,
+  ARM64_REG_P2 = 109,
+  ARM64_REG_P3 = 110,
+  ARM64_REG_P4 = 111,
+  ARM64_REG_P5 = 112,
+  ARM64_REG_P6 = 113,
+  ARM64_REG_P7 = 114,
+  ARM64_REG_P8 = 115,
+  ARM64_REG_P9 = 116,
+  ARM64_REG_P10 = 117,
+  ARM64_REG_P11 = 118,
+  ARM64_REG_P12 = 119,
+  ARM64_REG_P13 = 120,
+  ARM64_REG_P14 = 121,
+  ARM64_REG_P15 = 122,
+  ARM64_REG_Q0 = 123,
+  ARM64_REG_Q1 = 124,
+  ARM64_REG_Q2 = 125,
+  ARM64_REG_Q3 = 126,
+  ARM64_REG_Q4 = 127,
+  ARM64_REG_Q5 = 128,
+  ARM64_REG_Q6 = 129,
+  ARM64_REG_Q7 = 130,
+  ARM64_REG_Q8 = 131,
+  ARM64_REG_Q9 = 132,
+  ARM64_REG_Q10 = 133,
+  ARM64_REG_Q11 = 134,
+  ARM64_REG_Q12 = 135,
+  ARM64_REG_Q13 = 136,
+  ARM64_REG_Q14 = 137,
+  ARM64_REG_Q15 = 138,
+  ARM64_REG_Q16 = 139,
+  ARM64_REG_Q17 = 140,
+  ARM64_REG_Q18 = 141,
+  ARM64_REG_Q19 = 142,
+  ARM64_REG_Q20 = 143,
+  ARM64_REG_Q21 = 144,
+  ARM64_REG_Q22 = 145,
+  ARM64_REG_Q23 = 146,
+  ARM64_REG_Q24 = 147,
+  ARM64_REG_Q25 = 148,
+  ARM64_REG_Q26 = 149,
+  ARM64_REG_Q27 = 150,
+  ARM64_REG_Q28 = 151,
+  ARM64_REG_Q29 = 152,
+  ARM64_REG_Q30 = 153,
+  ARM64_REG_Q31 = 154,
+  ARM64_REG_S0 = 155,
+  ARM64_REG_S1 = 156,
+  ARM64_REG_S2 = 157,
+  ARM64_REG_S3 = 158,
+  ARM64_REG_S4 = 159,
+  ARM64_REG_S5 = 160,
+  ARM64_REG_S6 = 161,
+  ARM64_REG_S7 = 162,
+  ARM64_REG_S8 = 163,
+  ARM64_REG_S9 = 164,
+  ARM64_REG_S10 = 165,
+  ARM64_REG_S11 = 166,
+  ARM64_REG_S12 = 167,
+  ARM64_REG_S13 = 168,
+  ARM64_REG_S14 = 169,
+  ARM64_REG_S15 = 170,
+  ARM64_REG_S16 = 171,
+  ARM64_REG_S17 = 172,
+  ARM64_REG_S18 = 173,
+  ARM64_REG_S19 = 174,
+  ARM64_REG_S20 = 175,
+  ARM64_REG_S21 = 176,
+  ARM64_REG_S22 = 177,
+  ARM64_REG_S23 = 178,
+  ARM64_REG_S24 = 179,
+  ARM64_REG_S25 = 180,
+  ARM64_REG_S26 = 181,
+  ARM64_REG_S27 = 182,
+  ARM64_REG_S28 = 183,
+  ARM64_REG_S29 = 184,
+  ARM64_REG_S30 = 185,
+  ARM64_REG_S31 = 186,
+  ARM64_REG_W0 = 187,
+  ARM64_REG_W1 = 188,
+  ARM64_REG_W2 = 189,
+  ARM64_REG_W3 = 190,
+  ARM64_REG_W4 = 191,
+  ARM64_REG_W5 = 192,
+  ARM64_REG_W6 = 193,
+  ARM64_REG_W7 = 194,
+  ARM64_REG_W8 = 195,
+  ARM64_REG_W9 = 196,
+  ARM64_REG_W10 = 197,
+  ARM64_REG_W11 = 198,
+  ARM64_REG_W12 = 199,
+  ARM64_REG_W13 = 200,
+  ARM64_REG_W14 = 201,
+  ARM64_REG_W15 = 202,
+  ARM64_REG_W16 = 203,
+  ARM64_REG_W17 = 204,
+  ARM64_REG_W18 = 205,
+  ARM64_REG_W19 = 206,
+  ARM64_REG_W20 = 207,
+  ARM64_REG_W21 = 208,
+  ARM64_REG_W22 = 209,
+  ARM64_REG_W23 = 210,
+  ARM64_REG_W24 = 211,
+  ARM64_REG_W25 = 212,
+  ARM64_REG_W26 = 213,
+  ARM64_REG_W27 = 214,
+  ARM64_REG_W28 = 215,
+  ARM64_REG_W29 = 216,
+  ARM64_REG_W30 = 217,
+  ARM64_REG_X0 = 218,
+  ARM64_REG_X1 = 219,
+  ARM64_REG_X2 = 220,
+  ARM64_REG_X3 = 221,
+  ARM64_REG_X4 = 222,
+  ARM64_REG_X5 = 223,
+  ARM64_REG_X6 = 224,
+  ARM64_REG_X7 = 225,
+  ARM64_REG_X8 = 226,
+  ARM64_REG_X9 = 227,
+  ARM64_REG_X10 = 228,
+  ARM64_REG_X11 = 229,
+  ARM64_REG_X12 = 230,
+  ARM64_REG_X13 = 231,
+  ARM64_REG_X14 = 232,
+  ARM64_REG_X15 = 233,
+  ARM64_REG_X16 = 234,
+  ARM64_REG_X17 = 235,
+  ARM64_REG_X18 = 236,
+  ARM64_REG_X19 = 237,
+  ARM64_REG_X20 = 238,
+  ARM64_REG_X21 = 239,
+  ARM64_REG_X22 = 240,
+  ARM64_REG_X23 = 241,
+  ARM64_REG_X24 = 242,
+  ARM64_REG_X25 = 243,
+  ARM64_REG_X26 = 244,
+  ARM64_REG_X27 = 245,
+  ARM64_REG_X28 = 246,
+  ARM64_REG_Z0 = 247,
+  ARM64_REG_Z1 = 248,
+  ARM64_REG_Z2 = 249,
+  ARM64_REG_Z3 = 250,
+  ARM64_REG_Z4 = 251,
+  ARM64_REG_Z5 = 252,
+  ARM64_REG_Z6 = 253,
+  ARM64_REG_Z7 = 254,
+  ARM64_REG_Z8 = 255,
+  ARM64_REG_Z9 = 256,
+  ARM64_REG_Z10 = 257,
+  ARM64_REG_Z11 = 258,
+  ARM64_REG_Z12 = 259,
+  ARM64_REG_Z13 = 260,
+  ARM64_REG_Z14 = 261,
+  ARM64_REG_Z15 = 262,
+  ARM64_REG_Z16 = 263,
+  ARM64_REG_Z17 = 264,
+  ARM64_REG_Z18 = 265,
+  ARM64_REG_Z19 = 266,
+  ARM64_REG_Z20 = 267,
+  ARM64_REG_Z21 = 268,
+  ARM64_REG_Z22 = 269,
+  ARM64_REG_Z23 = 270,
+  ARM64_REG_Z24 = 271,
+  ARM64_REG_Z25 = 272,
+  ARM64_REG_Z26 = 273,
+  ARM64_REG_Z27 = 274,
+  ARM64_REG_Z28 = 275,
+  ARM64_REG_Z29 = 276,
+  ARM64_REG_Z30 = 277,
+  ARM64_REG_Z31 = 278,
+  ARM64_REG_ZAB0 = 279,
+  ARM64_REG_ZAD0 = 280,
+  ARM64_REG_ZAD1 = 281,
+  ARM64_REG_ZAD2 = 282,
+  ARM64_REG_ZAD3 = 283,
+  ARM64_REG_ZAD4 = 284,
+  ARM64_REG_ZAD5 = 285,
+  ARM64_REG_ZAD6 = 286,
+  ARM64_REG_ZAD7 = 287,
+  ARM64_REG_ZAH0 = 288,
+  ARM64_REG_ZAH1 = 289,
+  ARM64_REG_ZAQ0 = 290,
+  ARM64_REG_ZAQ1 = 291,
+  ARM64_REG_ZAQ2 = 292,
+  ARM64_REG_ZAQ3 = 293,
+  ARM64_REG_ZAQ4 = 294,
+  ARM64_REG_ZAQ5 = 295,
+  ARM64_REG_ZAQ6 = 296,
+  ARM64_REG_ZAQ7 = 297,
+  ARM64_REG_ZAQ8 = 298,
+  ARM64_REG_ZAQ9 = 299,
+  ARM64_REG_ZAQ10 = 300,
+  ARM64_REG_ZAQ11 = 301,
+  ARM64_REG_ZAQ12 = 302,
+  ARM64_REG_ZAQ13 = 303,
+  ARM64_REG_ZAQ14 = 304,
+  ARM64_REG_ZAQ15 = 305,
+  ARM64_REG_ZAS0 = 306,
+  ARM64_REG_ZAS1 = 307,
+  ARM64_REG_ZAS2 = 308,
+  ARM64_REG_ZAS3 = 309,
 
-	ARM64_REG_V0,
-	ARM64_REG_V1,
-	ARM64_REG_V2,
-	ARM64_REG_V3,
-	ARM64_REG_V4,
-	ARM64_REG_V5,
-	ARM64_REG_V6,
-	ARM64_REG_V7,
-	ARM64_REG_V8,
-	ARM64_REG_V9,
-	ARM64_REG_V10,
-	ARM64_REG_V11,
-	ARM64_REG_V12,
-	ARM64_REG_V13,
-	ARM64_REG_V14,
-	ARM64_REG_V15,
-	ARM64_REG_V16,
-	ARM64_REG_V17,
-	ARM64_REG_V18,
-	ARM64_REG_V19,
-	ARM64_REG_V20,
-	ARM64_REG_V21,
-	ARM64_REG_V22,
-	ARM64_REG_V23,
-	ARM64_REG_V24,
-	ARM64_REG_V25,
-	ARM64_REG_V26,
-	ARM64_REG_V27,
-	ARM64_REG_V28,
-	ARM64_REG_V29,
-	ARM64_REG_V30,
-	ARM64_REG_V31,
+  ARM64_REG_V0,
+  ARM64_REG_V1,
+  ARM64_REG_V2,
+  ARM64_REG_V3,
+  ARM64_REG_V4,
+  ARM64_REG_V5,
+  ARM64_REG_V6,
+  ARM64_REG_V7,
+  ARM64_REG_V8,
+  ARM64_REG_V9,
+  ARM64_REG_V10,
+  ARM64_REG_V11,
+  ARM64_REG_V12,
+  ARM64_REG_V13,
+  ARM64_REG_V14,
+  ARM64_REG_V15,
+  ARM64_REG_V16,
+  ARM64_REG_V17,
+  ARM64_REG_V18,
+  ARM64_REG_V19,
+  ARM64_REG_V20,
+  ARM64_REG_V21,
+  ARM64_REG_V22,
+  ARM64_REG_V23,
+  ARM64_REG_V24,
+  ARM64_REG_V25,
+  ARM64_REG_V26,
+  ARM64_REG_V27,
+  ARM64_REG_V28,
+  ARM64_REG_V29,
+  ARM64_REG_V30,
+  ARM64_REG_V31,
 
-	ARM64_REG_ENDING,		// <-- mark the end of the list of registers
+  ARM64_REG_ENDING, // <-- mark the end of the list of registers
 
-	// alias registers
-	ARM64_REG_IP0 = ARM64_REG_X16,
-	ARM64_REG_IP1 = ARM64_REG_X17,
-	ARM64_REG_X29 = ARM64_REG_FP,
-	ARM64_REG_X30 = ARM64_REG_LR,
+  // alias registers
+  ARM64_REG_IP0 = ARM64_REG_X16,
+  ARM64_REG_IP1 = ARM64_REG_X17,
+  ARM64_REG_X29 = ARM64_REG_FP,
+  ARM64_REG_X30 = ARM64_REG_LR,
 } arm64_reg;
 
 /// Instruction's operand referring to memory
 /// This is associated with ARM64_OP_MEM operand type above
 typedef struct arm64_op_mem {
-	arm64_reg base;	///< base register
-	arm64_reg index;	///< index register
-	int32_t disp;	///< displacement/offset value
+  arm64_reg base;  ///< base register
+  arm64_reg index; ///< index register
+  int32_t disp;	   ///< displacement/offset value
 } arm64_op_mem;
+
+/// SME Instruction's operand has index
+/// This is associated with ARM64_OP_SME_INDEX operand type above
+typedef struct arm64_op_sme_index {
+  arm64_reg reg;  ///< register being indexed
+  arm64_reg base; ///< base register
+  int32_t disp;	  ///< displacement/offset value
+} arm64_op_sme_index;
 
 /// Instruction operand
 typedef struct cs_arm64_op {
-	int vector_index;	///< Vector Index for some vector operands (or -1 if irrelevant)
-	arm64_vas vas;		///< Vector Arrangement Specifier
-	struct {
-		arm64_shifter type;	///< shifter type of this operand
-		unsigned int value;	///< shifter value of this operand
-	} shift;
-	arm64_extender ext;		///< extender type of this operand
-	arm64_op_type type;	///< operand type
-	union {
-		arm64_reg reg;	///< register value for REG operand
-		int64_t imm;		///< immediate value, or index for C-IMM or IMM operand
-		double fp;			///< floating point value for FP operand
-		arm64_op_mem mem;		///< base/index/scale/disp value for MEM operand
-		arm64_pstate pstate;		///< PState field of MSR instruction.
-		unsigned int sys;  ///< IC/DC/AT/TLBI operation (see arm64_ic_op, arm64_dc_op, arm64_at_op, arm64_tlbi_op)
-		arm64_prefetch_op prefetch;  ///< PRFM operation.
-		arm64_barrier_op barrier;  ///< Memory barrier operation (ISB/DMB/DSB instructions).
-	};
+  int vector_index; ///< Vector Index for some vector operands (or -1 if
+		    ///< irrelevant)
+  arm64_vas vas;    ///< Vector Arrangement Specifier
+  struct {
+    arm64_shifter type; ///< shifter type of this operand
+    unsigned int value; ///< shifter value of this operand
+  } shift;
+  arm64_extender ext; ///< extender type of this operand
+  arm64_op_type type; ///< operand type
+  arm64_svcr_op svcr; ///< MSR/MRS SVCR instruction variant.
+  union {
+    arm64_reg reg;	 ///< register value for REG operand
+    int64_t imm;	 ///< immediate value, or index for C-IMM or IMM operand
+    double fp;		 ///< floating point value for FP operand
+    arm64_op_mem mem;	 ///< base/index/scale/disp value for MEM operand
+    arm64_pstate pstate; ///< PState field of MSR instruction.
+    arm64_sys_op sys;	 ///< IC/DC/AT/TLBI operation (see arm64_ic_op,
+		      ///< arm64_dc_op, arm64_at_op, arm64_tlbi_op)
+    arm64_prefetch_op prefetch; ///< PRFM operation.
+    arm64_barrier_op
+	barrier; ///< Memory barrier operation (ISB/DMB/DSB instructions).
+    arm64_op_sme_index sme_index; ///< base/disp value for matrix tile slice
+				  ///< instructions.
+  };
 
-	/// How is this operand accessed? (READ, WRITE or READ|WRITE)
-	/// This field is combined of cs_ac_type.
-	/// NOTE: this field is irrelevant if engine is compiled in DIET mode.
-	uint8_t access;
+  /// How is this operand accessed? (READ, WRITE or READ|WRITE)
+  /// This field is combined of cs_ac_type.
+  /// NOTE: this field is irrelevant if engine is compiled in DIET mode.
+  uint8_t access;
 } cs_arm64_op;
 
 /// Instruction structure
 typedef struct cs_arm64 {
-	arm64_cc cc;	///< conditional code for this insn
-	bool update_flags;	///< does this insn update flags?
-	bool writeback;	///< does this insn request writeback? 'True' means 'yes'
+  arm64_cc cc;	     ///< conditional code for this insn
+  bool update_flags; ///< does this insn update flags?
+  bool writeback;    ///< does this insn request writeback? 'True' means 'yes'
 
-	/// Number of operands of this instruction,
-	/// or 0 when instruction has no operand.
-	uint8_t op_count;
+  /// Number of operands of this instruction,
+  /// or 0 when instruction has no operand.
+  uint8_t op_count;
 
-	cs_arm64_op operands[8]; ///< operands for this instruction.
+  cs_arm64_op operands[8]; ///< operands for this instruction.
 } cs_arm64;
 
 /// ARM64 instruction
 typedef enum arm64_insn {
-	ARM64_INS_INVALID = 0,
+  ARM64_INS_INVALID = 0,
 
-	ARM64_INS_ABS,
-	ARM64_INS_ADC,
-	ARM64_INS_ADCS,
-	ARM64_INS_ADD,
-	ARM64_INS_ADDHN,
-	ARM64_INS_ADDHN2,
-	ARM64_INS_ADDP,
-	ARM64_INS_ADDPL,
-	ARM64_INS_ADDS,
-	ARM64_INS_ADDV,
-	ARM64_INS_ADDVL,
-	ARM64_INS_ADR,
-	ARM64_INS_ADRP,
-	ARM64_INS_AESD,
-	ARM64_INS_AESE,
-	ARM64_INS_AESIMC,
-	ARM64_INS_AESMC,
-	ARM64_INS_AND,
-	ARM64_INS_ANDS,
-	ARM64_INS_ANDV,
-	ARM64_INS_ASR,
-	ARM64_INS_ASRD,
-	ARM64_INS_ASRR,
-	ARM64_INS_ASRV,
-	ARM64_INS_AUTDA,
-	ARM64_INS_AUTDB,
-	ARM64_INS_AUTDZA,
-	ARM64_INS_AUTDZB,
-	ARM64_INS_AUTIA,
-	ARM64_INS_AUTIA1716,
-	ARM64_INS_AUTIASP,
-	ARM64_INS_AUTIAZ,
-	ARM64_INS_AUTIB,
-	ARM64_INS_AUTIB1716,
-	ARM64_INS_AUTIBSP,
-	ARM64_INS_AUTIBZ,
-	ARM64_INS_AUTIZA,
-	ARM64_INS_AUTIZB,
-	ARM64_INS_B,
-	ARM64_INS_BCAX,
-	ARM64_INS_BFM,
-	ARM64_INS_BIC,
-	ARM64_INS_BICS,
-	ARM64_INS_BIF,
-	ARM64_INS_BIT,
-	ARM64_INS_BL,
-	ARM64_INS_BLR,
-	ARM64_INS_BLRAA,
-	ARM64_INS_BLRAAZ,
-	ARM64_INS_BLRAB,
-	ARM64_INS_BLRABZ,
-	ARM64_INS_BR,
-	ARM64_INS_BRAA,
-	ARM64_INS_BRAAZ,
-	ARM64_INS_BRAB,
-	ARM64_INS_BRABZ,
-	ARM64_INS_BRK,
-	ARM64_INS_BRKA,
-	ARM64_INS_BRKAS,
-	ARM64_INS_BRKB,
-	ARM64_INS_BRKBS,
-	ARM64_INS_BRKN,
-	ARM64_INS_BRKNS,
-	ARM64_INS_BRKPA,
-	ARM64_INS_BRKPAS,
-	ARM64_INS_BRKPB,
-	ARM64_INS_BRKPBS,
-	ARM64_INS_BSL,
-	ARM64_INS_CAS,
-	ARM64_INS_CASA,
-	ARM64_INS_CASAB,
-	ARM64_INS_CASAH,
-	ARM64_INS_CASAL,
-	ARM64_INS_CASALB,
-	ARM64_INS_CASALH,
-	ARM64_INS_CASB,
-	ARM64_INS_CASH,
-	ARM64_INS_CASL,
-	ARM64_INS_CASLB,
-	ARM64_INS_CASLH,
-	ARM64_INS_CASP,
-	ARM64_INS_CASPA,
-	ARM64_INS_CASPAL,
-	ARM64_INS_CASPL,
-	ARM64_INS_CBNZ,
-	ARM64_INS_CBZ,
-	ARM64_INS_CCMN,
-	ARM64_INS_CCMP,
-	ARM64_INS_CFINV,
-	ARM64_INS_CINC,
-	ARM64_INS_CINV,
-	ARM64_INS_CLASTA,
-	ARM64_INS_CLASTB,
-	ARM64_INS_CLREX,
-	ARM64_INS_CLS,
-	ARM64_INS_CLZ,
-	ARM64_INS_CMEQ,
-	ARM64_INS_CMGE,
-	ARM64_INS_CMGT,
-	ARM64_INS_CMHI,
-	ARM64_INS_CMHS,
-	ARM64_INS_CMLE,
-	ARM64_INS_CMLO,
-	ARM64_INS_CMLS,
-	ARM64_INS_CMLT,
-	ARM64_INS_CMN,
-	ARM64_INS_CMP,
-	ARM64_INS_CMPEQ,
-	ARM64_INS_CMPGE,
-	ARM64_INS_CMPGT,
-	ARM64_INS_CMPHI,
-	ARM64_INS_CMPHS,
-	ARM64_INS_CMPLE,
-	ARM64_INS_CMPLO,
-	ARM64_INS_CMPLS,
-	ARM64_INS_CMPLT,
-	ARM64_INS_CMPNE,
-	ARM64_INS_CMTST,
-	ARM64_INS_CNEG,
-	ARM64_INS_CNOT,
-	ARM64_INS_CNT,
-	ARM64_INS_CNTB,
-	ARM64_INS_CNTD,
-	ARM64_INS_CNTH,
-	ARM64_INS_CNTP,
-	ARM64_INS_CNTW,
-	ARM64_INS_COMPACT,
-	ARM64_INS_CPY,
-	ARM64_INS_CRC32B,
-	ARM64_INS_CRC32CB,
-	ARM64_INS_CRC32CH,
-	ARM64_INS_CRC32CW,
-	ARM64_INS_CRC32CX,
-	ARM64_INS_CRC32H,
-	ARM64_INS_CRC32W,
-	ARM64_INS_CRC32X,
-	ARM64_INS_CSDB,
-	ARM64_INS_CSEL,
-	ARM64_INS_CSET,
-	ARM64_INS_CSETM,
-	ARM64_INS_CSINC,
-	ARM64_INS_CSINV,
-	ARM64_INS_CSNEG,
-	ARM64_INS_CTERMEQ,
-	ARM64_INS_CTERMNE,
-	ARM64_INS_DCPS1,
-	ARM64_INS_DCPS2,
-	ARM64_INS_DCPS3,
-	ARM64_INS_DECB,
-	ARM64_INS_DECD,
-	ARM64_INS_DECH,
-	ARM64_INS_DECP,
-	ARM64_INS_DECW,
-	ARM64_INS_DMB,
-	ARM64_INS_DRPS,
-	ARM64_INS_DSB,
-	ARM64_INS_DUP,
-	ARM64_INS_DUPM,
-	ARM64_INS_EON,
-	ARM64_INS_EOR,
-	ARM64_INS_EOR3,
-	ARM64_INS_EORS,
-	ARM64_INS_EORV,
-	ARM64_INS_ERET,
-	ARM64_INS_ERETAA,
-	ARM64_INS_ERETAB,
-	ARM64_INS_ESB,
-	ARM64_INS_EXT,
-	ARM64_INS_EXTR,
-	ARM64_INS_FABD,
-	ARM64_INS_FABS,
-	ARM64_INS_FACGE,
-	ARM64_INS_FACGT,
-	ARM64_INS_FACLE,
-	ARM64_INS_FACLT,
-	ARM64_INS_FADD,
-	ARM64_INS_FADDA,
-	ARM64_INS_FADDP,
-	ARM64_INS_FADDV,
-	ARM64_INS_FCADD,
-	ARM64_INS_FCCMP,
-	ARM64_INS_FCCMPE,
-	ARM64_INS_FCMEQ,
-	ARM64_INS_FCMGE,
-	ARM64_INS_FCMGT,
-	ARM64_INS_FCMLA,
-	ARM64_INS_FCMLE,
-	ARM64_INS_FCMLT,
-	ARM64_INS_FCMNE,
-	ARM64_INS_FCMP,
-	ARM64_INS_FCMPE,
-	ARM64_INS_FCMUO,
-	ARM64_INS_FCPY,
-	ARM64_INS_FCSEL,
-	ARM64_INS_FCVT,
-	ARM64_INS_FCVTAS,
-	ARM64_INS_FCVTAU,
-	ARM64_INS_FCVTL,
-	ARM64_INS_FCVTL2,
-	ARM64_INS_FCVTMS,
-	ARM64_INS_FCVTMU,
-	ARM64_INS_FCVTN,
-	ARM64_INS_FCVTN2,
-	ARM64_INS_FCVTNS,
-	ARM64_INS_FCVTNU,
-	ARM64_INS_FCVTPS,
-	ARM64_INS_FCVTPU,
-	ARM64_INS_FCVTXN,
-	ARM64_INS_FCVTXN2,
-	ARM64_INS_FCVTZS,
-	ARM64_INS_FCVTZU,
-	ARM64_INS_FDIV,
-	ARM64_INS_FDIVR,
-	ARM64_INS_FDUP,
-	ARM64_INS_FEXPA,
-	ARM64_INS_FJCVTZS,
-	ARM64_INS_FMAD,
-	ARM64_INS_FMADD,
-	ARM64_INS_FMAX,
-	ARM64_INS_FMAXNM,
-	ARM64_INS_FMAXNMP,
-	ARM64_INS_FMAXNMV,
-	ARM64_INS_FMAXP,
-	ARM64_INS_FMAXV,
-	ARM64_INS_FMIN,
-	ARM64_INS_FMINNM,
-	ARM64_INS_FMINNMP,
-	ARM64_INS_FMINNMV,
-	ARM64_INS_FMINP,
-	ARM64_INS_FMINV,
-	ARM64_INS_FMLA,
-	ARM64_INS_FMLS,
-	ARM64_INS_FMOV,
-	ARM64_INS_FMSB,
-	ARM64_INS_FMSUB,
-	ARM64_INS_FMUL,
-	ARM64_INS_FMULX,
-	ARM64_INS_FNEG,
-	ARM64_INS_FNMAD,
-	ARM64_INS_FNMADD,
-	ARM64_INS_FNMLA,
-	ARM64_INS_FNMLS,
-	ARM64_INS_FNMSB,
-	ARM64_INS_FNMSUB,
-	ARM64_INS_FNMUL,
-	ARM64_INS_FRECPE,
-	ARM64_INS_FRECPS,
-	ARM64_INS_FRECPX,
-	ARM64_INS_FRINTA,
-	ARM64_INS_FRINTI,
-	ARM64_INS_FRINTM,
-	ARM64_INS_FRINTN,
-	ARM64_INS_FRINTP,
-	ARM64_INS_FRINTX,
-	ARM64_INS_FRINTZ,
-	ARM64_INS_FRSQRTE,
-	ARM64_INS_FRSQRTS,
-	ARM64_INS_FSCALE,
-	ARM64_INS_FSQRT,
-	ARM64_INS_FSUB,
-	ARM64_INS_FSUBR,
-	ARM64_INS_FTMAD,
-	ARM64_INS_FTSMUL,
-	ARM64_INS_FTSSEL,
-	ARM64_INS_HINT,
-	ARM64_INS_HLT,
-	ARM64_INS_HVC,
-	ARM64_INS_INCB,
-	ARM64_INS_INCD,
-	ARM64_INS_INCH,
-	ARM64_INS_INCP,
-	ARM64_INS_INCW,
-	ARM64_INS_INDEX,
-	ARM64_INS_INS,
-	ARM64_INS_INSR,
-	ARM64_INS_ISB,
-	ARM64_INS_LASTA,
-	ARM64_INS_LASTB,
-	ARM64_INS_LD1,
-	ARM64_INS_LD1B,
-	ARM64_INS_LD1D,
-	ARM64_INS_LD1H,
-	ARM64_INS_LD1R,
-	ARM64_INS_LD1RB,
-	ARM64_INS_LD1RD,
-	ARM64_INS_LD1RH,
-	ARM64_INS_LD1RQB,
-	ARM64_INS_LD1RQD,
-	ARM64_INS_LD1RQH,
-	ARM64_INS_LD1RQW,
-	ARM64_INS_LD1RSB,
-	ARM64_INS_LD1RSH,
-	ARM64_INS_LD1RSW,
-	ARM64_INS_LD1RW,
-	ARM64_INS_LD1SB,
-	ARM64_INS_LD1SH,
-	ARM64_INS_LD1SW,
-	ARM64_INS_LD1W,
-	ARM64_INS_LD2,
-	ARM64_INS_LD2B,
-	ARM64_INS_LD2D,
-	ARM64_INS_LD2H,
-	ARM64_INS_LD2R,
-	ARM64_INS_LD2W,
-	ARM64_INS_LD3,
-	ARM64_INS_LD3B,
-	ARM64_INS_LD3D,
-	ARM64_INS_LD3H,
-	ARM64_INS_LD3R,
-	ARM64_INS_LD3W,
-	ARM64_INS_LD4,
-	ARM64_INS_LD4B,
-	ARM64_INS_LD4D,
-	ARM64_INS_LD4H,
-	ARM64_INS_LD4R,
-	ARM64_INS_LD4W,
-	ARM64_INS_LDADD,
-	ARM64_INS_LDADDA,
-	ARM64_INS_LDADDAB,
-	ARM64_INS_LDADDAH,
-	ARM64_INS_LDADDAL,
-	ARM64_INS_LDADDALB,
-	ARM64_INS_LDADDALH,
-	ARM64_INS_LDADDB,
-	ARM64_INS_LDADDH,
-	ARM64_INS_LDADDL,
-	ARM64_INS_LDADDLB,
-	ARM64_INS_LDADDLH,
-	ARM64_INS_LDAPR,
-	ARM64_INS_LDAPRB,
-	ARM64_INS_LDAPRH,
-	ARM64_INS_LDAPUR,
-	ARM64_INS_LDAPURB,
-	ARM64_INS_LDAPURH,
-	ARM64_INS_LDAPURSB,
-	ARM64_INS_LDAPURSH,
-	ARM64_INS_LDAPURSW,
-	ARM64_INS_LDAR,
-	ARM64_INS_LDARB,
-	ARM64_INS_LDARH,
-	ARM64_INS_LDAXP,
-	ARM64_INS_LDAXR,
-	ARM64_INS_LDAXRB,
-	ARM64_INS_LDAXRH,
-	ARM64_INS_LDCLR,
-	ARM64_INS_LDCLRA,
-	ARM64_INS_LDCLRAB,
-	ARM64_INS_LDCLRAH,
-	ARM64_INS_LDCLRAL,
-	ARM64_INS_LDCLRALB,
-	ARM64_INS_LDCLRALH,
-	ARM64_INS_LDCLRB,
-	ARM64_INS_LDCLRH,
-	ARM64_INS_LDCLRL,
-	ARM64_INS_LDCLRLB,
-	ARM64_INS_LDCLRLH,
-	ARM64_INS_LDEOR,
-	ARM64_INS_LDEORA,
-	ARM64_INS_LDEORAB,
-	ARM64_INS_LDEORAH,
-	ARM64_INS_LDEORAL,
-	ARM64_INS_LDEORALB,
-	ARM64_INS_LDEORALH,
-	ARM64_INS_LDEORB,
-	ARM64_INS_LDEORH,
-	ARM64_INS_LDEORL,
-	ARM64_INS_LDEORLB,
-	ARM64_INS_LDEORLH,
-	ARM64_INS_LDFF1B,
-	ARM64_INS_LDFF1D,
-	ARM64_INS_LDFF1H,
-	ARM64_INS_LDFF1SB,
-	ARM64_INS_LDFF1SH,
-	ARM64_INS_LDFF1SW,
-	ARM64_INS_LDFF1W,
-	ARM64_INS_LDLAR,
-	ARM64_INS_LDLARB,
-	ARM64_INS_LDLARH,
-	ARM64_INS_LDNF1B,
-	ARM64_INS_LDNF1D,
-	ARM64_INS_LDNF1H,
-	ARM64_INS_LDNF1SB,
-	ARM64_INS_LDNF1SH,
-	ARM64_INS_LDNF1SW,
-	ARM64_INS_LDNF1W,
-	ARM64_INS_LDNP,
-	ARM64_INS_LDNT1B,
-	ARM64_INS_LDNT1D,
-	ARM64_INS_LDNT1H,
-	ARM64_INS_LDNT1W,
-	ARM64_INS_LDP,
-	ARM64_INS_LDPSW,
-	ARM64_INS_LDR,
-	ARM64_INS_LDRAA,
-	ARM64_INS_LDRAB,
-	ARM64_INS_LDRB,
-	ARM64_INS_LDRH,
-	ARM64_INS_LDRSB,
-	ARM64_INS_LDRSH,
-	ARM64_INS_LDRSW,
-	ARM64_INS_LDSET,
-	ARM64_INS_LDSETA,
-	ARM64_INS_LDSETAB,
-	ARM64_INS_LDSETAH,
-	ARM64_INS_LDSETAL,
-	ARM64_INS_LDSETALB,
-	ARM64_INS_LDSETALH,
-	ARM64_INS_LDSETB,
-	ARM64_INS_LDSETH,
-	ARM64_INS_LDSETL,
-	ARM64_INS_LDSETLB,
-	ARM64_INS_LDSETLH,
-	ARM64_INS_LDSMAX,
-	ARM64_INS_LDSMAXA,
-	ARM64_INS_LDSMAXAB,
-	ARM64_INS_LDSMAXAH,
-	ARM64_INS_LDSMAXAL,
-	ARM64_INS_LDSMAXALB,
-	ARM64_INS_LDSMAXALH,
-	ARM64_INS_LDSMAXB,
-	ARM64_INS_LDSMAXH,
-	ARM64_INS_LDSMAXL,
-	ARM64_INS_LDSMAXLB,
-	ARM64_INS_LDSMAXLH,
-	ARM64_INS_LDSMIN,
-	ARM64_INS_LDSMINA,
-	ARM64_INS_LDSMINAB,
-	ARM64_INS_LDSMINAH,
-	ARM64_INS_LDSMINAL,
-	ARM64_INS_LDSMINALB,
-	ARM64_INS_LDSMINALH,
-	ARM64_INS_LDSMINB,
-	ARM64_INS_LDSMINH,
-	ARM64_INS_LDSMINL,
-	ARM64_INS_LDSMINLB,
-	ARM64_INS_LDSMINLH,
-	ARM64_INS_LDTR,
-	ARM64_INS_LDTRB,
-	ARM64_INS_LDTRH,
-	ARM64_INS_LDTRSB,
-	ARM64_INS_LDTRSH,
-	ARM64_INS_LDTRSW,
-	ARM64_INS_LDUMAX,
-	ARM64_INS_LDUMAXA,
-	ARM64_INS_LDUMAXAB,
-	ARM64_INS_LDUMAXAH,
-	ARM64_INS_LDUMAXAL,
-	ARM64_INS_LDUMAXALB,
-	ARM64_INS_LDUMAXALH,
-	ARM64_INS_LDUMAXB,
-	ARM64_INS_LDUMAXH,
-	ARM64_INS_LDUMAXL,
-	ARM64_INS_LDUMAXLB,
-	ARM64_INS_LDUMAXLH,
-	ARM64_INS_LDUMIN,
-	ARM64_INS_LDUMINA,
-	ARM64_INS_LDUMINAB,
-	ARM64_INS_LDUMINAH,
-	ARM64_INS_LDUMINAL,
-	ARM64_INS_LDUMINALB,
-	ARM64_INS_LDUMINALH,
-	ARM64_INS_LDUMINB,
-	ARM64_INS_LDUMINH,
-	ARM64_INS_LDUMINL,
-	ARM64_INS_LDUMINLB,
-	ARM64_INS_LDUMINLH,
-	ARM64_INS_LDUR,
-	ARM64_INS_LDURB,
-	ARM64_INS_LDURH,
-	ARM64_INS_LDURSB,
-	ARM64_INS_LDURSH,
-	ARM64_INS_LDURSW,
-	ARM64_INS_LDXP,
-	ARM64_INS_LDXR,
-	ARM64_INS_LDXRB,
-	ARM64_INS_LDXRH,
-	ARM64_INS_LSL,
-	ARM64_INS_LSLR,
-	ARM64_INS_LSLV,
-	ARM64_INS_LSR,
-	ARM64_INS_LSRR,
-	ARM64_INS_LSRV,
-	ARM64_INS_MAD,
-	ARM64_INS_MADD,
-	ARM64_INS_MLA,
-	ARM64_INS_MLS,
-	ARM64_INS_MNEG,
-	ARM64_INS_MOV,
-	ARM64_INS_MOVI,
-	ARM64_INS_MOVK,
-	ARM64_INS_MOVN,
-	ARM64_INS_MOVPRFX,
-	ARM64_INS_MOVS,
-	ARM64_INS_MOVZ,
-	ARM64_INS_MRS,
-	ARM64_INS_MSB,
-	ARM64_INS_MSR,
-	ARM64_INS_MSUB,
-	ARM64_INS_MUL,
-	ARM64_INS_MVN,
-	ARM64_INS_MVNI,
-	ARM64_INS_NAND,
-	ARM64_INS_NANDS,
-	ARM64_INS_NEG,
-	ARM64_INS_NEGS,
-	ARM64_INS_NGC,
-	ARM64_INS_NGCS,
-	ARM64_INS_NOP,
-	ARM64_INS_NOR,
-	ARM64_INS_NORS,
-	ARM64_INS_NOT,
-	ARM64_INS_NOTS,
-	ARM64_INS_ORN,
-	ARM64_INS_ORNS,
-	ARM64_INS_ORR,
-	ARM64_INS_ORRS,
-	ARM64_INS_ORV,
-	ARM64_INS_PACDA,
-	ARM64_INS_PACDB,
-	ARM64_INS_PACDZA,
-	ARM64_INS_PACDZB,
-	ARM64_INS_PACGA,
-	ARM64_INS_PACIA,
-	ARM64_INS_PACIA1716,
-	ARM64_INS_PACIASP,
-	ARM64_INS_PACIAZ,
-	ARM64_INS_PACIB,
-	ARM64_INS_PACIB1716,
-	ARM64_INS_PACIBSP,
-	ARM64_INS_PACIBZ,
-	ARM64_INS_PACIZA,
-	ARM64_INS_PACIZB,
-	ARM64_INS_PFALSE,
-	ARM64_INS_PFIRST,
-	ARM64_INS_PMUL,
-	ARM64_INS_PMULL,
-	ARM64_INS_PMULL2,
-	ARM64_INS_PNEXT,
-	ARM64_INS_PRFB,
-	ARM64_INS_PRFD,
-	ARM64_INS_PRFH,
-	ARM64_INS_PRFM,
-	ARM64_INS_PRFUM,
-	ARM64_INS_PRFW,
-	ARM64_INS_PSB,
-	ARM64_INS_PTEST,
-	ARM64_INS_PTRUE,
-	ARM64_INS_PTRUES,
-	ARM64_INS_PUNPKHI,
-	ARM64_INS_PUNPKLO,
-	ARM64_INS_RADDHN,
-	ARM64_INS_RADDHN2,
-	ARM64_INS_RAX1,
-	ARM64_INS_RBIT,
-	ARM64_INS_RDFFR,
-	ARM64_INS_RDFFRS,
-	ARM64_INS_RDVL,
-	ARM64_INS_RET,
-	ARM64_INS_RETAA,
-	ARM64_INS_RETAB,
-	ARM64_INS_REV,
-	ARM64_INS_REV16,
-	ARM64_INS_REV32,
-	ARM64_INS_REV64,
-	ARM64_INS_REVB,
-	ARM64_INS_REVH,
-	ARM64_INS_REVW,
-	ARM64_INS_RMIF,
-	ARM64_INS_ROR,
-	ARM64_INS_RORV,
-	ARM64_INS_RSHRN,
-	ARM64_INS_RSHRN2,
-	ARM64_INS_RSUBHN,
-	ARM64_INS_RSUBHN2,
-	ARM64_INS_SABA,
-	ARM64_INS_SABAL,
-	ARM64_INS_SABAL2,
-	ARM64_INS_SABD,
-	ARM64_INS_SABDL,
-	ARM64_INS_SABDL2,
-	ARM64_INS_SADALP,
-	ARM64_INS_SADDL,
-	ARM64_INS_SADDL2,
-	ARM64_INS_SADDLP,
-	ARM64_INS_SADDLV,
-	ARM64_INS_SADDV,
-	ARM64_INS_SADDW,
-	ARM64_INS_SADDW2,
-	ARM64_INS_SBC,
-	ARM64_INS_SBCS,
-	ARM64_INS_SBFM,
-	ARM64_INS_SCVTF,
-	ARM64_INS_SDIV,
-	ARM64_INS_SDIVR,
-	ARM64_INS_SDOT,
-	ARM64_INS_SEL,
-	ARM64_INS_SETF16,
-	ARM64_INS_SETF8,
-	ARM64_INS_SETFFR,
-	ARM64_INS_SEV,
-	ARM64_INS_SEVL,
-	ARM64_INS_SHA1C,
-	ARM64_INS_SHA1H,
-	ARM64_INS_SHA1M,
-	ARM64_INS_SHA1P,
-	ARM64_INS_SHA1SU0,
-	ARM64_INS_SHA1SU1,
-	ARM64_INS_SHA256H,
-	ARM64_INS_SHA256H2,
-	ARM64_INS_SHA256SU0,
-	ARM64_INS_SHA256SU1,
-	ARM64_INS_SHA512H,
-	ARM64_INS_SHA512H2,
-	ARM64_INS_SHA512SU0,
-	ARM64_INS_SHA512SU1,
-	ARM64_INS_SHADD,
-	ARM64_INS_SHL,
-	ARM64_INS_SHLL,
-	ARM64_INS_SHLL2,
-	ARM64_INS_SHRN,
-	ARM64_INS_SHRN2,
-	ARM64_INS_SHSUB,
-	ARM64_INS_SLI,
-	ARM64_INS_SM3PARTW1,
-	ARM64_INS_SM3PARTW2,
-	ARM64_INS_SM3SS1,
-	ARM64_INS_SM3TT1A,
-	ARM64_INS_SM3TT1B,
-	ARM64_INS_SM3TT2A,
-	ARM64_INS_SM3TT2B,
-	ARM64_INS_SM4E,
-	ARM64_INS_SM4EKEY,
-	ARM64_INS_SMADDL,
-	ARM64_INS_SMAX,
-	ARM64_INS_SMAXP,
-	ARM64_INS_SMAXV,
-	ARM64_INS_SMC,
-	ARM64_INS_SMIN,
-	ARM64_INS_SMINP,
-	ARM64_INS_SMINV,
-	ARM64_INS_SMLAL,
-	ARM64_INS_SMLAL2,
-	ARM64_INS_SMLSL,
-	ARM64_INS_SMLSL2,
-	ARM64_INS_SMNEGL,
-	ARM64_INS_SMOV,
-	ARM64_INS_SMSUBL,
-	ARM64_INS_SMULH,
-	ARM64_INS_SMULL,
-	ARM64_INS_SMULL2,
-	ARM64_INS_SPLICE,
-	ARM64_INS_SQABS,
-	ARM64_INS_SQADD,
-	ARM64_INS_SQDECB,
-	ARM64_INS_SQDECD,
-	ARM64_INS_SQDECH,
-	ARM64_INS_SQDECP,
-	ARM64_INS_SQDECW,
-	ARM64_INS_SQDMLAL,
-	ARM64_INS_SQDMLAL2,
-	ARM64_INS_SQDMLSL,
-	ARM64_INS_SQDMLSL2,
-	ARM64_INS_SQDMULH,
-	ARM64_INS_SQDMULL,
-	ARM64_INS_SQDMULL2,
-	ARM64_INS_SQINCB,
-	ARM64_INS_SQINCD,
-	ARM64_INS_SQINCH,
-	ARM64_INS_SQINCP,
-	ARM64_INS_SQINCW,
-	ARM64_INS_SQNEG,
-	ARM64_INS_SQRDMLAH,
-	ARM64_INS_SQRDMLSH,
-	ARM64_INS_SQRDMULH,
-	ARM64_INS_SQRSHL,
-	ARM64_INS_SQRSHRN,
-	ARM64_INS_SQRSHRN2,
-	ARM64_INS_SQRSHRUN,
-	ARM64_INS_SQRSHRUN2,
-	ARM64_INS_SQSHL,
-	ARM64_INS_SQSHLU,
-	ARM64_INS_SQSHRN,
-	ARM64_INS_SQSHRN2,
-	ARM64_INS_SQSHRUN,
-	ARM64_INS_SQSHRUN2,
-	ARM64_INS_SQSUB,
-	ARM64_INS_SQXTN,
-	ARM64_INS_SQXTN2,
-	ARM64_INS_SQXTUN,
-	ARM64_INS_SQXTUN2,
-	ARM64_INS_SRHADD,
-	ARM64_INS_SRI,
-	ARM64_INS_SRSHL,
-	ARM64_INS_SRSHR,
-	ARM64_INS_SRSRA,
-	ARM64_INS_SSHL,
-	ARM64_INS_SSHLL,
-	ARM64_INS_SSHLL2,
-	ARM64_INS_SSHR,
-	ARM64_INS_SSRA,
-	ARM64_INS_SSUBL,
-	ARM64_INS_SSUBL2,
-	ARM64_INS_SSUBW,
-	ARM64_INS_SSUBW2,
-	ARM64_INS_ST1,
-	ARM64_INS_ST1B,
-	ARM64_INS_ST1D,
-	ARM64_INS_ST1H,
-	ARM64_INS_ST1W,
-	ARM64_INS_ST2,
-	ARM64_INS_ST2B,
-	ARM64_INS_ST2D,
-	ARM64_INS_ST2H,
-	ARM64_INS_ST2W,
-	ARM64_INS_ST3,
-	ARM64_INS_ST3B,
-	ARM64_INS_ST3D,
-	ARM64_INS_ST3H,
-	ARM64_INS_ST3W,
-	ARM64_INS_ST4,
-	ARM64_INS_ST4B,
-	ARM64_INS_ST4D,
-	ARM64_INS_ST4H,
-	ARM64_INS_ST4W,
-	ARM64_INS_STADD,
-	ARM64_INS_STADDB,
-	ARM64_INS_STADDH,
-	ARM64_INS_STADDL,
-	ARM64_INS_STADDLB,
-	ARM64_INS_STADDLH,
-	ARM64_INS_STCLR,
-	ARM64_INS_STCLRB,
-	ARM64_INS_STCLRH,
-	ARM64_INS_STCLRL,
-	ARM64_INS_STCLRLB,
-	ARM64_INS_STCLRLH,
-	ARM64_INS_STEOR,
-	ARM64_INS_STEORB,
-	ARM64_INS_STEORH,
-	ARM64_INS_STEORL,
-	ARM64_INS_STEORLB,
-	ARM64_INS_STEORLH,
-	ARM64_INS_STLLR,
-	ARM64_INS_STLLRB,
-	ARM64_INS_STLLRH,
-	ARM64_INS_STLR,
-	ARM64_INS_STLRB,
-	ARM64_INS_STLRH,
-	ARM64_INS_STLUR,
-	ARM64_INS_STLURB,
-	ARM64_INS_STLURH,
-	ARM64_INS_STLXP,
-	ARM64_INS_STLXR,
-	ARM64_INS_STLXRB,
-	ARM64_INS_STLXRH,
-	ARM64_INS_STNP,
-	ARM64_INS_STNT1B,
-	ARM64_INS_STNT1D,
-	ARM64_INS_STNT1H,
-	ARM64_INS_STNT1W,
-	ARM64_INS_STP,
-	ARM64_INS_STR,
-	ARM64_INS_STRB,
-	ARM64_INS_STRH,
-	ARM64_INS_STSET,
-	ARM64_INS_STSETB,
-	ARM64_INS_STSETH,
-	ARM64_INS_STSETL,
-	ARM64_INS_STSETLB,
-	ARM64_INS_STSETLH,
-	ARM64_INS_STSMAX,
-	ARM64_INS_STSMAXB,
-	ARM64_INS_STSMAXH,
-	ARM64_INS_STSMAXL,
-	ARM64_INS_STSMAXLB,
-	ARM64_INS_STSMAXLH,
-	ARM64_INS_STSMIN,
-	ARM64_INS_STSMINB,
-	ARM64_INS_STSMINH,
-	ARM64_INS_STSMINL,
-	ARM64_INS_STSMINLB,
-	ARM64_INS_STSMINLH,
-	ARM64_INS_STTR,
-	ARM64_INS_STTRB,
-	ARM64_INS_STTRH,
-	ARM64_INS_STUMAX,
-	ARM64_INS_STUMAXB,
-	ARM64_INS_STUMAXH,
-	ARM64_INS_STUMAXL,
-	ARM64_INS_STUMAXLB,
-	ARM64_INS_STUMAXLH,
-	ARM64_INS_STUMIN,
-	ARM64_INS_STUMINB,
-	ARM64_INS_STUMINH,
-	ARM64_INS_STUMINL,
-	ARM64_INS_STUMINLB,
-	ARM64_INS_STUMINLH,
-	ARM64_INS_STUR,
-	ARM64_INS_STURB,
-	ARM64_INS_STURH,
-	ARM64_INS_STXP,
-	ARM64_INS_STXR,
-	ARM64_INS_STXRB,
-	ARM64_INS_STXRH,
-	ARM64_INS_SUB,
-	ARM64_INS_SUBHN,
-	ARM64_INS_SUBHN2,
-	ARM64_INS_SUBR,
-	ARM64_INS_SUBS,
-	ARM64_INS_SUNPKHI,
-	ARM64_INS_SUNPKLO,
-	ARM64_INS_SUQADD,
-	ARM64_INS_SVC,
-	ARM64_INS_SWP,
-	ARM64_INS_SWPA,
-	ARM64_INS_SWPAB,
-	ARM64_INS_SWPAH,
-	ARM64_INS_SWPAL,
-	ARM64_INS_SWPALB,
-	ARM64_INS_SWPALH,
-	ARM64_INS_SWPB,
-	ARM64_INS_SWPH,
-	ARM64_INS_SWPL,
-	ARM64_INS_SWPLB,
-	ARM64_INS_SWPLH,
-	ARM64_INS_SXTB,
-	ARM64_INS_SXTH,
-	ARM64_INS_SXTL,
-	ARM64_INS_SXTL2,
-	ARM64_INS_SXTW,
-	ARM64_INS_SYS,
-	ARM64_INS_SYSL,
-	ARM64_INS_TBL,
-	ARM64_INS_TBNZ,
-	ARM64_INS_TBX,
-	ARM64_INS_TBZ,
-	ARM64_INS_TRN1,
-	ARM64_INS_TRN2,
-	ARM64_INS_TSB,
-	ARM64_INS_TST,
-	ARM64_INS_UABA,
-	ARM64_INS_UABAL,
-	ARM64_INS_UABAL2,
-	ARM64_INS_UABD,
-	ARM64_INS_UABDL,
-	ARM64_INS_UABDL2,
-	ARM64_INS_UADALP,
-	ARM64_INS_UADDL,
-	ARM64_INS_UADDL2,
-	ARM64_INS_UADDLP,
-	ARM64_INS_UADDLV,
-	ARM64_INS_UADDV,
-	ARM64_INS_UADDW,
-	ARM64_INS_UADDW2,
-	ARM64_INS_UBFM,
-	ARM64_INS_UCVTF,
-	ARM64_INS_UDIV,
-	ARM64_INS_UDIVR,
-	ARM64_INS_UDOT,
-	ARM64_INS_UHADD,
-	ARM64_INS_UHSUB,
-	ARM64_INS_UMADDL,
-	ARM64_INS_UMAX,
-	ARM64_INS_UMAXP,
-	ARM64_INS_UMAXV,
-	ARM64_INS_UMIN,
-	ARM64_INS_UMINP,
-	ARM64_INS_UMINV,
-	ARM64_INS_UMLAL,
-	ARM64_INS_UMLAL2,
-	ARM64_INS_UMLSL,
-	ARM64_INS_UMLSL2,
-	ARM64_INS_UMNEGL,
-	ARM64_INS_UMOV,
-	ARM64_INS_UMSUBL,
-	ARM64_INS_UMULH,
-	ARM64_INS_UMULL,
-	ARM64_INS_UMULL2,
-	ARM64_INS_UQADD,
-	ARM64_INS_UQDECB,
-	ARM64_INS_UQDECD,
-	ARM64_INS_UQDECH,
-	ARM64_INS_UQDECP,
-	ARM64_INS_UQDECW,
-	ARM64_INS_UQINCB,
-	ARM64_INS_UQINCD,
-	ARM64_INS_UQINCH,
-	ARM64_INS_UQINCP,
-	ARM64_INS_UQINCW,
-	ARM64_INS_UQRSHL,
-	ARM64_INS_UQRSHRN,
-	ARM64_INS_UQRSHRN2,
-	ARM64_INS_UQSHL,
-	ARM64_INS_UQSHRN,
-	ARM64_INS_UQSHRN2,
-	ARM64_INS_UQSUB,
-	ARM64_INS_UQXTN,
-	ARM64_INS_UQXTN2,
-	ARM64_INS_URECPE,
-	ARM64_INS_URHADD,
-	ARM64_INS_URSHL,
-	ARM64_INS_URSHR,
-	ARM64_INS_URSQRTE,
-	ARM64_INS_URSRA,
-	ARM64_INS_USHL,
-	ARM64_INS_USHLL,
-	ARM64_INS_USHLL2,
-	ARM64_INS_USHR,
-	ARM64_INS_USQADD,
-	ARM64_INS_USRA,
-	ARM64_INS_USUBL,
-	ARM64_INS_USUBL2,
-	ARM64_INS_USUBW,
-	ARM64_INS_USUBW2,
-	ARM64_INS_UUNPKHI,
-	ARM64_INS_UUNPKLO,
-	ARM64_INS_UXTB,
-	ARM64_INS_UXTH,
-	ARM64_INS_UXTL,
-	ARM64_INS_UXTL2,
-	ARM64_INS_UXTW,
-	ARM64_INS_UZP1,
-	ARM64_INS_UZP2,
-	ARM64_INS_WFE,
-	ARM64_INS_WFI,
-	ARM64_INS_WHILELE,
-	ARM64_INS_WHILELO,
-	ARM64_INS_WHILELS,
-	ARM64_INS_WHILELT,
-	ARM64_INS_WRFFR,
-	ARM64_INS_XAR,
-	ARM64_INS_XPACD,
-	ARM64_INS_XPACI,
-	ARM64_INS_XPACLRI,
-	ARM64_INS_XTN,
-	ARM64_INS_XTN2,
-	ARM64_INS_YIELD,
-	ARM64_INS_ZIP1,
-	ARM64_INS_ZIP2,
+  ARM64_INS_ABS,
+  ARM64_INS_ADC,
+  ARM64_INS_ADCLB,
+  ARM64_INS_ADCLT,
+  ARM64_INS_ADCS,
+  ARM64_INS_ADD,
+  ARM64_INS_ADDG,
+  ARM64_INS_ADDHA,
+  ARM64_INS_ADDHN,
+  ARM64_INS_ADDHN2,
+  ARM64_INS_ADDHNB,
+  ARM64_INS_ADDHNT,
+  ARM64_INS_ADDP,
+  ARM64_INS_ADDPL,
+  ARM64_INS_ADDS,
+  ARM64_INS_ADDV,
+  ARM64_INS_ADDVA,
+  ARM64_INS_ADDVL,
+  ARM64_INS_ADR,
+  ARM64_INS_ADRP,
+  ARM64_INS_AESD,
+  ARM64_INS_AESE,
+  ARM64_INS_AESIMC,
+  ARM64_INS_AESMC,
+  ARM64_INS_AND,
+  ARM64_INS_ANDS,
+  ARM64_INS_ANDV,
+  ARM64_INS_ASR,
+  ARM64_INS_ASRD,
+  ARM64_INS_ASRR,
+  ARM64_INS_ASRV,
+  ARM64_INS_AUTDA,
+  ARM64_INS_AUTDB,
+  ARM64_INS_AUTDZA,
+  ARM64_INS_AUTDZB,
+  ARM64_INS_AUTIA,
+  ARM64_INS_AUTIA1716,
+  ARM64_INS_AUTIASP,
+  ARM64_INS_AUTIAZ,
+  ARM64_INS_AUTIB,
+  ARM64_INS_AUTIB1716,
+  ARM64_INS_AUTIBSP,
+  ARM64_INS_AUTIBZ,
+  ARM64_INS_AUTIZA,
+  ARM64_INS_AUTIZB,
+  ARM64_INS_AXFLAG,
+  ARM64_INS_B,
+  ARM64_INS_BC,
+  ARM64_INS_BCAX,
+  ARM64_INS_BDEP,
+  ARM64_INS_BEXT,
+  ARM64_INS_BFCVT,
+  ARM64_INS_BFCVTN,
+  ARM64_INS_BFCVTN2,
+  ARM64_INS_BFCVTNT,
+  ARM64_INS_BFDOT,
+  ARM64_INS_BFM,
+  ARM64_INS_BFMLALB,
+  ARM64_INS_BFMLALT,
+  ARM64_INS_BFMMLA,
+  ARM64_INS_BFMOPA,
+  ARM64_INS_BFMOPS,
+  ARM64_INS_BGRP,
+  ARM64_INS_BIC,
+  ARM64_INS_BICS,
+  ARM64_INS_BIF,
+  ARM64_INS_BIT,
+  ARM64_INS_BL,
+  ARM64_INS_BLR,
+  ARM64_INS_BLRAA,
+  ARM64_INS_BLRAAZ,
+  ARM64_INS_BLRAB,
+  ARM64_INS_BLRABZ,
+  ARM64_INS_BR,
+  ARM64_INS_BRAA,
+  ARM64_INS_BRAAZ,
+  ARM64_INS_BRAB,
+  ARM64_INS_BRABZ,
+  ARM64_INS_BRB,
+  ARM64_INS_BRK,
+  ARM64_INS_BRKA,
+  ARM64_INS_BRKAS,
+  ARM64_INS_BRKB,
+  ARM64_INS_BRKBS,
+  ARM64_INS_BRKN,
+  ARM64_INS_BRKNS,
+  ARM64_INS_BRKPA,
+  ARM64_INS_BRKPAS,
+  ARM64_INS_BRKPB,
+  ARM64_INS_BRKPBS,
+  ARM64_INS_BSL,
+  ARM64_INS_BSL1N,
+  ARM64_INS_BSL2N,
+  ARM64_INS_BTI,
+  ARM64_INS_CADD,
+  ARM64_INS_CAS,
+  ARM64_INS_CASA,
+  ARM64_INS_CASAB,
+  ARM64_INS_CASAH,
+  ARM64_INS_CASAL,
+  ARM64_INS_CASALB,
+  ARM64_INS_CASALH,
+  ARM64_INS_CASB,
+  ARM64_INS_CASH,
+  ARM64_INS_CASL,
+  ARM64_INS_CASLB,
+  ARM64_INS_CASLH,
+  ARM64_INS_CASP,
+  ARM64_INS_CASPA,
+  ARM64_INS_CASPAL,
+  ARM64_INS_CASPL,
+  ARM64_INS_CBNZ,
+  ARM64_INS_CBZ,
+  ARM64_INS_CCMN,
+  ARM64_INS_CCMP,
+  ARM64_INS_CDOT,
+  ARM64_INS_CFINV,
+  ARM64_INS_CINC,
+  ARM64_INS_CINV,
+  ARM64_INS_CLASTA,
+  ARM64_INS_CLASTB,
+  ARM64_INS_CLREX,
+  ARM64_INS_CLS,
+  ARM64_INS_CLZ,
+  ARM64_INS_CMEQ,
+  ARM64_INS_CMGE,
+  ARM64_INS_CMGT,
+  ARM64_INS_CMHI,
+  ARM64_INS_CMHS,
+  ARM64_INS_CMLA,
+  ARM64_INS_CMLE,
+  ARM64_INS_CMLO,
+  ARM64_INS_CMLS,
+  ARM64_INS_CMLT,
+  ARM64_INS_CMN,
+  ARM64_INS_CMP,
+  ARM64_INS_CMPEQ,
+  ARM64_INS_CMPGE,
+  ARM64_INS_CMPGT,
+  ARM64_INS_CMPHI,
+  ARM64_INS_CMPHS,
+  ARM64_INS_CMPLE,
+  ARM64_INS_CMPLO,
+  ARM64_INS_CMPLS,
+  ARM64_INS_CMPLT,
+  ARM64_INS_CMPNE,
+  ARM64_INS_CMPP,
+  ARM64_INS_CMTST,
+  ARM64_INS_CNEG,
+  ARM64_INS_CNOT,
+  ARM64_INS_CNT,
+  ARM64_INS_CNTB,
+  ARM64_INS_CNTD,
+  ARM64_INS_CNTH,
+  ARM64_INS_CNTP,
+  ARM64_INS_CNTW,
+  ARM64_INS_COMPACT,
+  ARM64_INS_CPY,
+  ARM64_INS_CPYE,
+  ARM64_INS_CPYEN,
+  ARM64_INS_CPYERN,
+  ARM64_INS_CPYERT,
+  ARM64_INS_CPYERTN,
+  ARM64_INS_CPYERTRN,
+  ARM64_INS_CPYERTWN,
+  ARM64_INS_CPYET,
+  ARM64_INS_CPYETN,
+  ARM64_INS_CPYETRN,
+  ARM64_INS_CPYETWN,
+  ARM64_INS_CPYEWN,
+  ARM64_INS_CPYEWT,
+  ARM64_INS_CPYEWTN,
+  ARM64_INS_CPYEWTRN,
+  ARM64_INS_CPYEWTWN,
+  ARM64_INS_CPYFE,
+  ARM64_INS_CPYFEN,
+  ARM64_INS_CPYFERN,
+  ARM64_INS_CPYFERT,
+  ARM64_INS_CPYFERTN,
+  ARM64_INS_CPYFERTRN,
+  ARM64_INS_CPYFERTWN,
+  ARM64_INS_CPYFET,
+  ARM64_INS_CPYFETN,
+  ARM64_INS_CPYFETRN,
+  ARM64_INS_CPYFETWN,
+  ARM64_INS_CPYFEWN,
+  ARM64_INS_CPYFEWT,
+  ARM64_INS_CPYFEWTN,
+  ARM64_INS_CPYFEWTRN,
+  ARM64_INS_CPYFEWTWN,
+  ARM64_INS_CPYFM,
+  ARM64_INS_CPYFMN,
+  ARM64_INS_CPYFMRN,
+  ARM64_INS_CPYFMRT,
+  ARM64_INS_CPYFMRTN,
+  ARM64_INS_CPYFMRTRN,
+  ARM64_INS_CPYFMRTWN,
+  ARM64_INS_CPYFMT,
+  ARM64_INS_CPYFMTN,
+  ARM64_INS_CPYFMTRN,
+  ARM64_INS_CPYFMTWN,
+  ARM64_INS_CPYFMWN,
+  ARM64_INS_CPYFMWT,
+  ARM64_INS_CPYFMWTN,
+  ARM64_INS_CPYFMWTRN,
+  ARM64_INS_CPYFMWTWN,
+  ARM64_INS_CPYFP,
+  ARM64_INS_CPYFPN,
+  ARM64_INS_CPYFPRN,
+  ARM64_INS_CPYFPRT,
+  ARM64_INS_CPYFPRTN,
+  ARM64_INS_CPYFPRTRN,
+  ARM64_INS_CPYFPRTWN,
+  ARM64_INS_CPYFPT,
+  ARM64_INS_CPYFPTN,
+  ARM64_INS_CPYFPTRN,
+  ARM64_INS_CPYFPTWN,
+  ARM64_INS_CPYFPWN,
+  ARM64_INS_CPYFPWT,
+  ARM64_INS_CPYFPWTN,
+  ARM64_INS_CPYFPWTRN,
+  ARM64_INS_CPYFPWTWN,
+  ARM64_INS_CPYM,
+  ARM64_INS_CPYMN,
+  ARM64_INS_CPYMRN,
+  ARM64_INS_CPYMRT,
+  ARM64_INS_CPYMRTN,
+  ARM64_INS_CPYMRTRN,
+  ARM64_INS_CPYMRTWN,
+  ARM64_INS_CPYMT,
+  ARM64_INS_CPYMTN,
+  ARM64_INS_CPYMTRN,
+  ARM64_INS_CPYMTWN,
+  ARM64_INS_CPYMWN,
+  ARM64_INS_CPYMWT,
+  ARM64_INS_CPYMWTN,
+  ARM64_INS_CPYMWTRN,
+  ARM64_INS_CPYMWTWN,
+  ARM64_INS_CPYP,
+  ARM64_INS_CPYPN,
+  ARM64_INS_CPYPRN,
+  ARM64_INS_CPYPRT,
+  ARM64_INS_CPYPRTN,
+  ARM64_INS_CPYPRTRN,
+  ARM64_INS_CPYPRTWN,
+  ARM64_INS_CPYPT,
+  ARM64_INS_CPYPTN,
+  ARM64_INS_CPYPTRN,
+  ARM64_INS_CPYPTWN,
+  ARM64_INS_CPYPWN,
+  ARM64_INS_CPYPWT,
+  ARM64_INS_CPYPWTN,
+  ARM64_INS_CPYPWTRN,
+  ARM64_INS_CPYPWTWN,
+  ARM64_INS_CRC32B,
+  ARM64_INS_CRC32CB,
+  ARM64_INS_CRC32CH,
+  ARM64_INS_CRC32CW,
+  ARM64_INS_CRC32CX,
+  ARM64_INS_CRC32H,
+  ARM64_INS_CRC32W,
+  ARM64_INS_CRC32X,
+  ARM64_INS_CSDB,
+  ARM64_INS_CSEL,
+  ARM64_INS_CSET,
+  ARM64_INS_CSETM,
+  ARM64_INS_CSINC,
+  ARM64_INS_CSINV,
+  ARM64_INS_CSNEG,
+  ARM64_INS_CTERMEQ,
+  ARM64_INS_CTERMNE,
+  ARM64_INS_DCPS1,
+  ARM64_INS_DCPS2,
+  ARM64_INS_DCPS3,
+  ARM64_INS_DECB,
+  ARM64_INS_DECD,
+  ARM64_INS_DECH,
+  ARM64_INS_DECP,
+  ARM64_INS_DECW,
+  ARM64_INS_DFB,
+  ARM64_INS_DGH,
+  ARM64_INS_DMB,
+  ARM64_INS_DRPS,
+  ARM64_INS_DSB,
+  ARM64_INS_DUP,
+  ARM64_INS_DUPM,
+  ARM64_INS_EON,
+  ARM64_INS_EOR,
+  ARM64_INS_EOR3,
+  ARM64_INS_EORBT,
+  ARM64_INS_EORS,
+  ARM64_INS_EORTB,
+  ARM64_INS_EORV,
+  ARM64_INS_ERET,
+  ARM64_INS_ERETAA,
+  ARM64_INS_ERETAB,
+  ARM64_INS_ESB,
+  ARM64_INS_EXT,
+  ARM64_INS_EXTR,
+  ARM64_INS_FABD,
+  ARM64_INS_FABS,
+  ARM64_INS_FACGE,
+  ARM64_INS_FACGT,
+  ARM64_INS_FACLE,
+  ARM64_INS_FACLT,
+  ARM64_INS_FADD,
+  ARM64_INS_FADDA,
+  ARM64_INS_FADDP,
+  ARM64_INS_FADDV,
+  ARM64_INS_FCADD,
+  ARM64_INS_FCCMP,
+  ARM64_INS_FCCMPE,
+  ARM64_INS_FCMEQ,
+  ARM64_INS_FCMGE,
+  ARM64_INS_FCMGT,
+  ARM64_INS_FCMLA,
+  ARM64_INS_FCMLE,
+  ARM64_INS_FCMLT,
+  ARM64_INS_FCMNE,
+  ARM64_INS_FCMP,
+  ARM64_INS_FCMPE,
+  ARM64_INS_FCMUO,
+  ARM64_INS_FCPY,
+  ARM64_INS_FCSEL,
+  ARM64_INS_FCVT,
+  ARM64_INS_FCVTAS,
+  ARM64_INS_FCVTAU,
+  ARM64_INS_FCVTL,
+  ARM64_INS_FCVTL2,
+  ARM64_INS_FCVTLT,
+  ARM64_INS_FCVTMS,
+  ARM64_INS_FCVTMU,
+  ARM64_INS_FCVTN,
+  ARM64_INS_FCVTN2,
+  ARM64_INS_FCVTNS,
+  ARM64_INS_FCVTNT,
+  ARM64_INS_FCVTNU,
+  ARM64_INS_FCVTPS,
+  ARM64_INS_FCVTPU,
+  ARM64_INS_FCVTX,
+  ARM64_INS_FCVTXN,
+  ARM64_INS_FCVTXN2,
+  ARM64_INS_FCVTXNT,
+  ARM64_INS_FCVTZS,
+  ARM64_INS_FCVTZU,
+  ARM64_INS_FDIV,
+  ARM64_INS_FDIVR,
+  ARM64_INS_FDUP,
+  ARM64_INS_FEXPA,
+  ARM64_INS_FJCVTZS,
+  ARM64_INS_FLOGB,
+  ARM64_INS_FMAD,
+  ARM64_INS_FMADD,
+  ARM64_INS_FMAX,
+  ARM64_INS_FMAXNM,
+  ARM64_INS_FMAXNMP,
+  ARM64_INS_FMAXNMV,
+  ARM64_INS_FMAXP,
+  ARM64_INS_FMAXV,
+  ARM64_INS_FMIN,
+  ARM64_INS_FMINNM,
+  ARM64_INS_FMINNMP,
+  ARM64_INS_FMINNMV,
+  ARM64_INS_FMINP,
+  ARM64_INS_FMINV,
+  ARM64_INS_FMLA,
+  ARM64_INS_FMLAL,
+  ARM64_INS_FMLAL2,
+  ARM64_INS_FMLALB,
+  ARM64_INS_FMLALT,
+  ARM64_INS_FMLS,
+  ARM64_INS_FMLSL,
+  ARM64_INS_FMLSL2,
+  ARM64_INS_FMLSLB,
+  ARM64_INS_FMLSLT,
+  ARM64_INS_FMMLA,
+  ARM64_INS_FMOPA,
+  ARM64_INS_FMOPS,
+  ARM64_INS_FMOV,
+  ARM64_INS_FMSB,
+  ARM64_INS_FMSUB,
+  ARM64_INS_FMUL,
+  ARM64_INS_FMULX,
+  ARM64_INS_FNEG,
+  ARM64_INS_FNMAD,
+  ARM64_INS_FNMADD,
+  ARM64_INS_FNMLA,
+  ARM64_INS_FNMLS,
+  ARM64_INS_FNMSB,
+  ARM64_INS_FNMSUB,
+  ARM64_INS_FNMUL,
+  ARM64_INS_FRECPE,
+  ARM64_INS_FRECPS,
+  ARM64_INS_FRECPX,
+  ARM64_INS_FRINT32X,
+  ARM64_INS_FRINT32Z,
+  ARM64_INS_FRINT64X,
+  ARM64_INS_FRINT64Z,
+  ARM64_INS_FRINTA,
+  ARM64_INS_FRINTI,
+  ARM64_INS_FRINTM,
+  ARM64_INS_FRINTN,
+  ARM64_INS_FRINTP,
+  ARM64_INS_FRINTX,
+  ARM64_INS_FRINTZ,
+  ARM64_INS_FRSQRTE,
+  ARM64_INS_FRSQRTS,
+  ARM64_INS_FSCALE,
+  ARM64_INS_FSQRT,
+  ARM64_INS_FSUB,
+  ARM64_INS_FSUBR,
+  ARM64_INS_FTMAD,
+  ARM64_INS_FTSMUL,
+  ARM64_INS_FTSSEL,
+  ARM64_INS_GMI,
+  ARM64_INS_HINT,
+  ARM64_INS_HISTCNT,
+  ARM64_INS_HISTSEG,
+  ARM64_INS_HLT,
+  ARM64_INS_HVC,
+  ARM64_INS_INCB,
+  ARM64_INS_INCD,
+  ARM64_INS_INCH,
+  ARM64_INS_INCP,
+  ARM64_INS_INCW,
+  ARM64_INS_INDEX,
+  ARM64_INS_INS,
+  ARM64_INS_INSR,
+  ARM64_INS_IRG,
+  ARM64_INS_ISB,
+  ARM64_INS_LASTA,
+  ARM64_INS_LASTB,
+  ARM64_INS_LD1,
+  ARM64_INS_LD1B,
+  ARM64_INS_LD1D,
+  ARM64_INS_LD1H,
+  ARM64_INS_LD1Q,
+  ARM64_INS_LD1R,
+  ARM64_INS_LD1RB,
+  ARM64_INS_LD1RD,
+  ARM64_INS_LD1RH,
+  ARM64_INS_LD1ROB,
+  ARM64_INS_LD1ROD,
+  ARM64_INS_LD1ROH,
+  ARM64_INS_LD1ROW,
+  ARM64_INS_LD1RQB,
+  ARM64_INS_LD1RQD,
+  ARM64_INS_LD1RQH,
+  ARM64_INS_LD1RQW,
+  ARM64_INS_LD1RSB,
+  ARM64_INS_LD1RSH,
+  ARM64_INS_LD1RSW,
+  ARM64_INS_LD1RW,
+  ARM64_INS_LD1SB,
+  ARM64_INS_LD1SH,
+  ARM64_INS_LD1SW,
+  ARM64_INS_LD1W,
+  ARM64_INS_LD2,
+  ARM64_INS_LD2B,
+  ARM64_INS_LD2D,
+  ARM64_INS_LD2H,
+  ARM64_INS_LD2R,
+  ARM64_INS_LD2W,
+  ARM64_INS_LD3,
+  ARM64_INS_LD3B,
+  ARM64_INS_LD3D,
+  ARM64_INS_LD3H,
+  ARM64_INS_LD3R,
+  ARM64_INS_LD3W,
+  ARM64_INS_LD4,
+  ARM64_INS_LD4B,
+  ARM64_INS_LD4D,
+  ARM64_INS_LD4H,
+  ARM64_INS_LD4R,
+  ARM64_INS_LD4W,
+  ARM64_INS_LD64B,
+  ARM64_INS_LDADD,
+  ARM64_INS_LDADDA,
+  ARM64_INS_LDADDAB,
+  ARM64_INS_LDADDAH,
+  ARM64_INS_LDADDAL,
+  ARM64_INS_LDADDALB,
+  ARM64_INS_LDADDALH,
+  ARM64_INS_LDADDB,
+  ARM64_INS_LDADDH,
+  ARM64_INS_LDADDL,
+  ARM64_INS_LDADDLB,
+  ARM64_INS_LDADDLH,
+  ARM64_INS_LDAPR,
+  ARM64_INS_LDAPRB,
+  ARM64_INS_LDAPRH,
+  ARM64_INS_LDAPUR,
+  ARM64_INS_LDAPURB,
+  ARM64_INS_LDAPURH,
+  ARM64_INS_LDAPURSB,
+  ARM64_INS_LDAPURSH,
+  ARM64_INS_LDAPURSW,
+  ARM64_INS_LDAR,
+  ARM64_INS_LDARB,
+  ARM64_INS_LDARH,
+  ARM64_INS_LDAXP,
+  ARM64_INS_LDAXR,
+  ARM64_INS_LDAXRB,
+  ARM64_INS_LDAXRH,
+  ARM64_INS_LDCLR,
+  ARM64_INS_LDCLRA,
+  ARM64_INS_LDCLRAB,
+  ARM64_INS_LDCLRAH,
+  ARM64_INS_LDCLRAL,
+  ARM64_INS_LDCLRALB,
+  ARM64_INS_LDCLRALH,
+  ARM64_INS_LDCLRB,
+  ARM64_INS_LDCLRH,
+  ARM64_INS_LDCLRL,
+  ARM64_INS_LDCLRLB,
+  ARM64_INS_LDCLRLH,
+  ARM64_INS_LDEOR,
+  ARM64_INS_LDEORA,
+  ARM64_INS_LDEORAB,
+  ARM64_INS_LDEORAH,
+  ARM64_INS_LDEORAL,
+  ARM64_INS_LDEORALB,
+  ARM64_INS_LDEORALH,
+  ARM64_INS_LDEORB,
+  ARM64_INS_LDEORH,
+  ARM64_INS_LDEORL,
+  ARM64_INS_LDEORLB,
+  ARM64_INS_LDEORLH,
+  ARM64_INS_LDFF1B,
+  ARM64_INS_LDFF1D,
+  ARM64_INS_LDFF1H,
+  ARM64_INS_LDFF1SB,
+  ARM64_INS_LDFF1SH,
+  ARM64_INS_LDFF1SW,
+  ARM64_INS_LDFF1W,
+  ARM64_INS_LDG,
+  ARM64_INS_LDGM,
+  ARM64_INS_LDLAR,
+  ARM64_INS_LDLARB,
+  ARM64_INS_LDLARH,
+  ARM64_INS_LDNF1B,
+  ARM64_INS_LDNF1D,
+  ARM64_INS_LDNF1H,
+  ARM64_INS_LDNF1SB,
+  ARM64_INS_LDNF1SH,
+  ARM64_INS_LDNF1SW,
+  ARM64_INS_LDNF1W,
+  ARM64_INS_LDNP,
+  ARM64_INS_LDNT1B,
+  ARM64_INS_LDNT1D,
+  ARM64_INS_LDNT1H,
+  ARM64_INS_LDNT1SB,
+  ARM64_INS_LDNT1SH,
+  ARM64_INS_LDNT1SW,
+  ARM64_INS_LDNT1W,
+  ARM64_INS_LDP,
+  ARM64_INS_LDPSW,
+  ARM64_INS_LDR,
+  ARM64_INS_LDRAA,
+  ARM64_INS_LDRAB,
+  ARM64_INS_LDRB,
+  ARM64_INS_LDRH,
+  ARM64_INS_LDRSB,
+  ARM64_INS_LDRSH,
+  ARM64_INS_LDRSW,
+  ARM64_INS_LDSET,
+  ARM64_INS_LDSETA,
+  ARM64_INS_LDSETAB,
+  ARM64_INS_LDSETAH,
+  ARM64_INS_LDSETAL,
+  ARM64_INS_LDSETALB,
+  ARM64_INS_LDSETALH,
+  ARM64_INS_LDSETB,
+  ARM64_INS_LDSETH,
+  ARM64_INS_LDSETL,
+  ARM64_INS_LDSETLB,
+  ARM64_INS_LDSETLH,
+  ARM64_INS_LDSMAX,
+  ARM64_INS_LDSMAXA,
+  ARM64_INS_LDSMAXAB,
+  ARM64_INS_LDSMAXAH,
+  ARM64_INS_LDSMAXAL,
+  ARM64_INS_LDSMAXALB,
+  ARM64_INS_LDSMAXALH,
+  ARM64_INS_LDSMAXB,
+  ARM64_INS_LDSMAXH,
+  ARM64_INS_LDSMAXL,
+  ARM64_INS_LDSMAXLB,
+  ARM64_INS_LDSMAXLH,
+  ARM64_INS_LDSMIN,
+  ARM64_INS_LDSMINA,
+  ARM64_INS_LDSMINAB,
+  ARM64_INS_LDSMINAH,
+  ARM64_INS_LDSMINAL,
+  ARM64_INS_LDSMINALB,
+  ARM64_INS_LDSMINALH,
+  ARM64_INS_LDSMINB,
+  ARM64_INS_LDSMINH,
+  ARM64_INS_LDSMINL,
+  ARM64_INS_LDSMINLB,
+  ARM64_INS_LDSMINLH,
+  ARM64_INS_LDTR,
+  ARM64_INS_LDTRB,
+  ARM64_INS_LDTRH,
+  ARM64_INS_LDTRSB,
+  ARM64_INS_LDTRSH,
+  ARM64_INS_LDTRSW,
+  ARM64_INS_LDUMAX,
+  ARM64_INS_LDUMAXA,
+  ARM64_INS_LDUMAXAB,
+  ARM64_INS_LDUMAXAH,
+  ARM64_INS_LDUMAXAL,
+  ARM64_INS_LDUMAXALB,
+  ARM64_INS_LDUMAXALH,
+  ARM64_INS_LDUMAXB,
+  ARM64_INS_LDUMAXH,
+  ARM64_INS_LDUMAXL,
+  ARM64_INS_LDUMAXLB,
+  ARM64_INS_LDUMAXLH,
+  ARM64_INS_LDUMIN,
+  ARM64_INS_LDUMINA,
+  ARM64_INS_LDUMINAB,
+  ARM64_INS_LDUMINAH,
+  ARM64_INS_LDUMINAL,
+  ARM64_INS_LDUMINALB,
+  ARM64_INS_LDUMINALH,
+  ARM64_INS_LDUMINB,
+  ARM64_INS_LDUMINH,
+  ARM64_INS_LDUMINL,
+  ARM64_INS_LDUMINLB,
+  ARM64_INS_LDUMINLH,
+  ARM64_INS_LDUR,
+  ARM64_INS_LDURB,
+  ARM64_INS_LDURH,
+  ARM64_INS_LDURSB,
+  ARM64_INS_LDURSH,
+  ARM64_INS_LDURSW,
+  ARM64_INS_LDXP,
+  ARM64_INS_LDXR,
+  ARM64_INS_LDXRB,
+  ARM64_INS_LDXRH,
+  ARM64_INS_LSL,
+  ARM64_INS_LSLR,
+  ARM64_INS_LSLV,
+  ARM64_INS_LSR,
+  ARM64_INS_LSRR,
+  ARM64_INS_LSRV,
+  ARM64_INS_MAD,
+  ARM64_INS_MADD,
+  ARM64_INS_MATCH,
+  ARM64_INS_MLA,
+  ARM64_INS_MLS,
+  ARM64_INS_MNEG,
+  ARM64_INS_MOV,
+  ARM64_INS_MOVA,
+  ARM64_INS_MOVI,
+  ARM64_INS_MOVK,
+  ARM64_INS_MOVN,
+  ARM64_INS_MOVPRFX,
+  ARM64_INS_MOVS,
+  ARM64_INS_MOVZ,
+  ARM64_INS_MRS,
+  ARM64_INS_MSB,
+  ARM64_INS_MSR,
+  ARM64_INS_MSUB,
+  ARM64_INS_MUL,
+  ARM64_INS_MVN,
+  ARM64_INS_MVNI,
+  ARM64_INS_NAND,
+  ARM64_INS_NANDS,
+  ARM64_INS_NBSL,
+  ARM64_INS_NEG,
+  ARM64_INS_NEGS,
+  ARM64_INS_NGC,
+  ARM64_INS_NGCS,
+  ARM64_INS_NMATCH,
+  ARM64_INS_NOP,
+  ARM64_INS_NOR,
+  ARM64_INS_NORS,
+  ARM64_INS_NOT,
+  ARM64_INS_NOTS,
+  ARM64_INS_ORN,
+  ARM64_INS_ORNS,
+  ARM64_INS_ORR,
+  ARM64_INS_ORRS,
+  ARM64_INS_ORV,
+  ARM64_INS_PACDA,
+  ARM64_INS_PACDB,
+  ARM64_INS_PACDZA,
+  ARM64_INS_PACDZB,
+  ARM64_INS_PACGA,
+  ARM64_INS_PACIA,
+  ARM64_INS_PACIA1716,
+  ARM64_INS_PACIASP,
+  ARM64_INS_PACIAZ,
+  ARM64_INS_PACIB,
+  ARM64_INS_PACIB1716,
+  ARM64_INS_PACIBSP,
+  ARM64_INS_PACIBZ,
+  ARM64_INS_PACIZA,
+  ARM64_INS_PACIZB,
+  ARM64_INS_PFALSE,
+  ARM64_INS_PFIRST,
+  ARM64_INS_PMUL,
+  ARM64_INS_PMULL,
+  ARM64_INS_PMULL2,
+  ARM64_INS_PMULLB,
+  ARM64_INS_PMULLT,
+  ARM64_INS_PNEXT,
+  ARM64_INS_PRFB,
+  ARM64_INS_PRFD,
+  ARM64_INS_PRFH,
+  ARM64_INS_PRFM,
+  ARM64_INS_PRFUM,
+  ARM64_INS_PRFW,
+  ARM64_INS_PSB,
+  ARM64_INS_PSEL,
+  ARM64_INS_PSSBB,
+  ARM64_INS_PTEST,
+  ARM64_INS_PTRUE,
+  ARM64_INS_PTRUES,
+  ARM64_INS_PUNPKHI,
+  ARM64_INS_PUNPKLO,
+  ARM64_INS_RADDHN,
+  ARM64_INS_RADDHN2,
+  ARM64_INS_RADDHNB,
+  ARM64_INS_RADDHNT,
+  ARM64_INS_RAX1,
+  ARM64_INS_RBIT,
+  ARM64_INS_RDFFR,
+  ARM64_INS_RDFFRS,
+  ARM64_INS_RDVL,
+  ARM64_INS_RET,
+  ARM64_INS_RETAA,
+  ARM64_INS_RETAB,
+  ARM64_INS_REV,
+  ARM64_INS_REV16,
+  ARM64_INS_REV32,
+  ARM64_INS_REV64,
+  ARM64_INS_REVB,
+  ARM64_INS_REVD,
+  ARM64_INS_REVH,
+  ARM64_INS_REVW,
+  ARM64_INS_RMIF,
+  ARM64_INS_ROR,
+  ARM64_INS_RORV,
+  ARM64_INS_RSHRN,
+  ARM64_INS_RSHRN2,
+  ARM64_INS_RSHRNB,
+  ARM64_INS_RSHRNT,
+  ARM64_INS_RSUBHN,
+  ARM64_INS_RSUBHN2,
+  ARM64_INS_RSUBHNB,
+  ARM64_INS_RSUBHNT,
+  ARM64_INS_SABA,
+  ARM64_INS_SABAL,
+  ARM64_INS_SABAL2,
+  ARM64_INS_SABALB,
+  ARM64_INS_SABALT,
+  ARM64_INS_SABD,
+  ARM64_INS_SABDL,
+  ARM64_INS_SABDL2,
+  ARM64_INS_SABDLB,
+  ARM64_INS_SABDLT,
+  ARM64_INS_SADALP,
+  ARM64_INS_SADDL,
+  ARM64_INS_SADDL2,
+  ARM64_INS_SADDLB,
+  ARM64_INS_SADDLBT,
+  ARM64_INS_SADDLP,
+  ARM64_INS_SADDLT,
+  ARM64_INS_SADDLV,
+  ARM64_INS_SADDV,
+  ARM64_INS_SADDW,
+  ARM64_INS_SADDW2,
+  ARM64_INS_SADDWB,
+  ARM64_INS_SADDWT,
+  ARM64_INS_SB,
+  ARM64_INS_SBC,
+  ARM64_INS_SBCLB,
+  ARM64_INS_SBCLT,
+  ARM64_INS_SBCS,
+  ARM64_INS_SBFM,
+  ARM64_INS_SCLAMP,
+  ARM64_INS_SCVTF,
+  ARM64_INS_SDIV,
+  ARM64_INS_SDIVR,
+  ARM64_INS_SDOT,
+  ARM64_INS_SEL,
+  ARM64_INS_SETE,
+  ARM64_INS_SETEN,
+  ARM64_INS_SETET,
+  ARM64_INS_SETETN,
+  ARM64_INS_SETF16,
+  ARM64_INS_SETF8,
+  ARM64_INS_SETFFR,
+  ARM64_INS_SETGE,
+  ARM64_INS_SETGEN,
+  ARM64_INS_SETGET,
+  ARM64_INS_SETGETN,
+  ARM64_INS_SETGM,
+  ARM64_INS_SETGMN,
+  ARM64_INS_SETGMT,
+  ARM64_INS_SETGMTN,
+  ARM64_INS_SETGP,
+  ARM64_INS_SETGPN,
+  ARM64_INS_SETGPT,
+  ARM64_INS_SETGPTN,
+  ARM64_INS_SETM,
+  ARM64_INS_SETMN,
+  ARM64_INS_SETMT,
+  ARM64_INS_SETMTN,
+  ARM64_INS_SETP,
+  ARM64_INS_SETPN,
+  ARM64_INS_SETPT,
+  ARM64_INS_SETPTN,
+  ARM64_INS_SEV,
+  ARM64_INS_SEVL,
+  ARM64_INS_SHA1C,
+  ARM64_INS_SHA1H,
+  ARM64_INS_SHA1M,
+  ARM64_INS_SHA1P,
+  ARM64_INS_SHA1SU0,
+  ARM64_INS_SHA1SU1,
+  ARM64_INS_SHA256H,
+  ARM64_INS_SHA256H2,
+  ARM64_INS_SHA256SU0,
+  ARM64_INS_SHA256SU1,
+  ARM64_INS_SHA512H,
+  ARM64_INS_SHA512H2,
+  ARM64_INS_SHA512SU0,
+  ARM64_INS_SHA512SU1,
+  ARM64_INS_SHADD,
+  ARM64_INS_SHL,
+  ARM64_INS_SHLL,
+  ARM64_INS_SHLL2,
+  ARM64_INS_SHRN,
+  ARM64_INS_SHRN2,
+  ARM64_INS_SHRNB,
+  ARM64_INS_SHRNT,
+  ARM64_INS_SHSUB,
+  ARM64_INS_SHSUBR,
+  ARM64_INS_SLI,
+  ARM64_INS_SM3PARTW1,
+  ARM64_INS_SM3PARTW2,
+  ARM64_INS_SM3SS1,
+  ARM64_INS_SM3TT1A,
+  ARM64_INS_SM3TT1B,
+  ARM64_INS_SM3TT2A,
+  ARM64_INS_SM3TT2B,
+  ARM64_INS_SM4E,
+  ARM64_INS_SM4EKEY,
+  ARM64_INS_SMADDL,
+  ARM64_INS_SMAX,
+  ARM64_INS_SMAXP,
+  ARM64_INS_SMAXV,
+  ARM64_INS_SMC,
+  ARM64_INS_SMIN,
+  ARM64_INS_SMINP,
+  ARM64_INS_SMINV,
+  ARM64_INS_SMLAL,
+  ARM64_INS_SMLAL2,
+  ARM64_INS_SMLALB,
+  ARM64_INS_SMLALT,
+  ARM64_INS_SMLSL,
+  ARM64_INS_SMLSL2,
+  ARM64_INS_SMLSLB,
+  ARM64_INS_SMLSLT,
+  ARM64_INS_SMMLA,
+  ARM64_INS_SMNEGL,
+  ARM64_INS_SMOPA,
+  ARM64_INS_SMOPS,
+  ARM64_INS_SMOV,
+  ARM64_INS_SMSTART,
+  ARM64_INS_SMSTOP,
+  ARM64_INS_SMSUBL,
+  ARM64_INS_SMULH,
+  ARM64_INS_SMULL,
+  ARM64_INS_SMULL2,
+  ARM64_INS_SMULLB,
+  ARM64_INS_SMULLT,
+  ARM64_INS_SPLICE,
+  ARM64_INS_SQABS,
+  ARM64_INS_SQADD,
+  ARM64_INS_SQCADD,
+  ARM64_INS_SQDECB,
+  ARM64_INS_SQDECD,
+  ARM64_INS_SQDECH,
+  ARM64_INS_SQDECP,
+  ARM64_INS_SQDECW,
+  ARM64_INS_SQDMLAL,
+  ARM64_INS_SQDMLAL2,
+  ARM64_INS_SQDMLALB,
+  ARM64_INS_SQDMLALBT,
+  ARM64_INS_SQDMLALT,
+  ARM64_INS_SQDMLSL,
+  ARM64_INS_SQDMLSL2,
+  ARM64_INS_SQDMLSLB,
+  ARM64_INS_SQDMLSLBT,
+  ARM64_INS_SQDMLSLT,
+  ARM64_INS_SQDMULH,
+  ARM64_INS_SQDMULL,
+  ARM64_INS_SQDMULL2,
+  ARM64_INS_SQDMULLB,
+  ARM64_INS_SQDMULLT,
+  ARM64_INS_SQINCB,
+  ARM64_INS_SQINCD,
+  ARM64_INS_SQINCH,
+  ARM64_INS_SQINCP,
+  ARM64_INS_SQINCW,
+  ARM64_INS_SQNEG,
+  ARM64_INS_SQRDCMLAH,
+  ARM64_INS_SQRDMLAH,
+  ARM64_INS_SQRDMLSH,
+  ARM64_INS_SQRDMULH,
+  ARM64_INS_SQRSHL,
+  ARM64_INS_SQRSHLR,
+  ARM64_INS_SQRSHRN,
+  ARM64_INS_SQRSHRN2,
+  ARM64_INS_SQRSHRNB,
+  ARM64_INS_SQRSHRNT,
+  ARM64_INS_SQRSHRUN,
+  ARM64_INS_SQRSHRUN2,
+  ARM64_INS_SQRSHRUNB,
+  ARM64_INS_SQRSHRUNT,
+  ARM64_INS_SQSHL,
+  ARM64_INS_SQSHLR,
+  ARM64_INS_SQSHLU,
+  ARM64_INS_SQSHRN,
+  ARM64_INS_SQSHRN2,
+  ARM64_INS_SQSHRNB,
+  ARM64_INS_SQSHRNT,
+  ARM64_INS_SQSHRUN,
+  ARM64_INS_SQSHRUN2,
+  ARM64_INS_SQSHRUNB,
+  ARM64_INS_SQSHRUNT,
+  ARM64_INS_SQSUB,
+  ARM64_INS_SQSUBR,
+  ARM64_INS_SQXTN,
+  ARM64_INS_SQXTN2,
+  ARM64_INS_SQXTNB,
+  ARM64_INS_SQXTNT,
+  ARM64_INS_SQXTUN,
+  ARM64_INS_SQXTUN2,
+  ARM64_INS_SQXTUNB,
+  ARM64_INS_SQXTUNT,
+  ARM64_INS_SRHADD,
+  ARM64_INS_SRI,
+  ARM64_INS_SRSHL,
+  ARM64_INS_SRSHLR,
+  ARM64_INS_SRSHR,
+  ARM64_INS_SRSRA,
+  ARM64_INS_SSBB,
+  ARM64_INS_SSHL,
+  ARM64_INS_SSHLL,
+  ARM64_INS_SSHLL2,
+  ARM64_INS_SSHLLB,
+  ARM64_INS_SSHLLT,
+  ARM64_INS_SSHR,
+  ARM64_INS_SSRA,
+  ARM64_INS_SSUBL,
+  ARM64_INS_SSUBL2,
+  ARM64_INS_SSUBLB,
+  ARM64_INS_SSUBLBT,
+  ARM64_INS_SSUBLT,
+  ARM64_INS_SSUBLTB,
+  ARM64_INS_SSUBW,
+  ARM64_INS_SSUBW2,
+  ARM64_INS_SSUBWB,
+  ARM64_INS_SSUBWT,
+  ARM64_INS_ST1,
+  ARM64_INS_ST1B,
+  ARM64_INS_ST1D,
+  ARM64_INS_ST1H,
+  ARM64_INS_ST1Q,
+  ARM64_INS_ST1W,
+  ARM64_INS_ST2,
+  ARM64_INS_ST2B,
+  ARM64_INS_ST2D,
+  ARM64_INS_ST2G,
+  ARM64_INS_ST2H,
+  ARM64_INS_ST2W,
+  ARM64_INS_ST3,
+  ARM64_INS_ST3B,
+  ARM64_INS_ST3D,
+  ARM64_INS_ST3H,
+  ARM64_INS_ST3W,
+  ARM64_INS_ST4,
+  ARM64_INS_ST4B,
+  ARM64_INS_ST4D,
+  ARM64_INS_ST4H,
+  ARM64_INS_ST4W,
+  ARM64_INS_ST64B,
+  ARM64_INS_ST64BV,
+  ARM64_INS_ST64BV0,
+  ARM64_INS_STADD,
+  ARM64_INS_STADDB,
+  ARM64_INS_STADDH,
+  ARM64_INS_STADDL,
+  ARM64_INS_STADDLB,
+  ARM64_INS_STADDLH,
+  ARM64_INS_STCLR,
+  ARM64_INS_STCLRB,
+  ARM64_INS_STCLRH,
+  ARM64_INS_STCLRL,
+  ARM64_INS_STCLRLB,
+  ARM64_INS_STCLRLH,
+  ARM64_INS_STEOR,
+  ARM64_INS_STEORB,
+  ARM64_INS_STEORH,
+  ARM64_INS_STEORL,
+  ARM64_INS_STEORLB,
+  ARM64_INS_STEORLH,
+  ARM64_INS_STG,
+  ARM64_INS_STGM,
+  ARM64_INS_STGP,
+  ARM64_INS_STLLR,
+  ARM64_INS_STLLRB,
+  ARM64_INS_STLLRH,
+  ARM64_INS_STLR,
+  ARM64_INS_STLRB,
+  ARM64_INS_STLRH,
+  ARM64_INS_STLUR,
+  ARM64_INS_STLURB,
+  ARM64_INS_STLURH,
+  ARM64_INS_STLXP,
+  ARM64_INS_STLXR,
+  ARM64_INS_STLXRB,
+  ARM64_INS_STLXRH,
+  ARM64_INS_STNP,
+  ARM64_INS_STNT1B,
+  ARM64_INS_STNT1D,
+  ARM64_INS_STNT1H,
+  ARM64_INS_STNT1W,
+  ARM64_INS_STP,
+  ARM64_INS_STR,
+  ARM64_INS_STRB,
+  ARM64_INS_STRH,
+  ARM64_INS_STSET,
+  ARM64_INS_STSETB,
+  ARM64_INS_STSETH,
+  ARM64_INS_STSETL,
+  ARM64_INS_STSETLB,
+  ARM64_INS_STSETLH,
+  ARM64_INS_STSMAX,
+  ARM64_INS_STSMAXB,
+  ARM64_INS_STSMAXH,
+  ARM64_INS_STSMAXL,
+  ARM64_INS_STSMAXLB,
+  ARM64_INS_STSMAXLH,
+  ARM64_INS_STSMIN,
+  ARM64_INS_STSMINB,
+  ARM64_INS_STSMINH,
+  ARM64_INS_STSMINL,
+  ARM64_INS_STSMINLB,
+  ARM64_INS_STSMINLH,
+  ARM64_INS_STTR,
+  ARM64_INS_STTRB,
+  ARM64_INS_STTRH,
+  ARM64_INS_STUMAX,
+  ARM64_INS_STUMAXB,
+  ARM64_INS_STUMAXH,
+  ARM64_INS_STUMAXL,
+  ARM64_INS_STUMAXLB,
+  ARM64_INS_STUMAXLH,
+  ARM64_INS_STUMIN,
+  ARM64_INS_STUMINB,
+  ARM64_INS_STUMINH,
+  ARM64_INS_STUMINL,
+  ARM64_INS_STUMINLB,
+  ARM64_INS_STUMINLH,
+  ARM64_INS_STUR,
+  ARM64_INS_STURB,
+  ARM64_INS_STURH,
+  ARM64_INS_STXP,
+  ARM64_INS_STXR,
+  ARM64_INS_STXRB,
+  ARM64_INS_STXRH,
+  ARM64_INS_STZ2G,
+  ARM64_INS_STZG,
+  ARM64_INS_STZGM,
+  ARM64_INS_SUB,
+  ARM64_INS_SUBG,
+  ARM64_INS_SUBHN,
+  ARM64_INS_SUBHN2,
+  ARM64_INS_SUBHNB,
+  ARM64_INS_SUBHNT,
+  ARM64_INS_SUBP,
+  ARM64_INS_SUBPS,
+  ARM64_INS_SUBR,
+  ARM64_INS_SUBS,
+  ARM64_INS_SUDOT,
+  ARM64_INS_SUMOPA,
+  ARM64_INS_SUMOPS,
+  ARM64_INS_SUNPKHI,
+  ARM64_INS_SUNPKLO,
+  ARM64_INS_SUQADD,
+  ARM64_INS_SVC,
+  ARM64_INS_SWP,
+  ARM64_INS_SWPA,
+  ARM64_INS_SWPAB,
+  ARM64_INS_SWPAH,
+  ARM64_INS_SWPAL,
+  ARM64_INS_SWPALB,
+  ARM64_INS_SWPALH,
+  ARM64_INS_SWPB,
+  ARM64_INS_SWPH,
+  ARM64_INS_SWPL,
+  ARM64_INS_SWPLB,
+  ARM64_INS_SWPLH,
+  ARM64_INS_SXTB,
+  ARM64_INS_SXTH,
+  ARM64_INS_SXTL,
+  ARM64_INS_SXTL2,
+  ARM64_INS_SXTW,
+  ARM64_INS_SYS,
+  ARM64_INS_SYSL,
+  ARM64_INS_TBL,
+  ARM64_INS_TBNZ,
+  ARM64_INS_TBX,
+  ARM64_INS_TBZ,
+  ARM64_INS_TCANCEL,
+  ARM64_INS_TCOMMIT,
+  ARM64_INS_TRN1,
+  ARM64_INS_TRN2,
+  ARM64_INS_TSB,
+  ARM64_INS_TST,
+  ARM64_INS_TSTART,
+  ARM64_INS_TTEST,
+  ARM64_INS_UABA,
+  ARM64_INS_UABAL,
+  ARM64_INS_UABAL2,
+  ARM64_INS_UABALB,
+  ARM64_INS_UABALT,
+  ARM64_INS_UABD,
+  ARM64_INS_UABDL,
+  ARM64_INS_UABDL2,
+  ARM64_INS_UABDLB,
+  ARM64_INS_UABDLT,
+  ARM64_INS_UADALP,
+  ARM64_INS_UADDL,
+  ARM64_INS_UADDL2,
+  ARM64_INS_UADDLB,
+  ARM64_INS_UADDLP,
+  ARM64_INS_UADDLT,
+  ARM64_INS_UADDLV,
+  ARM64_INS_UADDV,
+  ARM64_INS_UADDW,
+  ARM64_INS_UADDW2,
+  ARM64_INS_UADDWB,
+  ARM64_INS_UADDWT,
+  ARM64_INS_UBFM,
+  ARM64_INS_UCLAMP,
+  ARM64_INS_UCVTF,
+  ARM64_INS_UDF,
+  ARM64_INS_UDIV,
+  ARM64_INS_UDIVR,
+  ARM64_INS_UDOT,
+  ARM64_INS_UHADD,
+  ARM64_INS_UHSUB,
+  ARM64_INS_UHSUBR,
+  ARM64_INS_UMADDL,
+  ARM64_INS_UMAX,
+  ARM64_INS_UMAXP,
+  ARM64_INS_UMAXV,
+  ARM64_INS_UMIN,
+  ARM64_INS_UMINP,
+  ARM64_INS_UMINV,
+  ARM64_INS_UMLAL,
+  ARM64_INS_UMLAL2,
+  ARM64_INS_UMLALB,
+  ARM64_INS_UMLALT,
+  ARM64_INS_UMLSL,
+  ARM64_INS_UMLSL2,
+  ARM64_INS_UMLSLB,
+  ARM64_INS_UMLSLT,
+  ARM64_INS_UMMLA,
+  ARM64_INS_UMNEGL,
+  ARM64_INS_UMOPA,
+  ARM64_INS_UMOPS,
+  ARM64_INS_UMOV,
+  ARM64_INS_UMSUBL,
+  ARM64_INS_UMULH,
+  ARM64_INS_UMULL,
+  ARM64_INS_UMULL2,
+  ARM64_INS_UMULLB,
+  ARM64_INS_UMULLT,
+  ARM64_INS_UQADD,
+  ARM64_INS_UQDECB,
+  ARM64_INS_UQDECD,
+  ARM64_INS_UQDECH,
+  ARM64_INS_UQDECP,
+  ARM64_INS_UQDECW,
+  ARM64_INS_UQINCB,
+  ARM64_INS_UQINCD,
+  ARM64_INS_UQINCH,
+  ARM64_INS_UQINCP,
+  ARM64_INS_UQINCW,
+  ARM64_INS_UQRSHL,
+  ARM64_INS_UQRSHLR,
+  ARM64_INS_UQRSHRN,
+  ARM64_INS_UQRSHRN2,
+  ARM64_INS_UQRSHRNB,
+  ARM64_INS_UQRSHRNT,
+  ARM64_INS_UQSHL,
+  ARM64_INS_UQSHLR,
+  ARM64_INS_UQSHRN,
+  ARM64_INS_UQSHRN2,
+  ARM64_INS_UQSHRNB,
+  ARM64_INS_UQSHRNT,
+  ARM64_INS_UQSUB,
+  ARM64_INS_UQSUBR,
+  ARM64_INS_UQXTN,
+  ARM64_INS_UQXTN2,
+  ARM64_INS_UQXTNB,
+  ARM64_INS_UQXTNT,
+  ARM64_INS_URECPE,
+  ARM64_INS_URHADD,
+  ARM64_INS_URSHL,
+  ARM64_INS_URSHLR,
+  ARM64_INS_URSHR,
+  ARM64_INS_URSQRTE,
+  ARM64_INS_URSRA,
+  ARM64_INS_USDOT,
+  ARM64_INS_USHL,
+  ARM64_INS_USHLL,
+  ARM64_INS_USHLL2,
+  ARM64_INS_USHLLB,
+  ARM64_INS_USHLLT,
+  ARM64_INS_USHR,
+  ARM64_INS_USMMLA,
+  ARM64_INS_USMOPA,
+  ARM64_INS_USMOPS,
+  ARM64_INS_USQADD,
+  ARM64_INS_USRA,
+  ARM64_INS_USUBL,
+  ARM64_INS_USUBL2,
+  ARM64_INS_USUBLB,
+  ARM64_INS_USUBLT,
+  ARM64_INS_USUBW,
+  ARM64_INS_USUBW2,
+  ARM64_INS_USUBWB,
+  ARM64_INS_USUBWT,
+  ARM64_INS_UUNPKHI,
+  ARM64_INS_UUNPKLO,
+  ARM64_INS_UXTB,
+  ARM64_INS_UXTH,
+  ARM64_INS_UXTL,
+  ARM64_INS_UXTL2,
+  ARM64_INS_UXTW,
+  ARM64_INS_UZP1,
+  ARM64_INS_UZP2,
+  ARM64_INS_WFE,
+  ARM64_INS_WFET,
+  ARM64_INS_WFI,
+  ARM64_INS_WFIT,
+  ARM64_INS_WHILEGE,
+  ARM64_INS_WHILEGT,
+  ARM64_INS_WHILEHI,
+  ARM64_INS_WHILEHS,
+  ARM64_INS_WHILELE,
+  ARM64_INS_WHILELO,
+  ARM64_INS_WHILELS,
+  ARM64_INS_WHILELT,
+  ARM64_INS_WHILERW,
+  ARM64_INS_WHILEWR,
+  ARM64_INS_WRFFR,
+  ARM64_INS_XAFLAG,
+  ARM64_INS_XAR,
+  ARM64_INS_XPACD,
+  ARM64_INS_XPACI,
+  ARM64_INS_XPACLRI,
+  ARM64_INS_XTN,
+  ARM64_INS_XTN2,
+  ARM64_INS_YIELD,
+  ARM64_INS_ZERO,
+  ARM64_INS_ZIP1,
+  ARM64_INS_ZIP2,
 
-	// alias insn
-	ARM64_INS_SBFIZ,
-	ARM64_INS_UBFIZ,
-	ARM64_INS_SBFX,
-	ARM64_INS_UBFX,
-	ARM64_INS_BFI,
-	ARM64_INS_BFXIL,
-	ARM64_INS_IC,
-	ARM64_INS_DC,
-	ARM64_INS_AT,
-	ARM64_INS_TLBI,
+  // alias insn
+  ARM64_INS_SBFIZ,
+  ARM64_INS_UBFIZ,
+  ARM64_INS_SBFX,
+  ARM64_INS_UBFX,
+  ARM64_INS_BFI,
+  ARM64_INS_BFXIL,
+  ARM64_INS_IC,
+  ARM64_INS_DC,
+  ARM64_INS_AT,
+  ARM64_INS_TLBI,
 
-	ARM64_INS_ENDING,  // <-- mark the end of the list of insn
+  ARM64_INS_ENDING, // <-- mark the end of the list of insn
 } arm64_insn;
 
 /// Group of ARM64 instructions
 typedef enum arm64_insn_group {
-	ARM64_GRP_INVALID = 0, ///< = CS_GRP_INVALID
+  ARM64_GRP_INVALID = 0, ///< = CS_GRP_INVALID
 
-	// Generic groups
-	// all jump instructions (conditional+direct+indirect jumps)
-	ARM64_GRP_JUMP,	///< = CS_GRP_JUMP
-	ARM64_GRP_CALL,
-	ARM64_GRP_RET,
-	ARM64_GRP_INT,
-	ARM64_GRP_PRIVILEGE = 6, ///< = CS_GRP_PRIVILEGE
-	ARM64_GRP_BRANCH_RELATIVE, ///< = CS_GRP_BRANCH_RELATIVE
-	ARM64_GRP_PAC,
+  // Generic groups
+  // all jump instructions (conditional+direct+indirect jumps)
+  ARM64_GRP_JUMP, ///< = CS_GRP_JUMP
+  ARM64_GRP_CALL,
+  ARM64_GRP_RET,
+  ARM64_GRP_INT,
+  ARM64_GRP_PRIVILEGE = 6,   ///< = CS_GRP_PRIVILEGE
+  ARM64_GRP_BRANCH_RELATIVE, ///< = CS_GRP_BRANCH_RELATIVE
+  ARM64_GRP_PAC,
 
-	// Architecture-specific groups
-	ARM64_GRP_CRYPTO = 128,
-	ARM64_GRP_FPARMV8,
-	ARM64_GRP_NEON,
-	ARM64_GRP_CRC,
-	ARM64_GRP_AES,
-	ARM64_GRP_DOTPROD,
-	ARM64_GRP_FULLFP16,
-	ARM64_GRP_LSE,
-	ARM64_GRP_RCPC,
-	ARM64_GRP_RDM,
-	ARM64_GRP_SHA2,
-	ARM64_GRP_SHA3,
-	ARM64_GRP_SM4,
-	ARM64_GRP_SVE,
-	ARM64_GRP_V8_1A,
-	ARM64_GRP_V8_3A,
-	ARM64_GRP_V8_4A,
+  // Architecture-specific groups
+  ARM64_GRP_CRYPTO = 128,
+  ARM64_GRP_FPARMV8,
+  ARM64_GRP_NEON,
+  ARM64_GRP_CRC,
+  ARM64_GRP_AES,
+  ARM64_GRP_DOTPROD,
+  ARM64_GRP_FULLFP16,
+  ARM64_GRP_LSE,
+  ARM64_GRP_RCPC,
+  ARM64_GRP_RDM,
+  ARM64_GRP_SHA2,
+  ARM64_GRP_SHA3,
+  ARM64_GRP_SM4,
+  ARM64_GRP_SVE,
+  ARM64_GRP_SVE2,
+  ARM64_GRP_SVE2AES,
+  ARM64_GRP_SVE2BitPerm,
+  ARM64_GRP_SVE2SHA3,
+  ARM64_GRP_SVE2SM4,
+  ARM64_GRP_SME,
+  ARM64_GRP_SMEF64,
+  ARM64_GRP_SMEI64,
+  ARM64_GRP_MatMulFP32,
+  ARM64_GRP_MatMulFP64,
+  ARM64_GRP_MatMulInt8,
+  ARM64_GRP_V8_1A,
+  ARM64_GRP_V8_3A,
+  ARM64_GRP_V8_4A,
 
-	ARM64_GRP_ENDING,  // <-- mark the end of the list of groups
+  ARM64_GRP_ENDING, // <-- mark the end of the list of groups
 } arm64_insn_group;
 
 #ifdef __cplusplus
@@ -43148,6 +46237,46 @@ typedef enum ppc_insn {
 	PPC_INS_XXSPLTIB,
 	PPC_INS_XXSPLTW,
 	PPC_INS_XXSWAPD,
+
+	PPC_INS_DCBZ_L,
+	PPC_INS_PSQ_L,
+	PPC_INS_PSQ_LU,
+	PPC_INS_PSQ_LUX,
+	PPC_INS_PSQ_LX,
+	PPC_INS_PSQ_ST,
+	PPC_INS_PSQ_STU,
+	PPC_INS_PSQ_STUX,
+	PPC_INS_PSQ_STX,
+	PPC_INS_PS_ABS,
+	PPC_INS_PS_ADD,
+	PPC_INS_PS_CMPO0,
+	PPC_INS_PS_CMPO1,
+	PPC_INS_PS_CMPU0,
+	PPC_INS_PS_CMPU1,
+	PPC_INS_PS_DIV,
+	PPC_INS_PS_MADD,
+	PPC_INS_PS_MADDS0,
+	PPC_INS_PS_MADDS1,
+	PPC_INS_PS_MERGE00,
+	PPC_INS_PS_MERGE01,
+	PPC_INS_PS_MERGE10,
+	PPC_INS_PS_MERGE11,
+	PPC_INS_PS_MR,
+	PPC_INS_PS_MSUB,
+	PPC_INS_PS_MUL,
+	PPC_INS_PS_MULS0,
+	PPC_INS_PS_MULS1,
+	PPC_INS_PS_NABS,
+	PPC_INS_PS_NEG,
+	PPC_INS_PS_NMADD,
+	PPC_INS_PS_NMSUB,
+	PPC_INS_PS_RES,
+	PPC_INS_PS_RSQRTE,
+	PPC_INS_PS_SEL,
+	PPC_INS_PS_SUB,
+	PPC_INS_PS_SUM0,
+	PPC_INS_PS_SUM1,
+
 	PPC_INS_ENDING,   // <-- mark the end of the list of instructions
 } ppc_insn;
 
@@ -43174,6 +46303,7 @@ typedef enum ppc_insn_group {
 	PPC_GRP_P8ALTIVEC,
 	PPC_GRP_P8VECTOR,
 	PPC_GRP_QPX,
+	PPC_GRP_PS,
 
 	PPC_GRP_ENDING,   // <-- mark the end of the list of groups
 } ppc_insn_group;
@@ -50733,6 +53863,7 @@ typedef enum bpf_insn {
 	BPF_INS_JSGT,	///< eBPF only
 	BPF_INS_JSGE,	///< eBPF only
 	BPF_INS_CALL,	///< eBPF only
+	BPF_INS_CALLX,	///< eBPF only
 	BPF_INS_EXIT,	///< eBPF only
 	BPF_INS_JLT,	///< eBPF only
 	BPF_INS_JLE,	///< eBPF only
@@ -52560,6 +55691,7 @@ struct _GumDebugSymbolDetails
   gchar symbol_name[GUM_MAX_SYMBOL_NAME + 1];
   gchar file_name[GUM_MAX_PATH + 1];
   guint line_number;
+  guint column;
 };
 
 G_BEGIN_DECLS
