@@ -82,6 +82,11 @@ impl EventSink for NoneEventSink {
     }
 }
 
+#[cfg(feature = "stalker-observer")]
+mod observer;
+#[cfg(feature = "stalker-observer")]
+pub use observer::*;
+
 /// Code tracing engine interface.
 pub struct Stalker<'a> {
     stalker: *mut frida_gum_sys::GumStalker,
@@ -212,6 +217,15 @@ impl<'a> Stalker<'a> {
     /// Enable (experimental) unwind hooking
     pub fn enable_unwind_hooking(&mut self) {
         unsafe { gum_sys::gum_stalker_activate_experimental_unwind_support() }
+    }
+
+    #[cfg(feature = "stalker-observer")]
+    #[cfg_attr(doc_cfg, doc(cfg(feature = "stalker-observer")))]
+    pub fn set_observer<O: StalkerObserver>(&mut self, observer: &O) {
+        let obs = stalker_observer_transform(observer);
+        unsafe {
+            gum_sys::gum_stalker_set_observer(self.stalker, obs);
+        }
     }
 }
 

@@ -6,6 +6,7 @@ members = [
     "frida",
     "examples/gum/open",
     "examples/gum/stalker",
+    "examples/gum/stalker_observer",
     "examples/gum/hook_open",
     "examples/gum/hook_instruction",
     "examples/gum/debug_symbol",
