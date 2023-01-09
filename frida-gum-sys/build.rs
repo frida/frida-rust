@@ -52,7 +52,7 @@ fn main() {
     let bindings = bindgen::Builder::default();
 
     #[cfg(feature = "auto-download")]
-    let bindings = bindings.clang_arg(format!("-I{}", include_dir));
+    let bindings = bindings.clang_arg(format!("-I{include_dir}"));
 
     #[cfg(not(feature = "auto-download"))]
     let bindings = if std::env::var("DOCS_RS").is_ok() {
@@ -143,7 +143,7 @@ fn main() {
 
         #[cfg(feature = "auto-download")]
         #[allow(unused_mut)]
-        let mut builder = builder.include(include_dir.clone());
+        let mut builder = builder.include(include_dir);
 
         #[cfg(not(feature = "auto-download"))]
         let builder = if std::env::var("DOCS_RS").is_ok() {

@@ -8,6 +8,11 @@
 //! Module helpers.
 //!
 
+#![cfg_attr(
+    any(target_arch = "x86_64", target_arch = "x86"),
+    allow(clippy::unnecessary_cast)
+)]
+
 use frida_gum_sys as gum_sys;
 use std::convert::TryInto;
 use std::ffi::CString;

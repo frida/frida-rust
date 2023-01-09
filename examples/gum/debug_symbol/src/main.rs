@@ -19,7 +19,7 @@ fn main() {
         symbol_details.file_name(),
         symbol_details.line_number()
     );
-    println!("{:?}", symbol_details);
+    println!("{symbol_details:?}");
 
     let symbol_details = DebugSymbol::from_name("open").unwrap();
     println!(
@@ -30,5 +30,5 @@ fn main() {
         symbol_details.file_name(),
         symbol_details.line_number()
     );
-    println!("{:?}", symbol_details);
+    println!("{symbol_details:?}");
 }

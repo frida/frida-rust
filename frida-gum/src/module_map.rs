@@ -5,6 +5,11 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
+#![cfg_attr(
+    any(target_arch = "x86_64", target_arch = "x86"),
+    allow(clippy::unnecessary_cast)
+)]
+
 use frida_gum_sys as gum_sys;
 use std::{ffi::CStr, os::raw::c_void, path::Path};
 

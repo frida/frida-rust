@@ -33,7 +33,7 @@ fn download_and_use_devkit_internal(
 
     let os = env::var("CARGO_CFG_TARGET_OS").unwrap();
 
-    let devkit_name = format!("frida-{}-devkit-{}-{}-{}", kind, version, os, target_arch,);
+    let devkit_name = format!("frida-{kind}-devkit-{version}-{os}-{target_arch}",);
 
     let devkit_path = out_dir_path.join(&devkit_name);
     let devkit_tar = out_dir_path.join(format!("{}.tar.xz", &devkit_name));
@@ -45,8 +45,7 @@ fn download_and_use_devkit_internal(
     if !devkit_path.is_dir() {
         if !devkit_tar.is_file() {
             let frida_url = format!(
-                "https://github.com/frida/frida/releases/download/{}/{}.tar.xz",
-                version, devkit_name,
+                "https://github.com/frida/frida/releases/download/{version}/{devkit_name}.tar.xz",
             );
 
             println!(
@@ -66,7 +65,7 @@ fn download_and_use_devkit_internal(
     }
 
     println!("cargo:rustc-link-search={}", out_dir.to_string_lossy());
-    println!("cargo:rustc-link-lib=static=frida-{}", kind);
+    println!("cargo:rustc-link-lib=static=frida-{kind}");
 
     Ok(out_dir.to_string_lossy().to_string())
 }
@@ -75,10 +74,7 @@ fn download_and_use_devkit_internal(
 pub fn download_and_use_devkit(kind: &str, version: &str) -> String {
     download_and_use_devkit_internal(kind, version, false)
         .or_else(|e| {
-            println!(
-                "cargo:warning=Failed to unpack devkit: {}, retrying download...",
-                e
-            );
+            println!("cargo:warning=Failed to unpack devkit: {e}, retrying download...");
             download_and_use_devkit_internal(kind, version, true)
         })
         .expect("cannot extract the devkit tar.gz")
