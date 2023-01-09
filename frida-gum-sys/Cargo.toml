@@ -12,6 +12,7 @@ auto-download = ["frida-build"]
 event-sink = ["cc"]
 invocation-listener = ["cc"]
 stalker-observer = ["cc"]
+stalker-params = ["cc"]
 
 [build-dependencies]
 bindgen = "0.63"

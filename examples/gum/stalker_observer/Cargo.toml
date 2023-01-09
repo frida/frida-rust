@@ -7,6 +7,6 @@ license = "wxWindows"
 publish = false
 
 [dependencies]
-frida-gum = { path = "../../../frida-gum", features = ["event-sink", "invocation-listener", "stalker-observer"] }
+frida-gum = { path = "../../../frida-gum", features = ["event-sink", "invocation-listener", "stalker-observer", "stalker-params"] }
 frida-gum-sys = { path = "../../../frida-gum-sys" }
 lazy_static = "1.4"

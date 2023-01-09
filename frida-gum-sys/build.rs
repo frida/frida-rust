@@ -30,6 +30,12 @@ fn main() {
         println!("cargo:rerun-if-changed=stalker_observer.h");
     }
 
+    #[cfg(feature = "stalker-params")]
+    {
+        println!("cargo:rerun-if-changed=stalker_params.c");
+        println!("cargo:rerun-if-changed=stalker_params.h");
+    }
+
     println!(
         "cargo:rustc-link-search={}",
         env::var("CARGO_MANIFEST_DIR").unwrap()
@@ -67,6 +73,7 @@ fn main() {
         .header("invocation_listener.h")
         .header("probe_listener.h")
         .header("stalker_observer.h")
+        .header("stalker_params.h")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate_comments(false)
         .layout_tests(false)
@@ -143,7 +150,7 @@ fn main() {
 
         #[cfg(feature = "auto-download")]
         #[allow(unused_mut)]
-        let mut builder = builder.include(include_dir);
+        let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
         let builder = if std::env::var("DOCS_RS").is_ok() {
@@ -156,6 +163,27 @@ fn main() {
             .file("stalker_observer.c")
             .opt_level(3)
             .compile("stalker_observer");
+    }
+
+    #[cfg(feature = "stalker-params")]
+    {
+        let mut builder = cc::Build::new();
+
+        #[cfg(feature = "auto-download")]
+        #[allow(unused_mut)]
+        let mut builder = builder.include(include_dir);
+
+        #[cfg(not(feature = "auto-download"))]
+        let builder = if std::env::var("DOCS_RS").is_ok() {
+            builder.include("include")
+        } else {
+            &mut builder
+        };
+
+        builder
+            .file("stalker_params.c")
+            .opt_level(3)
+            .compile("stalker_params");
     }
 
     #[cfg(target_os = "windows")]
