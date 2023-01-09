@@ -221,7 +221,7 @@ impl<'a> Stalker<'a> {
 
     #[cfg(feature = "stalker-observer")]
     #[cfg_attr(doc_cfg, doc(cfg(feature = "stalker-observer")))]
-    pub fn set_observer<O: StalkerObserver>(&mut self, observer: &O) {
+    pub fn set_observer<O: StalkerObserver>(&mut self, observer: &mut O) {
         let obs = stalker_observer_transform(observer);
         unsafe {
             gum_sys::gum_stalker_set_observer(self.stalker, obs);

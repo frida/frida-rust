@@ -68,6 +68,6 @@ fn main() {
 
     let mut event_sink = SampleEventSink;
     stalker.follow_me(&transformer, Some(&mut event_sink));
-    stalker.set_observer(&SampleStalkerObserver);
+    stalker.set_observer(&mut SampleStalkerObserver);
     stalker.unfollow_me();
 }

@@ -40,10 +40,10 @@ unsafe extern "C" fn switch_callback<S: StalkerObserver>(
 }
 
 pub(crate) fn stalker_observer_transform<S: StalkerObserver>(
-    mut stalker_observer: &S,
+    stalker_observer: &mut S,
 ) -> *mut frida_gum_sys::GumStalkerObserver {
     let rust = frida_gum_sys::RustStalkerObserverVTable {
-        user_data: &mut stalker_observer as *mut _ as *mut c_void,
+        user_data: stalker_observer as *mut S as *mut c_void,
         notify_backpatch: Some(notify_backpatch::<S>),
         switch_callback: Some(switch_callback::<S>),
     };
