@@ -116,6 +116,44 @@ impl<'a> Stalker<'a> {
         }
     }
 
+    /// Create a new Stalker with parameters
+    ///
+    /// This call has the overhead of checking if the Stalker is
+    /// available on the current platform, as creating a Stalker on an
+    /// unsupported platform results in unwanted behaviour.
+    #[cfg(all(target_arch = "aarch64", feature = "stalker-params"))]
+    pub fn new_with_params<'b>(gum: &'b Gum, ic_entries: u32) -> Stalker
+    where
+        'b: 'a,
+    {
+        assert!(Self::is_supported(gum));
+
+        Stalker {
+            stalker: unsafe { frida_gum_sys::gum_stalker_new_with_params(ic_entries) },
+            phantom: PhantomData,
+        }
+    }
+
+    /// Create a new Stalker with parameters
+    ///
+    /// This call has the overhead of checking if the Stalker is
+    /// available on the current platform, as creating a Stalker on an
+    /// unsupported platform results in unwanted behaviour.
+    #[cfg(all(target_arch = "x86_64", feature = "stalker-params"))]
+    pub fn new_with_params<'b>(gum: &'b Gum, ic_entries: u32, adjacent_blocks: u32) -> Stalker
+    where
+        'b: 'a,
+    {
+        assert!(Self::is_supported(gum));
+
+        Stalker {
+            stalker: unsafe {
+                frida_gum_sys::gum_stalker_new_with_params(ic_entries, adjacent_blocks)
+            },
+            phantom: PhantomData,
+        }
+    }
+
     /// Exclude a range of address from the Stalker engine.
     ///
     /// This exclusion will prevent the Stalker from tracing into the memory range,
