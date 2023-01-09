@@ -12,6 +12,7 @@ auto-download = ["frida-gum-sys/auto-download"]
 backtrace = ["libc"]
 event-sink = ["frida-gum-sys/event-sink"]
 invocation-listener = ["frida-gum-sys/invocation-listener"]
+stalker-observer = ["frida-gum-sys/stalker-observer"]
 
 [dependencies]
 frida-gum-sys = { path = "../frida-gum-sys", version = "0.6.0" }
@@ -31,5 +32,5 @@ lazy_static = "1"
 maintenance = { status = "experimental" }
 
 [package.metadata.docs.rs]
-features = ["event-sink", "invocation-listener"]
+features = ["event-sink", "invocation-listener", "stalker-observer"]
 rustdoc-args = ["--cfg", "doc_cfg"]

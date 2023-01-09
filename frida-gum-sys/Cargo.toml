@@ -11,6 +11,7 @@ description = "Rust generated bindings for Frida Gum"
 auto-download = ["frida-build"]
 event-sink = ["cc"]
 invocation-listener = ["cc"]
+stalker-observer = ["cc"]
 
 [build-dependencies]
 bindgen = "0.61.0"

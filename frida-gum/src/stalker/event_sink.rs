@@ -4,6 +4,11 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
+#![cfg_attr(
+    any(target_arch = "x86_64", target_arch = "x86"),
+    allow(clippy::unnecessary_cast)
+)]
+
 use crate::NativePointer;
 use frida_gum_sys as gum_sys;
 use gum_sys::_GumEvent as GumEvent;
