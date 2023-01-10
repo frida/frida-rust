@@ -1,0 +1,15 @@
+[package]
+name = "fast-interceptor"
+version = "0.1.0"
+authors = ["WorksButNotTested"]
+edition = "2018"
+license = "MIT"
+
+[dependencies]
+frida-gum = { path = "../../../frida-gum"}
+lazy_static = "1.4"
+ctor = "0.1"
+libc = "0.2.126"
+
+[build]
+rustflags = ["-C", "link-args=-rdynamic"]

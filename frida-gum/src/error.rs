@@ -28,4 +28,7 @@ pub enum Error {
     /// Memory access error
     #[error("Memory access error")]
     MemoryAccessError,
+
+    #[error("Wrong type")]
+    WrongType,
 }

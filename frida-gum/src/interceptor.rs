@@ -128,6 +128,47 @@ impl<'a> Interceptor<'a> {
                 gum_sys::GumReplaceReturn_GUM_REPLACE_POLICY_VIOLATION => {
                     Err(Error::PolicyViolation)
                 }
+                gum_sys::GumReplaceReturn_GUM_REPLACE_WRONG_TYPE => Err(Error::WrongType),
+                _ => Err(Error::InterceptorError),
+            }
+        }
+    }
+
+    /// Replace a function with another function. The new function should have the same signature
+    /// as the old one. This implementation avoids the overhead of the re-entrancy checking and
+    /// context push/pop of conventional interceptors returning the address of a simple trampoline
+    /// and patching the original function with the provided replacement. This type is not
+    /// interoperable with `attach` and requires the caller to pass any required data to the hook
+    /// function themselves.
+    ///
+    /// # Safety
+    ///
+    /// Assumes that the provided function and replacement addresses are valid and point to the
+    /// start of valid functions
+    pub fn replace_fast(
+        &mut self,
+        function: NativePointer,
+        replacement: NativePointer,
+    ) -> Result<NativePointer> {
+        let mut original_function = NativePointer(ptr::null_mut());
+        unsafe {
+            match gum_sys::gum_interceptor_replace_fast(
+                self.interceptor,
+                function.0,
+                replacement.0,
+                &mut original_function.0,
+            ) {
+                gum_sys::GumReplaceReturn_GUM_REPLACE_OK => Ok(original_function),
+                gum_sys::GumReplaceReturn_GUM_REPLACE_WRONG_SIGNATURE => {
+                    Err(Error::InterceptorBadSignature)
+                }
+                gum_sys::GumReplaceReturn_GUM_REPLACE_ALREADY_REPLACED => {
+                    Err(Error::InterceptorAlreadyReplaced)
+                }
+                gum_sys::GumReplaceReturn_GUM_REPLACE_POLICY_VIOLATION => {
+                    Err(Error::PolicyViolation)
+                }
+                gum_sys::GumReplaceReturn_GUM_REPLACE_WRONG_TYPE => Err(Error::WrongType),
                 _ => Err(Error::InterceptorError),
             }
         }
