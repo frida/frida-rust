@@ -32,4 +32,13 @@ pub enum Error {
     /// CString conversion failed.
     #[error("Failed to convert the string into CString")]
     CStringFailed,
+
+    /// Failed to inject library
+    #[error("Failed to inject library ({code}) {message}")]
+    InjectFailed {
+        /// Error code
+        code: i32,
+        /// Error message
+        message: String,
+    },
 }

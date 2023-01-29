@@ -23,6 +23,9 @@ pub use device_manager::*;
 mod error;
 pub use error::Error;
 
+mod injector;
+pub use injector::*;
+
 mod process;
 pub use process::*;
 
