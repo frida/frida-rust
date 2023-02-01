@@ -10,6 +10,7 @@ members = [
     "examples/gum/hook_open",
     "examples/gum/hook_instruction",
     "examples/gum/debug_symbol",
+    "examples/gum/fast_interceptor",
     "examples/core/hello",
     "examples/core/console_log",
 ]
