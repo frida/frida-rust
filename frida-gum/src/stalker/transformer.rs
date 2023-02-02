@@ -134,6 +134,8 @@ impl<'a> StalkerOutput<'a> {
             let writer = TargetInstructionWriter::from_raw((*self.output).writer.x86);
             #[cfg(target_arch = "aarch64")]
             let writer = TargetInstructionWriter::from_raw((*self.output).writer.arm64);
+            #[cfg(target_arch = "arm")]
+            let writer = TargetInstructionWriter::from_raw((*self.output).writer.arm);
 
             writer
         }

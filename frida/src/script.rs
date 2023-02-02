@@ -7,7 +7,7 @@
 use frida_sys::{FridaScriptOptions, _FridaScript};
 use std::marker::PhantomData;
 use std::{
-    ffi::{c_void, CStr, CString},
+    ffi::{c_char, c_void, CStr, CString},
     ptr::null_mut,
 };
 
@@ -21,7 +21,11 @@ unsafe extern "C" fn call_on_message<I: ScriptHandler>(
 ) {
     let handler: &mut I = &mut *(user_data as *mut I);
 
-    handler.on_message(CStr::from_ptr(message).to_str().unwrap_or_default());
+    handler.on_message(
+        CStr::from_ptr(message as *const c_char)
+            .to_str()
+            .unwrap_or_default(),
+    );
 }
 
 /// Represents a script signal handler.
