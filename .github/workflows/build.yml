@@ -161,3 +161,130 @@ jobs:
         run: |
           cd frida-gum
           cargo rustdoc --features "event-sink invocation-listener" -- --cfg doc_cfg
+  test-arm:
+    name: Test ARM32
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+      - name: Install
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            wget \
+            gcc-arm-linux-gnueabihf \
+            build-essential \
+            checkinstall \
+            zlib1g-dev \
+            git \
+            clang \
+            libssl-dev \
+            qemu-user
+      - name: OpenSSL
+        run: |
+          cd /tmp/
+          wget https://www.openssl.org/source/openssl-1.1.1f.tar.gz
+          tar zxvf openssl-1.1.1f.tar.gz
+          cd /tmp/openssl-1.1.1f/
+          CC=arm-linux-gnueabihf-gcc \
+            ./Configure \
+            linux-generic32 \
+            --prefix=/tmp/libopenssl/
+          make -j
+          make install_sw
+      - name: Rust
+        run: |
+          rustup target add armv7-unknown-linux-gnueabihf
+      - name: Build
+        run: |
+          export OPENSSL_DIR=/tmp/libopenssl/
+          export BINDGEN_EXTRA_CLANG_ARGS="-I/usr/arm-linux-gnueabihf/include"
+          export TARGET_CC=arm-linux-gnueabihf-gcc
+          export RUSTFLAGS="-C link-args=-Wl,-zmuldefs"
+          cargo build \
+            --config target.armv7-unknown-linux-gnueabihf.linker=\"arm-linux-gnueabihf-gcc\" \
+            --target armv7-unknown-linux-gnueabihf \
+            --features=auto-download
+      - name: Test Gum
+        run: |
+          export QEMU_LD_PREFIX=/usr/arm-linux-gnueabihf/
+          cd frida-gum && cargo test \
+            --config target.armv7-unknown-linux-gnueabihf.linker=\"arm-linux-gnueabihf-gcc\" \
+            --config target.armv7-unknown-linux-gnueabihf.runner=\"qemu-arm\" \
+            --target armv7-unknown-linux-gnueabihf \
+            --all-features
+      - name: Test Core
+        run: |
+          export QEMU_LD_PREFIX=/usr/arm-linux-gnueabihf/
+          cd frida && cargo test \
+            --config target.armv7-unknown-linux-gnueabihf.linker=\"arm-linux-gnueabihf-gcc\" \
+            --config target.armv7-unknown-linux-gnueabihf.runner=\"qemu-arm\" \
+            --target armv7-unknown-linux-gnueabihf \
+            --all-features
+  test-arm64:
+    name: Test ARM64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+      - name: Install
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            wget \
+            gcc-aarch64-linux-gnu \
+            build-essential \
+            checkinstall \
+            zlib1g-dev \
+            git \
+            clang \
+            libssl-dev \
+            qemu-user
+      - name: OpenSSL
+        run: |
+          cd /tmp/
+          wget https://www.openssl.org/source/openssl-1.1.1f.tar.gz
+          tar zxvf openssl-1.1.1f.tar.gz
+          cd /tmp/openssl-1.1.1f/
+          CC=aarch64-linux-gnu-gcc \
+            ./Configure \
+            linux-generic64 \
+            --prefix=/tmp/libopenssl/
+          make -j
+          make install_sw
+      - name: Rust
+        run: |
+          rustup target add aarch64-unknown-linux-gnu
+      - name: Build
+        run: |
+          export OPENSSL_DIR=/tmp/libopenssl/
+          export BINDGEN_EXTRA_CLANG_ARGS="-I/usr/arm-linux-gnueabihf/include"
+          export TARGET_CC=aarch64-linux-gnu-gcc
+          export RUSTFLAGS="-C link-args=-Wl,-zmuldefs"
+          export QEMU_LD_PREFIX=/usr/aarch64-linux-gnu/
+          cargo build \
+            --config target.aarch64-unknown-linux-gnu.linker=\"aarch64-linux-gnu-gcc\" \
+            --target aarch64-unknown-linux-gnu \
+            --features=auto-download
+      - name: Test Gum
+        run: |
+          export QEMU_LD_PREFIX=/usr/aarch64-linux-gnu/
+          cd frida-gum && cargo test \
+            --config target.aarch64-unknown-linux-gnu.linker=\"aarch64-linux-gnu-gcc\" \
+            --config target.aarch64-unknown-linux-gnu.runner=\"qemu-aarch64\" \
+            --target aarch64-unknown-linux-gnu \
+            --all-features
+      - name: Test Core
+        run: |
+          export QEMU_LD_PREFIX=/usr/aarch64-linux-gnu/
+          cd frida && cargo test \
+            --config target.aarch64-unknown-linux-gnu.linker=\"aarch64-linux-gnu-gcc\" \
+            --config target.aarch64-unknown-linux-gnu.runner=\"qemu-aarch64\" \
+            --target aarch64-unknown-linux-gnu \
+            --all-features
