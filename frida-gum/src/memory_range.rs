@@ -73,11 +73,12 @@ impl MemoryRange {
     pub fn scan(&self, pattern: &MatchPattern) -> Vec<ScanResult> {
         let mut results = Vec::new();
         unsafe {
-            extern "C" fn callback(
-                address: u64,
-                size: gum_sys::gsize,
-                user_data: *mut c_void,
-            ) -> i32 {
+            #[cfg(target_pointer_width = "32")]
+            extern "C" fn callback32(address: u64, size: u32, user_data: *mut c_void) -> i32 {
+                callback64(address, size as u64, user_data)
+            }
+
+            extern "C" fn callback64(address: u64, size: u64, user_data: *mut c_void) -> i32 {
                 let results: &mut Vec<ScanResult> =
                     unsafe { &mut *(user_data as *mut Vec<ScanResult>) };
                 results.push(ScanResult {
@@ -86,6 +87,13 @@ impl MemoryRange {
                 });
                 0
             }
+
+            #[cfg(target_pointer_width = "32")]
+            let callback = callback32;
+
+            #[cfg(target_pointer_width = "64")]
+            let callback = callback64;
+
             gum_sys::gum_memory_scan(
                 &self.memory_range as *const gum_sys::GumMemoryRange,
                 pattern.internal,
