@@ -14,7 +14,7 @@ invocation-listener = ["cc"]
 stalker-observer = ["cc"]
 
 [build-dependencies]
-bindgen = "0.61.0"
+bindgen = "0.63"
 cc = { version = "1.0", optional = true }
 frida-build = { path = "../frida-build", version = "0.2.1", optional = true }
 
