@@ -7,7 +7,12 @@
 use crate::{instruction_writer::TargetInstructionWriter, CpuContext, Gum};
 use capstone::Insn;
 use std::marker::PhantomData;
+
+#[cfg(not(feature = "nostd"))]
 use std::os::raw::c_void;
+
+#[cfg(feature = "nostd")]
+use {core::ffi::c_void, std::prelude::v1::*};
 
 pub struct StalkerIterator<'a> {
     iterator: *mut frida_gum_sys::GumStalkerIterator,

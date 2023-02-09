@@ -15,8 +15,12 @@
 
 use frida_gum_sys as gum_sys;
 use std::convert::TryInto;
-use std::ffi::CString;
-use std::os::raw::c_void;
+
+#[cfg(not(feature = "nostd"))]
+use std::{ffi::CString, os::raw::c_void};
+
+#[cfg(feature = "nostd")]
+use {core::ffi::c_void, cstr_core::CString, std::prelude::v1::*};
 
 use frida_gum_sys::{gboolean, gpointer, GumExportDetails, GumModuleDetails, GumSymbolDetails};
 

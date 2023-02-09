@@ -55,7 +55,11 @@ fn main() {
         println!("cargo:rustc-link-lib=pthread");
     }
 
+    #[cfg(not(feature = "nostd"))]
     let bindings = bindgen::Builder::default();
+
+    #[cfg(feature = "nostd")]
+    let bindings = bindgen::Builder::default().use_core();
 
     #[cfg(feature = "auto-download")]
     let bindings = bindings.clang_arg(format!("-I{include_dir}"));

@@ -1,10 +1,10 @@
-use std::convert::TryInto;
-use std::fmt;
-use std::mem::MaybeUninit;
-use std::{
-    ffi::{CStr, CString},
-    str::Utf8Error,
-};
+use std::{convert::TryInto, ffi::CStr, fmt, mem::MaybeUninit, str::Utf8Error};
+
+#[cfg(not(feature = "nostd"))]
+use std::ffi::CString;
+
+#[cfg(feature = "nostd")]
+use {cstr_core::CString, std::prelude::v1::*};
 
 use frida_gum_sys as gum_sys;
 use gum_sys::{gum_find_function, gum_symbol_details_from_address, GumDebugSymbolDetails};

@@ -11,10 +11,17 @@
 )]
 
 use frida_gum_sys as gum_sys;
-use std::{ffi::CStr, os::raw::c_void, path::Path};
+use std::ffi::CStr;
+
+#[cfg(not(feature = "nostd"))]
+use std::{os::raw::c_void, path::Path};
+
+#[cfg(feature = "nostd")]
+use {core::ffi::c_void, std::prelude::v1::*};
 
 use crate::{Gum, MemoryRange};
 
+#[cfg(not(feature = "nostd"))]
 struct SaveModuleDetailsByNameContext {
     name: String,
     details: *mut gum_sys::GumModuleDetails,
@@ -25,6 +32,7 @@ struct SaveModuleDetailsByAddressContext {
     details: *mut gum_sys::GumModuleDetails,
 }
 
+#[cfg(not(feature = "nostd"))]
 unsafe extern "C" fn save_module_details_by_name(
     details: *const gum_sys::GumModuleDetails,
     context: *mut c_void,
@@ -77,6 +85,7 @@ impl ModuleDetails {
     /// Get a new [`ModuleDetails`] instance for the module matching the given name. The name may
     /// be a full path, in which case the matching module must have the same full path, or a
     /// file name, in which case only the file name portion of the module must match.
+    #[cfg(not(feature = "nostd"))]
     pub fn with_name(name: String) -> Option<Self> {
         let mut context = SaveModuleDetailsByNameContext {
             name,
@@ -175,6 +184,7 @@ impl ModuleMap {
     }
 
     /// Create a new [`ModuleMap`] from a list of names
+    #[cfg(not(feature = "nostd"))]
     pub fn new_from_names(gum: &Gum, names: &[&str]) -> Self {
         Self::new_with_filter(gum, &mut |details: ModuleDetails| {
             for name in names {

@@ -42,7 +42,12 @@
 
 use frida_gum_sys as gum_sys;
 use std::marker::PhantomData;
+
+#[cfg(not(feature = "nostd"))]
 use std::os::raw::c_void;
+
+#[cfg(feature = "nostd")]
+use core::ffi::c_void;
 
 use crate::{Gum, MemoryRange, NativePointer};
 

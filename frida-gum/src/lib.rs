@@ -44,7 +44,7 @@
 //!     stalker.unfollow_me();
 //! }
 //! ```
-
+#![cfg_attr(feature = "nostd", no_std)]
 #![cfg_attr(doc_cfg, feature(doc_cfg))]
 #![deny(warnings)]
 #![allow(clippy::needless_doctest_main)]
@@ -55,9 +55,20 @@ extern crate num;
 #[macro_use]
 extern crate num_derive;
 
+#[cfg(feature = "nostd")]
+extern crate no_std_compat as std;
+
 use std::convert::TryFrom;
 use std::ffi::CStr;
+
+#[cfg(not(feature = "nostd"))]
 use std::os::raw::{c_char, c_void};
+
+#[cfg(feature = "nostd")]
+use {
+    core::ffi::{c_char, c_void},
+    std::prelude::v1::*,
+};
 
 pub mod stalker;
 

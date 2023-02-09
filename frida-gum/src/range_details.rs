@@ -14,6 +14,9 @@ use frida_gum_sys as gum_sys;
 use std::ffi::{c_void, CStr};
 use std::marker::PhantomData;
 
+#[cfg(feature = "nostd")]
+use std::prelude::v1::*;
+
 use crate::MemoryRange;
 
 /// The memory protection of an unassociated page.

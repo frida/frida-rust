@@ -4,7 +4,11 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
+#[cfg(not(feature = "nostd"))]
 use thiserror::Error;
+
+#[cfg(feature = "nostd")]
+use thiserror_no_std::Error;
 
 /// Custom `Error` for Frida
 #[derive(Error, Debug)]

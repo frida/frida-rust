@@ -5,6 +5,9 @@ use {
     std::{convert::TryInto, ffi::c_void},
 };
 
+#[cfg(feature = "nostd")]
+use std::prelude::v1::*;
+
 /// The x86/x86_64 instruction writer.
 pub struct X86InstructionWriter {
     pub(crate) writer: *mut gum_sys::_GumX86Writer,
