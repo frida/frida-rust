@@ -89,8 +89,44 @@ pub use observer::*;
 
 /// Code tracing engine interface.
 pub struct Stalker<'a> {
-    stalker: *mut frida_gum_sys::GumStalker,
+    pub(crate) stalker: *mut frida_gum_sys::GumStalker,
     phantom: PhantomData<&'a frida_gum_sys::GumStalker>,
+}
+
+/// Represents an attached stalker
+///
+/// This ensures the lifetime of the [Transformer] and corresponding
+/// [EventSink]. The thread stays stalked for the lifetime of the StalkerSession.
+#[cfg(feature = "event-sink")]
+#[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
+pub struct StalkerSession<'a, 'transfomer, 'sink, S: EventSink> {
+    stalker: &'a mut Stalker<'a>,
+    transfomer: &'transfomer Transformer,
+    sink: PhantomData<&'sink S>,
+}
+
+/// Represents an attached stalker
+///
+/// This ensures the lifetime of the [Transformer].
+/// The thread stays stalked for the lifetime of the StalkerSession.
+#[cfg(not(feature = "event-sink"))]
+#[cfg_attr(doc_cfg, doc(cfg(not(feature = "event-sink"))))]
+pub struct StalkerSession<'a, 'transfomer> {
+    stalker: &'a mut Stalker<'a>,
+    transfomer: &'transfomer Transformer,
+}
+
+impl<'a, 'transfomer, 'sink, S> StalkerSession<'a, 'transfomer, 'sink, S> {
+    /// Stop stalking the current thread.
+    pub fn unfollow_me(self) {
+        std::mem::drop(self)
+    }
+}
+
+impl<'a, 'transfomer, 'sink, S> Drop for StalkerSession<'a, 'transfomer, 'sink, S> {
+    fn drop(&mut self) {
+        unsafe { gum_sys::gum_stalker_unfollow_me(self.stalker.stalker) };
+    }
 }
 
 impl<'a> Stalker<'a> {
@@ -157,7 +193,7 @@ impl<'a> Stalker<'a> {
     /// Exclude a range of address from the Stalker engine.
     ///
     /// This exclusion will prevent the Stalker from tracing into the memory range,
-    /// reducing instrumentation overhead as well as potential noise from the [`EventSink`].
+    /// reducing instrumentation overhead as well as potential noise from the `EventSink`.
     pub fn exclude(&mut self, range: &MemoryRange) {
         unsafe { gum_sys::gum_stalker_exclude(self.stalker, &range.memory_range as *const _) };
     }
@@ -200,11 +236,11 @@ impl<'a> Stalker<'a> {
     /// periodically.
     #[cfg(feature = "event-sink")]
     #[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
-    pub fn follow_me<S: EventSink>(
-        &mut self,
+    pub fn follow_me<'a, S: EventSink>(
+        &'a mut self,
         transformer: &Transformer,
         event_sink: Option<&mut S>,
-    ) {
+    ) -> StalkerSession {
         let sink = if let Some(sink) = event_sink {
             event_sink_transform(sink)
         } else {
@@ -212,6 +248,12 @@ impl<'a> Stalker<'a> {
         };
 
         unsafe { gum_sys::gum_stalker_follow_me(self.stalker, transformer.transformer, sink) };
+
+        StalkerSession {
+            stalker: &mut self,
+            transfomer,
+            sink: PhantomData,
+        }
     }
 
     /// Begin the Stalker on the current thread.
@@ -222,7 +264,7 @@ impl<'a> Stalker<'a> {
     /// periodically.
     #[cfg(not(feature = "event-sink"))]
     #[cfg_attr(doc_cfg, doc(cfg(not(feature = "event-sink"))))]
-    pub fn follow_me(&mut self, transformer: &Transformer) {
+    pub fn follow_me(&mut self, transformer: &Transformer) -> StalkerSession {
         unsafe {
             gum_sys::gum_stalker_follow_me(
                 self.stalker,
@@ -230,11 +272,10 @@ impl<'a> Stalker<'a> {
                 std::ptr::null_mut(),
             )
         };
-    }
-
-    /// Stop stalking the current thread.
-    pub fn unfollow_me(&mut self) {
-        unsafe { gum_sys::gum_stalker_unfollow_me(self.stalker) };
+        StalkerSession {
+            stalker: &mut self,
+            transformer,
+        }
     }
 
     /// Check if the Stalker is running on the current thread.
