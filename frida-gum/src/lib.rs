@@ -115,6 +115,8 @@ impl Drop for Gum {
     }
 }
 
+#[derive(Copy, Clone, Hash, PartialEq, Eq)]
+#[repr(transparent)]
 pub struct NativePointer(pub *mut c_void);
 
 impl NativePointer {
