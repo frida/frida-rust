@@ -10,11 +10,17 @@
     allow(clippy::unnecessary_cast)
 )]
 
-use frida_gum_sys as gum_sys;
-use std::ffi::{c_void, CStr};
-use std::marker::PhantomData;
+use {
+    crate::MemoryRange,
+    core::{
+        ffi::{c_void, CStr},
+        marker::PhantomData,
+    },
+    frida_gum_sys as gum_sys,
+};
 
-use crate::MemoryRange;
+#[cfg(not(feature = "module-names"))]
+use alloc::boxed::Box;
 
 /// The memory protection of an unassociated page.
 #[derive(FromPrimitive)]
@@ -114,7 +120,7 @@ impl<'a> RangeDetails<'a> {
     pub fn with_address(address: u64) -> Option<RangeDetails<'a>> {
         let mut context = SaveRangeDetailsByAddressContext {
             address,
-            details: std::ptr::null_mut(),
+            details: core::ptr::null_mut(),
         };
         unsafe {
             gum_sys::gum_process_enumerate_ranges(

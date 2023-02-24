@@ -2,7 +2,7 @@ use {
     crate::instruction_writer::{Relocator, X86InstructionWriter},
     capstone::Insn,
     capstone_sys::cs_insn,
-    std::ffi::c_void,
+    core::ffi::c_void,
 };
 
 pub struct X86Relocator {
@@ -30,7 +30,7 @@ impl Relocator for X86Relocator {
             ) -> u32;
         }
 
-        let mut insn_addr: *const cs_insn = std::ptr::null_mut();
+        let mut insn_addr: *const cs_insn = core::ptr::null_mut();
         let ret = unsafe { gum_x86_relocator_read_one(self.inner, &mut insn_addr as *mut _) };
         (ret, unsafe { Insn::from_raw(insn_addr) })
     }

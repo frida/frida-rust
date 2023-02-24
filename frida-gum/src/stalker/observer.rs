@@ -4,8 +4,7 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
-use frida_gum_sys as gum_sys;
-use std::os::raw::c_void;
+use {core::ffi::c_void, frida_gum_sys as gum_sys};
 
 #[cfg_attr(doc_cfg, doc(cfg(feature = "stalker-observer")))]
 pub trait StalkerObserver {

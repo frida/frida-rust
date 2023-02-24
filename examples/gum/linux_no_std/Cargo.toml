@@ -1,0 +1,12 @@
+[package]
+name = "linux-no-std"
+version = "0.1.0"
+authors = []
+edition = "2018"
+license = "MIT"
+
+[dependencies]
+frida-gum = { path = "../../../frida-gum"}
+libc = { version = "0.2.126", default-features = false }
+libc-print = { version = "0.1.20", default-features = false }
+static-alloc = { version = "0.2.4", default-features = false }

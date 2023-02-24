@@ -2,9 +2,9 @@ use {
     crate::instruction_writer::{
         Aarch64BranchCondition, Aarch64Register, Argument, IndexMode, InstructionWriter,
     },
+    core::{convert::TryInto, ffi::c_void},
     frida_gum_sys as gum_sys,
     gum_sys::GumArgument,
-    std::{convert::TryInto, ffi::c_void},
 };
 
 /// The Aarch64 instruction writer.

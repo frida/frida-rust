@@ -1,9 +1,12 @@
 use {
     crate::instruction_writer::{Argument, InstructionWriter, X86BranchCondition, X86Register},
+    core::{convert::TryInto, ffi::c_void},
     frida_gum_sys as gum_sys,
     gum_sys::{gssize, GumArgument, GumBranchHint},
-    std::{convert::TryInto, ffi::c_void},
 };
+
+#[cfg(not(feature = "module-names"))]
+use alloc::vec::Vec;
 
 /// The x86/x86_64 instruction writer.
 pub struct X86InstructionWriter {

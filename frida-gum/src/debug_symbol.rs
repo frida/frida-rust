@@ -1,15 +1,10 @@
-use std::convert::TryInto;
-use std::fmt;
-use std::mem::MaybeUninit;
-use std::{
-    ffi::{CStr, CString},
-    str::Utf8Error,
+use {
+    crate::NativePointer,
+    core::{convert::TryInto, fmt, mem::MaybeUninit, str::Utf8Error},
+    cstr_core::{CStr, CString},
+    frida_gum_sys as gum_sys,
+    gum_sys::{gum_find_function, gum_symbol_details_from_address, GumDebugSymbolDetails},
 };
-
-use frida_gum_sys as gum_sys;
-use gum_sys::{gum_find_function, gum_symbol_details_from_address, GumDebugSymbolDetails};
-
-use crate::NativePointer;
 
 pub struct Symbol {
     gum_debug_symbol_details: GumDebugSymbolDetails,

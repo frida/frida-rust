@@ -2,7 +2,7 @@ use {
     crate::instruction_writer::{Aarch64InstructionWriter, Relocator},
     capstone::Insn,
     capstone_sys::cs_insn,
-    std::ffi::c_void,
+    core::ffi::c_void,
 };
 
 pub struct Aarch64Relocator {
@@ -32,7 +32,7 @@ impl Relocator for Aarch64Relocator {
             ) -> u32;
         }
 
-        let mut insn_addr: *const cs_insn = std::ptr::null_mut();
+        let mut insn_addr: *const cs_insn = core::ptr::null_mut();
         let ret = unsafe { gum_arm64_relocator_read_one(self.inner, &mut insn_addr as *mut _) };
         (ret, unsafe { Insn::from_raw(insn_addr) })
     }

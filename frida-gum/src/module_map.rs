@@ -10,11 +10,26 @@
     allow(clippy::unnecessary_cast)
 )]
 
-use frida_gum_sys as gum_sys;
-use std::{ffi::CStr, os::raw::c_void, path::Path};
+use {
+    crate::{Gum, MemoryRange},
+    core::{
+        ffi::{c_void, CStr},
+        slice::from_raw_parts,
+    },
+    frida_gum_sys as gum_sys,
+};
 
-use crate::{Gum, MemoryRange};
+#[cfg(not(feature = "module-names"))]
+use alloc::{
+    boxed::Box,
+    string::{String, ToString},
+    vec::Vec,
+};
 
+#[cfg(feature = "module-names")]
+use std::path::Path;
+
+#[cfg(feature = "module-names")]
 struct SaveModuleDetailsByNameContext {
     name: String,
     details: *mut gum_sys::GumModuleDetails,
@@ -25,6 +40,7 @@ struct SaveModuleDetailsByAddressContext {
     details: *mut gum_sys::GumModuleDetails,
 }
 
+#[cfg(feature = "module-names")]
 unsafe extern "C" fn save_module_details_by_name(
     details: *const gum_sys::GumModuleDetails,
     context: *mut c_void,
@@ -77,10 +93,11 @@ impl ModuleDetails {
     /// Get a new [`ModuleDetails`] instance for the module matching the given name. The name may
     /// be a full path, in which case the matching module must have the same full path, or a
     /// file name, in which case only the file name portion of the module must match.
+    #[cfg(feature = "module-names")]
     pub fn with_name(name: String) -> Option<Self> {
         let mut context = SaveModuleDetailsByNameContext {
             name,
-            details: std::ptr::null_mut(),
+            details: core::ptr::null_mut(),
         };
 
         unsafe {
@@ -101,7 +118,7 @@ impl ModuleDetails {
     pub fn with_address(address: u64) -> Option<Self> {
         let mut context = SaveModuleDetailsByAddressContext {
             address,
-            details: std::ptr::null_mut(),
+            details: core::ptr::null_mut(),
         };
 
         unsafe {
@@ -175,6 +192,7 @@ impl ModuleMap {
     }
 
     /// Create a new [`ModuleMap`] from a list of names
+    #[cfg(feature = "module-names")]
     pub fn new_from_names(gum: &Gum, names: &[&str]) -> Self {
         Self::new_with_filter(gum, &mut |details: ModuleDetails| {
             for name in names {
@@ -208,7 +226,7 @@ impl ModuleMap {
     pub fn values(&self) -> Vec<ModuleDetails> {
         unsafe {
             let array = gum_sys::gum_module_map_get_values(self.module_map);
-            let raw_module_details = std::slice::from_raw_parts(
+            let raw_module_details = from_raw_parts(
                 (*array).data as *mut gum_sys::_GumModuleDetails,
                 (*array).len as usize,
             );

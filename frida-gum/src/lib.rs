@@ -45,19 +45,27 @@
 //! }
 //! ```
 
+#![cfg_attr(not(feature = "module-names"), no_std)]
 #![cfg_attr(doc_cfg, feature(doc_cfg))]
 #![deny(warnings)]
 #![allow(clippy::needless_doctest_main)]
 #![allow(clippy::missing_safety_doc)]
+
+#[cfg(not(feature = "module-names"))]
+extern crate alloc;
 
 extern crate num;
 #[allow(unused_imports)]
 #[macro_use]
 extern crate num_derive;
 
-use std::convert::TryFrom;
-use std::ffi::CStr;
-use std::os::raw::{c_char, c_void};
+use core::{
+    convert::TryFrom,
+    ffi::{c_char, c_void, CStr},
+};
+
+#[cfg(not(feature = "module-names"))]
+use alloc::string::String;
 
 pub mod stalker;
 
@@ -94,7 +102,7 @@ mod backtracer;
 pub use backtracer::*;
 
 #[doc(hidden)]
-pub type Result<T> = std::result::Result<T, error::Error>;
+pub type Result<T> = core::result::Result<T, error::Error>;
 
 /// Context required for instantiation of all structures under the Gum namespace.
 pub struct Gum;

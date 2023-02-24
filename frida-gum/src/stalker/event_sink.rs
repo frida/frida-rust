@@ -9,10 +9,10 @@
     allow(clippy::unnecessary_cast)
 )]
 
-use crate::NativePointer;
-use frida_gum_sys as gum_sys;
-use gum_sys::_GumEvent as GumEvent;
-use std::os::raw::c_void;
+use {
+    crate::NativePointer, core::ffi::c_void, frida_gum_sys as gum_sys,
+    gum_sys::_GumEvent as GumEvent,
+};
 
 #[derive(FromPrimitive)]
 #[repr(u32)]

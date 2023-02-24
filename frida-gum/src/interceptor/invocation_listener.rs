@@ -9,10 +9,11 @@
     allow(clippy::unnecessary_cast)
 )]
 
-use crate::{CpuContext, NativePointer};
-use frida_gum_sys as gum_sys;
-use std::marker::PhantomData;
-use std::os::raw::c_void;
+use {
+    crate::{CpuContext, NativePointer},
+    core::{ffi::c_void, marker::PhantomData},
+    frida_gum_sys as gum_sys,
+};
 
 /// Represents a pair of listeners attached to a function.
 pub trait InvocationListener {
