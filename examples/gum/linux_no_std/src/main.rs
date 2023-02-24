@@ -5,7 +5,7 @@
 use {
     core::{alloc::Layout, panic::PanicInfo},
     frida_gum::Gum,
-    libc::abort,
+    libc::{_exit, abort},
     libc_print::libc_println as println,
     static_alloc::Bump,
 };
@@ -46,4 +46,5 @@ extern "C" fn main() {
     let gum = unsafe { Gum::obtain() };
     println!("gum: {:p}", &gum);
     println!("NOSTD DONE");
+    unsafe { _exit(0) };
 }
