@@ -161,8 +161,8 @@ jobs:
         run: |
           cd frida-gum
           cargo rustdoc --features "event-sink invocation-listener" -- --cfg doc_cfg
-  nostd:
-    name: Nostd
+  check-nostd:
+    name: Check no_std
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
