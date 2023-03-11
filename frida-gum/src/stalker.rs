@@ -40,11 +40,11 @@
 //! stalker.unfollow_me();
 //! ```
 
-use frida_gum_sys as gum_sys;
-use std::marker::PhantomData;
-use std::os::raw::c_void;
-
-use crate::{Gum, MemoryRange, NativePointer};
+use {
+    crate::{Gum, MemoryRange, NativePointer},
+    core::{ffi::c_void, marker::PhantomData},
+    frida_gum_sys as gum_sys,
+};
 
 #[cfg(feature = "event-sink")]
 mod event_sink;
@@ -208,7 +208,7 @@ impl<'a> Stalker<'a> {
         let sink = if let Some(sink) = event_sink {
             event_sink_transform(sink)
         } else {
-            std::ptr::null_mut()
+            core::ptr::null_mut()
         };
 
         unsafe { gum_sys::gum_stalker_follow_me(self.stalker, transformer.transformer, sink) };
@@ -227,7 +227,7 @@ impl<'a> Stalker<'a> {
             gum_sys::gum_stalker_follow_me(
                 self.stalker,
                 transformer.transformer,
-                std::ptr::null_mut(),
+                core::ptr::null_mut(),
             )
         };
     }

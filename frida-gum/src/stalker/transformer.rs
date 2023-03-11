@@ -4,10 +4,14 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
-use crate::{instruction_writer::TargetInstructionWriter, CpuContext, Gum};
-use capstone::Insn;
-use std::marker::PhantomData;
-use std::os::raw::c_void;
+use {
+    crate::{instruction_writer::TargetInstructionWriter, CpuContext, Gum},
+    capstone::Insn,
+    core::{ffi::c_void, marker::PhantomData},
+};
+
+#[cfg(not(feature = "module-names"))]
+use alloc::boxed::Box;
 
 pub struct StalkerIterator<'a> {
     iterator: *mut frida_gum_sys::GumStalkerIterator,
@@ -103,7 +107,7 @@ impl<'a> Iterator for StalkerIterator<'a> {
     type Item = Instruction<'a>;
 
     fn next(&mut self) -> Option<Instruction<'a>> {
-        let mut instr: *const cs_insn = std::ptr::null();
+        let mut instr: *const cs_insn = core::ptr::null();
         if unsafe { frida_gum_sys::gum_stalker_iterator_next(self.iterator, &mut instr as *mut _) }
             != 0
         {

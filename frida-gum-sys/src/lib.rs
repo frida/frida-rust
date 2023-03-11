@@ -3,7 +3,7 @@
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */
-
+#![no_std]
 #![allow(non_upper_case_globals)]
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]

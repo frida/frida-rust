@@ -3,32 +3,43 @@
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */
-
-use thiserror::Error;
+use core::fmt;
 
 /// Custom `Error` for Frida
-#[derive(Error, Debug)]
 pub enum Error {
     /// Bad signature during Interceptor operation
-    #[error("Bad signature")]
     InterceptorBadSignature,
 
     /// Function is already replaced during Interceptor operation
-    #[error("Function already replaced")]
     InterceptorAlreadyReplaced,
 
     /// Policy violation
-    #[error("Policy violation")]
     PolicyViolation,
 
     /// Other Interceptor error
-    #[error("Interceptor error")]
     InterceptorError,
 
     /// Memory access error
-    #[error("Memory access error")]
     MemoryAccessError,
 
-    #[error("Wrong type")]
     WrongType,
+}
+
+impl fmt::Display for Error {
+    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Error::InterceptorBadSignature => write!(fmt, "Bad signature"),
+            Error::InterceptorAlreadyReplaced => write!(fmt, "Function already replaced"),
+            Error::PolicyViolation => write!(fmt, "Policy violation"),
+            Error::InterceptorError => write!(fmt, "Interceptor error"),
+            Error::MemoryAccessError => write!(fmt, "Memory access error"),
+            Error::WrongType => write!(fmt, "Wrong type"),
+        }
+    }
+}
+
+impl fmt::Debug for Error {
+    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(fmt, "{self:}")
+    }
 }

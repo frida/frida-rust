@@ -4,11 +4,10 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
-use frida_gum_sys as gum_sys;
-use std::ffi::CString;
-use std::os::raw::c_void;
+use {crate::NativePointer, core::ffi::c_void, cstr_core::CString, frida_gum_sys as gum_sys};
 
-use crate::NativePointer;
+#[cfg(not(feature = "module-names"))]
+use alloc::vec::Vec;
 
 pub struct MatchPattern {
     pub(crate) internal: *mut gum_sys::GumMatchPattern,

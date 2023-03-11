@@ -6,15 +6,14 @@
 
 //! Function hooking engine.
 //!
-use frida_gum_sys as gum_sys;
-use std::marker::PhantomData;
+use {
+    crate::{Error, Gum, NativePointer, Result},
+    core::{marker::PhantomData, ptr},
+    frida_gum_sys as gum_sys,
+};
+
 #[cfg(feature = "invocation-listener")]
-use std::os::raw::c_void;
-use std::ptr;
-
-use crate::NativePointer;
-use crate::{Error, Gum, Result};
-
+use core::ffi::c_void;
 #[cfg(feature = "invocation-listener")]
 mod invocation_listener;
 #[cfg(feature = "invocation-listener")]

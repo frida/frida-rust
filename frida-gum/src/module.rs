@@ -13,14 +13,16 @@
     allow(clippy::unnecessary_cast)
 )]
 
-use frida_gum_sys as gum_sys;
-use std::convert::TryInto;
-use std::ffi::CString;
-use std::os::raw::c_void;
+use {
+    crate::{NativePointer, PageProtection, RangeDetails},
+    core::{convert::TryInto, ffi::c_void},
+    cstr_core::CString,
+    frida_gum_sys as gum_sys,
+    frida_gum_sys::{gboolean, gpointer, GumExportDetails, GumModuleDetails, GumSymbolDetails},
+};
 
-use frida_gum_sys::{gboolean, gpointer, GumExportDetails, GumModuleDetails, GumSymbolDetails};
-
-use crate::{NativePointer, PageProtection, RangeDetails};
+#[cfg(not(feature = "module-names"))]
+use alloc::{boxed::Box, string::String, vec, vec::Vec};
 
 extern "C" fn enumerate_ranges_callout(
     range_details: *const gum_sys::_GumRangeDetails,
@@ -67,7 +69,7 @@ impl Module {
 
         let ptr = match module_name {
             None => unsafe {
-                gum_sys::gum_module_find_export_by_name(std::ptr::null_mut(), symbol_name.as_ptr())
+                gum_sys::gum_module_find_export_by_name(core::ptr::null_mut(), symbol_name.as_ptr())
             },
             Some(name) => unsafe {
                 let module_name = CString::new(name).unwrap();
@@ -143,8 +145,12 @@ impl Module {
         ) -> gboolean {
             let res = &mut *(user_data as *mut Vec<ModuleDetailsOwned>);
 
-            let name: String = NativePointer((*details).name as *mut _).try_into().unwrap();
-            let path: String = NativePointer((*details).path as *mut _).try_into().unwrap();
+            let name: String = NativePointer((*details).name as *mut _)
+                .try_into()
+                .unwrap_or_default();
+            let path: String = NativePointer((*details).path as *mut _)
+                .try_into()
+                .unwrap_or_default();
             let range = (*details).range;
             let base_address = (*range).base_address as usize;
             let size = (*range).size as usize;
@@ -162,7 +168,7 @@ impl Module {
         unsafe {
             frida_gum_sys::gum_process_enumerate_modules(
                 Some(callback),
-                &result as *const _ as *mut std::ffi::c_void,
+                &result as *const _ as *mut c_void,
             );
         }
 
@@ -178,7 +184,9 @@ impl Module {
             user_data: gpointer,
         ) -> gboolean {
             let res = &mut *(user_data as *mut Vec<ExportDetails>);
-            let name: String = NativePointer((*details).name as *mut _).try_into().unwrap();
+            let name: String = NativePointer((*details).name as *mut _)
+                .try_into()
+                .unwrap_or_default();
 
             let address = (*details).address as usize;
             let typ = (*details).type_ as u32;
@@ -193,7 +201,7 @@ impl Module {
             frida_gum_sys::gum_module_enumerate_exports(
                 module_name.as_ptr(),
                 Some(callback),
-                &result as *const _ as *mut std::ffi::c_void,
+                &result as *const _ as *mut c_void,
             );
         }
         result
@@ -208,7 +216,9 @@ impl Module {
         ) -> gboolean {
             let res = &mut *(user_data as *mut Vec<SymbolDetails>);
 
-            let name: String = NativePointer((*details).name as *mut _).try_into().unwrap();
+            let name: String = NativePointer((*details).name as *mut _)
+                .try_into()
+                .unwrap_or_default();
             let address = (*details).address as usize;
             let size = (*details).size as usize;
 
@@ -228,7 +238,7 @@ impl Module {
             frida_gum_sys::gum_module_enumerate_symbols(
                 module_name.as_ptr(),
                 Some(callback),
-                &result as *const _ as *mut std::ffi::c_void,
+                &result as *const _ as *mut c_void,
             );
         }
         result

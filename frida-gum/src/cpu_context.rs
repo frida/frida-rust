@@ -3,12 +3,12 @@
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */
-
-use frida_gum_sys as gum_sys;
-use gum_sys::GumCpuContext;
-use paste::paste;
-use std::marker::PhantomData;
-use std::os::raw::c_void;
+use {
+    core::{ffi::c_void, marker::PhantomData},
+    frida_gum_sys as gum_sys,
+    gum_sys::GumCpuContext,
+    paste::paste,
+};
 
 macro_rules! cpu_accesors {
     ($reg:ty,$($name:ident),*) => {

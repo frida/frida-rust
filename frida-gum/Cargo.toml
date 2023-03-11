@@ -12,19 +12,20 @@ auto-download = ["frida-gum-sys/auto-download"]
 backtrace = ["libc"]
 event-sink = ["frida-gum-sys/event-sink"]
 invocation-listener = ["frida-gum-sys/invocation-listener"]
+module-names = []
 stalker-observer = ["frida-gum-sys/stalker-observer"]
 stalker-params = ["frida-gum-sys/stalker-params"]
 
 [dependencies]
+capstone = { version = "0.11.0", default-features = false }
+capstone-sys = { version = "0.15.0", default-features = false }
+cstr_core = { version = "0.2.6", default-features = false, features = ["alloc"] }
 frida-gum-sys = { path = "../frida-gum-sys", version = "0.6.0" }
-num = "0.3.1"
-num-derive = "0.3.3"
-num-traits = "0.2.14"
-paste = "1"
-libc = { version = "0.2.93", optional = true }
-capstone = "0.11.0"
-capstone-sys = "0.15.0"
-thiserror = "1"
+libc = { version = "0.2.93", default-features = false, optional = true }
+num = { version = "0.3.1", default-features = false }
+num-derive = { version = "0.3.3", default-features = false }
+num-traits = { version = "0.2.14", default-features = false }
+paste = { version = "1", default-features = false }
 
 [dev-dependencies]
 lazy_static = "1"

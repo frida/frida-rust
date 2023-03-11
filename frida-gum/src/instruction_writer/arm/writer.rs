@@ -1,4 +1,4 @@
-use {crate::instruction_writer::InstructionWriter, frida_gum_sys as gum_sys, std::ffi::c_void};
+use {crate::instruction_writer::InstructionWriter, core::ffi::c_void, frida_gum_sys as gum_sys};
 
 pub struct ArmInstructionWriter {
     pub(crate) writer: *mut gum_sys::_GumArmWriter,

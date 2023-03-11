@@ -8,7 +8,7 @@
 //! Backtracer helpers.
 //!
 
-use frida_gum_sys as gum_sys;
+use {core::mem::MaybeUninit, frida_gum_sys as gum_sys};
 
 // The following function is not exposed through the `frida-gum.h` header, so we don't have an
 // auto-generated binding for it. This may change in a future version.
@@ -30,8 +30,7 @@ impl Backtracer {
         backtracer: *mut gum_sys::GumBacktracer,
         context: *const gum_sys::GumCpuContext,
     ) -> Vec<usize> {
-        let mut return_address_array =
-            std::mem::MaybeUninit::<gum_sys::_GumReturnAddressArray>::uninit();
+        let mut return_address_array = MaybeUninit::<gum_sys::_GumReturnAddressArray>::uninit();
 
         unsafe {
             gum_sys::gum_backtracer_generate(
@@ -52,7 +51,7 @@ impl Backtracer {
     pub fn accurate() -> Vec<usize> {
         Self::generate(
             unsafe { gum_sys::gum_backtracer_make_accurate() },
-            std::ptr::null(),
+            core::ptr::null(),
         )
     }
 
@@ -60,7 +59,7 @@ impl Backtracer {
     pub fn fuzzy() -> Vec<usize> {
         Self::generate(
             unsafe { gum_sys::gum_backtracer_make_fuzzy() },
-            std::ptr::null(),
+            core::ptr::null(),
         )
     }
 
@@ -85,7 +84,7 @@ impl Backtracer {
     /// Generate an accurate backtrace as a list of return addresses for the supplied signal
     /// context.
     pub fn accurate_with_signal_context(context: &libc::ucontext_t) -> Vec<usize> {
-        let mut cpu_context = std::mem::MaybeUninit::<gum_sys::GumCpuContext>::uninit();
+        let mut cpu_context = MaybeUninit::<gum_sys::GumCpuContext>::uninit();
 
         unsafe {
             gum_linux_parse_ucontext(context as *const libc::ucontext_t, cpu_context.as_mut_ptr());
@@ -96,7 +95,7 @@ impl Backtracer {
     /// Generate a fuzzy backtrace as a list of return addresses for the supplied signal
     /// context.
     pub fn fuzzy_with_signal_context(context: &libc::ucontext_t) -> Vec<usize> {
-        let mut cpu_context = std::mem::MaybeUninit::<gum_sys::GumCpuContext>::uninit();
+        let mut cpu_context = MaybeUninit::<gum_sys::GumCpuContext>::uninit();
 
         unsafe {
             gum_linux_parse_ucontext(context as *const libc::ucontext_t, cpu_context.as_mut_ptr());
