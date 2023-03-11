@@ -25,7 +25,7 @@ pub enum Error {
     WrongType,
 }
 
-impl fmt::Debug for Error {
+impl fmt::Display for Error {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Error::InterceptorBadSignature => write!(fmt, "Bad signature"),

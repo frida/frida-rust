@@ -145,8 +145,12 @@ impl Module {
         ) -> gboolean {
             let res = &mut *(user_data as *mut Vec<ModuleDetailsOwned>);
 
-            let name: String = NativePointer((*details).name as *mut _).try_into().unwrap();
-            let path: String = NativePointer((*details).path as *mut _).try_into().unwrap();
+            let name: String = NativePointer((*details).name as *mut _)
+                .try_into()
+                .unwrap_or_default();
+            let path: String = NativePointer((*details).path as *mut _)
+                .try_into()
+                .unwrap_or_default();
             let range = (*details).range;
             let base_address = (*range).base_address as usize;
             let size = (*range).size as usize;
@@ -180,7 +184,9 @@ impl Module {
             user_data: gpointer,
         ) -> gboolean {
             let res = &mut *(user_data as *mut Vec<ExportDetails>);
-            let name: String = NativePointer((*details).name as *mut _).try_into().unwrap();
+            let name: String = NativePointer((*details).name as *mut _)
+                .try_into()
+                .unwrap_or_default();
 
             let address = (*details).address as usize;
             let typ = (*details).type_ as u32;
@@ -210,7 +216,9 @@ impl Module {
         ) -> gboolean {
             let res = &mut *(user_data as *mut Vec<SymbolDetails>);
 
-            let name: String = NativePointer((*details).name as *mut _).try_into().unwrap();
+            let name: String = NativePointer((*details).name as *mut _)
+                .try_into()
+                .unwrap_or_default();
             let address = (*details).address as usize;
             let size = (*details).size as usize;
 
