@@ -2,11 +2,13 @@ use {
     crate::instruction_writer::{
         Aarch64BranchCondition, Aarch64Register, Argument, IndexMode, InstructionWriter,
     },
-    alloc::vec::Vec,
     core::{convert::TryInto, ffi::c_void},
     frida_gum_sys as gum_sys,
     gum_sys::GumArgument,
 };
+
+#[cfg(not(feature = "module-names"))]
+use alloc::vec::Vec;
 
 /// The Aarch64 instruction writer.
 pub struct Aarch64InstructionWriter {
