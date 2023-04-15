@@ -14,7 +14,7 @@ use crate::{Error, Result};
 
 /// Access to a Frida device.
 pub struct Device<'a> {
-    device_ptr: *mut _FridaDevice,
+    pub(crate) device_ptr: *mut _FridaDevice,
     phantom: PhantomData<&'a _FridaDevice>,
 }
 
