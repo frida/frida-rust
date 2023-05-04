@@ -192,6 +192,31 @@ impl<'a> Stalker<'a> {
         unsafe { gum_sys::gum_stalker_garbage_collect(self.stalker) != 0 }
     }
 
+    /// Begin the Stalker on the specific thread.
+    ///
+    /// A [`Transformer`] must be specified, and will be updated with all events.
+    ///
+    /// If reusing an existing [`Transformer`], make sure to call [`Stalker::garbage_collect()`]
+    /// periodically.
+    #[cfg(feature = "event-sink")]
+    #[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
+    pub fn follow<S: EventSink>(
+        &mut self,
+        thread_id: u64,
+        transformer: &Transformer,
+        event_sink: Option<&mut S>,
+    ) {
+        let sink = if let Some(sink) = event_sink {
+            event_sink_transform(sink)
+        } else {
+            core::ptr::null_mut()
+        };
+
+        unsafe {
+            gum_sys::gum_stalker_follow(self.stalker, thread_id, transformer.transformer, sink)
+        };
+    }
+
     /// Begin the Stalker on the current thread.
     ///
     /// A [`Transformer`] must be specified, and will be updated with all events.
@@ -230,6 +255,11 @@ impl<'a> Stalker<'a> {
                 core::ptr::null_mut(),
             )
         };
+    }
+
+    /// Stop stalking the specific thread.
+    pub fn unfollow(&mut self, thread_id: u64) {
+        unsafe { gum_sys::gum_stalker_unfollow(self.stalker, thread_id) };
     }
 
     /// Stop stalking the current thread.
