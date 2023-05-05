@@ -206,6 +206,8 @@ impl<'a> Stalker<'a> {
         transformer: &Transformer,
         event_sink: Option<&mut S>,
     ) {
+        use frida_gum_sys::GumThreadId;
+
         let sink = if let Some(sink) = event_sink {
             event_sink_transform(sink)
         } else {
@@ -213,7 +215,12 @@ impl<'a> Stalker<'a> {
         };
 
         unsafe {
-            gum_sys::gum_stalker_follow(self.stalker, thread_id, transformer.transformer, sink)
+            gum_sys::gum_stalker_follow(
+                self.stalker,
+                thread_id as GumThreadId,
+                transformer.transformer,
+                sink,
+            )
         };
     }
 
@@ -259,7 +266,9 @@ impl<'a> Stalker<'a> {
 
     /// Stop stalking the specific thread.
     pub fn unfollow(&mut self, thread_id: u64) {
-        unsafe { gum_sys::gum_stalker_unfollow(self.stalker, thread_id) };
+        use frida_gum_sys::GumThreadId;
+
+        unsafe { gum_sys::gum_stalker_unfollow(self.stalker, thread_id as GumThreadId) };
     }
 
     /// Stop stalking the current thread.
