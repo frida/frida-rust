@@ -78,7 +78,7 @@ unsafe extern "C" fn save_range_details_by_address(
     details: *const gum_sys::GumRangeDetails,
     context: *mut c_void,
 ) -> i32 {
-    let mut context = &mut *(context as *mut SaveRangeDetailsByAddressContext);
+    let context = &mut *(context as *mut SaveRangeDetailsByAddressContext);
     let range = (*details).range;
     let start = (*range).base_address as u64;
     let end = start + (*range).size as u64;
