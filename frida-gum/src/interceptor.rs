@@ -117,18 +117,17 @@ impl<'a> Interceptor<'a> {
                 replacement_data.0,
                 &mut original_function.0,
             ) {
-                gum_sys::GumReplaceReturn_GUM_REPLACE_OK => Ok(original_function),
-                gum_sys::GumReplaceReturn_GUM_REPLACE_WRONG_SIGNATURE => {
+                gum_sys::GumReplaceReturn::GUM_REPLACE_OK => Ok(original_function),
+                gum_sys::GumReplaceReturn::GUM_REPLACE_WRONG_SIGNATURE => {
                     Err(Error::InterceptorBadSignature)
                 }
-                gum_sys::GumReplaceReturn_GUM_REPLACE_ALREADY_REPLACED => {
+                gum_sys::GumReplaceReturn::GUM_REPLACE_ALREADY_REPLACED => {
                     Err(Error::InterceptorAlreadyReplaced)
                 }
-                gum_sys::GumReplaceReturn_GUM_REPLACE_POLICY_VIOLATION => {
+                gum_sys::GumReplaceReturn::GUM_REPLACE_POLICY_VIOLATION => {
                     Err(Error::PolicyViolation)
                 }
-                gum_sys::GumReplaceReturn_GUM_REPLACE_WRONG_TYPE => Err(Error::WrongType),
-                _ => Err(Error::InterceptorError),
+                gum_sys::GumReplaceReturn::GUM_REPLACE_WRONG_TYPE => Err(Error::WrongType),
             }
         }
     }
@@ -157,18 +156,17 @@ impl<'a> Interceptor<'a> {
                 replacement.0,
                 &mut original_function.0,
             ) {
-                gum_sys::GumReplaceReturn_GUM_REPLACE_OK => Ok(original_function),
-                gum_sys::GumReplaceReturn_GUM_REPLACE_WRONG_SIGNATURE => {
+                gum_sys::GumReplaceReturn::GUM_REPLACE_OK => Ok(original_function),
+                gum_sys::GumReplaceReturn::GUM_REPLACE_WRONG_SIGNATURE => {
                     Err(Error::InterceptorBadSignature)
                 }
-                gum_sys::GumReplaceReturn_GUM_REPLACE_ALREADY_REPLACED => {
+                gum_sys::GumReplaceReturn::GUM_REPLACE_ALREADY_REPLACED => {
                     Err(Error::InterceptorAlreadyReplaced)
                 }
-                gum_sys::GumReplaceReturn_GUM_REPLACE_POLICY_VIOLATION => {
+                gum_sys::GumReplaceReturn::GUM_REPLACE_POLICY_VIOLATION => {
                     Err(Error::PolicyViolation)
                 }
-                gum_sys::GumReplaceReturn_GUM_REPLACE_WRONG_TYPE => Err(Error::WrongType),
-                _ => Err(Error::InterceptorError),
+                gum_sys::GumReplaceReturn::GUM_REPLACE_WRONG_TYPE => Err(Error::WrongType),
             }
         }
     }

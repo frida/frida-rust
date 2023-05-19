@@ -18,12 +18,12 @@ use {
 #[repr(u32)]
 #[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
 pub enum EventMask {
-    None = gum_sys::_GumEventType_GUM_NOTHING as u32,
-    Call = gum_sys::_GumEventType_GUM_CALL as u32,
-    Ret = gum_sys::_GumEventType_GUM_RET as u32,
-    Exec = gum_sys::_GumEventType_GUM_EXEC as u32,
-    Block = gum_sys::_GumEventType_GUM_BLOCK as u32,
-    Compile = gum_sys::_GumEventType_GUM_COMPILE as u32,
+    None = gum_sys::_GumEventType::GUM_NOTHING as u32,
+    Call = gum_sys::_GumEventType::GUM_CALL as u32,
+    Ret = gum_sys::_GumEventType::GUM_RET as u32,
+    Exec = gum_sys::_GumEventType::GUM_EXEC as u32,
+    Block = gum_sys::_GumEventType::GUM_BLOCK as u32,
+    Compile = gum_sys::_GumEventType::GUM_COMPILE as u32,
 }
 
 #[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]

@@ -26,17 +26,17 @@ use alloc::boxed::Box;
 #[derive(FromPrimitive)]
 #[repr(u32)]
 pub enum PageProtection {
-    NoAccess = gum_sys::_GumPageProtection_GUM_PAGE_NO_ACCESS as u32,
-    Read = gum_sys::_GumPageProtection_GUM_PAGE_READ as u32,
-    Write = gum_sys::_GumPageProtection_GUM_PAGE_WRITE as u32,
-    Execute = gum_sys::_GumPageProtection_GUM_PAGE_EXECUTE as u32,
-    ReadWrite = gum_sys::_GumPageProtection_GUM_PAGE_READ as u32
-        | gum_sys::_GumPageProtection_GUM_PAGE_WRITE as u32,
-    ReadExecute = gum_sys::_GumPageProtection_GUM_PAGE_READ as u32
-        | gum_sys::_GumPageProtection_GUM_PAGE_EXECUTE as u32,
-    ReadWriteExecute = gum_sys::_GumPageProtection_GUM_PAGE_READ as u32
-        | gum_sys::_GumPageProtection_GUM_PAGE_WRITE as u32
-        | gum_sys::_GumPageProtection_GUM_PAGE_EXECUTE as u32,
+    NoAccess = gum_sys::_GumPageProtection::GUM_PAGE_NO_ACCESS as u32,
+    Read = gum_sys::_GumPageProtection::GUM_PAGE_READ as u32,
+    Write = gum_sys::_GumPageProtection::GUM_PAGE_WRITE as u32,
+    Execute = gum_sys::_GumPageProtection::GUM_PAGE_EXECUTE as u32,
+    ReadWrite = gum_sys::_GumPageProtection::GUM_PAGE_READ as u32
+        | gum_sys::_GumPageProtection::GUM_PAGE_WRITE as u32,
+    ReadExecute = gum_sys::_GumPageProtection::GUM_PAGE_READ as u32
+        | gum_sys::_GumPageProtection::GUM_PAGE_EXECUTE as u32,
+    ReadWriteExecute = gum_sys::_GumPageProtection::GUM_PAGE_READ as u32
+        | gum_sys::_GumPageProtection::GUM_PAGE_WRITE as u32
+        | gum_sys::_GumPageProtection::GUM_PAGE_EXECUTE as u32,
 }
 
 /// The file association to a page.
@@ -124,7 +124,7 @@ impl<'a> RangeDetails<'a> {
         };
         unsafe {
             gum_sys::gum_process_enumerate_ranges(
-                gum_sys::_GumPageProtection_GUM_PAGE_NO_ACCESS as u32,
+                gum_sys::_GumPageProtection::GUM_PAGE_NO_ACCESS as u32,
                 Some(save_range_details_by_address),
                 &mut context as *mut _ as *mut c_void,
             );

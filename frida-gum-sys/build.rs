@@ -55,7 +55,12 @@ fn main() {
         println!("cargo:rustc-link-lib=pthread");
     }
 
-    let bindings = bindgen::Builder::default().use_core();
+    let bindings = bindgen::Builder::default()
+        .use_core()
+        .constified_enum_module("cs_err|cs_group_type|cs_opt_value")
+        .bitfield_enum("cs_mode|cs_ac_type")
+        .rustified_enum(".*")
+        .no_copy("cs_insn");
 
     #[cfg(feature = "auto-download")]
     let bindings = bindings.clang_arg(format!("-I{include_dir}"));

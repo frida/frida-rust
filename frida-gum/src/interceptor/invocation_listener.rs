@@ -88,9 +88,9 @@ pub enum PointCut {
 
 impl From<gum_sys::GumPointCut> for PointCut {
     fn from(point_cut: gum_sys::GumPointCut) -> PointCut {
-        if point_cut == gum_sys::_GumPointCut_GUM_POINT_ENTER as u32 {
+        if point_cut == gum_sys::_GumPointCut::GUM_POINT_ENTER as u32 {
             PointCut::Enter
-        } else if point_cut == gum_sys::_GumPointCut_GUM_POINT_LEAVE as u32 {
+        } else if point_cut == gum_sys::_GumPointCut::GUM_POINT_LEAVE as u32 {
             PointCut::Leave
         } else {
             unreachable!()
