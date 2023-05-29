@@ -25,14 +25,12 @@ fn main() {
     #[cfg(not(feature = "auto-download"))]
     println!("cargo:rustc-link-lib=frida-core");
 
-    if target_os == "linux"
-    {
+    if target_os == "linux" {
         println!("cargo:rustc-link-lib=pthread");
         println!("cargo:rustc-link-lib=resolv");
     }
 
-    if target_os == "macos"
-    {
+    if target_os == "macos" {
         println!("cargo:rustc-link-lib=bsm");
         println!("cargo:rustc-link-lib=pthread");
         println!("cargo:rustc-link-lib=framework=AppKit");
