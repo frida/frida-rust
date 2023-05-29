@@ -50,6 +50,18 @@ fn main() {
         bindings
     };
 
+    let bindings = if env::var("CARGO_CFG_TARGET_ARCH").unwrap() == "arm" {
+        bindings.clang_arg("-I/usr/arm-linux-gnueabihf/include/")
+    } else {
+        bindings
+    };
+
+    let bindings = if env::var("CARGO_CFG_TARGET_ARCH").unwrap() == "aarch64" {
+        bindings.clang_arg("-I/usr/aarch64-linux-gnu/include/")
+    } else {
+        bindings
+    };
+
     let bindings = bindings
         .header_contents("core.h", "#include \"frida-core.h\"")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))

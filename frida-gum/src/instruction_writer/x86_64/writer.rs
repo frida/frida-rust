@@ -1,6 +1,6 @@
 use {
     crate::instruction_writer::{Argument, InstructionWriter, X86BranchCondition, X86Register},
-    core::{convert::TryInto, ffi::c_void},
+    core::ffi::c_void,
     frida_gum_sys as gum_sys,
     gum_sys::{gssize, GumArgument, GumBranchHint},
 };
@@ -137,8 +137,7 @@ impl X86InstructionWriter {
         unsafe {
             gum_sys::gum_x86_writer_put_jcc_short_label(
                 self.writer,
-                #[allow(clippy::useless_conversion)]
-                (condition as u32).try_into().unwrap(),
+                condition.into(),
                 label_id as *const c_void,
                 hint,
             )
@@ -154,8 +153,7 @@ impl X86InstructionWriter {
         unsafe {
             gum_sys::gum_x86_writer_put_jcc_near_label(
                 self.writer,
-                #[allow(clippy::useless_conversion)]
-                (condition as u32).try_into().unwrap(),
+                condition.into(),
                 label_id as *const c_void,
                 hint,
             )
@@ -403,13 +401,13 @@ impl X86InstructionWriter {
                 .iter()
                 .map(|argument| match argument {
                     Argument::Register(register) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.try_into().unwrap(),
+                        type_: gum_sys::_GumArgType::GUM_ARG_REGISTER as u32,
                         value: gum_sys::_GumArgument__bindgen_ty_1 {
                             reg: *register as i32,
                         },
                     },
                     Argument::Address(address) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.try_into().unwrap(),
+                        type_: gum_sys::_GumArgType::GUM_ARG_ADDRESS as u32,
                         value: gum_sys::_GumArgument__bindgen_ty_1 { address: *address },
                     },
                 })
@@ -417,9 +415,7 @@ impl X86InstructionWriter {
 
             gum_sys::gum_x86_writer_put_call_address_with_arguments_array(
                 self.writer,
-                gum_sys::_GumCallingConvention_GUM_CALL_CAPI
-                    .try_into()
-                    .unwrap(),
+                gum_sys::_GumCallingConvention::GUM_CALL_CAPI as u32,
                 address,
                 arguments.len() as u32,
                 arguments.as_ptr(),
@@ -438,13 +434,13 @@ impl X86InstructionWriter {
                 .iter()
                 .map(|argument| match argument {
                     Argument::Register(register) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.try_into().unwrap(),
+                        type_: gum_sys::_GumArgType::GUM_ARG_REGISTER as u32,
                         value: gum_sys::_GumArgument__bindgen_ty_1 {
                             reg: *register as i32,
                         },
                     },
                     Argument::Address(address) => GumArgument {
-                        type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.try_into().unwrap(),
+                        type_: gum_sys::_GumArgType::GUM_ARG_ADDRESS as u32,
                         value: gum_sys::_GumArgument__bindgen_ty_1 { address: *address },
                     },
                 })
@@ -452,9 +448,7 @@ impl X86InstructionWriter {
 
             gum_sys::gum_x86_writer_put_call_address_with_aligned_arguments_array(
                 self.writer,
-                gum_sys::_GumCallingConvention_GUM_CALL_CAPI
-                    .try_into()
-                    .unwrap(),
+                gum_sys::_GumCallingConvention::GUM_CALL_CAPI as u32,
                 address,
                 arguments.len() as u32,
                 arguments.as_ptr(),
