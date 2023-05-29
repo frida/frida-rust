@@ -34,7 +34,7 @@ jobs:
       - name: Install OpenSSL
         if: ${{ matrix.arch == 'x86' }}
         run: |
-          sudo apt-get update && apt-get install gcc-multilib --fix-missing
+          sudo apt-get update && sudo apt-get install gcc-multilib --fix-missing
           git clone --branch OpenSSL_1_1_1-stable https://github.com/openssl/openssl.git /tmp/openssl/
           cd /tmp/openssl/
           ./Configure linux-generic32 --prefix=/tmp/openssl/install/
@@ -140,7 +140,7 @@ jobs:
           target: ${{ matrix.target }}
       - name: Install gcc-multilib
         if: ${{ matrix.target == 'i686-unknown-linux-gnu' && matrix.os == 'ubuntu-latest' }}
-        run: sudo apt-get update && apt-get install gcc-multilib --fix-missing
+        run: sudo apt-get update && sudo apt-get install gcc-multilib --fix-missing
       - name: Test Frida
         run: cd frida && cargo test --target ${{ matrix.target }} --features=auto-download
       - name: Test Frida with all features
