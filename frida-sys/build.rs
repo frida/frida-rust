@@ -14,6 +14,7 @@ fn main() {
         "cargo:rustc-link-search={}",
         env::var("CARGO_MANIFEST_DIR").unwrap()
     );
+    let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
 
     #[cfg(feature = "auto-download")]
     let include_dir = {
@@ -24,14 +25,12 @@ fn main() {
     #[cfg(not(feature = "auto-download"))]
     println!("cargo:rustc-link-lib=frida-core");
 
-    #[cfg(target_os = "linux")]
-    {
+    if target_os == "linux" {
         println!("cargo:rustc-link-lib=pthread");
         println!("cargo:rustc-link-lib=resolv");
     }
 
-    #[cfg(target_os = "macos")]
-    {
+    if target_os == "macos" {
         println!("cargo:rustc-link-lib=bsm");
         println!("cargo:rustc-link-lib=pthread");
         println!("cargo:rustc-link-lib=framework=AppKit");
@@ -62,13 +61,14 @@ fn main() {
         .write_to_file(out_path.join("bindings.rs"))
         .unwrap();
 
-    #[cfg(target_os = "windows")]
-    let _ = &[
-        "dnsapi", "iphlpapi", "psapi", "winmm", "ws2_32", "advapi32", "crypt32", "gdi32",
-        "kernel32", "ole32", "secur32", "shell32", "shlwapi", "user32",
-    ]
-    .iter()
-    .for_each(|lib| {
-        println!("cargo:rustc-link-lib=dylib={}", lib);
-    });
+    if target_os == "windows" {
+        let _ = &[
+            "dnsapi", "iphlpapi", "psapi", "winmm", "ws2_32", "advapi32", "crypt32", "gdi32",
+            "kernel32", "ole32", "secur32", "shell32", "shlwapi", "user32",
+        ]
+        .iter()
+        .for_each(|lib| {
+            println!("cargo:rustc-link-lib=dylib={}", lib);
+        });
+    }
 }
