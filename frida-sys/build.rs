@@ -32,6 +32,7 @@ fn main() {
 
     if target_os == "macos" {
         println!("cargo:rustc-link-lib=bsm");
+        println!("cargo:rustc-link-lib=resolv");
         println!("cargo:rustc-link-lib=pthread");
         println!("cargo:rustc-link-lib=framework=AppKit");
     }
