@@ -61,6 +61,7 @@ impl Insn {
 
     /// Instruction address
     #[inline]
+    #[allow(clippy::unnecessary_cast)]
     pub fn address(&self) -> u64 {
         self.insn.address as u64
     }
