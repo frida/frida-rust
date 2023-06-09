@@ -1,7 +1,6 @@
 use {
     crate::instruction_writer::{Aarch64InstructionWriter, Relocator},
-    capstone::Insn,
-    capstone_sys::cs_insn,
+    frida_gum_sys::{cs_insn, Insn},
     core::ffi::c_void,
 };
 
