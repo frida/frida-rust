@@ -52,7 +52,6 @@ impl Insn {
         }
     }
 
-
     /// Size of instruction (in bytes)
     #[inline]
     #[allow(clippy::unnecessary_cast)]
@@ -71,5 +70,4 @@ impl Insn {
     pub fn bytes(&self) -> &[u8] {
         &self.insn.bytes[..self.len()]
     }
-
 }
