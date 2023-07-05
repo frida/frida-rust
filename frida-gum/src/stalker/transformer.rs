@@ -4,9 +4,9 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
+use frida_gum_sys::Insn;
 use {
     crate::{instruction_writer::TargetInstructionWriter, CpuContext, Gum},
-    capstone::Insn,
     core::{ffi::c_void, marker::PhantomData},
 };
 
@@ -64,7 +64,7 @@ use frida_gum_sys::cs_insn;
 
 pub struct Instruction<'a> {
     parent: *mut frida_gum_sys::GumStalkerIterator,
-    instr: Insn<'a>,
+    instr: Insn,
     phantom: PhantomData<&'a *const cs_insn>,
 }
 
@@ -75,7 +75,7 @@ impl<'a> Instruction<'a> {
     ) -> Instruction<'a> {
         Instruction {
             parent,
-            instr: unsafe { Insn::from_raw(instr as *const capstone_sys::cs_insn) },
+            instr: unsafe { Insn::from_raw(instr as *const frida_gum_sys::cs_insn) },
             phantom: PhantomData,
         }
     }

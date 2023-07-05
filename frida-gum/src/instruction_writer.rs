@@ -19,7 +19,7 @@ mod x86_64;
 #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 pub use x86_64::*;
 
-use capstone::Insn;
+use frida_gum_sys::Insn;
 
 pub enum Argument {
     Register(TargetRegister),
