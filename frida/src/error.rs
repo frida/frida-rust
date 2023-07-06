@@ -13,6 +13,10 @@ pub enum Error {
     #[error("Failed to attach")]
     DeviceAttachError,
 
+    /// Failed to spawn application.
+    #[error("Failed to spawn application")]
+    DeviceApplicationSpawnError,
+
     /// Failed to detach a session.
     #[error("Failed to detach the current session")]
     SessionDetachError,

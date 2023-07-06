@@ -98,6 +98,27 @@ impl<'a> Device<'a> {
             Err(Error::DeviceAttachError)
         }
     }
+    /// Spawns application with given package name and returns pid of application.
+    pub fn spawn(&self, program: &str) -> Result<u32> {
+        let mut error: *mut frida_sys::GError = std::ptr::null_mut();
+
+        // Create C string from Rust string.
+        let c_program_str = std::ffi::CString::new(program).map_err(|_| Error::CStringFailed);
+        let pid = unsafe {
+            frida_sys::frida_device_spawn_sync(
+                self.device_ptr,
+                c_program_str?.as_ptr() as _,
+                std::ptr::null_mut(),
+                std::ptr::null_mut(),
+                &mut error,
+            )
+        };
+        if error.is_null() {
+            Ok(pid)
+        } else {
+            Err(Error::DeviceApplicationSpawnError)
+        }
+    }
 }
 
 impl<'a> Drop for Device<'a> {
