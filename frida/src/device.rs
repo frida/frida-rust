@@ -119,6 +119,25 @@ impl<'a> Device<'a> {
             Err(Error::DeviceApplicationSpawnError)
         }
     }
+
+    /// Resumes the process with given pid.
+    pub fn resume(&self, pid: u32) -> Result<()> {
+        let mut error: *mut frida_sys::GError = std::ptr::null_mut();
+        unsafe {
+            // (FridaDevice * self, guint pid, GCancellable * cancellable, GError ** error);
+            frida_sys::frida_device_resume_sync(
+                self.device_ptr,
+                pid,
+                std::ptr::null_mut(),
+                &mut error,
+            )
+        };
+        if error.is_null() {
+            Ok(())
+        } else {
+            Err(Error::DeviceResumeError)
+        }
+    }
 }
 
 impl<'a> Drop for Device<'a> {
