@@ -20,6 +20,9 @@ pub use device::*;
 mod device_manager;
 pub use device_manager::*;
 
+mod compiler;
+pub use compiler::*;
+
 mod error;
 pub use error::Error;
 

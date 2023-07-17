@@ -17,6 +17,10 @@ pub enum Error {
     #[error("Failed to spawn application")]
     DeviceApplicationSpawnError,
 
+    /// Frida compiler error
+    #[error("Frida compile error")]
+    FridaCompileError,
+
     /// Failed to detach a session.
     #[error("Failed to detach the current session")]
     SessionDetachError,
@@ -25,7 +29,7 @@ pub enum Error {
     #[error("Failed to create the script")]
     ScriptCreationError,
 
-    /// Failled to load a script in a session.
+    /// Failed to load a script in a session.
     #[error("Failed to load the script")]
     LoadingFailed,
 
@@ -36,6 +40,18 @@ pub enum Error {
     /// CString conversion failed.
     #[error("Failed to convert the string into CString")]
     CStringFailed,
+
+    /// Device resume error
+    #[error("Failed to resume the device")]
+    DeviceResumeError,
+
+    /// Post failed
+    #[error("Failed to post the message to the device")]
+    PostFailed,
+
+    /// RPC error
+    #[error("RPC error. Cannot get rpc result from the device ")]
+    RpcError,
 
     /// Failed to inject library
     #[error("Failed to inject library ({code}) {message}")]
