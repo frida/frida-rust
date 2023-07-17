@@ -5,7 +5,11 @@
  */
 
 use frida_sys::{FridaScriptOptions, _FridaScript};
+use serde::Deserialize;
+use serde_json::Value;
+use std::cell::Cell;
 use std::marker::PhantomData;
+use std::sync::mpsc::{channel, Receiver, Sender};
 use std::{
     ffi::{c_char, c_void, CStr, CString},
     ptr::null_mut,
@@ -13,37 +17,124 @@ use std::{
 
 use crate::{Error, Result};
 
-unsafe extern "C" fn call_on_message<I: ScriptHandler>(
+const FRIDA_RPC: &str = "frida:rpc";
+
+/// Represents a Frida message.
+#[derive(Deserialize, Debug)]
+#[serde(tag = "type")]
+pub enum Message {
+    /// Represents a message with type send
+    #[serde(alias = "send")]
+    Send(SendMessage),
+    /// Represents a message with type log
+    #[serde(alias = "log")]
+    Log(LogMessage),
+    /// Represents a message with type error
+    #[serde(alias = "error")]
+    Error(ErrorMessage),
+    /// Represents a message with other types
+    #[serde(untagged)]
+    Other(Value),
+}
+
+/// Represents a log message.
+#[derive(Deserialize, Debug)]
+pub struct LogMessage {
+    _level: String,
+    _payload: String,
+}
+
+/// Represents an error message.
+#[derive(Deserialize, Debug)]
+pub struct ErrorMessage {
+    _column_number: usize,
+    _description: String,
+}
+
+/// Represents a message with type send
+#[derive(Deserialize, Debug)]
+pub struct SendMessage {
+    payload: Payload,
+}
+
+/// Represents a message payload.
+#[derive(Deserialize, Debug, Clone)]
+pub struct Payload {
+    /// Message type.
+    pub ty: String,
+    /// Message id.
+    pub id: usize,
+    /// Message result.
+    pub result: String,
+    /// Message returns.
+    pub returns: Value,
+}
+
+struct CallbackHandler {
+    script_handler: Option<Box<dyn ScriptHandler>>,
+    chan: (Sender<Value>, Receiver<Value>),
+}
+
+impl CallbackHandler {
+    fn new() -> Self {
+        Self {
+            chan: channel(),
+            script_handler: None,
+        }
+    }
+
+    fn add_handler<H: ScriptHandler + 'static>(&mut self, handler: H) {
+        self.script_handler = Some(Box::from(handler));
+    }
+}
+
+unsafe extern "C" fn call_on_message(
     _script_ptr: *mut _FridaScript,
     message: *const i8,
     _data: &frida_sys::_GBytes,
     user_data: *mut c_void,
 ) {
-    let handler: &mut I = &mut *(user_data as *mut I);
+    let msg = CStr::from_ptr(message as *const c_char)
+        .to_str()
+        .unwrap_or_default();
 
-    handler.on_message(
-        CStr::from_ptr(message as *const c_char)
-            .to_str()
-            .unwrap_or_default(),
-    );
+    let parsed_msg: Message = serde_json::from_str(msg).unwrap();
+    let callback_handler: *mut CallbackHandler = user_data as _;
+
+    on_message(callback_handler.as_mut().unwrap(), &parsed_msg);
 }
 
+fn on_message(cb_h: &mut CallbackHandler, message: &Message) {
+    match message {
+        Message::Send(SendMessage { payload }) if payload.ty == FRIDA_RPC => {
+            let (tx, _) = &cb_h.chan;
+            let _ = tx.send(payload.returns.clone());
+        }
+        msg => {
+            cb_h.script_handler.as_mut().map(|sh| sh.on_message(msg));
+        }
+    }
+}
 /// Represents a script signal handler.
 pub trait ScriptHandler {
     /// Handler called when a message is shared from JavaScript to Rust.
-    fn on_message(&mut self, message: &str);
+    fn on_message(&mut self, message: &Message);
 }
 
 /// Reprents a Frida script.
 pub struct Script<'a> {
     script_ptr: *mut _FridaScript,
     phantom: PhantomData<&'a _FridaScript>,
+    callback_handler: CallbackHandler,
+    call_id_counter: Cell<usize>,
 }
 
 impl<'a> Script<'a> {
     pub(crate) fn from_raw(script_ptr: *mut _FridaScript) -> Script<'a> {
         Script {
             script_ptr,
+            callback_handler: CallbackHandler::new(),
+            call_id_counter: Cell::new(0),
             phantom: PhantomData,
         }
     }
@@ -87,16 +178,17 @@ impl<'a> Script<'a> {
     ///     }
     /// }
     /// ```
-    pub fn handle_message<I: ScriptHandler>(&self, handler: &mut I) -> Result<()> {
+    pub fn handle_message<H: ScriptHandler + 'static>(&mut self, handler: H) -> Result<()> {
         let message = CString::new("message").map_err(|_| Error::CStringFailed)?;
-        unsafe {
-            let callback = Some(std::mem::transmute(call_on_message::<I> as *mut c_void));
+        self.callback_handler.add_handler(handler);
+        let _callbaack_handler = unsafe {
+            let callback = Some(std::mem::transmute(call_on_message as *mut c_void));
 
             frida_sys::g_signal_connect_data(
                 self.script_ptr as _,
                 message.as_ptr(),
                 callback,
-                handler as *mut _ as *mut c_void,
+                (&self.callback_handler as *const _ as *mut CallbackHandler) as *mut c_void,
                 None,
                 0,
             )
@@ -104,6 +196,58 @@ impl<'a> Script<'a> {
 
         Ok(())
     }
+
+    /// Posts a message to the script.
+    pub fn post(&self, message: &str) -> Result<()> {
+        let message = CString::new(message).map_err(|_| Error::CStringFailed)?;
+
+        unsafe { frida_sys::frida_script_post(self.script_ptr, message.as_ptr() as _, null_mut()) };
+        Ok(())
+    }
+
+    fn count_id(&self) -> usize {
+        let cur = self.call_id_counter.get();
+        self.call_id_counter.replace(cur + 1);
+        cur
+    }
+
+    /// Makes a call to the `exports` object in the script.
+    pub fn make_exports_call(&self, _fn_name: &str, _args: Vec<Value>) -> Result<Value> {
+        let rpc_json = {
+            let name = FRIDA_RPC.into();
+            let id = self.count_id().into();
+            let rpc_type = "call".into();
+            let rpc_function = _fn_name.into();
+            let args = _args.into();
+
+            let rpc_query: [Value; 5] = [name, id, rpc_type, rpc_function, args];
+
+            serde_json::to_string(&rpc_query).unwrap()
+        };
+
+        self.post(&rpc_json).unwrap();
+        let (_, rx) = &self.callback_handler.chan;
+        rx.recv().or(Err(Error::RpcError))
+    }
+    /// List all exports of the script.
+    pub fn list_exports(&self)->Result<Value>{
+        let rpc_json = {
+            let name = FRIDA_RPC.into();
+            let id = self.count_id().into();
+            let rpc_type = "list".into();
+            let rpc_function = Value::Null;
+            let args = Value::Null;
+
+            let rpc_query: [Value; 5] = [name, id, rpc_type, rpc_function, args];
+
+            serde_json::to_string(&rpc_query).unwrap()
+        };
+
+        self.post(&rpc_json).unwrap();
+        let (_, rx) = &self.callback_handler.chan;
+        rx.recv().or(Err(Error::RpcError))
+    }
+
 }
 
 impl<'a> Drop for Script<'a> {
