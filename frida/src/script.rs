@@ -61,7 +61,7 @@ pub struct SendMessage {
 #[derive(Deserialize, Debug, Clone)]
 pub struct Payload {
     /// Message type.
-    pub ty: String,
+    pub r#type: String,
     /// Message id.
     pub id: usize,
     /// Message result.
@@ -106,7 +106,7 @@ unsafe extern "C" fn call_on_message(
 
 fn on_message(cb_h: &mut CallbackHandler, message: &Message) {
     match message {
-        Message::Send(SendMessage { payload }) if payload.ty == FRIDA_RPC => {
+        Message::Send(SendMessage { payload }) if payload.r#type == FRIDA_RPC => {
             let (tx, _) = &cb_h.chan;
             let _ = tx.send(payload.returns.clone());
         }
@@ -173,7 +173,7 @@ impl<'a> Script<'a> {
     /// struct Handler;
     ///
     /// impl ScriptHandler for Handler {
-    ///     fn on_message(&mut self, message: &str) {
+    ///     fn on_message(&mut self, message: &Message) {
     ///         println!("{message}");
     ///     }
     /// }
@@ -230,7 +230,7 @@ impl<'a> Script<'a> {
         rx.recv().or(Err(Error::RpcError))
     }
     /// List all exports of the script.
-    pub fn list_exports(&self)->Result<Value>{
+    pub fn list_exports(&self) -> Result<Value> {
         let rpc_json = {
             let name = FRIDA_RPC.into();
             let id = self.count_id().into();
@@ -247,7 +247,6 @@ impl<'a> Script<'a> {
         let (_, rx) = &self.callback_handler.chan;
         rx.recv().or(Err(Error::RpcError))
     }
-
 }
 
 impl<'a> Drop for Script<'a> {

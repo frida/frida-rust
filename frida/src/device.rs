@@ -124,7 +124,6 @@ impl<'a> Device<'a> {
     pub fn resume(&self, pid: u32) -> Result<()> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         unsafe {
-            // (FridaDevice * self, guint pid, GCancellable * cancellable, GError ** error);
             frida_sys::frida_device_resume_sync(
                 self.device_ptr,
                 pid,
