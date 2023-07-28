@@ -174,7 +174,7 @@ pub struct Transformer<'a> {
 impl<'a> Transformer<'a> {
     pub fn from_callback<'b>(
         _gum: &'b Gum,
-        callback: impl FnMut(StalkerIterator, StalkerOutput),
+        callback: impl FnMut(StalkerIterator, StalkerOutput) + 'a,
     ) -> Transformer<'a>
     where
         'b: 'a,
