@@ -45,7 +45,7 @@ unsafe extern "C" fn save_module_details_by_name(
     details: *const gum_sys::GumModuleDetails,
     context: *mut c_void,
 ) -> i32 {
-    let mut context = &mut *(context as *mut SaveModuleDetailsByNameContext);
+    let context = &mut *(context as *mut SaveModuleDetailsByNameContext);
     let path_string = CStr::from_ptr((*details).path as *const _)
         .to_string_lossy()
         .to_string();

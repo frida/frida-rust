@@ -75,7 +75,7 @@ impl<'a> Instruction<'a> {
     ) -> Instruction<'a> {
         Instruction {
             parent,
-            instr: unsafe { Insn::from_raw(instr as *const frida_gum_sys::cs_insn) },
+            instr: unsafe { Insn::from_raw(instr) },
             phantom: PhantomData,
         }
     }
