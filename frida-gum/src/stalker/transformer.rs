@@ -75,7 +75,7 @@ impl<'a> Instruction<'a> {
     ) -> Instruction<'a> {
         Instruction {
             parent,
-            instr: unsafe { Insn::from_raw(instr as *const frida_gum_sys::cs_insn) },
+            instr: unsafe { Insn::from_raw(instr) },
             phantom: PhantomData,
         }
     }
@@ -174,7 +174,7 @@ pub struct Transformer<'a> {
 impl<'a> Transformer<'a> {
     pub fn from_callback<'b>(
         _gum: &'b Gum,
-        callback: impl FnMut(StalkerIterator, StalkerOutput),
+        callback: impl FnMut(StalkerIterator, StalkerOutput) + 'a,
     ) -> Transformer<'a>
     where
         'b: 'a,
