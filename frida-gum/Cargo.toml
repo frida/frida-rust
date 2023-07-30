@@ -1,6 +1,6 @@
 [package]
 name = "frida-gum"
-version = "0.13.0"
+version = "0.13.1"
 authors = ["Keegan Saunders <keegan@undefinedbehaviour.org>"]
 edition = "2018"
 license = "wxWindows"
@@ -18,7 +18,7 @@ stalker-params = ["frida-gum-sys/stalker-params"]
 
 [dependencies]
 cstr_core = { version = "0.2.6", default-features = false, features = ["alloc"] }
-frida-gum-sys = { path = "../frida-gum-sys", version = "0.7.1" }
+frida-gum-sys = { path = "../frida-gum-sys", version = "0.8.0" }
 libc = { version = "0.2.93", default-features = false, optional = true }
 num = { version = "0.3.1", default-features = false }
 num-derive = { version = "0.3.3", default-features = false }
