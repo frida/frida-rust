@@ -15,6 +15,7 @@ fn main() {
         env::var("CARGO_MANIFEST_DIR").unwrap()
     );
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
+    let target_vendor = env::var("CARGO_CFG_TARGET_VENDOR").unwrap();
 
     #[cfg(feature = "auto-download")]
     let include_dir = {
@@ -30,11 +31,13 @@ fn main() {
         println!("cargo:rustc-link-lib=resolv");
     }
 
-    if target_os == "macos" {
+    if target_vendor == "apple" {
         println!("cargo:rustc-link-lib=bsm");
         println!("cargo:rustc-link-lib=resolv");
         println!("cargo:rustc-link-lib=pthread");
-        println!("cargo:rustc-link-lib=framework=AppKit");
+        if target_os == "macos" {
+            println!("cargo:rustc-link-lib=framework=AppKit");
+        }
     }
 
     let bindings = bindgen::Builder::default();

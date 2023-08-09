@@ -10,7 +10,10 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
+    println!("cargo:rerun-if-changed=build.rs");
+
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
+    let target_vendor = env::var("CARGO_CFG_TARGET_VENDOR").unwrap();
     #[cfg(feature = "event-sink")]
     {
         println!("cargo:rerun-if-changed=event_sink.c");
@@ -51,7 +54,7 @@ fn main() {
     #[cfg(not(feature = "auto-download"))]
     println!("cargo:rustc-link-lib=frida-gum");
 
-    if target_os != "android" && (target_os == "linux" || target_os == "macos") {
+    if target_os != "android" && (target_os == "linux" || target_vendor == "apple") {
         println!("cargo:rustc-link-lib=pthread");
     }
 

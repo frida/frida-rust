@@ -69,11 +69,17 @@ impl Module {
 
         let ptr = match module_name {
             None => unsafe {
-                gum_sys::gum_module_find_export_by_name(core::ptr::null_mut(), symbol_name.as_ptr())
+                gum_sys::gum_module_find_export_by_name(
+                    core::ptr::null_mut(),
+                    symbol_name.as_ptr().cast(),
+                )
             },
             Some(name) => unsafe {
                 let module_name = CString::new(name).unwrap();
-                gum_sys::gum_module_find_export_by_name(module_name.as_ptr(), symbol_name.as_ptr())
+                gum_sys::gum_module_find_export_by_name(
+                    module_name.as_ptr().cast(),
+                    symbol_name.as_ptr().cast(),
+                )
             },
         } as *mut c_void;
 
@@ -91,7 +97,10 @@ impl Module {
 
         let module_name = CString::new(module_name).unwrap();
         let ptr = unsafe {
-            gum_sys::gum_module_find_symbol_by_name(module_name.as_ptr(), symbol_name.as_ptr())
+            gum_sys::gum_module_find_symbol_by_name(
+                module_name.as_ptr().cast(),
+                symbol_name.as_ptr().cast(),
+            )
         } as *mut c_void;
 
         if ptr.is_null() {
@@ -107,7 +116,9 @@ impl Module {
         let module_name = CString::new(module_name).unwrap();
 
         unsafe {
-            NativePointer(gum_sys::gum_module_find_base_address(module_name.as_ptr()) as *mut c_void)
+            NativePointer(
+                gum_sys::gum_module_find_base_address(module_name.as_ptr().cast()) as *mut c_void,
+            )
         }
     }
 
@@ -125,7 +136,7 @@ impl Module {
             )) as *mut _ as *mut c_void;
 
             gum_sys::gum_module_enumerate_ranges(
-                module_name.as_ptr(),
+                module_name.as_ptr().cast(),
                 prot as u32,
                 Some(enumerate_ranges_callout),
                 user_data,
@@ -199,7 +210,7 @@ impl Module {
 
         unsafe {
             frida_gum_sys::gum_module_enumerate_exports(
-                module_name.as_ptr(),
+                module_name.as_ptr().cast(),
                 Some(callback),
                 &result as *const _ as *mut c_void,
             );
@@ -236,7 +247,7 @@ impl Module {
 
         unsafe {
             frida_gum_sys::gum_module_enumerate_symbols(
-                module_name.as_ptr(),
+                module_name.as_ptr().cast(),
                 Some(callback),
                 &result as *const _ as *mut c_void,
             );
