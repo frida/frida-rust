@@ -72,7 +72,7 @@ fn main() {
         ]
         .iter()
         .for_each(|lib| {
-            println!("cargo:rustc-link-lib=dylib={}", lib);
+            println!("cargo:rustc-link-lib=dylib={lib}");
         });
     }
 }
