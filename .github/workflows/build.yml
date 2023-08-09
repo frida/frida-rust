@@ -207,5 +207,5 @@ jobs:
     - name: Build iOS
       run: cargo build --target aarch64-apple-ios --features=event-sink,invocation-listener,stalker-observer,stalker-params,auto-download
     - name: Build Android
-      run: cargo ndk -t arm64-v8a build cargo build --features=event-sink,invocation-listener,stalker-observer,stalker-params,auto-download
+      run: cargo ndk -t arm64-v8a build --features=event-sink,invocation-listener,stalker-observer,stalker-params,auto-download
 
