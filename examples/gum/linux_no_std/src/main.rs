@@ -1,5 +1,6 @@
 #![no_std]
 #![no_main]
+#![allow(internal_features)]
 #![feature(alloc_error_handler, lang_items)]
 
 use {

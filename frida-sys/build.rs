@@ -15,6 +15,7 @@ fn main() {
         env::var("CARGO_MANIFEST_DIR").unwrap()
     );
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
+    let target_vendor = env::var("CARGO_CFG_TARGET_VENDOR").unwrap();
 
     #[cfg(feature = "auto-download")]
     let include_dir = {
@@ -30,11 +31,13 @@ fn main() {
         println!("cargo:rustc-link-lib=resolv");
     }
 
-    if target_os == "macos" {
+    if target_vendor == "apple" {
         println!("cargo:rustc-link-lib=bsm");
         println!("cargo:rustc-link-lib=resolv");
         println!("cargo:rustc-link-lib=pthread");
-        println!("cargo:rustc-link-lib=framework=AppKit");
+        if target_os == "macos" {
+            println!("cargo:rustc-link-lib=framework=AppKit");
+        }
     }
 
     let bindings = bindgen::Builder::default();
@@ -63,13 +66,11 @@ fn main() {
         .unwrap();
 
     if target_os == "windows" {
-        let _ = &[
+        for lib in [
             "dnsapi", "iphlpapi", "psapi", "winmm", "ws2_32", "advapi32", "crypt32", "gdi32",
             "kernel32", "ole32", "secur32", "shell32", "shlwapi", "user32",
-        ]
-        .iter()
-        .for_each(|lib| {
-            println!("cargo:rustc-link-lib=dylib={}", lib);
-        });
+        ] {
+            println!("cargo:rustc-link-lib=dylib={lib}");
+        }
     }
 }
