@@ -105,3 +105,23 @@ impl<'a> Drop for Device<'a> {
         unsafe { frida_sys::frida_unref(self.device_ptr as _) }
     }
 }
+
+/// Frida device type.
+pub enum DeviceType {
+    /// Local Frida device.
+    Local,
+    /// Remote Frida device.
+    Remote,
+    /// USB Frida device.
+    USB,
+}
+
+impl From<DeviceType> for frida_sys::FridaDeviceType {
+    fn from(value: DeviceType) -> Self {
+        match value {
+            DeviceType::Local => frida_sys::FridaDeviceType_FRIDA_DEVICE_TYPE_LOCAL,
+            DeviceType::Remote => frida_sys::FridaDeviceType_FRIDA_DEVICE_TYPE_REMOTE,
+            DeviceType::USB => frida_sys::FridaDeviceType_FRIDA_DEVICE_TYPE_USB,
+        }
+    }
+}

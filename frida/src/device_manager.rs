@@ -8,7 +8,10 @@ use frida_sys::_FridaDeviceManager;
 use std::marker::PhantomData;
 
 use crate::device::Device;
+use crate::DeviceType;
+use crate::Error;
 use crate::Frida;
+use crate::Result;
 
 /// Platform-independent device manager abstraction access.
 pub struct DeviceManager<'a> {
@@ -58,6 +61,27 @@ impl<'a> DeviceManager<'a> {
 
         unsafe { frida_sys::frida_unref(devices_ptr as _) }
         devices
+    }
+
+    /// Returns the device of the specified type.
+    pub fn get_device_by_type(&'a self, r#type: DeviceType) -> Result<Device<'a>> {
+        let mut error: *mut frida_sys::GError = std::ptr::null_mut();
+
+        let device_ptr = unsafe {
+            frida_sys::frida_device_manager_get_device_by_type_sync(
+                self.manager_ptr,
+                r#type.into(),
+                0,
+                std::ptr::null_mut(),
+                &mut error,
+            )
+        };
+
+        if error != std::ptr::null_mut() {
+            return Err(Error::DeviceLookupFailed);
+        }
+
+        return Ok(Device::from_raw(device_ptr));
     }
 }
 
