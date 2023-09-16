@@ -77,7 +77,7 @@ impl<'a> DeviceManager<'a> {
             )
         };
 
-        if error != std::ptr::null_mut() {
+        if !error.is_null() {
             return Err(Error::DeviceLookupFailed);
         }
 
