@@ -58,8 +58,8 @@ impl Frida {
 
     /// Schedules the closure to be executed on the main frida context.
     pub fn schedule_on_main<F>(&self, func: F)
-        where
-            F: FnOnce() + Send + 'static,
+    where
+        F: FnOnce() + Send + 'static,
     {
         unsafe {
             unsafe extern "C" fn trampoline<F: FnOnce() + Send + 'static>(
