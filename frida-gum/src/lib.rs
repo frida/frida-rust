@@ -94,10 +94,10 @@ pub use range_details::*;
 mod debug_symbol;
 pub use debug_symbol::*;
 
-#[cfg(all(feature = "backtrace", not(target_os = "windows")))]
+#[cfg(feature = "backtrace")]
 #[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
 mod backtracer;
-#[cfg(all(feature = "backtrace", not(target_os = "windows")))]
+#[cfg(feature = "backtrace")]
 #[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
 pub use backtracer::*;
 
