@@ -45,7 +45,7 @@
 //! }
 //! ```
 
-#![cfg_attr(not(feature = "module-names"), no_std)]
+#![cfg_attr(not(any(feature = "module-names", feature = "backtrace")), no_std)]
 #![cfg_attr(doc_cfg, feature(doc_cfg))]
 #![deny(warnings)]
 #![allow(clippy::needless_doctest_main)]
