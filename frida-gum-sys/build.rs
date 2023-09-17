@@ -10,6 +10,10 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
+    println!("cargo:rerun-if-changed=build.rs");
+
+    let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
+    let target_vendor = env::var("CARGO_CFG_TARGET_VENDOR").unwrap();
     #[cfg(feature = "event-sink")]
     {
         println!("cargo:rerun-if-changed=event_sink.c");
@@ -50,8 +54,7 @@ fn main() {
     #[cfg(not(feature = "auto-download"))]
     println!("cargo:rustc-link-lib=frida-gum");
 
-    if env::var("CARGO_CFG_TARGET_OS").unwrap() != "android" {
-        #[cfg(any(target_os = "linux", target_os = "macos"))]
+    if target_os != "android" && (target_os == "linux" || target_vendor == "apple") {
         println!("cargo:rustc-link-lib=pthread");
     }
 
@@ -186,13 +189,12 @@ fn main() {
             .compile("stalker_params");
     }
 
-    #[cfg(target_os = "windows")]
-    [
-        "dnsapi", "iphlpapi", "psapi", "winmm", "ws2_32", "advapi32", "crypt32", "gdi32",
-        "kernel32", "ole32", "secur32", "shell32", "shlwapi", "user32",
-    ]
-    .iter()
-    .for_each(|lib| {
-        println!("cargo:rustc-link-lib=dylib={}", lib);
-    });
+    if target_os == "windows" {
+        for lib in [
+            "dnsapi", "iphlpapi", "psapi", "winmm", "ws2_32", "advapi32", "crypt32", "gdi32",
+            "kernel32", "ole32", "secur32", "shell32", "shlwapi", "user32",
+        ] {
+            println!("cargo:rustc-link-lib=dylib={lib}");
+        }
+    }
 }

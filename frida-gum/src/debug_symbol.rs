@@ -30,17 +30,19 @@ impl Symbol {
 
     /// Name of the symbol
     pub fn module_name(&self) -> Result<&str, Utf8Error> {
-        unsafe { CStr::from_ptr(self.gum_debug_symbol_details.module_name.as_ptr()) }.to_str()
+        unsafe { CStr::from_ptr(self.gum_debug_symbol_details.module_name.as_ptr().cast()) }
+            .to_str()
     }
 
     /// Module name owning this symbol
     pub fn symbol_name(&self) -> Result<&str, Utf8Error> {
-        unsafe { CStr::from_ptr(self.gum_debug_symbol_details.symbol_name.as_ptr()) }.to_str()
+        unsafe { CStr::from_ptr(self.gum_debug_symbol_details.symbol_name.as_ptr().cast()) }
+            .to_str()
     }
 
     /// File name owning this symbol
     pub fn file_name(&self) -> Result<&str, Utf8Error> {
-        unsafe { CStr::from_ptr(self.gum_debug_symbol_details.file_name.as_ptr()) }.to_str()
+        unsafe { CStr::from_ptr(self.gum_debug_symbol_details.file_name.as_ptr().cast()) }.to_str()
     }
 
     /// Line number in file_name
@@ -73,7 +75,7 @@ impl DebugSymbol {
     pub fn find_function<S: AsRef<str>>(name: S) -> Option<NativePointer> {
         match CString::new(name.as_ref()) {
             Ok(name) => {
-                let address = unsafe { gum_find_function(name.into_raw()) };
+                let address = unsafe { gum_find_function(name.into_raw().cast()) };
                 if address.is_null() {
                     None
                 } else {

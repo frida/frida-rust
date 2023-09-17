@@ -21,6 +21,6 @@ impl ProbeListener for OpenProbeListener {
 fn init() {
     let mut interceptor = Interceptor::obtain(&GUM);
     let open = Module::find_export_by_name(None, "open").unwrap();
-    let mut listener = OpenProbeListener::default();
+    let mut listener = OpenProbeListener;
     interceptor.attach_instruction(open, &mut listener);
 }
