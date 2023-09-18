@@ -45,7 +45,7 @@
 //! }
 //! ```
 
-#![cfg_attr(not(feature = "module-names"), no_std)]
+#![cfg_attr(not(any(feature = "module-names", feature = "backtrace")), no_std)]
 #![cfg_attr(doc_cfg, feature(doc_cfg))]
 #![deny(warnings)]
 #![allow(clippy::needless_doctest_main)]
@@ -94,10 +94,10 @@ pub use range_details::*;
 mod debug_symbol;
 pub use debug_symbol::*;
 
-#[cfg(all(feature = "backtrace", not(target_os = "windows")))]
+#[cfg(feature = "backtrace")]
 #[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
 mod backtracer;
-#[cfg(all(feature = "backtrace", not(target_os = "windows")))]
+#[cfg(feature = "backtrace")]
 #[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
 pub use backtracer::*;
 

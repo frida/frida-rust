@@ -94,14 +94,14 @@ impl<'a> CpuContext<'a> {
         unsafe { (*self.cpu_context).x[index] = value };
     }
 
-    #[cfg(all(feature = "backtrace", not(target_os = "windows")))]
+    #[cfg(feature = "backtrace")]
     #[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
     /// Get an accurate backtrace from this CPU context.
     pub fn backtrace_accurate(&self) -> Vec<usize> {
         crate::Backtracer::accurate_with_context(unsafe { &*self.cpu_context })
     }
 
-    #[cfg(all(feature = "backtrace", not(target_os = "windows")))]
+    #[cfg(feature = "backtrace")]
     #[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
     /// Get a fuzzy backtrace from this CPU context.
     pub fn backtrace_fuzzy(&self) -> Vec<usize> {
