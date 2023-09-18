@@ -54,4 +54,31 @@ pub enum Error {
         /// Error message
         message: String,
     },
+
+    /// Failed to spawn program
+    #[error("Failed to spawn program ({code}) {message}")]
+    SpawnFailed {
+        /// Error code
+        code: i32,
+        /// Error message
+        message: String,
+    },
+
+    /// Failed to resume
+    #[error("Failed to resume ({code}) {message}")]
+    ResumeFailed {
+        /// Error code
+        code: i32,
+        /// Error message
+        message: String,
+    },
+
+    /// Failed to kill
+    #[error("Failed to kill PID ({code}) {message}")]
+    KillFailed {
+        /// Error code
+        code: i32,
+        /// Error message
+        message: String,
+    },
 }

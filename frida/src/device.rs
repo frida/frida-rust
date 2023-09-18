@@ -12,7 +12,7 @@ use std::marker::PhantomData;
 use crate::process::Process;
 use crate::session::Session;
 use crate::variant::Variant;
-use crate::{Error, Result};
+use crate::{Error, Result, SpawnOptions};
 
 /// Access to a Frida device.
 pub struct Device<'a> {
@@ -171,6 +171,85 @@ impl<'a> Device<'a> {
         } else {
             Err(Error::DeviceAttachError)
         }
+    }
+
+    /// Spawn a process on the device
+    ///
+    /// Returns the PID of the newly spawned process.
+    /// On spawn, the process will be halted, and [`resume`](Device::resume) will need to be
+    /// called to continue execution.
+    pub fn spawn<S: AsRef<str>>(&mut self, program: S, options: &SpawnOptions) -> Result<u32> {
+        let mut error: *mut frida_sys::GError = std::ptr::null_mut();
+        let program = CString::new(program.as_ref()).unwrap();
+
+        let pid = unsafe {
+            frida_sys::frida_device_spawn_sync(
+                self.device_ptr,
+                program.as_ptr(),
+                options.options_ptr,
+                std::ptr::null_mut(),
+                &mut error,
+            )
+        };
+
+        if !error.is_null() {
+            let message = unsafe { CString::from_raw((*error).message) }
+                .into_string()
+                .map_err(|_| Error::CStringFailed)?;
+            let code = unsafe { (*error).code };
+
+            return Err(Error::SpawnFailed { code, message });
+        }
+
+        Ok(pid)
+    }
+
+    /// Resumes the process with given pid.
+    pub fn resume(&self, pid: u32) -> Result<()> {
+        let mut error: *mut frida_sys::GError = std::ptr::null_mut();
+        unsafe {
+            frida_sys::frida_device_resume_sync(
+                self.device_ptr,
+                pid,
+                std::ptr::null_mut(),
+                &mut error,
+            )
+        };
+
+        if !error.is_null() {
+            let message = unsafe { CString::from_raw((*error).message) }
+                .into_string()
+                .map_err(|_| Error::CStringFailed)?;
+            let code = unsafe { (*error).code };
+
+            return Err(Error::ResumeFailed { code, message });
+        }
+
+        Ok(())
+    }
+
+    /// Kill a process on the device
+    pub fn kill(&mut self, pid: u32) -> Result<()> {
+        let mut error: *mut frida_sys::GError = std::ptr::null_mut();
+        unsafe {
+            frida_sys::frida_device_kill_sync(
+                self.device_ptr,
+                pid,
+                std::ptr::null_mut(),
+                &mut error,
+            )
+        };
+
+        if !error.is_null() {
+            let message = unsafe { CString::from_raw((*error).message) }
+                .into_string()
+                .map_err(|_| Error::CStringFailed)?;
+            let code = unsafe { (*error).code };
+
+            return Err(Error::KillFailed { code, message });
+        }
+
+        Ok(())
     }
 }
 
