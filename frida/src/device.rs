@@ -5,11 +5,13 @@
  */
 
 use frida_sys::_FridaDevice;
-use std::ffi::CStr;
+use std::collections::HashMap;
+use std::ffi::{CStr, CString};
 use std::marker::PhantomData;
 
 use crate::process::Process;
 use crate::session::Session;
+use crate::variant::Variant;
 use crate::{Error, Result};
 
 /// Access to a Frida device.
@@ -37,6 +39,64 @@ impl<'a> Device<'a> {
     pub fn get_id(&self) -> &str {
         let id = unsafe { CStr::from_ptr(frida_sys::frida_device_get_id(self.device_ptr) as _) };
         id.to_str().unwrap_or_default()
+    }
+
+    /// Returns the device's system parameters
+    ///
+    /// # Example
+    /// ```
+    ///# use std::collections::HashMap;
+    ///# let frida = unsafe { frida::Frida::obtain() };
+    ///# let device_manager = frida::DeviceManager::obtain(&frida);
+    ///# let device = device_manager.enumerate_all_devices().into_iter().find(|device| device.get_id() == "local").unwrap();
+    /// let params = device.query_system_parameters().unwrap();
+    /// let os_version = params
+    ///     .get("os")
+    ///     .expect("No parameter \"os\" present")
+    ///     .get_map()
+    ///     .expect("Parameter \"os\" was not a mapping")
+    ///     .get("version")
+    ///     .expect("Parameter \"os\" did not contain a version field")
+    ///     .get_string()
+    ///     .expect("Version is not a string");
+    /// ```
+    pub fn query_system_parameters(&self) -> Result<HashMap<String, Variant>> {
+        let mut error: *mut frida_sys::GError = std::ptr::null_mut();
+
+        let ht = unsafe {
+            frida_sys::frida_device_query_system_parameters_sync(
+                self.device_ptr,
+                std::ptr::null_mut(),
+                &mut error,
+            )
+        };
+
+        if !error.is_null() {
+            let message = unsafe { CString::from_raw((*error).message) }
+                .into_string()
+                .map_err(|_| Error::CStringFailed)?;
+            let code = unsafe { (*error).code };
+
+            return Err(Error::DeviceQuerySystemParametersFailed { code, message });
+        }
+
+        let mut iter: frida_sys::GHashTableIter =
+            unsafe { std::mem::MaybeUninit::zeroed().assume_init() };
+        unsafe { frida_sys::g_hash_table_iter_init(&mut iter, ht) };
+        let size = unsafe { frida_sys::g_hash_table_size(ht) };
+        let mut map = HashMap::with_capacity(size as usize);
+
+        let mut key = std::ptr::null_mut();
+        let mut val = std::ptr::null_mut();
+        while (unsafe { frida_sys::g_hash_table_iter_next(&mut iter, &mut key, &mut val) }
+            != frida_sys::FALSE as _)
+        {
+            let key = unsafe { CStr::from_ptr(key as _) };
+            let val = unsafe { Variant::from_ptr(val as _) };
+            map.insert(key.to_string_lossy().to_string(), val);
+        }
+
+        Ok(map)
     }
 
     /// Returns if the device is lost or not.

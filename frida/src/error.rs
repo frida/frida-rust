@@ -45,4 +45,13 @@ pub enum Error {
         /// Error message
         message: String,
     },
+
+    /// Failed to query device parameters
+    #[error("Failed to query device system parameters ({code}) {message}")]
+    DeviceQuerySystemParametersFailed {
+        /// Error code
+        code: i32,
+        /// Error message
+        message: String,
+    },
 }
