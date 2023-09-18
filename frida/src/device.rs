@@ -41,6 +41,20 @@ impl<'a> Device<'a> {
         id.to_str().unwrap_or_default()
     }
 
+    /// Returns the device's type
+    ///
+    /// # Example
+    /// ```
+    ///# use frida::DeviceType;
+    ///# let frida = unsafe { frida::Frida::obtain() };
+    ///# let device_manager = frida::DeviceManager::obtain(&frida);
+    ///# let device = device_manager.enumerate_all_devices().into_iter().find(|device| device.get_id() == "local").unwrap();
+    /// assert_eq!(device.get_type(), DeviceType::Local);
+    /// ```
+    pub fn get_type(&self) -> DeviceType {
+        unsafe { frida_sys::frida_device_get_dtype(self.device_ptr).into() }
+    }
+
     /// Returns the device's system parameters
     ///
     /// # Example
@@ -166,14 +180,46 @@ impl<'a> Drop for Device<'a> {
     }
 }
 
+#[repr(u32)]
+#[non_exhaustive]
+#[derive(Debug, Clone, Copy, Hash, Eq, PartialEq)]
 /// Frida device type.
+///
+/// Represents different connection types
+// On Windows, the constants are i32 instead of u32, so we need to cast accordingly.
 pub enum DeviceType {
     /// Local Frida device.
-    Local,
-    /// Remote Frida device.
-    Remote,
-    /// USB Frida device.
-    USB,
+    Local = frida_sys::FridaDeviceType_FRIDA_DEVICE_TYPE_LOCAL as _,
+
+    /// Remote Frida device, connected via network
+    Remote = frida_sys::FridaDeviceType_FRIDA_DEVICE_TYPE_REMOTE as _,
+
+    /// Device connected via USB
+    USB = frida_sys::FridaDeviceType_FRIDA_DEVICE_TYPE_USB as _,
+}
+
+#[cfg(not(target_family = "windows"))]
+impl From<u32> for DeviceType {
+    fn from(value: u32) -> Self {
+        match value {
+            frida_sys::FridaDeviceType_FRIDA_DEVICE_TYPE_LOCAL => Self::Local,
+            frida_sys::FridaDeviceType_FRIDA_DEVICE_TYPE_REMOTE => Self::Remote,
+            frida_sys::FridaDeviceType_FRIDA_DEVICE_TYPE_USB => Self::USB,
+            value => unreachable!("Invalid Device type {}", value),
+        }
+    }
+}
+
+#[cfg(target_family = "windows")]
+impl From<i32> for DeviceType {
+    fn from(value: i32) -> Self {
+        match value {
+            frida_sys::FridaDeviceType_FRIDA_DEVICE_TYPE_LOCAL => Self::Local,
+            frida_sys::FridaDeviceType_FRIDA_DEVICE_TYPE_REMOTE => Self::Remote,
+            frida_sys::FridaDeviceType_FRIDA_DEVICE_TYPE_USB => Self::USB,
+            value => unreachable!("Invalid Device type {}", value),
+        }
+    }
 }
 
 impl From<DeviceType> for frida_sys::FridaDeviceType {
@@ -183,5 +229,11 @@ impl From<DeviceType> for frida_sys::FridaDeviceType {
             DeviceType::Remote => frida_sys::FridaDeviceType_FRIDA_DEVICE_TYPE_REMOTE,
             DeviceType::USB => frida_sys::FridaDeviceType_FRIDA_DEVICE_TYPE_USB,
         }
+    }
+}
+
+impl std::fmt::Display for DeviceType {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "{:?}", self)
     }
 }
