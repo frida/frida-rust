@@ -27,6 +27,7 @@ pub enum EventMask {
 }
 
 #[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
+#[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub enum Event {
     Call {
         location: NativePointer,
