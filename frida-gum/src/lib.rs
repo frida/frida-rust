@@ -88,6 +88,9 @@ pub use cpu_context::*;
 mod memory_range;
 pub use memory_range::*;
 
+mod memory_access_monitor;
+pub use memory_access_monitor::*;
+
 mod range_details;
 pub use range_details::*;
 
