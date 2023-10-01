@@ -79,17 +79,17 @@ impl Frida {
             }
 
             let func = Box::into_raw(Box::new(Some(func)));
-            let source = frida_sys::_frida_g_idle_source_new();
+            let source = frida_sys::g_idle_source_new();
             let ctx = frida_sys::frida_get_main_context();
 
-            frida_sys::_frida_g_source_set_callback(
+            frida_sys::g_source_set_callback(
                 source,
                 Some(trampoline::<F>),
                 func as frida_sys::gpointer,
                 Some(destroy_closure::<F>),
             );
-            frida_sys::_frida_g_source_attach(source, ctx);
-            frida_sys::_frida_g_source_unref(source);
+            frida_sys::g_source_attach(source, ctx);
+            frida_sys::g_source_unref(source);
         }
     }
 }
