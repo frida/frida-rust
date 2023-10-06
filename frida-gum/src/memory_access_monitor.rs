@@ -118,7 +118,7 @@ impl MemoryAccessMonitor {
                 std::ptr::write(ptr, range.memory_range);
             }
             let num_ranges = ranges.len() as u32;
-            
+
             gum_memory_access_monitor_new(
                 block,
                 num_ranges,
