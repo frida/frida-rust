@@ -45,7 +45,14 @@
 //! }
 //! ```
 
-#![cfg_attr(not(any(feature = "module-names", feature = "backtrace")), no_std)]
+#![cfg_attr(
+    not(any(
+        feature = "module-names",
+        feature = "backtrace",
+        feature = "memory-access-monitor"
+    )),
+    no_std
+)]
 #![cfg_attr(doc_cfg, feature(doc_cfg))]
 #![deny(warnings)]
 #![allow(clippy::needless_doctest_main)]
@@ -85,11 +92,13 @@ pub use error::Error;
 mod cpu_context;
 pub use cpu_context::*;
 
+#[cfg(feature = "memory-access-monitor")]
+mod memory_access_monitor;
+#[cfg(feature = "memory-access-monitor")]
+pub use memory_access_monitor::*;
+
 mod memory_range;
 pub use memory_range::*;
-
-mod memory_access_monitor;
-pub use memory_access_monitor::*;
 
 mod range_details;
 pub use range_details::*;

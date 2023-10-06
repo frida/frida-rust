@@ -13,6 +13,7 @@ members = [
     "examples/gum/debug_symbol",
     "examples/gum/fast_interceptor",
     "examples/gum/linux_no_std",
+    "examples/gum/memory_access_monitor",
     "examples/core/hello",
     "examples/core/console_log",
 ]
@@ -30,6 +31,7 @@ default-members = [
     "examples/gum/hook_instruction",
     "examples/gum/debug_symbol",
     "examples/gum/fast_interceptor",
+    "examples/gum/memory_access_monitor",
     "examples/core/hello",
     "examples/core/console_log",
 ]

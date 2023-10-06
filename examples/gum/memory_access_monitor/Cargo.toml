@@ -1,0 +1,12 @@
+[package]
+name = "monitor-memory-access"
+version = "0.1.0"
+authors = ["Liu Xiangru <liuxiangru@iie.ac.cn>"]
+edition = "2021"
+license = "MIT"
+description = "Example of monitoring memory access using Frida's MemoryAccessMonitor API"
+
+[dependencies]
+frida-gum = { path = "../../../frida-gum", features = [
+    "memory-access-monitor",
+] }

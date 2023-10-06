@@ -43,3 +43,6 @@ impl fmt::Debug for Error {
         write!(fmt, "{self:}")
     }
 }
+
+#[allow(unused)]
+pub type GumResult<T> = Result<T, Error>;
