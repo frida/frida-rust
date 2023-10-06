@@ -115,10 +115,11 @@ impl MemoryAccessMonitor {
             for i in 0..ranges.len() {
                 let range = &ranges[i];
                 let ptr = block.add(i * std::mem::size_of::<_GumMemoryRange>());
-                std::ptr::write(ptr as *mut _GumMemoryRange, range.memory_range);
+                std::ptr::write(ptr, range.memory_range);
             }
             let num_ranges = ranges.len() as u32;
-            let monitor = gum_memory_access_monitor_new(
+            
+            gum_memory_access_monitor_new(
                 block,
                 num_ranges,
                 mask as GumPageProtection,
@@ -126,8 +127,7 @@ impl MemoryAccessMonitor {
                 Some(c_callback::<F>),
                 &mut cw as *mut _ as *mut c_void,
                 None,
-            );
-            monitor
+            )
         };
         Self { monitor }
     }
