@@ -112,10 +112,8 @@ impl MemoryAccessMonitor {
                 std::mem::align_of::<_GumMemoryRange>(),
             )) as *mut _GumMemoryRange;
             // copy ranges into the buffer
-            for i in 0..ranges.len() {
-                let range = &ranges[i];
-                let ptr = block.add(i * std::mem::size_of::<_GumMemoryRange>());
-                std::ptr::write(ptr, range.memory_range);
+            for (i, range) in ranges.iter().enumerate() {
+                std::ptr::write(block.add(i), range.memory_range);
             }
             let num_ranges = ranges.len() as u32;
 
