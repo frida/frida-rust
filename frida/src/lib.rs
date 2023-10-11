@@ -55,6 +55,43 @@ impl Frida {
         let version = unsafe { CStr::from_ptr(frida_sys::frida_version_string() as _) };
         version.to_str().unwrap_or_default()
     }
+
+    /// Schedules the closure to be executed on the main frida context.
+    pub fn schedule_on_main<F>(&self, func: F)
+    where
+        F: FnOnce() + Send + 'static,
+    {
+        unsafe {
+            unsafe extern "C" fn trampoline<F: FnOnce() + Send + 'static>(
+                func: frida_sys::gpointer,
+            ) -> frida_sys::gboolean {
+                let func: &mut Option<F> = &mut *(func as *mut Option<F>);
+                let func = func
+                    .take()
+                    .expect("schedule_on_main closure called multiple times");
+                func();
+                frida_sys::G_SOURCE_REMOVE as frida_sys::gboolean
+            }
+            unsafe extern "C" fn destroy_closure<F: FnOnce() + Send + 'static>(
+                ptr: frida_sys::gpointer,
+            ) {
+                let _ = Box::<Option<F>>::from_raw(ptr as *mut _);
+            }
+
+            let func = Box::into_raw(Box::new(Some(func)));
+            let source = frida_sys::g_idle_source_new();
+            let ctx = frida_sys::frida_get_main_context();
+
+            frida_sys::g_source_set_callback(
+                source,
+                Some(trampoline::<F>),
+                func as frida_sys::gpointer,
+                Some(destroy_closure::<F>),
+            );
+            frida_sys::g_source_attach(source, ctx);
+            frida_sys::g_source_unref(source);
+        }
+    }
 }
 
 impl Drop for Frida {
