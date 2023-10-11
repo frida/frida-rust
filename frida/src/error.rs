@@ -13,6 +13,10 @@ pub enum Error {
     #[error("Failed to attach")]
     DeviceAttachError,
 
+    /// Failled to lookup a device.
+    #[error("Failed to lookup device")]
+    DeviceLookupFailed,
+
     /// Failed to detach a session.
     #[error("Failed to detach the current session")]
     SessionDetachError,
