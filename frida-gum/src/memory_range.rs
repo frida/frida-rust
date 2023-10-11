@@ -6,6 +6,11 @@
 
 use {crate::NativePointer, core::ffi::c_void, cstr_core::CString, frida_gum_sys as gum_sys};
 
+use core::{
+    fmt::{Debug, Display, LowerHex, UpperHex},
+    ops::Range,
+};
+
 #[cfg(not(feature = "module-names"))]
 use alloc::vec::Vec;
 
@@ -103,5 +108,51 @@ impl MemoryRange {
         }
 
         results
+    }
+}
+
+impl LowerHex for MemoryRange {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        LowerHex::fmt(&self.base_address(), f)?;
+        write!(f, "..")?;
+        LowerHex::fmt(&(self.base_address().0 as usize + self.size()), f)
+    }
+}
+
+impl UpperHex for MemoryRange {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        UpperHex::fmt(&self.base_address(), f)?;
+        write!(f, "..")?;
+        UpperHex::fmt(&(self.base_address().0 as usize + self.size()), f)
+    }
+}
+
+impl Display for MemoryRange {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        write!(
+            f,
+            "{}..{}",
+            self.base_address(),
+            self.base_address().0 as usize + self.size()
+        )
+    }
+}
+
+impl Debug for MemoryRange {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        let range: Range<usize> = self.into();
+        f.debug_tuple("MemoryRange").field(&range).finish()
+    }
+}
+
+impl From<&MemoryRange> for Range<usize> {
+    fn from(value: &MemoryRange) -> Self {
+        value.base_address().0 as usize..(value.base_address().0 as usize + value.size())
+    }
+}
+
+impl From<MemoryRange> for Range<usize> {
+    fn from(value: MemoryRange) -> Self {
+        (&value).into()
     }
 }

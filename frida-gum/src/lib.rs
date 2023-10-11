@@ -62,6 +62,7 @@ extern crate num_derive;
 use core::{
     convert::TryFrom,
     ffi::{c_char, c_void, CStr},
+    fmt::{Debug, Display, Formatter, LowerHex, UpperHex},
 };
 
 #[cfg(not(feature = "module-names"))]
@@ -123,7 +124,7 @@ impl Drop for Gum {
     }
 }
 
-#[derive(Copy, Clone, Hash, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 #[repr(transparent)]
 pub struct NativePointer(pub *mut c_void);
 
@@ -166,5 +167,23 @@ impl TryFrom<NativePointer> for String {
 impl AsRef<NativePointer> for NativePointer {
     fn as_ref(&self) -> &NativePointer {
         self
+    }
+}
+
+impl LowerHex for NativePointer {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        LowerHex::fmt(&(self.0 as usize), f)
+    }
+}
+
+impl UpperHex for NativePointer {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        UpperHex::fmt(&(self.0 as usize), f)
+    }
+}
+
+impl Display for NativePointer {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        Display::fmt(&(self.0 as usize), f)
     }
 }
