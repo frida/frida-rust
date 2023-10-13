@@ -43,6 +43,17 @@ pub enum MemoryOperation {
     Execute = _GumMemoryOperation_GUM_MEMOP_EXECUTE as _,
 }
 
+/// Details about a memory access
+/// 
+/// # Fields
+/// 
+/// * `operation` - The kind of operation that triggered the access
+/// * `from` - Address of instruction performing the access as a [`NativePointer`]
+/// * `address` - Address being accessed as a [`NativePointer`]
+/// * `range_index` - Index of the accessed range in the ranges provided to
+/// * `page_index` - Index of the accessed memory page inside the specified range
+/// * `pages_completed` - Overall number of pages which have been accessed so far (and are no longer being monitored)
+/// * `pages_total` - Overall number of pages that were initially monitored
 pub struct MemoryAccessDetails {
     pub operation: MemoryOperation,
     pub from: NativePointer,
@@ -94,6 +105,14 @@ pub struct MemoryAccessMonitor {
 }
 
 impl MemoryAccessMonitor {
+    /// Create a new [`MemoryAccessMonitor`]
+    ///
+    /// # Arguments
+    ///
+    /// * `ranges` - The memory ranges to monitor
+    /// * `mask` - The page protection mask to monitor
+    /// * `auto_reset` - Whether to automatically reset the monitor after each access
+    /// * `callback` - The callback to call when an access occurs
     pub fn new<F>(
         _gum: &crate::Gum,
         ranges: Vec<MemoryRange>,
@@ -130,6 +149,7 @@ impl MemoryAccessMonitor {
         Self { monitor }
     }
 
+    /// Enable the monitor
     pub fn enable(&self) -> GumResult<()> {
         let mut error: *mut GError = null_mut();
         if unsafe { gum_memory_access_monitor_enable(self.monitor, &mut error) } == false_ as _ {
@@ -139,6 +159,7 @@ impl MemoryAccessMonitor {
         }
     }
 
+    /// Disable the monitor
     pub fn disable(&self) {
         if self.monitor.is_null() {
             return;
