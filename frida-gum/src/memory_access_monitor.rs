@@ -44,9 +44,9 @@ pub enum MemoryOperation {
 }
 
 /// Details about a memory access
-/// 
+///
 /// # Fields
-/// 
+///
 /// * `operation` - The kind of operation that triggered the access
 /// * `from` - Address of instruction performing the access as a [`NativePointer`]
 /// * `address` - Address being accessed as a [`NativePointer`]
