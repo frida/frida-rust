@@ -137,10 +137,10 @@ unsafe extern "C" fn call_query_mask<S: EventSink>(
 }
 
 pub(crate) fn event_sink_transform<S: EventSink>(
-    mut event_sink: &S,
+    event_sink: &mut S,
 ) -> *mut frida_gum_sys::GumEventSink {
     let rust = frida_gum_sys::RustEventSinkVTable {
-        user_data: &mut event_sink as *mut _ as *mut c_void,
+        user_data: event_sink as *mut _ as *mut c_void,
         query_mask: Some(call_query_mask::<S>),
         start: Some(call_start::<S>),
         process: Some(call_process::<S>),
