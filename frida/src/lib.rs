@@ -35,6 +35,9 @@ pub use script::*;
 mod session;
 pub use session::*;
 
+mod variant;
+pub use variant::*;
+
 #[doc(hidden)]
 pub type Result<T> = std::result::Result<T, error::Error>;
 
