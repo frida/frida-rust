@@ -1,0 +1,12 @@
+[package]
+name = "usb_device"
+version = "0.1.0"
+authors = ["Andras Marczell <andras@chaosrepeat.com>"]
+edition = "2018"
+license = "wxWindows"
+publish = false
+
+[dependencies]
+frida = { path = "../../../frida" }
+frida-sys = { path = "../../../frida-sys" }
+lazy_static = "1.4"

@@ -5,6 +5,7 @@
  */
 
 use frida_sys::_FridaDeviceManager;
+use std::ffi::CString;
 use std::marker::PhantomData;
 
 use crate::device::Device;
@@ -71,6 +72,39 @@ impl<'a> DeviceManager<'a> {
             frida_sys::frida_device_manager_get_device_by_type_sync(
                 self.manager_ptr,
                 r#type.into(),
+                0,
+                std::ptr::null_mut(),
+                &mut error,
+            )
+        };
+
+        if !error.is_null() {
+            return Err(Error::DeviceLookupFailed);
+        }
+
+        return Ok(Device::from_raw(device_ptr));
+    }
+
+    /// Returns the device with the specified id.
+    ///
+    /// # Example
+    /// ```
+    ///
+    /// let frida = unsafe { frida::Frida::obtain() };
+    /// let device_manager = frida::DeviceManager::obtain(&frida);
+    ///
+    /// let id = "<some id>";
+    /// let device = device_manager.get_device_by_id(id).unwrap();
+    /// assert_eq!(device.get_id(), id);
+    /// ```
+    pub fn get_device_by_id(&'a self, device_id: &str) -> Result<Device<'a>> {
+        let mut error: *mut frida_sys::GError = std::ptr::null_mut();
+        let cstring = CString::new(device_id).unwrap();
+
+        let device_ptr = unsafe {
+            frida_sys::frida_device_manager_get_device_by_id_sync(
+                self.manager_ptr,
+                cstring.as_ptr() as *const i8,
                 0,
                 std::ptr::null_mut(),
                 &mut error,
