@@ -41,8 +41,6 @@ jobs:
           make -j CFLAGS="-m32" LDFLAGS="-m32"
           make install_sw
           echo "OPENSSL_DIR=/tmp/openssl/install/" >> $GITHUB_ENV
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
       - name: Check
         uses: actions-rs/cargo@v1
         with:
