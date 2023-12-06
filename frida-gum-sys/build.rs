@@ -80,6 +80,8 @@ fn main() {
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .blocklist_type("GumChainedPtr64Rebase")
         .blocklist_type("GumChainedPtrArm64eRebase")
+        .blocklist_type("_GumChainedPtr64Rebase")
+        .blocklist_type("_GumChainedPtrArm64eRebase")
         .generate_comments(false)
         .layout_tests(false)
         .generate()
