@@ -7,7 +7,11 @@ fn main() {
     // get the first usb device (assuming there is one attached)
     let device = device_manager.get_device_by_type(DeviceType::USB).unwrap();
     assert_eq!(device.get_type(), DeviceType::USB);
-    println!("found {} with type: {}", device.get_name(), device.get_type());
+    println!(
+        "found {} with type: {}",
+        device.get_name(),
+        device.get_type()
+    );
 
     // get the device id and use it to obtain a the device by the id
     let device_id = device.get_id();
