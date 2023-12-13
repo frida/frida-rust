@@ -103,7 +103,7 @@ impl<'a> DeviceManager<'a> {
         let device_ptr = unsafe {
             frida_sys::frida_device_manager_get_device_by_id_sync(
                 self.manager_ptr,
-                cstring.as_ptr() as *const i8,
+                cstring.as_ptr(),
                 0,
                 std::ptr::null_mut(),
                 &mut error,
