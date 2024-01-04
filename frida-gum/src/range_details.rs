@@ -43,7 +43,7 @@ pub enum PageProtection {
 #[derive(Clone)]
 pub struct FileMapping<'a> {
     path: &'a str,
-    size: u64,
+    size: usize,
     offset: u64,
     phantom: PhantomData<&'a gum_sys::GumFileMapping>,
 }
@@ -56,7 +56,7 @@ impl<'a> FileMapping<'a> {
             Some(unsafe {
                 Self {
                     path: CStr::from_ptr((*file).path).to_str().unwrap(),
-                    size: (*file).size,
+                    size: (*file).size as usize,
                     offset: (*file).offset,
                     phantom: PhantomData,
                 }
@@ -75,8 +75,8 @@ impl<'a> FileMapping<'a> {
     }
 
     /// The size of the mapping.
-    pub fn size(&self) -> u64 {
-        self.size
+    pub fn size(&self) -> usize {
+        self.size as usize
     }
 }
 
