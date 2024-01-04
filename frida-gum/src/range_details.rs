@@ -23,7 +23,7 @@ use {
 use alloc::boxed::Box;
 
 /// The memory protection of an unassociated page.
-#[derive(FromPrimitive)]
+#[derive(Clone, FromPrimitive)]
 #[repr(u32)]
 pub enum PageProtection {
     NoAccess = gum_sys::_GumPageProtection_GUM_PAGE_NO_ACCESS as u32,
@@ -40,32 +40,43 @@ pub enum PageProtection {
 }
 
 /// The file association to a page.
+#[derive(Clone)]
 pub struct FileMapping<'a> {
-    file_mapping: *const gum_sys::GumFileMapping,
+    path: &'a str,
+    size: usize,
+    offset: u64,
     phantom: PhantomData<&'a gum_sys::GumFileMapping>,
 }
 
 impl<'a> FileMapping<'a> {
-    pub(crate) fn from_raw(file: *const gum_sys::GumFileMapping) -> Self {
-        Self {
-            file_mapping: file,
-            phantom: PhantomData,
+    pub(crate) fn from_raw(file: *const gum_sys::GumFileMapping) -> Option<Self> {
+        if file.is_null() {
+            None
+        } else {
+            Some(unsafe {
+                Self {
+                    path: CStr::from_ptr((*file).path).to_str().unwrap(),
+                    size: (*file).size as usize,
+                    offset: (*file).offset,
+                    phantom: PhantomData,
+                }
+            })
         }
     }
 
     /// The path of the file mapping on disk.
     pub fn path(&self) -> &str {
-        unsafe { CStr::from_ptr((*self.file_mapping).path).to_str().unwrap() }
+        self.path
     }
 
     /// The offset into the file mapping.
     pub fn offset(&self) -> u64 {
-        unsafe { (*self.file_mapping).offset }
+        self.offset
     }
 
     /// The size of the mapping.
-    pub fn size(&self) -> u64 {
-        unsafe { (*self.file_mapping).size as u64 }
+    pub fn size(&self) -> usize {
+        self.size as usize
     }
 }
 
@@ -104,15 +115,21 @@ unsafe extern "C" fn enumerate_ranges_stub(
 
 /// Details a range of virtual memory.
 pub struct RangeDetails<'a> {
-    range_details: *const gum_sys::GumRangeDetails,
+    range: MemoryRange,
+    protection: PageProtection,
+    file: Option<FileMapping<'a>>,
     phantom: PhantomData<&'a gum_sys::GumRangeDetails>,
 }
 
 impl<'a> RangeDetails<'a> {
     pub(crate) fn from_raw(range_details: *const gum_sys::GumRangeDetails) -> Self {
-        Self {
-            range_details,
-            phantom: PhantomData,
+        unsafe {
+            Self {
+                range: MemoryRange::from_raw((*range_details).range),
+                protection: num::FromPrimitive::from_u32((*range_details).protection).unwrap(),
+                file: FileMapping::from_raw((*range_details).file),
+                phantom: PhantomData,
+            }
         }
     }
 
@@ -154,21 +171,16 @@ impl<'a> RangeDetails<'a> {
 
     /// The range of memory that is detailed.
     pub fn memory_range(&self) -> MemoryRange {
-        unsafe { MemoryRange::from_raw((*self.range_details).range) }
+        self.range.clone()
     }
 
     /// The page protection of the range.
     pub fn protection(&self) -> PageProtection {
-        let protection = unsafe { (*self.range_details).protection };
-        num::FromPrimitive::from_u32(protection).unwrap()
+        self.protection.clone()
     }
 
     /// The associated file mapping, if present.
     pub fn file_mapping(&self) -> Option<FileMapping> {
-        if self.range_details.is_null() {
-            None
-        } else {
-            Some(unsafe { FileMapping::from_raw((*self.range_details).file) })
-        }
+        self.file.clone()
     }
 }
