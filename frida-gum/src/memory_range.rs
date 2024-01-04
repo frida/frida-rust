@@ -43,6 +43,8 @@ pub struct ScanResult {
     pub address: usize,
     pub size: usize,
 }
+
+#[derive(Clone)]
 pub struct MemoryRange {
     pub(crate) memory_range: gum_sys::GumMemoryRange,
 }
