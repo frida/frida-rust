@@ -80,9 +80,9 @@ impl<'a> FileMapping<'a> {
     }
 }
 
-struct SaveRangeDetailsByAddressContext {
+struct SaveRangeDetailsByAddressContext<'a> {
     address: u64,
-    details: Option<RangeDetails>,
+    details: Option<RangeDetails<'a>>,
 }
 
 unsafe extern "C" fn save_range_details_by_address(
