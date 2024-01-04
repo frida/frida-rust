@@ -80,9 +80,9 @@ impl<'a> FileMapping<'a> {
     }
 }
 
-struct SaveRangeDetailsByAddressContext {
+struct SaveRangeDetailsByAddressContext<'a> {
     address: u64,
-    details: *const gum_sys::GumRangeDetails,
+    details: Option<RangeDetails<'a>>,
 }
 
 unsafe extern "C" fn save_range_details_by_address(
@@ -94,7 +94,7 @@ unsafe extern "C" fn save_range_details_by_address(
     let start = (*range).base_address as u64;
     let end = start + (*range).size as u64;
     if start <= context.address && context.address < end {
-        context.details = details;
+        context.details = Some(RangeDetails::from_raw(details));
         return 0;
     }
 
@@ -137,7 +137,7 @@ impl<'a> RangeDetails<'a> {
     pub fn with_address(address: u64) -> Option<RangeDetails<'a>> {
         let mut context = SaveRangeDetailsByAddressContext {
             address,
-            details: core::ptr::null_mut(),
+            details: None,
         };
         unsafe {
             gum_sys::gum_process_enumerate_ranges(
@@ -147,11 +147,7 @@ impl<'a> RangeDetails<'a> {
             );
         }
 
-        if !context.details.is_null() {
-            Some(RangeDetails::from_raw(context.details))
-        } else {
-            None
-        }
+        context.details
     }
 
     /// Enumerate all ranges which match the given [`PageProtection`], calling the callback
