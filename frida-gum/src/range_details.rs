@@ -13,12 +13,12 @@
 extern crate alloc;
 use {
     crate::MemoryRange,
+    alloc::string::String,
     core::{
         ffi::{c_void, CStr},
         marker::PhantomData,
     },
     frida_gum_sys as gum_sys,
-    alloc::string::String,
 };
 
 #[cfg(not(feature = "module-names"))]
