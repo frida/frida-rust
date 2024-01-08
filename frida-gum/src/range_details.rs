@@ -10,8 +10,10 @@
     allow(clippy::unnecessary_cast)
 )]
 
+extern crate alloc;
 use {
     crate::MemoryRange,
+    alloc::string::String,
     core::{
         ffi::{c_void, CStr},
         marker::PhantomData,
@@ -42,7 +44,7 @@ pub enum PageProtection {
 /// The file association to a page.
 #[derive(Clone)]
 pub struct FileMapping<'a> {
-    path: &'a str,
+    path: String,
     size: usize,
     offset: u64,
     phantom: PhantomData<&'a gum_sys::GumFileMapping>,
@@ -55,7 +57,7 @@ impl<'a> FileMapping<'a> {
         } else {
             Some(unsafe {
                 Self {
-                    path: CStr::from_ptr((*file).path).to_str().unwrap(),
+                    path: CStr::from_ptr((*file).path).to_string_lossy().into_owned(),
                     size: (*file).size as usize,
                     offset: (*file).offset,
                     phantom: PhantomData,
@@ -66,7 +68,7 @@ impl<'a> FileMapping<'a> {
 
     /// The path of the file mapping on disk.
     pub fn path(&self) -> &str {
-        self.path
+        &self.path
     }
 
     /// The offset into the file mapping.
