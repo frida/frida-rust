@@ -64,12 +64,27 @@ fn main() {
     let bindings = bindings.clang_arg(format!("-I{include_dir}"));
 
     #[cfg(not(feature = "auto-download"))]
-    let bindings = if std::env::var("DOCS_RS").is_ok() {
+    let bindings = if env::var("DOCS_RS").is_ok() {
         bindings.clang_arg("-Iinclude")
     } else {
         bindings
     };
 
+    #[cfg(target_os = "android")]
+    {
+        let android_ndk_home = env::var("ANDROID_NDK_HOME").expect("ANDROID_NDK_HOME not set");
+        let build_os = match env::consts::OS {
+            "linux" => "linux",
+            "macos" => "darwin",
+            "windows" => "windows",
+            _ => panic!(
+                "Unsupported OS. You must use either Linux, MacOS or Windows to build the crate."
+            ),
+        };
+        let bindings = bindings.clang_arg(format!(
+            "--sysroot={android_ndk_home}/toolchains/llvm/prebuilt/{build_os}-x86_64/sysroot/"
+        ));
+    }
     let bindings = bindings
         .header_contents("gum.h", "#include \"frida-gum.h\"")
         .header("event_sink.h")
@@ -101,7 +116,7 @@ fn main() {
         let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if std::env::var("DOCS_RS").is_ok() {
+        let builder = if env::var("DOCS_RS").is_ok() {
             builder.include("include")
         } else {
             &mut builder
@@ -122,7 +137,7 @@ fn main() {
         let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if std::env::var("DOCS_RS").is_ok() {
+        let builder = if env::var("DOCS_RS").is_ok() {
             builder.include("include")
         } else {
             &mut builder
@@ -140,7 +155,7 @@ fn main() {
         let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if std::env::var("DOCS_RS").is_ok() {
+        let builder = if env::var("DOCS_RS").is_ok() {
             builder.include("include")
         } else {
             &mut builder
@@ -160,7 +175,7 @@ fn main() {
         let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if std::env::var("DOCS_RS").is_ok() {
+        let builder = if env::var("DOCS_RS").is_ok() {
             builder.include("include")
         } else {
             &mut builder
@@ -181,7 +196,7 @@ fn main() {
         let mut builder = builder.include(include_dir);
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if std::env::var("DOCS_RS").is_ok() {
+        let builder = if env::var("DOCS_RS").is_ok() {
             builder.include("include")
         } else {
             &mut builder

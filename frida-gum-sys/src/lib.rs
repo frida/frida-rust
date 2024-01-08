@@ -16,7 +16,7 @@ mod bindings {
 
 pub use bindings::*;
 
-#[cfg(not(any(target_os = "windows", target_os = "android", target_vendor = "apple",)))]
+#[cfg(not(any(target_os = "windows", target_vendor = "apple")))]
 pub use _frida_g_object_unref as g_object_unref;
 
 /// A single disassembled CPU instruction.
