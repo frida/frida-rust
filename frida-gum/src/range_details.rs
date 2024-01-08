@@ -17,6 +17,7 @@ use {
         marker::PhantomData,
     },
     frida_gum_sys as gum_sys,
+    alloc::string::String,
 };
 
 #[cfg(not(feature = "module-names"))]
