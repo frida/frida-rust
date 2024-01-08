@@ -10,6 +10,7 @@
     allow(clippy::unnecessary_cast)
 )]
 
+extern crate alloc;
 use {
     crate::MemoryRange,
     core::{
