@@ -55,7 +55,7 @@ impl<'a> FileMapping<'a> {
         } else {
             Some(unsafe {
                 Self {
-                    path: CStr::from_ptr((*file).path).to_owned().into_string().unwrap(),
+                    path: CStr::from_ptr((*file).path).to_string_lossy().into_owned(),
                     size: (*file).size as usize,
                     offset: (*file).offset,
                     phantom: PhantomData,
