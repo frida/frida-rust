@@ -98,6 +98,12 @@ impl<'a> Instruction<'a> {
         };
     }
 
+    pub fn put_chaining_return(&self){
+        unsafe {
+            frida_gum_sys::gum_stalker_iterator_put_chaining_return(self.parent);
+        }
+    }
+
     pub fn instr(&self) -> &Insn {
         &self.instr
     }

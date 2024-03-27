@@ -1,2 +1,3 @@
 libfrida-gum.a
 frida-gum-example.c
+frida-gum.h
