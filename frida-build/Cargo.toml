@@ -8,6 +8,6 @@ repository = "https://github.com/frida/frida-rust"
 description = "Build support for Frida Rust bindings"
 
 [dependencies]
-reqwest = { version = "0.11.3", features = ["blocking"] }
+reqwest = { version = "0.11.3", default-features=false, features = ["blocking", "rustls-tls"] }
 xz = "0.1.0"
 tar = "0.4.33"
