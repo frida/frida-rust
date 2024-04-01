@@ -1,13 +1,13 @@
 [package]
 name = "frida-build"
-version = "0.2.1"
-authors = ["Keegan Saunders <keegan@undefinedbehaviour.org>"]
-edition = "2018"
-license = "wxWindows"
-repository = "https://github.com/frida/frida-rust"
-description = "Build support for Frida Rust bindings"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description.workspace = true
 
 [dependencies]
-reqwest = { version = "0.11.3", default-features=false, features = ["blocking", "rustls-tls"] }
+reqwest = { version = "0.12.2", default-features=false, features = ["blocking", "rustls-tls"] }
+tar = "0.4.40"
 xz = "0.1.0"
-tar = "0.4.33"

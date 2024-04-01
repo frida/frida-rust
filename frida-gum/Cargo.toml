@@ -1,11 +1,11 @@
 [package]
 name = "frida-gum"
-version = "0.13.5"
-authors = ["Keegan Saunders <keegan@undefinedbehaviour.org>", "Shmarya Rubenstein <github@shmarya.net>"]
-edition = "2018"
-license = "wxWindows"
-repository = "https://github.com/frida/frida-rust"
-description = "Rust bindings for Frida Gum"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description.workspace = true
 
 [features]
 auto-download = ["frida-gum-sys/auto-download"]
@@ -19,11 +19,11 @@ stalker-params = ["frida-gum-sys/stalker-params"]
 
 [dependencies]
 cstr_core = { version = "0.2.6", default-features = false, features = ["alloc"] }
-frida-gum-sys = { path = "../frida-gum-sys", version = "0.8.3" }
-libc = { version = "0.2.93", default-features = false, optional = true }
-num = { version = "0.3.1", default-features = false }
-num-derive = { version = "0.3.3", default-features = false }
-num-traits = { version = "0.2.14", default-features = false }
+frida-gum-sys = { path = "../frida-gum-sys" }
+libc = { version = "0.2.153", default-features = false, optional = true }
+num = { version = "0.4.1", default-features = false }
+num-derive = { version = "0.4.2", default-features = false }
+num-traits = { version = "0.2.18", default-features = false }
 paste = { version = "1", default-features = false }
 
 [dev-dependencies]

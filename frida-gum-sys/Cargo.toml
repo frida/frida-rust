@@ -1,11 +1,12 @@
 [package]
 name = "frida-gum-sys"
-version = "0.8.4"
-authors = ["Keegan Saunders <keegan@undefinedbehaviour.org>", "Shmarya Rubenstein <github@shmarya.net>"]
-edition = "2018"
-license = "wxWindows"
-repository = "https://github.com/frida/frida-rust"
-description = "Rust generated bindings for Frida Gum"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description.workspace = true
+
 
 [features]
 auto-download = ["frida-build"]
@@ -15,9 +16,9 @@ stalker-observer = ["cc"]
 stalker-params = ["cc"]
 
 [build-dependencies]
-bindgen = "0.69.1"
+bindgen = "0.69.4"
 cc = { version = "1.0", optional = true }
-frida-build = { path = "../frida-build", version = "0.2.1", optional = true }
+frida-build = { path = "../frida-build", optional = true }
 
 [badges]
 maintenance = { status = "experimental" }
