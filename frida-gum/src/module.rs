@@ -15,7 +15,7 @@
 
 use {
     crate::{NativePointer, PageProtection, RangeDetails},
-    core::{convert::TryInto, ffi::c_void},
+    core::ffi::c_void,
     cstr_core::CString,
     frida_gum_sys as gum_sys,
     frida_gum_sys::{gboolean, gpointer, GumExportDetails, GumModuleDetails, GumSymbolDetails},
