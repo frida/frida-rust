@@ -11,7 +11,7 @@ description.workspace = true
 auto-download = ["frida-sys/auto-download"]
 
 [dependencies]
-frida-sys = { path = "../frida-sys" }
+frida-sys = { path = "../frida-sys" , version = "0.13.6"}
 thiserror = "1"
 
 [dev-dependencies]
