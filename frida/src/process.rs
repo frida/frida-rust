@@ -5,7 +5,6 @@
  */
 
 use frida_sys::{FridaSpawnOptions, _FridaProcess};
-use std::convert::TryInto;
 use std::ffi::{CStr, CString};
 use std::marker::PhantomData;
 

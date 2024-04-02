@@ -21,7 +21,11 @@ use {
     frida_gum_sys::{gboolean, gpointer, GumExportDetails, GumModuleDetails, GumSymbolDetails},
 };
 
-#[cfg(not(feature = "module-names"))]
+#[cfg(not(any(
+    feature = "module-names",
+    feature = "backtrace",
+    feature = "memory-access-monitor"
+)))]
 use alloc::{boxed::Box, string::String, vec, vec::Vec};
 
 extern "C" fn enumerate_ranges_callout(
