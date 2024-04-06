@@ -37,3 +37,11 @@ default-members = [
     "examples/core/usb_device",
     "examples/core/console_log",
 ]
+
+[workspace.package]
+version = "0.13.6"
+authors = ["Keegan Saunders <keegan@undefinedbehaviour.org>", "Shmarya Rubenstein <github@shmarya.net>"]
+edition = "2021"
+license = "wxWindows"
+repository = "https://github.com/frida/frida-rust"
+description = "Rust bindings for Frida"

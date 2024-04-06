@@ -1,6 +1,6 @@
 use {
     crate::instruction_writer::{Argument, InstructionWriter, X86BranchCondition, X86Register},
-    core::{convert::TryInto, ffi::c_void},
+    core::ffi::c_void,
     frida_gum_sys as gum_sys,
     gum_sys::{gssize, GumArgument, GumBranchHint},
 };
