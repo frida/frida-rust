@@ -97,6 +97,17 @@ impl Aarch64InstructionWriter {
         }
     }
 
+    pub fn gum_arm64_writer_put_uxtw_reg_reg(
+        &self,
+        dst_reg: Aarch64Register,
+        src_reg: Aarch64Register,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_uxtw_reg_reg(self.writer, dst_reg as u32, src_reg as u32)
+                != 0
+        }
+    }
+
     /// Insert a `add d, l, r` instruction.
     pub fn put_add_reg_reg_imm(
         &self,
@@ -131,10 +142,177 @@ impl Aarch64InstructionWriter {
         }
     }
 
+    pub fn put_bl_label(&self, label_id: u64) {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_bl_label(self.writer, label_id as *const c_void);
+        }
+    }
+
+    pub fn put_branch_address(&self, address: u64) {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_branch_address(self.writer, address);
+        }
+    }
+
+    pub fn put_sub_reg_reg_reg(
+        &self,
+        dst_reg: Aarch64Register,
+        left_reg: Aarch64Register,
+        right_reg: Aarch64Register,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_sub_reg_reg_reg(
+                self.writer,
+                dst_reg as u32,
+                left_reg as u32,
+                right_reg as u32,
+            ) != 0
+        }
+    }
+
+    pub fn put_and_reg_reg_imm(
+        &self,
+        dst_reg: Aarch64Register,
+        left_reg: Aarch64Register,
+        right_value: u64,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_and_reg_reg_imm(
+                self.writer,
+                dst_reg as u32,
+                left_reg as u32,
+                right_value,
+            ) != 0
+        }
+    }
+
+    /// Insert a `eor, d, l, r` instruction
+    pub fn put_eor_reg_reg_reg(
+        &self,
+        dst_reg: Aarch64Register,
+        left_reg: Aarch64Register,
+        right_reg: Aarch64Register,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_eor_reg_reg_reg(
+                self.writer,
+                dst_reg as u32,
+                left_reg as u32,
+                right_reg as u32,
+            ) != 0
+        }
+    }
+
+    /// Insert a `ubfm, d, s, imms, immr` instruction
+    pub fn put_ubfm(
+        &self,
+        dst_reg: Aarch64Register,
+        src_reg: Aarch64Register,
+        imms: u8,
+        immr: u8,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_ubfm(
+                self.writer,
+                dst_reg as u32,
+                src_reg as u32,
+                imms,
+                immr,
+            ) != 0
+        }
+    }
+
+    pub fn put_lsl_reg_imm(
+        &self,
+        dst_reg: Aarch64Register,
+        src_reg: Aarch64Register,
+        shift: u8,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_lsl_reg_imm(
+                self.writer,
+                dst_reg as u32,
+                src_reg as u32,
+                shift,
+            ) != 0
+        }
+    }
+
+    pub fn put_lsr_reg_imm(
+        &self,
+        dst_reg: Aarch64Register,
+        src_reg: Aarch64Register,
+        shift: u8,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_lsr_reg_imm(
+                self.writer,
+                dst_reg as u32,
+                src_reg as u32,
+                shift,
+            ) != 0
+        }
+    }
+
+    pub fn put_tst_reg_imm(&self, reg: Aarch64Register, imm_value: u64) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_tst_reg_imm(self.writer, reg as u32, imm_value) != 0
+        }
+    }
+
+    pub fn put_cmp_reg_reg(&self, reg_a: Aarch64Register, reg_b: Aarch64Register) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_cmp_reg_reg(self.writer, reg_a as u32, reg_b as u32) != 0
+        }
+    }
+
+    pub fn put_xpaci_reg(&self, reg: Aarch64Register) -> bool {
+        unsafe { gum_sys::gum_arm64_writer_put_xpaci_reg(self.writer, reg as u32) != 0 }
+    }
+
+    pub fn put_nop(&self) {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_nop(self.writer);
+        }
+    }
+
+    pub fn put_mrs(&self, dst_reg: Aarch64Register, system_reg: u16) -> bool {
+        unsafe { gum_sys::gum_arm64_writer_put_mrs(self.writer, dst_reg as u32, system_reg) != 0 }
+    }
+
+    pub fn put_instruction(&self, insn: u32) {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_instruction(self.writer, insn);
+        }
+    }
+
+    pub fn sign(&self, address: u64) -> u64 {
+        unsafe { gum_sys::gum_arm64_writer_sign(self.writer, address) as u64 }
+    }
+
     /// Insert a `mov d, s` instruction.
     pub fn put_mov_reg_reg(&self, dst_reg: Aarch64Register, src_reg: Aarch64Register) -> bool {
         unsafe {
             gum_sys::gum_arm64_writer_put_mov_reg_reg(self.writer, dst_reg as u32, src_reg as u32)
+                != 0
+        }
+    }
+
+    pub fn put_mov_reg_nzcv(&self, reg: Aarch64Register) {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_mov_reg_nzcv(self.writer, reg as u32);
+        }
+    }
+
+    pub fn put_mov_nzcv_reg(&self, reg: Aarch64Register) {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_mov_nzcv_reg(self.writer, reg as u32);
+        }
+    }
+
+    pub fn put_uxtw_reg_reg(&self, dst_reg: Aarch64Register, src_reg: Aarch64Register) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_uxtw_reg_reg(self.writer, dst_reg as u32, src_reg as u32)
                 != 0
         }
     }
@@ -160,6 +338,13 @@ impl Aarch64InstructionWriter {
         }
     }
 
+    pub fn put_ldr_reg_reg(&self, dst_reg: Aarch64Register, src_reg: Aarch64Register) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_ldr_reg_reg(self.writer, dst_reg as u32, src_reg as u32)
+                != 0
+        }
+    }
+
     /// Insert a `ldr reg, [reg + o]` instruction.
     pub fn put_ldr_reg_reg_offset(
         &self,
@@ -173,6 +358,40 @@ impl Aarch64InstructionWriter {
                 reg_a as u32,
                 reg_src as u32,
                 offset,
+            ) != 0
+        }
+    }
+
+    pub fn put_ldr_reg_reg_offset_mode(
+        &self,
+        reg_a: Aarch64Register,
+        reg_src: Aarch64Register,
+        offset: i64,
+        mode: IndexMode,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_ldr_reg_reg_offset_mode(
+                self.writer,
+                reg_a as u32,
+                reg_src as u32,
+                offset,
+                mode as u32,
+            ) != 0
+        }
+    }
+
+    pub fn put_ldrsw_reg_reg_offset(
+        &self,
+        dst_reg: Aarch64Register,
+        src_reg: Aarch64Register,
+        src_offset: u64,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_ldrsw_reg_reg_offset(
+                self.writer,
+                dst_reg as u32,
+                src_reg as u32,
+                src_offset,
             ) != 0
         }
     }
@@ -193,9 +412,21 @@ impl Aarch64InstructionWriter {
         }
     }
 
-    pub fn put_cmp_reg_reg(&self, reg_a: Aarch64Register, reg_b: Aarch64Register) -> bool {
+    pub fn put_str_reg_reg_offset_mode(
+        &self,
+        reg_src: Aarch64Register,
+        reg_dst: Aarch64Register,
+        offset: i64,
+        mode: IndexMode,
+    ) -> bool {
         unsafe {
-            gum_sys::gum_arm64_writer_put_cmp_reg_reg(self.writer, reg_a as u32, reg_b as u32) != 0
+            gum_sys::gum_arm64_writer_put_str_reg_reg_offset_mode(
+                self.writer,
+                reg_src as u32,
+                reg_dst as u32,
+                offset,
+                mode as u32,
+            ) != 0
         }
     }
 
@@ -225,6 +456,18 @@ impl Aarch64InstructionWriter {
         unsafe { gum_sys::gum_arm64_writer_put_ldr_reg_u64(self.writer, reg as u32, address) != 0 }
     }
 
+    pub fn put_ldr_reg_u32_ptr(&self, reg: Aarch64Register, src_address: u64) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_ldr_reg_u32_ptr(self.writer, reg as u32, src_address) != 0
+        }
+    }
+
+    pub fn put_ldr_reg_u64_ptr(&self, reg: Aarch64Register, src_address: u64) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_ldr_reg_u64_ptr(self.writer, reg as u32, src_address) != 0
+        }
+    }
+
     pub fn put_push_reg_reg(&self, reg_a: Aarch64Register, reg_b: Aarch64Register) -> bool {
         unsafe {
             gum_sys::gum_arm64_writer_put_push_reg_reg(self.writer, reg_a as u32, reg_b as u32) != 0
@@ -239,6 +482,88 @@ impl Aarch64InstructionWriter {
     pub fn put_br_reg(&self, reg: Aarch64Register) -> bool {
         unsafe { gum_sys::gum_arm64_writer_put_br_reg(self.writer, reg as u32) != 0 }
     }
+
+    pub fn put_blr_reg(&self, reg: Aarch64Register) -> bool {
+        unsafe { gum_sys::gum_arm64_writer_put_blr_reg(self.writer, reg as u32) != 0 }
+    }
+
+    pub fn put_blr_reg_no_auth(&self, reg: Aarch64Register) -> bool {
+        unsafe { gum_sys::gum_arm64_writer_put_blr_reg_no_auth(self.writer, reg as u32) != 0 }
+    }
+
+    pub fn put_ret(&self) {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_ret(self.writer);
+        }
+    }
+
+    pub fn put_ret_reg(&self, reg: Aarch64Register) -> bool {
+        unsafe { gum_sys::gum_arm64_writer_put_ret_reg(self.writer, reg as u32) != 0 }
+    }
+
+    pub fn put_cbz_reg_imm(&self, reg: Aarch64Register, target: u64) -> bool {
+        unsafe { gum_sys::gum_arm64_writer_put_cbz_reg_imm(self.writer, reg as u32, target) != 0 }
+    }
+
+    pub fn put_cbnz_reg_imm(&self, reg: Aarch64Register, target: u64) -> bool {
+        unsafe { gum_sys::gum_arm64_writer_put_cbnz_reg_imm(self.writer, reg as u32, target) != 0 }
+    }
+
+    pub fn put_cbz_reg_label(&self, reg: Aarch64Register, label_id: u64) {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_cbz_reg_label(
+                self.writer,
+                reg as u32,
+                label_id as *const c_void,
+            )
+        }
+    }
+
+    pub fn put_cbnz_reg_label(&self, reg: Aarch64Register, label_id: u64) {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_cbnz_reg_label(
+                self.writer,
+                reg as u32,
+                label_id as *const c_void,
+            );
+        }
+    }
+
+    pub fn put_tbz_reg_imm_imm(&self, reg: Aarch64Register, bit: u32, target: u64) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_tbz_reg_imm_imm(self.writer, reg as u32, bit, target) != 0
+        }
+    }
+
+    pub fn put_tbnz_reg_imm_imm(&self, reg: Aarch64Register, bit: u32, target: u64) -> bool {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_tbnz_reg_imm_imm(self.writer, reg as u32, bit, target)
+                != 0
+        }
+    }
+
+    pub fn put_tbz_reg_imm_label(&self, reg: Aarch64Register, bit: u32, label_id: u64) {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_tbz_reg_imm_label(
+                self.writer,
+                reg as u32,
+                bit,
+                label_id as *const c_void,
+            );
+        }
+    }
+
+    pub fn put_tbnz_reg_imm_label(&self, reg: Aarch64Register, bit: u32, label_id: u64) {
+        unsafe {
+            gum_sys::gum_arm64_writer_put_tbnz_reg_imm_label(
+                self.writer,
+                reg as u32,
+                bit,
+                label_id as *const c_void,
+            );
+        }
+    }
+
     pub fn put_ldr_reg_address(&self, reg: Aarch64Register, address: u64) -> bool {
         unsafe {
             gum_sys::gum_arm64_writer_put_ldr_reg_address(self.writer, reg as u32, address) != 0
