@@ -67,7 +67,6 @@ extern crate num;
 extern crate num_derive;
 
 use core::{
-    convert::TryFrom,
     ffi::{c_char, c_void, CStr},
     fmt::{Debug, Display, Formatter, LowerHex, UpperHex},
 };

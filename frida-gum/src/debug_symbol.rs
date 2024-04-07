@@ -1,6 +1,6 @@
 use {
     crate::NativePointer,
-    core::{convert::TryInto, fmt, mem::MaybeUninit, str::Utf8Error},
+    core::{fmt, mem::MaybeUninit, str::Utf8Error},
     cstr_core::{CStr, CString},
     frida_gum_sys as gum_sys,
     gum_sys::{gum_find_function, gum_symbol_details_from_address, GumDebugSymbolDetails},

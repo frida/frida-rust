@@ -11,4 +11,4 @@ crate-type = ["cdylib"]
 [dependencies]
 frida-gum = { path = "../../../frida-gum", features = ["invocation-listener"]}
 lazy_static = "1.4"
-ctor = "0.1"
+ctor = "0.2"
