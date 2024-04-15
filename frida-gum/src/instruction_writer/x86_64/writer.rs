@@ -5,7 +5,11 @@ use {
     gum_sys::{gssize, GumArgument, GumBranchHint},
 };
 
-#[cfg(not(feature = "module-names"))]
+#[cfg(not(any(
+    feature = "module-names",
+    feature = "backtrace",
+    feature = "memory-access-monitor"
+)))]
 use alloc::vec::Vec;
 
 /// The x86/x86_64 instruction writer.

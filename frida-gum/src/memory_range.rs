@@ -11,7 +11,11 @@ use core::{
     ops::Range,
 };
 
-#[cfg(not(feature = "module-names"))]
+#[cfg(not(any(
+    feature = "module-names",
+    feature = "backtrace",
+    feature = "memory-access-monitor"
+)))]
 use alloc::vec::Vec;
 
 pub struct MatchPattern {

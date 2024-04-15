@@ -58,7 +58,11 @@
 #![allow(clippy::needless_doctest_main)]
 #![allow(clippy::missing_safety_doc)]
 
-#[cfg(not(feature = "module-names"))]
+#[cfg(not(any(
+    feature = "module-names",
+    feature = "backtrace",
+    feature = "memory-access-monitor"
+)))]
 extern crate alloc;
 
 extern crate num;
@@ -71,7 +75,11 @@ use core::{
     fmt::{Debug, Display, Formatter, LowerHex, UpperHex},
 };
 
-#[cfg(not(feature = "module-names"))]
+#[cfg(not(any(
+    feature = "module-names",
+    feature = "backtrace",
+    feature = "memory-access-monitor"
+)))]
 use alloc::string::String;
 
 pub mod stalker;

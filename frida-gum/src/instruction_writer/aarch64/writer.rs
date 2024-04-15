@@ -7,7 +7,11 @@ use {
     gum_sys::GumArgument,
 };
 
-#[cfg(not(feature = "module-names"))]
+#[cfg(not(any(
+    feature = "module-names",
+    feature = "backtrace",
+    feature = "memory-access-monitor"
+)))]
 use alloc::vec::Vec;
 
 /// The Aarch64 instruction writer.
