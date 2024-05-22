@@ -4,7 +4,7 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
-use frida_sys::{FridaScriptOptions, _FridaScript};
+use frida_sys::{FridaScriptOptions, _FridaScript, g_bytes_new, g_bytes_unref};
 use std::marker::PhantomData;
 use std::{
     ffi::{c_char, c_void, CStr, CString},
@@ -101,6 +101,25 @@ impl<'a> Script<'a> {
                 0,
             )
         };
+
+        Ok(())
+    }
+
+    /// Post a JSON-encoded message to the script with optional binary data
+    ///
+    /// NOTE: `message` must be valid JSON otherwise the script will throw a SyntaxError
+    pub fn post<S: AsRef<str>>(&self, message: S, data: Option<&[u8]>) -> Result<()> {
+        let message = CString::new(message.as_ref()).map_err(|_| Error::CStringFailed)?;
+
+        unsafe {
+            let g_data = if let Some(data) = data {
+                g_bytes_new(data.as_ptr() as _, data.len() as _)
+            } else {
+                std::ptr::null_mut()
+            };
+            frida_sys::frida_script_post(self.script_ptr as _, message.as_ptr() as _, g_data);
+            g_bytes_unref(g_data);
+        }
 
         Ok(())
     }
