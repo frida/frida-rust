@@ -196,7 +196,7 @@ fn main() {
     if target_os == "windows" {
         for lib in [
             "dnsapi", "iphlpapi", "psapi", "winmm", "ws2_32", "advapi32", "crypt32", "gdi32",
-            "kernel32", "ole32", "secur32", "shell32", "shlwapi", "user32", "setupapi"
+            "kernel32", "ole32", "secur32", "shell32", "shlwapi", "user32", "setupapi",
         ] {
             println!("cargo:rustc-link-lib=dylib={lib}");
         }
