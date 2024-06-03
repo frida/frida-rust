@@ -7,7 +7,6 @@
 
 //! Frida bindings for Rust.
 
-#![cfg_attr(doc_cfg, feature(doc_cfg))]
 #![deny(warnings)]
 #![deny(missing_docs)]
 #![allow(clippy::missing_safety_doc)]

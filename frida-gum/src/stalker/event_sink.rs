@@ -16,7 +16,7 @@ use {
 
 #[derive(FromPrimitive)]
 #[repr(u32)]
-#[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "event-sink")))]
 pub enum EventMask {
     None = gum_sys::_GumEventType_GUM_NOTHING as u32,
     Call = gum_sys::_GumEventType_GUM_CALL as u32,
@@ -26,7 +26,7 @@ pub enum EventMask {
     Compile = gum_sys::_GumEventType_GUM_COMPILE as u32,
 }
 
-#[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "event-sink")))]
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub enum Event {
     Call {
@@ -52,7 +52,7 @@ pub enum Event {
     },
 }
 
-#[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "event-sink")))]
 impl From<GumEvent> for Event {
     fn from(event: GumEvent) -> Event {
         match num::FromPrimitive::from_u32(unsafe { event.type_ }).unwrap() {
@@ -97,7 +97,7 @@ impl From<GumEvent> for Event {
     }
 }
 
-#[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "event-sink")))]
 pub trait EventSink {
     fn query_mask(&mut self) -> EventMask;
     fn start(&mut self);

@@ -34,4 +34,3 @@ maintenance = { status = "experimental" }
 
 [package.metadata.docs.rs]
 features = ["event-sink", "invocation-listener", "stalker-observer", "stalker-params"]
-rustdoc-args = ["--cfg", "doc_cfg"]

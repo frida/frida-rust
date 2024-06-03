@@ -6,7 +6,7 @@
 
 use {core::ffi::c_void, frida_gum_sys as gum_sys};
 
-#[cfg_attr(doc_cfg, doc(cfg(feature = "stalker-observer")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "stalker-observer")))]
 pub trait StalkerObserver {
     fn notify_backpatch(&mut self, backpatch: *const gum_sys::GumBackpatch, size: gum_sys::gsize);
     fn switch_callback(
