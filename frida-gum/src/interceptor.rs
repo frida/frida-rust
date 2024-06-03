@@ -17,7 +17,7 @@ use core::ffi::c_void;
 #[cfg(feature = "invocation-listener")]
 mod invocation_listener;
 #[cfg(feature = "invocation-listener")]
-#[cfg_attr(doc_cfg, doc(cfg(feature = "invocation-listener")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "invocation-listener")))]
 pub use invocation_listener::*;
 
 /// Function hooking engine interface.
@@ -47,7 +47,7 @@ impl<'a> Interceptor<'a> {
     /// The provided address *must* point to the start of a function in a valid
     /// memory region.
     #[cfg(feature = "invocation-listener")]
-    #[cfg_attr(doc_cfg, doc(cfg(feature = "invocation-listener")))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "invocation-listener")))]
     pub fn attach<I: InvocationListener>(
         &mut self,
         f: NativePointer,
@@ -66,7 +66,7 @@ impl<'a> Interceptor<'a> {
     ///
     /// The provided address *must* point to a valid instruction.
     #[cfg(feature = "invocation-listener")]
-    #[cfg_attr(doc_cfg, doc(cfg(feature = "invocation-listener")))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "invocation-listener")))]
     pub fn attach_instruction<I: ProbeListener>(
         &mut self,
         instr: NativePointer,
@@ -85,7 +85,7 @@ impl<'a> Interceptor<'a> {
     ///
     /// The listener *must* have been attached with [`Interceptor::attach()`].
     #[cfg(feature = "invocation-listener")]
-    #[cfg_attr(doc_cfg, doc(cfg(feature = "invocation-listener")))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "invocation-listener")))]
     pub fn detach(&mut self, listener: NativePointer) {
         unsafe {
             gum_sys::gum_interceptor_detach(
@@ -192,7 +192,7 @@ impl<'a> Interceptor<'a> {
     ///
     /// Should only be called from within a hook or replacement function.
     #[cfg(feature = "invocation-listener")]
-    #[cfg_attr(doc_cfg, doc(cfg(feature = "invocation-listener")))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "invocation-listener")))]
     pub fn current_invocation() -> InvocationContext<'a> {
         InvocationContext::from_raw(unsafe { gum_sys::gum_interceptor_get_current_invocation() })
     }

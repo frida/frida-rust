@@ -22,4 +22,3 @@ maintenance = { status = "experimental" }
 
 [package.metadata.docs.rs]
 features = []
-rustdoc-args = ["--cfg", "doc_cfg"]

@@ -55,11 +55,11 @@ mod transformer;
 pub use transformer::*;
 
 #[cfg(feature = "event-sink")]
-#[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "event-sink")))]
 pub struct NoneEventSink;
 
 #[cfg(feature = "event-sink")]
-#[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "event-sink")))]
 impl EventSink for NoneEventSink {
     fn query_mask(&mut self) -> EventMask {
         unreachable!()
@@ -199,7 +199,7 @@ impl<'a> Stalker<'a> {
     /// If reusing an existing [`Transformer`], make sure to call [`Stalker::garbage_collect()`]
     /// periodically.
     #[cfg(feature = "event-sink")]
-    #[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "event-sink")))]
     pub fn follow<S: EventSink>(
         &mut self,
         thread_id: usize,
@@ -231,7 +231,7 @@ impl<'a> Stalker<'a> {
     /// If reusing an existing [`Transformer`], make sure to call [`Stalker::garbage_collect()`]
     /// periodically.
     #[cfg(feature = "event-sink")]
-    #[cfg_attr(doc_cfg, doc(cfg(feature = "event-sink")))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "event-sink")))]
     pub fn follow_me<S: EventSink>(
         &mut self,
         transformer: &Transformer,
@@ -253,7 +253,7 @@ impl<'a> Stalker<'a> {
     /// If reusing an existing [`Transformer`], make sure to call [`Stalker::garbage_collect()`]
     /// periodically.
     #[cfg(not(feature = "event-sink"))]
-    #[cfg_attr(doc_cfg, doc(cfg(not(feature = "event-sink"))))]
+    #[cfg_attr(docsrs, doc(cfg(not(feature = "event-sink"))))]
     pub fn follow_me(&mut self, transformer: &Transformer) {
         unsafe {
             gum_sys::gum_stalker_follow_me(
@@ -297,7 +297,7 @@ impl<'a> Stalker<'a> {
     }
 
     #[cfg(feature = "stalker-observer")]
-    #[cfg_attr(doc_cfg, doc(cfg(feature = "stalker-observer")))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "stalker-observer")))]
     pub fn set_observer<O: StalkerObserver>(&mut self, observer: &mut O) {
         let obs = stalker_observer_transform(observer);
         unsafe {

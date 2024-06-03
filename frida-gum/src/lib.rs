@@ -53,7 +53,6 @@
     )),
     no_std
 )]
-#![cfg_attr(doc_cfg, feature(doc_cfg))]
 #![deny(warnings)]
 #![allow(clippy::needless_doctest_main)]
 #![allow(clippy::missing_safety_doc)]
@@ -115,10 +114,10 @@ mod debug_symbol;
 pub use debug_symbol::*;
 
 #[cfg(feature = "backtrace")]
-#[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "backtrace")))]
 mod backtracer;
 #[cfg(feature = "backtrace")]
-#[cfg_attr(doc_cfg, doc(cfg(feature = "backtrace")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "backtrace")))]
 pub use backtracer::*;
 
 #[doc(hidden)]
