@@ -90,7 +90,10 @@ impl<'a> Script<'a> {
     pub fn handle_message<I: ScriptHandler>(&self, handler: &mut I) -> Result<()> {
         let message = CString::new("message").map_err(|_| Error::CStringFailed)?;
         unsafe {
-            let callback = Some(std::mem::transmute(call_on_message::<I> as *mut c_void));
+            let callback = Some(std::mem::transmute::<
+                *mut std::ffi::c_void,
+                unsafe extern "C" fn(),
+            >(call_on_message::<I> as *mut c_void));
 
             frida_sys::g_signal_connect_data(
                 self.script_ptr as _,
