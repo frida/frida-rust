@@ -88,9 +88,7 @@ impl<'a> DeviceManager<'a> {
     /// Returns the remote device with the specified host.
     pub fn get_remote_device(&'a self, host: &str) -> Result<Device<'a>> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
-        let Ok(host_cstring) = CString::new(host) else {
-            return Err(Error::DeviceLookupFailed);
-        };
+        let host_cstring = CString::new(host).map_err(|_| Error::CStringFailed)?;
         
         let device_ptr = unsafe {
             frida_sys::frida_device_manager_add_remote_device_sync(
