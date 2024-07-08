@@ -32,7 +32,10 @@ fn init() {
     let mut interceptor = Interceptor::obtain(&GUM);
     let open = Module::find_export_by_name(None, "open").unwrap();
     unsafe {
-        *ORIGINAL_OPEN.lock().unwrap().get_mut() = Some(std::mem::transmute(
+        *ORIGINAL_OPEN.lock().unwrap().get_mut() = Some(std::mem::transmute::<
+            *mut libc::c_void,
+            unsafe extern "C" fn(*const i8, i32) -> i32,
+        >(
             interceptor
                 .replace(
                     open,

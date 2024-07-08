@@ -160,7 +160,7 @@ jobs:
       - name: Build Gum documentation
         run: |
           cd frida-gum
-          cargo rustdoc --features "event-sink invocation-listener" -- --cfg doc_cfg
+          cargo rustdoc --features "event-sink invocation-listener"
   check-nostd:
     name: Check no_std
     runs-on: ubuntu-latest
