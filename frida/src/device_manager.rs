@@ -89,7 +89,7 @@ impl<'a> DeviceManager<'a> {
     pub fn get_remote_device(&'a self, host: &str) -> Result<Device<'a>> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         let host_cstring = CString::new(host).map_err(|_| Error::CStringFailed)?;
-        
+
         let device_ptr = unsafe {
             frida_sys::frida_device_manager_add_remote_device_sync(
                 self.manager_ptr,
@@ -106,7 +106,7 @@ impl<'a> DeviceManager<'a> {
 
         return Ok(Device::from_raw(device_ptr));
     }
-    
+
     /// Returns the device with the specified id.
     ///
     /// # Example
