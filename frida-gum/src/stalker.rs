@@ -157,7 +157,7 @@ impl<'a> Stalker<'a> {
     /// Exclude a range of address from the Stalker engine.
     ///
     /// This exclusion will prevent the Stalker from tracing into the memory range,
-    /// reducing instrumentation overhead as well as potential noise from the [`EventSink`].
+    /// reducing instrumentation overhead as well as potential noise from the `EventSink`.
     pub fn exclude(&mut self, range: &MemoryRange) {
         unsafe { gum_sys::gum_stalker_exclude(self.stalker, &range.memory_range as *const _) };
     }
