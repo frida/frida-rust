@@ -62,6 +62,12 @@ impl<'a> StalkerIterator<'a> {
             )
         };
     }
+
+    pub fn put_chaining_return(&self) {
+        unsafe {
+            frida_gum_sys::gum_stalker_iterator_put_chaining_return(self.iterator)
+        };
+    }
 }
 
 use frida_gum_sys::cs_insn;
@@ -99,6 +105,12 @@ impl<'a> Instruction<'a> {
                 user_data,
                 Some(put_callout_destroy),
             )
+        };
+    }
+
+    pub fn put_chaining_return(&self) {
+        unsafe {
+            frida_gum_sys::gum_stalker_iterator_put_chaining_return(self.parent)
         };
     }
 

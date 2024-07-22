@@ -28,7 +28,7 @@ use {
 use alloc::{boxed::Box, string::String};
 
 /// The memory protection of an unassociated page.
-#[derive(Clone, FromPrimitive)]
+#[derive(Clone, FromPrimitive, Debug)]
 #[repr(u32)]
 pub enum PageProtection {
     NoAccess = gum_sys::_GumPageProtection_GUM_PAGE_NO_ACCESS as u32,

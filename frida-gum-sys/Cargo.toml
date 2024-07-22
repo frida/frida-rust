@@ -18,7 +18,7 @@ stalker-params = ["cc"]
 [build-dependencies]
 bindgen = "0.69.4"
 cc = { version = "1.0", optional = true }
-frida-build = { path = "../frida-build", optional = true, version = "0.13.6" }
+frida-build = { path = "../frida-build", optional = true, version = "0.13.7" }
 
 [badges]
 maintenance = { status = "experimental" }
