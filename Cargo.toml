@@ -25,17 +25,6 @@ default-members = [
     "frida-gum",
     "frida-sys",
     "frida",
-    "examples/gum/open",
-    "examples/gum/stalker",
-    "examples/gum/stalker_observer",
-    "examples/gum/hook_open",
-    "examples/gum/hook_instruction",
-    "examples/gum/debug_symbol",
-    "examples/gum/fast_interceptor",
-    "examples/gum/memory_access_monitor",
-    "examples/core/hello",
-    "examples/core/usb_device",
-    "examples/core/console_log",
 ]
 
 [workspace.package]
