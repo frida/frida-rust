@@ -13,6 +13,9 @@ pub enum Error {
     /// Function is already replaced during Interceptor operation
     InterceptorAlreadyReplaced,
 
+    /// Function is already attached during Interceptor operation
+    InterceptorAlreadyAttached,
+
     /// Policy violation
     PolicyViolation,
 
@@ -30,6 +33,7 @@ impl fmt::Display for Error {
         match self {
             Error::InterceptorBadSignature => write!(fmt, "Bad signature"),
             Error::InterceptorAlreadyReplaced => write!(fmt, "Function already replaced"),
+            Error::InterceptorAlreadyAttached => write!(fmt, "Function already attached"),
             Error::PolicyViolation => write!(fmt, "Policy violation"),
             Error::InterceptorError => write!(fmt, "Interceptor error"),
             Error::MemoryAccessError => write!(fmt, "Memory access error"),

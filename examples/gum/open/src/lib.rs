@@ -40,5 +40,5 @@ extern "C" fn example_agent_main(_user_data: *const c_void, resident: *mut c_int
     }
 
     let open = Module::find_export_by_name(None, "open").unwrap();
-    interceptor.attach(open, &mut listener);
+    interceptor.attach(open, &mut listener).unwrap();
 }

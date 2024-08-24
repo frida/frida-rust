@@ -52,12 +52,22 @@ impl<'a> Interceptor<'a> {
         &mut self,
         f: NativePointer,
         listener: &mut I,
-    ) -> NativePointer {
+    ) -> Result<NativePointer> {
         let listener = invocation_listener_transform(listener);
-        unsafe {
+        match unsafe {
             gum_sys::gum_interceptor_attach(self.interceptor, f.0, listener, ptr::null_mut())
-        };
-        NativePointer(listener as *mut c_void)
+        } {
+            gum_sys::GumAttachReturn_GUM_ATTACH_OK => Ok(NativePointer(listener as *mut c_void)),
+            gum_sys::GumAttachReturn_GUM_ATTACH_WRONG_SIGNATURE => {
+                Err(Error::InterceptorBadSignature)
+            }
+            gum_sys::GumAttachReturn_GUM_ATTACH_ALREADY_ATTACHED => {
+                Err(Error::InterceptorAlreadyAttached)
+            }
+            gum_sys::GumAttachReturn_GUM_ATTACH_POLICY_VIOLATION => Err(Error::PolicyViolation),
+            gum_sys::GumAttachReturn_GUM_ATTACH_WRONG_TYPE => Err(Error::WrongType),
+            _ => Err(Error::InterceptorError),
+        }
     }
 
     /// Attach a listener to an instruction address.
@@ -71,12 +81,22 @@ impl<'a> Interceptor<'a> {
         &mut self,
         instr: NativePointer,
         listener: &mut I,
-    ) -> NativePointer {
+    ) -> Result<NativePointer> {
         let listener = probe_listener_transform(listener);
-        unsafe {
+        match unsafe {
             gum_sys::gum_interceptor_attach(self.interceptor, instr.0, listener, ptr::null_mut())
-        };
-        NativePointer(listener as *mut c_void)
+        } {
+            gum_sys::GumAttachReturn_GUM_ATTACH_OK => Ok(NativePointer(listener as *mut c_void)),
+            gum_sys::GumAttachReturn_GUM_ATTACH_WRONG_SIGNATURE => {
+                Err(Error::InterceptorBadSignature)
+            }
+            gum_sys::GumAttachReturn_GUM_ATTACH_ALREADY_ATTACHED => {
+                Err(Error::InterceptorAlreadyAttached)
+            }
+            gum_sys::GumAttachReturn_GUM_ATTACH_POLICY_VIOLATION => Err(Error::PolicyViolation),
+            gum_sys::GumAttachReturn_GUM_ATTACH_WRONG_TYPE => Err(Error::WrongType),
+            _ => Err(Error::InterceptorError),
+        }
     }
 
     /// Detach an attached listener.
