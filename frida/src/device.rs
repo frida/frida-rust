@@ -103,7 +103,7 @@ impl<'a> Device<'a> {
         let mut key = std::ptr::null_mut();
         let mut val = std::ptr::null_mut();
         while (unsafe { frida_sys::g_hash_table_iter_next(&mut iter, &mut key, &mut val) }
-            != frida_sys::FALSE as _)
+            != frida_sys::FALSE as i32)
         {
             let key = unsafe { CStr::from_ptr(key as _) };
             let val = unsafe { Variant::from_ptr(val as _) };
