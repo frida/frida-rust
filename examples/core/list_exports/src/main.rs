@@ -1,5 +1,6 @@
 use frida::{Frida, Message};
 use lazy_static::lazy_static;
+use std::io::{self, Write};
 use std::{thread, time::Duration};
 
 lazy_static! {
@@ -7,16 +8,34 @@ lazy_static! {
 }
 
 fn main() {
-    let pid = 1134009;
     let device_manager = frida::DeviceManager::obtain(&FRIDA);
     let local_device = device_manager.get_device_by_type(frida::DeviceType::Local);
+
+    print!("Enter pid: ",);
+    io::stdout().flush().expect("Failed to flush stdout");
+
+    let mut pid_input = String::new();
+    io::stdin()
+        .read_line(&mut pid_input)
+        .expect("Failed to read pid");
+
+    let pid = pid_input
+        .trim()
+        .parse()
+        .expect("Please enter a valid number");
 
     if let Ok(device) = local_device {
         println!("[*] Frida version: {}", frida::Frida::version());
         println!("[*] Device name: {}", device.get_name());
 
         // Attach to the program
-        let session = device.attach(pid).unwrap();
+        let session = match device.attach(pid) {
+            Ok(s) => s,
+            Err(_) => {
+                println!("Error attaching to process {}", pid);
+                return;
+            }
+        };
 
         if session.is_detached() {
             println!("Session is detached");

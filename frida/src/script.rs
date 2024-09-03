@@ -7,7 +7,6 @@
 use frida_sys::{FridaScriptOptions, _FridaScript, g_bytes_new, g_bytes_unref};
 use serde::Deserialize;
 use serde_json::Value;
-use std::cell::Cell;
 use std::marker::PhantomData;
 use std::sync::mpsc::{channel, Receiver, Sender};
 use std::{
@@ -111,31 +110,23 @@ unsafe extern "C" fn call_on_message<I: ScriptHandler>(
         .to_str()
         .unwrap_or_default();
 
-    let formated_msg: Message = serde_json::from_str(c_msg).unwrap_or_else(|err| {
+    let formatted_msg: Message = serde_json::from_str(c_msg).unwrap_or_else(|err| {
         Message::Other(serde_json::json!({
             "error": err.to_string(),
             "data": c_msg
         }))
     });
 
-    match formated_msg {
+    match formatted_msg {
         Message::Send(msg) => {
             if msg.payload.r#type == "frida:rpc" {
                 let callback_handler: *mut CallbackHandler = user_data as _;
                 on_message(callback_handler.as_mut().unwrap(), Message::Send(msg));
             }
         }
-        Message::Log(msg) => {
+        _ => {
             let handler: &mut I = &mut *(user_data as *mut I);
-            handler.on_message(&Message::Log(msg));
-        }
-        Message::Error(msg) => {
-            let handler: &mut I = &mut *(user_data as *mut I);
-            handler.on_message(&Message::Error(msg));
-        }
-        Message::Other(msg) => {
-            let handler: &mut I = &mut *(user_data as *mut I);
-            handler.on_message(&Message::Other(msg));
+            handler.on_message(&formatted_msg);
         }
     }
 }
@@ -155,7 +146,7 @@ pub trait ScriptHandler {
 pub struct Script<'a> {
     script_ptr: *mut _FridaScript,
     phantom: PhantomData<&'a _FridaScript>,
-    rpc_id_counter: Cell<usize>,
+    rpc_id_counter: usize,
     callback_handler: CallbackHandler,
 }
 
@@ -164,7 +155,7 @@ impl<'a> Script<'a> {
         Script {
             script_ptr,
             phantom: PhantomData,
-            rpc_id_counter: Cell::new(0),
+            rpc_id_counter: 0,
             callback_handler: CallbackHandler::new(),
         }
     }
@@ -249,13 +240,13 @@ impl<'a> Script<'a> {
         Ok(())
     }
 
-    fn inc_id(&self) -> usize {
-        let current_id_counter = self.rpc_id_counter.get();
-        self.rpc_id_counter.replace(current_id_counter + 1)
+    fn inc_id(&mut self) -> usize {
+        self.rpc_id_counter += 1;
+        self.rpc_id_counter
     }
 
     /// List all the exported attributes from the script's rpc
-    pub fn list_exports(&self) -> Result<Option<Vec<String>>> {
+    pub fn list_exports(&mut self) -> Result<Option<Vec<String>>> {
         let json_req = {
             let name = "frida:rpc".into();
             let id = self.inc_id().into();
