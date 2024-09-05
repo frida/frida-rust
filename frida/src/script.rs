@@ -195,7 +195,7 @@ impl<'a> Script<'a> {
     ///
     /// impl ScriptHandler for Handler {
     ///     fn on_message(&mut self, message: &frida::Message) {
-    ///         println!("{message}");
+    ///         println!("{:?}", message);
     ///     }
     /// }
     /// ```
