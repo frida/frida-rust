@@ -1,6 +1,5 @@
 use frida::{Frida, Message};
 use lazy_static::lazy_static;
-use std::io::{self, Write};
 use std::{thread, time::Duration};
 
 lazy_static! {
@@ -8,21 +7,16 @@ lazy_static! {
 }
 
 fn main() {
+    let args: Vec<String> = std::env::args().collect();
+
+    if args.len() < 2 {
+        println!("Usage: {} <PID>", args[0]);
+        return;
+    }
+
     let device_manager = frida::DeviceManager::obtain(&FRIDA);
     let local_device = device_manager.get_device_by_type(frida::DeviceType::Local);
-
-    print!("Enter pid: ",);
-    io::stdout().flush().expect("Failed to flush stdout");
-
-    let mut pid_input = String::new();
-    io::stdin()
-        .read_line(&mut pid_input)
-        .expect("Failed to read pid");
-
-    let pid = pid_input
-        .trim()
-        .parse()
-        .expect("Please enter a valid number");
+    let pid: u32 = args[1].parse().unwrap();
 
     if let Ok(device) = local_device {
         println!("[*] Frida version: {}", frida::Frida::version());
@@ -60,8 +54,6 @@ fn main() {
                     return globalVar;
                 }
             };
-
-            ;sdfsa // <- Intentional error here
         "#;
         let mut script_option = frida::ScriptOption::default();
         let mut script = match session.create_script(script_source, &mut script_option) {
