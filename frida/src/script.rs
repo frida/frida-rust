@@ -246,7 +246,7 @@ impl<'a> Script<'a> {
     }
 
     /// List all the exported attributes from the script's rpc
-    pub fn list_exports(&mut self) -> Result<Option<Vec<String>>> {
+    pub fn list_exports(&mut self) -> Result<Vec<String>> {
         let json_req = {
             let name = "frida:rpc".into();
             let id = self.inc_id().into();
@@ -263,7 +263,7 @@ impl<'a> Script<'a> {
         let (_, rx) = &self.callback_handler.channel;
         let rpc_result = rx.recv().unwrap();
 
-        let func_list: Option<Vec<String>> = match rpc_result {
+        let func_list: Vec<String> = match rpc_result {
             Message::Send(r) => {
                 let tmp_list: Vec<String> = r
                     .payload
@@ -274,13 +274,9 @@ impl<'a> Script<'a> {
                     .map(|i| i.as_str().unwrap_or("").to_string())
                     .collect();
 
-                if !tmp_list.is_empty() {
-                    Some(tmp_list)
-                } else {
-                    None
-                }
+                tmp_list
             }
-            _ => None,
+            _ => Vec::new(),
         };
 
         Ok(func_list)

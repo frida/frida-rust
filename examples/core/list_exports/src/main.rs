@@ -7,36 +7,20 @@ lazy_static! {
 }
 
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
-
-    if args.len() < 2 {
-        println!("Usage: {} <PID>", args[0]);
-        return;
-    }
-
     let device_manager = frida::DeviceManager::obtain(&FRIDA);
-    let local_device = device_manager.get_device_by_type(frida::DeviceType::Local);
-    let pid: u32 = args[1].parse().unwrap();
+    let local_device = device_manager.get_local_device();
 
     if let Ok(device) = local_device {
         println!("[*] Frida version: {}", frida::Frida::version());
         println!("[*] Device name: {}", device.get_name());
 
         // Attach to the program
-        let session = match device.attach(pid) {
-            Ok(s) => s,
-            Err(_) => {
-                println!("Error attaching to process {}", pid);
-                return;
-            }
-        };
+        let session = device.attach(0).unwrap();
 
         if session.is_detached() {
             println!("Session is detached");
             return;
         }
-
-        println!("[*] Attached to PID {}", pid);
 
         let script_source = r#"
             var globalVar = 0;
