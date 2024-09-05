@@ -8,7 +8,7 @@ use frida_sys::_FridaDeviceManager;
 use std::ffi::CString;
 use std::marker::PhantomData;
 
-use crate::device::Device;
+use crate::device::{self, Device};
 use crate::DeviceType;
 use crate::Error;
 use crate::Frida;
@@ -105,6 +105,11 @@ impl<'a> DeviceManager<'a> {
         }
 
         return Ok(Device::from_raw(device_ptr));
+    }
+
+    /// Returns the local device.
+    pub fn get_local_device(&'a self) -> Result<Device<'a>> {
+        self.get_device_by_type(device::DeviceType::Local)
     }
 
     /// Returns the device with the specified id.
