@@ -30,10 +30,7 @@ impl<'a> Interceptor<'a> {
     /// Obtain an Interceptor handle, ensuring that the runtime is properly initialized. This may
     /// be called as many times as needed, and results in a no-op if the Interceptor is
     /// already initialized.
-    pub fn obtain<'b>(_gum: &'b Gum) -> Interceptor
-    where
-        'b: 'a,
-    {
+    pub fn obtain<'b: 'a>(_gum: &'b Gum) -> Interceptor<'b> {
         Interceptor {
             interceptor: unsafe { gum_sys::gum_interceptor_obtain() },
             phantom: PhantomData,

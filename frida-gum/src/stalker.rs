@@ -104,10 +104,7 @@ impl<'a> Stalker<'a> {
     /// This call has the overhead of checking if the Stalker is
     /// available on the current platform, as creating a Stalker on an
     /// unsupported platform results in unwanted behaviour.
-    pub fn new<'b>(gum: &'b Gum) -> Stalker
-    where
-        'b: 'a,
-    {
+    pub fn new<'b: 'a>(gum: &'b Gum) -> Stalker<'b> {
         assert!(Self::is_supported(gum));
 
         Stalker {

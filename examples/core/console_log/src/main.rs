@@ -27,11 +27,11 @@ fn main() {
             let mut script_option = ScriptOption::new()
                 .set_name("example")
                 .set_runtime(ScriptRuntime::QJS);
-            let script = session
+            let mut script = session
                 .create_script("console.log('Log test');", &mut script_option)
                 .unwrap();
 
-            script.handle_message(&mut Handler).unwrap();
+            script.handle_message(Handler).unwrap();
 
             script.load().unwrap();
             println!("[*] Script loaded");
@@ -48,7 +48,7 @@ fn main() {
 struct Handler;
 
 impl ScriptHandler for Handler {
-    fn on_message(&mut self, message: &str) {
-        println!("{message}");
+    fn on_message(&mut self, message: &frida::Message) {
+        println!("{:?}", message);
     }
 }

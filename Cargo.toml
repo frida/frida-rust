@@ -17,6 +17,7 @@ members = [
     "examples/core/hello",
     "examples/core/usb_device",
     "examples/core/console_log",
+    "examples/core/list_exports",
     "examples/core/get_processes",
 ]
 # We miss our linux_no_std example from the default members since `cargo check`

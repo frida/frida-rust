@@ -32,7 +32,7 @@ impl Variant {
                 Self::String(value)
             }
             "b" => {
-                Self::Boolean(frida_sys::g_variant_get_boolean(variant) != frida_sys::FALSE as _)
+                Self::Boolean(frida_sys::g_variant_get_boolean(variant) != frida_sys::FALSE as i32)
             }
             "x" => Self::Int64(frida_sys::g_variant_get_int64(variant)),
             "a{sv}" => Self::Map(sv_array_to_map(variant)),
