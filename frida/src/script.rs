@@ -23,13 +23,10 @@ use crate::{Error, Result};
 pub enum Message {
     /// Message of type "send"
     Send(MessageSend),
-
     /// Message of type "log"
     Log(MessageLog),
-
     /// Message of type "error"
     Error(MessageError),
-
     /// Any other type of message.
     Other(Value),
 }
@@ -57,16 +54,12 @@ pub struct MessageLog {
 pub struct MessageError {
     /// Error description.
     pub description: String,
-
     /// Stack trace string.
     pub stack: String,
-
     /// Script file name that failed.
     pub file_name: String,
-
     /// Line number with the error.
     pub line_number: usize,
-
     /// Column number with the error.
     pub column_number: usize,
 }
