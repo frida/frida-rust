@@ -64,7 +64,10 @@ use core::{
 };
 
 #[cfg(not(feature = "std"))]
-use alloc::string::String;
+use alloc::{string::String, sync::Arc};
+
+#[cfg(feature = "std")]
+use std::sync::Arc;
 
 pub mod stalker;
 
@@ -109,21 +112,53 @@ pub use backtracer::*;
 pub type Result<T> = core::result::Result<T, error::Error>;
 
 /// Context required for instantiation of all structures under the Gum namespace.
-pub struct Gum;
+#[derive(Clone)]
+pub struct Gum {
+    inner: GumSingletonHandle,
+}
 
 impl Gum {
-    /// Obtain a Gum handle, ensuring that the runtime is properly initialized. This may
-    /// be called as many times as needed, and results in a no-op if the Gum runtime is
-    /// already initialized.
-    pub unsafe fn obtain() -> Gum {
-        frida_gum_sys::gum_init_embedded();
-        Gum {}
+    pub fn obtain() -> Self {
+        let mut singleton = GUM_SINGLETON.lock();
+        let handle = singleton.get_or_insert_with(|| Arc::new(GumSingleton::obtain()));
+        Self {
+            inner: Some(handle.clone()),
+        }
     }
 }
 
 impl Drop for Gum {
     fn drop(&mut self) {
+        let instance = self.inner.take().expect("instance taken more than once");
+        drop(instance);
+        // If there are no outstanding Gum instances, drop the singleton.
+        let mut singleton = GUM_SINGLETON.lock();
+        let Some(it) = singleton.take_if(|it| Arc::strong_count(it) == 1) else {
+            return;
+        };
+        Arc::try_unwrap(it)
+            .ok()
+            .expect("should destroy the one instance");
+    }
+}
+
+static GUM_SINGLETON: spin::Mutex<GumSingletonHandle> = spin::Mutex::new(None);
+
+type GumSingletonHandle = Option<Arc<GumSingleton>>;
+
+// A marker type that exists only while Gum is initialized.
+struct GumSingleton;
+
+impl Drop for GumSingleton {
+    fn drop(&mut self) {
         unsafe { frida_gum_sys::gum_deinit_embedded() };
+    }
+}
+
+impl GumSingleton {
+    fn obtain() -> Self {
+        unsafe { frida_gum_sys::gum_init_embedded() };
+        Self
     }
 }
 

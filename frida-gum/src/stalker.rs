@@ -42,7 +42,7 @@
 
 use {
     crate::{Gum, MemoryRange, NativePointer},
-    core::{ffi::c_void, marker::PhantomData},
+    core::ffi::c_void,
     frida_gum_sys as gum_sys,
 };
 
@@ -88,12 +88,12 @@ mod observer;
 pub use observer::*;
 
 /// Code tracing engine interface.
-pub struct Stalker<'a> {
+pub struct Stalker {
     stalker: *mut frida_gum_sys::GumStalker,
-    phantom: PhantomData<&'a frida_gum_sys::GumStalker>,
+    _gum: Gum,
 }
 
-impl<'a> Stalker<'a> {
+impl Stalker {
     /// Checks if the Stalker is supported on the current platform.
     pub fn is_supported(_gum: &Gum) -> bool {
         unsafe { frida_gum_sys::gum_stalker_is_supported() != 0 }
@@ -104,12 +104,12 @@ impl<'a> Stalker<'a> {
     /// This call has the overhead of checking if the Stalker is
     /// available on the current platform, as creating a Stalker on an
     /// unsupported platform results in unwanted behaviour.
-    pub fn new<'b: 'a>(gum: &'b Gum) -> Stalker<'b> {
+    pub fn new(gum: &Gum) -> Stalker {
         assert!(Self::is_supported(gum));
 
         Stalker {
             stalker: unsafe { frida_gum_sys::gum_stalker_new() },
-            phantom: PhantomData,
+            _gum: gum.clone(),
         }
     }
 
@@ -119,15 +119,12 @@ impl<'a> Stalker<'a> {
     /// available on the current platform, as creating a Stalker on an
     /// unsupported platform results in unwanted behaviour.
     #[cfg(all(target_arch = "aarch64", feature = "stalker-params"))]
-    pub fn new_with_params<'b>(gum: &'b Gum, ic_entries: u32) -> Stalker
-    where
-        'b: 'a,
-    {
+    pub fn new_with_params(gum: &Gum, ic_entries: u32) -> Stalker {
         assert!(Self::is_supported(gum));
 
         Stalker {
             stalker: unsafe { frida_gum_sys::gum_stalker_new_with_params(ic_entries) },
-            phantom: PhantomData,
+            _gum: gum.clone(),
         }
     }
 
@@ -137,17 +134,14 @@ impl<'a> Stalker<'a> {
     /// available on the current platform, as creating a Stalker on an
     /// unsupported platform results in unwanted behaviour.
     #[cfg(all(target_arch = "x86_64", feature = "stalker-params"))]
-    pub fn new_with_params<'b>(gum: &'b Gum, ic_entries: u32, adjacent_blocks: u32) -> Stalker
-    where
-        'b: 'a,
-    {
+    pub fn new_with_params(gum: &Gum, ic_entries: u32, adjacent_blocks: u32) -> Stalker {
         assert!(Self::is_supported(gum));
 
         Stalker {
             stalker: unsafe {
                 frida_gum_sys::gum_stalker_new_with_params(ic_entries, adjacent_blocks)
             },
-            phantom: PhantomData,
+            _gum: gum.clone(),
         }
     }
 
@@ -303,7 +297,7 @@ impl<'a> Stalker<'a> {
     }
 }
 
-impl<'a> Drop for Stalker<'a> {
+impl Drop for Stalker {
     fn drop(&mut self) {
         unsafe { gum_sys::g_object_unref(self.stalker as *mut c_void) };
     }
