@@ -20,11 +20,7 @@ use {
     frida_gum_sys as gum_sys,
 };
 
-#[cfg(not(any(
-    feature = "module-names",
-    feature = "backtrace",
-    feature = "memory-access-monitor"
-)))]
+#[cfg(not(feature = "std"))]
 use alloc::{boxed::Box, string::String};
 
 /// The memory protection of an unassociated page.

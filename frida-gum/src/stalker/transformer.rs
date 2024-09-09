@@ -10,11 +10,7 @@ use {
     core::{ffi::c_void, marker::PhantomData},
 };
 
-#[cfg(not(any(
-    feature = "module-names",
-    feature = "backtrace",
-    feature = "memory-access-monitor"
-)))]
+#[cfg(not(feature = "std"))]
 use alloc::boxed::Box;
 
 pub struct StalkerIterator<'a> {

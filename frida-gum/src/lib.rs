@@ -45,23 +45,12 @@
 //! }
 //! ```
 
-#![cfg_attr(
-    not(any(
-        feature = "module-names",
-        feature = "backtrace",
-        feature = "memory-access-monitor"
-    )),
-    no_std
-)]
+#![cfg_attr(not(feature = "std"), no_std)]
 #![deny(warnings)]
 #![allow(clippy::needless_doctest_main)]
 #![allow(clippy::missing_safety_doc)]
 
-#[cfg(not(any(
-    feature = "module-names",
-    feature = "backtrace",
-    feature = "memory-access-monitor"
-)))]
+#[cfg(not(feature = "std"))]
 extern crate alloc;
 
 extern crate num;
@@ -74,11 +63,7 @@ use core::{
     fmt::{Debug, Display, Formatter, LowerHex, UpperHex},
 };
 
-#[cfg(not(any(
-    feature = "module-names",
-    feature = "backtrace",
-    feature = "memory-access-monitor"
-)))]
+#[cfg(not(feature = "std"))]
 use alloc::string::String;
 
 pub mod stalker;
