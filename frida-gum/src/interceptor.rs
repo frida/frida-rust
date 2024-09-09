@@ -49,12 +49,14 @@ impl<'a> Interceptor<'a> {
         &mut self,
         f: NativePointer,
         listener: &mut I,
-    ) -> Result<NativePointer> {
+    ) -> Result<Listener> {
         let listener = invocation_listener_transform(listener);
         match unsafe {
             gum_sys::gum_interceptor_attach(self.interceptor, f.0, listener, ptr::null_mut())
         } {
-            gum_sys::GumAttachReturn_GUM_ATTACH_OK => Ok(NativePointer(listener as *mut c_void)),
+            gum_sys::GumAttachReturn_GUM_ATTACH_OK => {
+                Ok(Listener(NativePointer(listener as *mut c_void)))
+            }
             gum_sys::GumAttachReturn_GUM_ATTACH_WRONG_SIGNATURE => {
                 Err(Error::InterceptorBadSignature)
             }
@@ -78,12 +80,14 @@ impl<'a> Interceptor<'a> {
         &mut self,
         instr: NativePointer,
         listener: &mut I,
-    ) -> Result<NativePointer> {
+    ) -> Result<Listener> {
         let listener = probe_listener_transform(listener);
         match unsafe {
             gum_sys::gum_interceptor_attach(self.interceptor, instr.0, listener, ptr::null_mut())
         } {
-            gum_sys::GumAttachReturn_GUM_ATTACH_OK => Ok(NativePointer(listener as *mut c_void)),
+            gum_sys::GumAttachReturn_GUM_ATTACH_OK => {
+                Ok(Listener(NativePointer(listener as *mut c_void)))
+            }
             gum_sys::GumAttachReturn_GUM_ATTACH_WRONG_SIGNATURE => {
                 Err(Error::InterceptorBadSignature)
             }
@@ -103,11 +107,12 @@ impl<'a> Interceptor<'a> {
     /// The listener *must* have been attached with [`Interceptor::attach()`].
     #[cfg(feature = "invocation-listener")]
     #[cfg_attr(docsrs, doc(cfg(feature = "invocation-listener")))]
-    pub fn detach(&mut self, listener: NativePointer) {
+    pub fn detach(&mut self, listener: Listener) {
+        let Listener(NativePointer(ptr)) = listener;
         unsafe {
             gum_sys::gum_interceptor_detach(
                 self.interceptor,
-                listener.0 as *mut gum_sys::GumInvocationListener,
+                ptr as *mut gum_sys::GumInvocationListener,
             )
         };
     }
@@ -228,5 +233,15 @@ impl<'a> Interceptor<'a> {
     /// if in a transaction started with [`Interceptor::begin_transaction()`].
     pub fn end_transaction(&mut self) {
         unsafe { gum_sys::gum_interceptor_end_transaction(self.interceptor) };
+    }
+}
+
+/// An instance of a listener attached to an instruction or function.
+pub struct Listener(NativePointer);
+
+impl Drop for Listener {
+    fn drop(&mut self) {
+        let Self(NativePointer(ptr)) = self;
+        unsafe { frida_gum_sys::g_object_unref(*ptr) }
     }
 }
