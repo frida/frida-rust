@@ -1,0 +1,4 @@
+[[rule]]
+
+[rule.formatting]
+indent_string = "    "
