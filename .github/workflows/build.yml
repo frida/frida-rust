@@ -41,6 +41,11 @@ jobs:
           make -j CFLAGS="-m32" LDFLAGS="-m32"
           make install_sw
           echo "OPENSSL_DIR=/tmp/openssl/install/" >> $GITHUB_ENV
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: taplo-cli
+      - name: Format Toml
+        run: taplo fmt --check
       - name: Check
         uses: actions-rs/cargo@v1
         with:

@@ -22,16 +22,14 @@ members = [
 ]
 # We miss our linux_no_std example from the default members since `cargo check`
 # and `cargo test` both attempt to link the `std` library into it in error.
-default-members = [
-    "frida-gum-sys",
-    "frida-gum",
-    "frida-sys",
-    "frida",
-]
+default-members = ["frida-gum-sys", "frida-gum", "frida-sys", "frida"]
 
 [workspace.package]
 version = "0.13.7"
-authors = ["Keegan Saunders <keegan@undefinedbehaviour.org>", "Shmarya Rubenstein <github@shmarya.net>"]
+authors = [
+    "Keegan Saunders <keegan@undefinedbehaviour.org>",
+    "Shmarya Rubenstein <github@shmarya.net>",
+]
 edition = "2021"
 license = "wxWindows"
 repository = "https://github.com/frida/frida-rust"
