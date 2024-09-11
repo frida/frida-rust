@@ -9,13 +9,14 @@ description.workspace = true
 
 [features]
 auto-download = ["frida-gum-sys/auto-download"]
-backtrace = ["libc"]
+backtrace = ["libc", "std"]
 event-sink = ["frida-gum-sys/event-sink"]
 invocation-listener = ["frida-gum-sys/invocation-listener"]
-memory-access-monitor = []
-module-names = []
+memory-access-monitor = ["std"]
+module-names = ["std"]
 stalker-observer = ["frida-gum-sys/stalker-observer"]
 stalker-params = ["frida-gum-sys/stalker-params"]
+std = []
 
 [dependencies]
 cstr_core = { version = "0.2.6", default-features = false, features = ["alloc"] }
@@ -33,4 +34,4 @@ lazy_static = "1"
 maintenance = { status = "experimental" }
 
 [package.metadata.docs.rs]
-features = ["event-sink", "invocation-listener", "stalker-observer", "stalker-params"]
+features = ["event-sink", "invocation-listener", "stalker-observer", "stalker-params", "std"]
