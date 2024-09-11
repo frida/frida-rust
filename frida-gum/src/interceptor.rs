@@ -26,6 +26,12 @@ pub struct Interceptor<'a> {
     phantom: PhantomData<&'a gum_sys::GumInterceptor>,
 }
 
+impl Drop for Interceptor<'_> {
+    fn drop(&mut self) {
+        unsafe { frida_gum_sys::g_object_unref(self.interceptor as *mut _) }
+    }
+}
+
 impl<'a> Interceptor<'a> {
     /// Obtain an Interceptor handle, ensuring that the runtime is properly initialized. This may
     /// be called as many times as needed, and results in a no-op if the Interceptor is
