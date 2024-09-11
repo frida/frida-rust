@@ -81,4 +81,16 @@ pub enum Error {
         /// Error message
         message: String,
     },
+
+    /// Received unexpected RPC message.
+    #[error("Unexpected RPC message received.")]
+    RpcUnexpectedMessage,
+
+    /// RPC JavaScript Error. The RPC communication was
+    /// successful but there was an error in the JavaScript side
+    #[error("Error on the JavaScript side: {message}")]
+    RpcJsError {
+        /// Error message from JavaScript.
+        message: String,
+    },
 }

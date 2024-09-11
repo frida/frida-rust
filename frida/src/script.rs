@@ -79,8 +79,7 @@ pub enum MessageLogLevel {
     Error,
 }
 
-/// Represents a Message Log Level Types.
-/// Used by `MessageLog._level`
+/// Represents a MessageSend's payload.
 #[derive(Deserialize, Debug)]
 pub struct SendPayload {
     /// Send message type
@@ -236,6 +235,46 @@ impl<'a> Script<'a> {
     fn inc_id(&mut self) -> usize {
         self.rpc_id_counter += 1;
         self.rpc_id_counter
+    }
+
+    /// Access exported functions from a Frida script.
+    pub fn exports(&mut self, function_name: &str, args: Option<Value>) -> Result<Option<Value>> {
+        let json_req = {
+            let name = "frida:rpc";
+            let id = self.inc_id();
+            let rpc_type = "call";
+
+            let args: String = match args {
+                Some(a) => serde_json::to_string(&a).unwrap(),
+                None => "[]".into(),
+            };
+
+            format!(
+                "[\"{}\", {}, \"{}\", \"{}\", {}]",
+                name, id, rpc_type, function_name, args
+            )
+        };
+
+        self.post(&json_req, None).unwrap();
+        let (_, rx) = &self.callback_handler.channel;
+        let rpc_result = rx.recv().unwrap();
+
+        match rpc_result {
+            Message::Send(r) => {
+                if r.payload.result == "ok" {
+                    let returns = r.payload.returns;
+
+                    match returns {
+                        Value::Null => Ok(None),
+                        _ => Ok(Some(returns)),
+                    }
+                } else {
+                    let err_msg = r.payload.returns.to_string();
+                    Err(Error::RpcJsError { message: err_msg })
+                }
+            }
+            _ => Err(Error::RpcUnexpectedMessage),
+        }
     }
 
     /// List all the exported attributes from the script's rpc
