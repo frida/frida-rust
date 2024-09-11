@@ -11,7 +11,10 @@
 #![deny(missing_docs)]
 #![allow(clippy::missing_safety_doc)]
 
-use std::ffi::CStr;
+use std::{
+    ffi::CStr,
+    sync::{Arc, Mutex},
+};
 
 mod device;
 pub use device::*;
@@ -41,15 +44,36 @@ pub use variant::*;
 pub type Result<T> = std::result::Result<T, error::Error>;
 
 /// Context required for instantiation of all structures under the Frida namespace.
-pub struct Frida;
+#[derive(Clone)]
+pub struct Frida {
+    inner: Option<Arc<FridaSingleton>>,
+}
+
+impl Drop for Frida {
+    fn drop(&mut self) {
+        let inner = self.inner.take().expect("frida taken more than once");
+        drop(inner);
+        let mut singleton = THE_ONE_TRUE_FRIDA.lock().unwrap();
+        let Some(v) = singleton.take_if(|v| Arc::strong_count(v) == 1) else {
+            return;
+        };
+        match Arc::try_unwrap(v) {
+            Ok(v) => drop(v),
+            Err(_v) => panic!("programming error!"),
+        }
+    }
+}
 
 impl Frida {
     /// Obtain a Frida handle, ensuring that the runtime is properly initialized. This may
     /// be called as many times as needed, and results in a no-op if the Frida runtime is
     /// already initialized.
-    pub unsafe fn obtain() -> Frida {
-        frida_sys::frida_init();
-        Frida {}
+    pub fn obtain() -> Self {
+        let mut singleton = THE_ONE_TRUE_FRIDA.lock().unwrap();
+        let v = singleton.get_or_insert_with(|| Arc::new(FridaSingleton::new()));
+        Self {
+            inner: Some(v.clone()),
+        }
     }
 
     /// Gets the current version of frida core
@@ -96,8 +120,59 @@ impl Frida {
     }
 }
 
-impl Drop for Frida {
+// A marker type that exists only while Gum is initialized.
+struct FridaSingleton;
+
+impl FridaSingleton {
+    fn new() -> Self {
+        unsafe { frida_sys::frida_init() };
+        FridaSingleton
+    }
+}
+
+impl Drop for FridaSingleton {
     fn drop(&mut self) {
-        unsafe { frida_sys::frida_deinit() };
+        unsafe { frida_sys::frida_deinit() }
+    }
+}
+
+static THE_ONE_TRUE_FRIDA: Mutex<Option<Arc<FridaSingleton>>> = Mutex::new(None);
+
+type GObject<T> = gobject::GObject<T, Frida>;
+
+mod gobject {
+
+    pub(crate) trait Runtime: Clone {
+        fn unref<T>(ptr: *mut T);
+    }
+
+    impl Runtime for super::Frida {
+        fn unref<T>(ptr: *mut T) {
+            unsafe { frida_sys::frida_unref(ptr as *mut _) }
+        }
+    }
+
+    pub(crate) struct GObject<T, RT: Runtime>(*mut T, RT);
+
+    impl<T, RT: Runtime> GObject<T, RT> {
+        pub(crate) fn ptr(&self) -> *mut T {
+            let &Self(ptr, _) = self;
+            ptr
+        }
+
+        pub(crate) fn new(ptr: *mut T, runtime: RT) -> Self {
+            Self(ptr, runtime.clone())
+        }
+
+        pub(crate) fn runtime(&self) -> &RT {
+            let Self(_, rt) = self;
+            rt
+        }
+    }
+
+    impl<T, RT: Runtime> Drop for GObject<T, RT> {
+        fn drop(&mut self) {
+            RT::unref(self.0)
+        }
     }
 }

@@ -7,37 +7,35 @@
 use frida_sys::_FridaDevice;
 use std::collections::HashMap;
 use std::ffi::{CStr, CString};
-use std::marker::PhantomData;
 
 use crate::process::Process;
 use crate::session::Session;
 use crate::variant::Variant;
-use crate::{Error, Result, SpawnOptions};
+use crate::{Error, Frida, GObject, Result, SpawnOptions};
 
 /// Access to a Frida device.
-pub struct Device<'a> {
-    pub(crate) device_ptr: *mut _FridaDevice,
-    phantom: PhantomData<&'a _FridaDevice>,
+pub struct Device(GObject<_FridaDevice>);
+
+impl Device {
+    pub(crate) fn ptr(&self) -> *mut _FridaDevice {
+        self.0.ptr()
+    }
 }
 
-impl<'a> Device<'a> {
-    pub(crate) fn from_raw(device_ptr: *mut _FridaDevice) -> Device<'a> {
-        Device {
-            device_ptr,
-            phantom: PhantomData,
-        }
+impl Device {
+    pub(crate) fn from_raw(frida: Frida, ptr: *mut _FridaDevice) -> Self {
+        Self(GObject::new(ptr, frida))
     }
 
     /// Returns the device's name.
     pub fn get_name(&self) -> &str {
-        let name =
-            unsafe { CStr::from_ptr(frida_sys::frida_device_get_name(self.device_ptr) as _) };
+        let name = unsafe { CStr::from_ptr(frida_sys::frida_device_get_name(self.0.ptr()) as _) };
         name.to_str().unwrap_or_default()
     }
 
     /// Returns the device's id.
     pub fn get_id(&self) -> &str {
-        let id = unsafe { CStr::from_ptr(frida_sys::frida_device_get_id(self.device_ptr) as _) };
+        let id = unsafe { CStr::from_ptr(frida_sys::frida_device_get_id(self.0.ptr()) as _) };
         id.to_str().unwrap_or_default()
     }
 
@@ -52,7 +50,7 @@ impl<'a> Device<'a> {
     /// assert_eq!(device.get_type(), DeviceType::Local);
     /// ```
     pub fn get_type(&self) -> DeviceType {
-        unsafe { frida_sys::frida_device_get_dtype(self.device_ptr).into() }
+        unsafe { frida_sys::frida_device_get_dtype(self.0.ptr()).into() }
     }
 
     /// Returns the device's system parameters
@@ -79,7 +77,7 @@ impl<'a> Device<'a> {
 
         let ht = unsafe {
             frida_sys::frida_device_query_system_parameters_sync(
-                self.device_ptr,
+                self.0.ptr(),
                 std::ptr::null_mut(),
                 &mut error,
             )
@@ -115,20 +113,17 @@ impl<'a> Device<'a> {
 
     /// Returns if the device is lost or not.
     pub fn is_lost(&self) -> bool {
-        unsafe { frida_sys::frida_device_is_lost(self.device_ptr) == 1 }
+        unsafe { frida_sys::frida_device_is_lost(self.0.ptr()) == 1 }
     }
 
     /// Returns all processes.
-    pub fn enumerate_processes<'b>(&'a self) -> Vec<Process<'b>>
-    where
-        'a: 'b,
-    {
+    pub fn enumerate_processes(&self) -> Vec<Process> {
         let mut processes = Vec::new();
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
 
         let processes_ptr = unsafe {
             frida_sys::frida_device_enumerate_processes_sync(
-                self.device_ptr,
+                self.0.ptr(),
                 std::ptr::null_mut(),
                 std::ptr::null_mut(),
                 &mut error,
@@ -141,7 +136,7 @@ impl<'a> Device<'a> {
 
             for i in 0..num_processes {
                 let process_ptr = unsafe { frida_sys::frida_process_list_get(processes_ptr, i) };
-                let process = Process::from_raw(process_ptr);
+                let process = Process::from_raw(self.0.runtime().clone(), process_ptr);
                 processes.push(process);
             }
         }
@@ -151,14 +146,11 @@ impl<'a> Device<'a> {
     }
 
     /// Creates [`Session`] and attaches the device to the current PID.
-    pub fn attach<'b>(&'a self, pid: u32) -> Result<Session<'b>>
-    where
-        'a: 'b,
-    {
+    pub fn attach(&self, pid: u32) -> Result<Session> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         let session = unsafe {
             frida_sys::frida_device_attach_sync(
-                self.device_ptr,
+                self.ptr(),
                 pid,
                 std::ptr::null_mut(),
                 std::ptr::null_mut(),
@@ -184,9 +176,9 @@ impl<'a> Device<'a> {
 
         let pid = unsafe {
             frida_sys::frida_device_spawn_sync(
-                self.device_ptr,
+                self.ptr(),
                 program.as_ptr(),
-                options.options_ptr,
+                options.ptr(),
                 std::ptr::null_mut(),
                 &mut error,
             )
@@ -208,12 +200,7 @@ impl<'a> Device<'a> {
     pub fn resume(&self, pid: u32) -> Result<()> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         unsafe {
-            frida_sys::frida_device_resume_sync(
-                self.device_ptr,
-                pid,
-                std::ptr::null_mut(),
-                &mut error,
-            )
+            frida_sys::frida_device_resume_sync(self.ptr(), pid, std::ptr::null_mut(), &mut error)
         };
 
         if !error.is_null() {
@@ -232,12 +219,7 @@ impl<'a> Device<'a> {
     pub fn kill(&mut self, pid: u32) -> Result<()> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         unsafe {
-            frida_sys::frida_device_kill_sync(
-                self.device_ptr,
-                pid,
-                std::ptr::null_mut(),
-                &mut error,
-            )
+            frida_sys::frida_device_kill_sync(self.ptr(), pid, std::ptr::null_mut(), &mut error)
         };
 
         if !error.is_null() {
@@ -250,12 +232,6 @@ impl<'a> Device<'a> {
         }
 
         Ok(())
-    }
-}
-
-impl<'a> Drop for Device<'a> {
-    fn drop(&mut self) {
-        unsafe { frida_sys::frida_unref(self.device_ptr as _) }
     }
 }
 
