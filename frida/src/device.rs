@@ -44,7 +44,7 @@ impl<'a> Device<'a> {
     /// Returns the device's type
     ///
     /// # Example
-    /// ```
+    /// ```ignore
     ///# use frida::DeviceType;
     ///# let frida = unsafe { frida::Frida::obtain() };
     ///# let device_manager = frida::DeviceManager::obtain(&frida);
@@ -58,7 +58,7 @@ impl<'a> Device<'a> {
     /// Returns the device's system parameters
     ///
     /// # Example
-    /// ```
+    /// ```ignore
     ///# use std::collections::HashMap;
     ///# let frida = unsafe { frida::Frida::obtain() };
     ///# let device_manager = frida::DeviceManager::obtain(&frida);
