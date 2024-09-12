@@ -28,6 +28,10 @@ num = { version = "0.4.1", default-features = false }
 num-derive = { version = "0.4.2", default-features = false }
 num-traits = { version = "0.2.18", default-features = false }
 paste = { version = "1", default-features = false }
+spin = { version = "0.9.8", default-features = false, features = [
+    "mutex",
+    "spin_mutex",
+] }
 
 [dev-dependencies]
 lazy_static = "1"

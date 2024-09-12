@@ -8,7 +8,7 @@
 //!
 use {
     crate::{Error, Gum, NativePointer, Result},
-    core::{marker::PhantomData, ptr},
+    core::ptr,
     frida_gum_sys as gum_sys,
 };
 
@@ -21,25 +21,36 @@ mod invocation_listener;
 pub use invocation_listener::*;
 
 /// Function hooking engine interface.
-pub struct Interceptor<'a> {
+pub struct Interceptor {
     interceptor: *mut gum_sys::GumInterceptor,
-    phantom: PhantomData<&'a gum_sys::GumInterceptor>,
+    _gum: Gum,
 }
 
-impl Drop for Interceptor<'_> {
+impl Clone for Interceptor {
+    fn clone(&self) -> Self {
+        Interceptor {
+            interceptor: unsafe {
+                frida_gum_sys::g_object_ref(self.interceptor as *mut _) as *mut _
+            },
+            _gum: self._gum.clone(),
+        }
+    }
+}
+
+impl Drop for Interceptor {
     fn drop(&mut self) {
         unsafe { frida_gum_sys::g_object_unref(self.interceptor as *mut _) }
     }
 }
 
-impl<'a> Interceptor<'a> {
+impl Interceptor {
     /// Obtain an Interceptor handle, ensuring that the runtime is properly initialized. This may
     /// be called as many times as needed, and results in a no-op if the Interceptor is
     /// already initialized.
-    pub fn obtain<'b: 'a>(_gum: &'b Gum) -> Interceptor<'b> {
+    pub fn obtain(gum: &Gum) -> Interceptor {
         Interceptor {
             interceptor: unsafe { gum_sys::gum_interceptor_obtain() },
-            phantom: PhantomData,
+            _gum: gum.clone(),
         }
     }
 
@@ -221,7 +232,7 @@ impl<'a> Interceptor<'a> {
     /// Should only be called from within a hook or replacement function.
     #[cfg(feature = "invocation-listener")]
     #[cfg_attr(docsrs, doc(cfg(feature = "invocation-listener")))]
-    pub fn current_invocation() -> InvocationContext<'a> {
+    pub fn current_invocation<'a>() -> InvocationContext<'a> {
         InvocationContext::from_raw(unsafe { gum_sys::gum_interceptor_get_current_invocation() })
     }
 
