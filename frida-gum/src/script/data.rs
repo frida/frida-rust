@@ -8,9 +8,16 @@ use {
     frida_gum_sys::{
         gchar, gpointer, gum_script_backend_create_finish, gum_script_load, gum_script_load_finish,
         gum_script_set_message_handler, GAsyncResult, GBytes, GCancellable, GError, GObject,
-        GumScript, GumScriptBackend, _frida_g_bytes_get_data as g_bytes_get_data,
+        GumScript, GumScriptBackend,
     },
 };
+
+/* glib exports are aliased in frida devkit for Linux */
+#[cfg(target_os = "linux")]
+use frida_gum_sys::_frida_g_bytes_get_data as g_bytes_get_data;
+
+#[cfg(not(target_os = "linux"))]
+use frida_gum_sys::g_bytes_get_data;
 
 pub(crate) struct ScriptData<F>
 where

@@ -1,11 +1,20 @@
 use {
     crate::script::scheduler::Scheduler,
-    frida_gum_sys::{
-        GMainContext, GMainLoop, _frida_g_main_context_iteration as g_main_context_iteration,
-        _frida_g_main_context_pending as g_main_context_pending,
-        _frida_g_main_context_push_thread_default as g_main_context_push_thread_default,
-        _frida_g_main_loop_new as g_main_loop_new,
-    },
+    frida_gum_sys::{GMainContext, GMainLoop},
+};
+
+#[cfg(target_os = "linux")]
+use frida_gum_sys::{
+    _frida_g_main_context_iteration as g_main_context_iteration,
+    _frida_g_main_context_pending as g_main_context_pending,
+    _frida_g_main_context_push_thread_default as g_main_context_push_thread_default,
+    _frida_g_main_loop_new as g_main_loop_new,
+};
+
+#[cfg(not(target_os = "linux"))]
+use frida_gum_sys::{
+    g_main_context_iteration, g_main_context_pending, g_main_context_push_thread_default,
+    g_main_loop_new,
 };
 
 #[derive(Clone)]
