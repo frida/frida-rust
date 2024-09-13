@@ -1,0 +1,17 @@
+[package]
+name = "script"
+version = "0.1.0"
+authors = ["WorksButNotTested"]
+edition = "2018"
+license = "wxWindows"
+publish = false
+
+[[bin]]
+name = "script"
+
+[features]
+auto-download = ["frida-gum/auto-download"]
+
+[dependencies]
+frida-gum = { path = "../../../frida-gum", features = ["script"] }
+lazy_static = "1.4"

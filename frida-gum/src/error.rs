@@ -6,6 +6,7 @@
 use core::fmt;
 
 /// Custom `Error` for Frida
+#[derive(Clone)]
 pub enum Error {
     /// Bad signature during Interceptor operation
     InterceptorBadSignature,
@@ -26,6 +27,15 @@ pub enum Error {
     MemoryAccessError,
 
     WrongType,
+
+    /// Load script not started
+    LoadScriptNotStarted,
+
+    /// Failed to create script
+    FailedToCreateScript,
+
+    /// Failed to read bytes
+    FailedToReadBytes,
 }
 
 impl fmt::Display for Error {
@@ -38,6 +48,9 @@ impl fmt::Display for Error {
             Error::InterceptorError => write!(fmt, "Interceptor error"),
             Error::MemoryAccessError => write!(fmt, "Memory access error"),
             Error::WrongType => write!(fmt, "Wrong type"),
+            Error::FailedToCreateScript => write!(fmt, "Failed to create script"),
+            Error::LoadScriptNotStarted => write!(fmt, "Load script not started"),
+            Error::FailedToReadBytes => write!(fmt, "Failed to read bytes"),
         }
     }
 }

@@ -10,6 +10,7 @@ use {
     feature = "backtrace",
     feature = "memory-access-monitor"
 )))]
+#[cfg(not(feature = "std"))]
 use alloc::vec::Vec;
 
 /// The x86/x86_64 instruction writer.

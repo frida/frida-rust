@@ -1,6 +1,10 @@
 #pragma once
 
-#include "frida-gum.h"
+#if USE_GUM_JS == 1
+# include "frida-gumjs.h"
+#else
+# include "frida-gum.h"
+#endif
 
 G_BEGIN_DECLS
 
