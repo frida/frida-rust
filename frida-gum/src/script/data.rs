@@ -6,9 +6,9 @@ use {
         slice::from_raw_parts,
     },
     frida_gum_sys::{
-        gchar, gpointer, gum_script_backend_create_finish, gum_script_load, gum_script_load_finish,
-        gum_script_set_message_handler, GAsyncResult, GBytes, GCancellable, GError, GObject,
-        GumScript, GumScriptBackend,
+        gchar, gpointer, gsize, gum_script_backend_create_finish, gum_script_load,
+        gum_script_load_finish, gum_script_set_message_handler, GAsyncResult, GBytes, GCancellable,
+        GError, GObject, GumScript, GumScriptBackend,
     },
 };
 
@@ -68,7 +68,7 @@ where
     }
 
     fn get_bytes(gdata: &mut GBytes) -> GumResult<&[u8]> {
-        let mut size: u64 = 0;
+        let mut size: gsize = 0;
         let data = unsafe { g_bytes_get_data(gdata, &mut size) } as *const u8;
         if data.is_null() || size == 0 {
             return Ok(&[]);
