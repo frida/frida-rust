@@ -14,6 +14,7 @@ members = [
     "examples/gum/fast_interceptor",
     "examples/gum/linux_no_std",
     "examples/gum/memory_access_monitor",
+    "examples/gum/script",
     "examples/core/hello",
     "examples/core/usb_device",
     "examples/core/console_log",

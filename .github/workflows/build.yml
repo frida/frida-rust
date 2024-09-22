@@ -103,7 +103,7 @@ jobs:
           target: ${{ matrix.target }}
       - name: Install gcc-multilib
         if: ${{ matrix.target == 'i686-unknown-linux-gnu' && matrix.os == 'ubuntu-latest' }}
-        run: sudo apt-get update && sudo apt-get install gcc-multilib --fix-missing
+        run: sudo apt-get update && sudo apt-get install gcc-multilib g++-multilib --fix-missing
       - name: Test Gum
         run: cd frida-gum && cargo test --target ${{ matrix.target }} --features=auto-download
       - name: Test Gum with all features
@@ -145,7 +145,7 @@ jobs:
           target: ${{ matrix.target }}
       - name: Install gcc-multilib
         if: ${{ matrix.target == 'i686-unknown-linux-gnu' && matrix.os == 'ubuntu-latest' }}
-        run: sudo apt-get update && sudo apt-get install gcc-multilib --fix-missing
+        run: sudo apt-get update && sudo apt-get install gcc-multilib g++-multilib --fix-missing
       - name: Test Frida
         run: cd frida && cargo test --target ${{ matrix.target }} --features=auto-download
       - name: Test Frida with all features

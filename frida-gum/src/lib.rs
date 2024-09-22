@@ -108,6 +108,11 @@ mod backtracer;
 #[cfg_attr(docsrs, doc(cfg(feature = "backtrace")))]
 pub use backtracer::*;
 
+#[cfg(feature = "script")]
+mod script;
+#[cfg(feature = "script")]
+pub use script::*;
+
 #[doc(hidden)]
 pub type Result<T> = core::result::Result<T, error::Error>;
 

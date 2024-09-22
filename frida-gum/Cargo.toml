@@ -8,6 +8,7 @@ repository.workspace = true
 description.workspace = true
 
 [features]
+script = ["frida-gum-sys/js"]
 auto-download = ["frida-gum-sys/auto-download"]
 backtrace = ["libc", "std"]
 event-sink = ["frida-gum-sys/event-sink"]

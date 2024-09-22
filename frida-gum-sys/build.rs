@@ -48,11 +48,19 @@ fn main() {
     #[cfg(feature = "auto-download")]
     let include_dir = {
         use frida_build::download_and_use_devkit;
-        download_and_use_devkit("gum", include_str!("FRIDA_VERSION").trim())
+        if cfg!(feature = "js") {
+            download_and_use_devkit("gumjs", include_str!("FRIDA_VERSION").trim())
+        } else {
+            download_and_use_devkit("gum", include_str!("FRIDA_VERSION").trim())
+        }
     };
 
     #[cfg(not(feature = "auto-download"))]
-    println!("cargo:rustc-link-lib=frida-gum");
+    if cfg!(feature = "js") {
+        println!("cargo:rustc-link-lib=frida-gumjs");
+    } else {
+        println!("cargo:rustc-link-lib=frida-gum");
+    }
 
     if target_os != "android" && (target_os == "linux" || target_vendor == "apple") {
         println!("cargo:rustc-link-lib=pthread");
@@ -70,8 +78,17 @@ fn main() {
         bindings
     };
 
+    let bindings = if cfg!(feature = "js") {
+        bindings
+            .clang_arg("-DUSE_GUM_JS=1")
+            .header_contents("gum.h", "#include \"frida-gumjs.h\"")
+    } else {
+        bindings
+            .clang_arg("-DUSE_GUM_JS=0")
+            .header_contents("gum.h", "#include \"frida-gum.h\"")
+    };
+
     let bindings = bindings
-        .header_contents("gum.h", "#include \"frida-gum.h\"")
         .header("event_sink.h")
         .header("invocation_listener.h")
         .header("probe_listener.h")
@@ -92,6 +109,14 @@ fn main() {
         .write_to_file(out_path.join("bindings.rs"))
         .unwrap();
 
+    #[cfg(any(
+        feature = "event-sink",
+        feature = "invocation-listener",
+        feature = "stalker-observer",
+        feature = "stalker-params"
+    ))]
+    let use_gum_js = if cfg!(feature = "js") { "1" } else { "0" };
+
     #[cfg(feature = "event-sink")]
     {
         let mut builder = cc::Build::new();
@@ -110,6 +135,7 @@ fn main() {
         builder
             .file("event_sink.c")
             .opt_level(3)
+            .define("USE_GUM_JS", use_gum_js)
             .compile("event_sink");
     }
 
@@ -131,6 +157,7 @@ fn main() {
         builder
             .file("invocation_listener.c")
             .opt_level(3)
+            .define("USE_GUM_JS", use_gum_js)
             .compile("invocation_listener");
 
         let mut builder = cc::Build::new();
@@ -148,6 +175,7 @@ fn main() {
         builder
             .file("probe_listener.c")
             .opt_level(3)
+            .define("USE_GUM_JS", use_gum_js)
             .compile("probe_listener");
     }
 
@@ -169,6 +197,7 @@ fn main() {
         builder
             .file("stalker_observer.c")
             .opt_level(3)
+            .define("USE_GUM_JS", use_gum_js)
             .compile("stalker_observer");
     }
 
@@ -190,6 +219,7 @@ fn main() {
         builder
             .file("stalker_params.c")
             .opt_level(3)
+            .define("USE_GUM_JS", use_gum_js)
             .compile("stalker_params");
     }
 
@@ -201,4 +231,11 @@ fn main() {
             println!("cargo:rustc-link-lib=dylib={lib}");
         }
     }
+
+    /* GUMJS contains v8 for some architectures, thus it needs to link stdc++ */
+    #[cfg(all(feature = "js", target_os = "linux"))]
+    println!("cargo:rustc-link-lib=dylib=stdc++");
+
+    #[cfg(all(feature = "js", target_os = "macos"))]
+    println!("cargo:rustc-link-lib=dylib=c++");
 }

@@ -14,6 +14,7 @@ event-sink = ["cc"]
 invocation-listener = ["cc"]
 stalker-observer = ["cc"]
 stalker-params = ["cc"]
+js = []
 
 [build-dependencies]
 bindgen = "0.69.4"
