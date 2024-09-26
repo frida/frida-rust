@@ -11,7 +11,7 @@ Once ran you should expect an output similar to the next one:
 js_global_var: 3
 - Log(MessageLog { level: Info, payload: "Bye Potato" })
 total: 10
-Error: Error on the JavaScript side: "unable to find method 'NonExistentFunc'"
+This is an error from JS: Error on the JavaScript side: "unable to find method 'NonExistentFunc'"
 [*] Script unloaded
 [*] Session detached
 Exiting...

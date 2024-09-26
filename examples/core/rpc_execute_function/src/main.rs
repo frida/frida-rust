@@ -71,29 +71,33 @@ fn main() {
 
         // Example calling a function in JS and giving the function name from `list_exports`
         // Expect a log message to be printed.
-        let _ = script.exports(&js_functions[0], None); // Increment
+        let _ = script.exports.call(&js_functions[0], None); // Increment
 
         // Example calling a JS function, giving the function name as &str, and a "Number" parameter.
-        let _ = script.exports("nIncrement", Some(json!([2])));
+        let _ = script.exports.call("nIncrement", Some(json!([2])));
 
-        // Example showing how to get the returned value.
-        let js_global_var = script.exports("getValue", None).unwrap().unwrap();
+        // // Example showing how to get the returned value.
+        let js_global_var = script.exports.call("getValue", None).unwrap().unwrap();
         println!("js_global_var: {}", js_global_var);
 
         // Example sending a String as parameter.
         // Expect a log message to be printed.
-        let _ = script.exports("bye", Some(json!(["Potato"])));
+        let _ = script.exports.call("bye", Some(json!(["Potato"])));
 
         // Example showing sending multiple arguments.
         let total = script
-            .exports("sumVals", Some(json!([[1, 2, 3, 4], true])))
+            .exports
+            .call("sumVals", Some(json!([[1, 2, 3, 4], true])))
             .unwrap()
             .unwrap();
         println!("total: {}", total);
 
         // Here I show how errors look like
-        if let Err(err_msg) = script.exports("NonExistentFunc", Some(json!([[1, 2, 3, 4], true]))) {
-            println!("Error: {}", err_msg);
+        if let Err(err_msg) = script
+            .exports
+            .call("NonExistentFunc", Some(json!([[1, 2, 3, 4], true])))
+        {
+            println!("This is an error from JS: {}", err_msg);
         }
 
         script.unload().unwrap();
