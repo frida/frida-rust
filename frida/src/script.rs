@@ -137,19 +137,19 @@ pub trait ScriptHandler {
 /// Represents a Frida script.
 pub struct Script<'a> {
     script_ptr: *mut _FridaScript,
-    phantom: PhantomData<&'a _FridaScript>,
     rpc_id_counter: Rc<RefCell<usize>>,
     callback_handler: Rc<RefCell<CallbackHandler>>,
     ///Exports of the script.
     pub exports: Exports<'a>,
+    phantom: PhantomData<&'a _FridaScript>,
 }
 
 /// This represents the exports of the script.
 pub struct Exports<'a> {
     script_ptr: *mut _FridaScript,
-    phantom: PhantomData<&'a _FridaScript>,
     rpc_id_counter: Rc<RefCell<usize>>,
     callback_handler: Rc<RefCell<CallbackHandler>>,
+    phantom: PhantomData<&'a _FridaScript>,
 }
 
 impl<'a> Exports<'a> {
@@ -307,11 +307,10 @@ impl<'a> Script<'a> {
 }
 
 impl<'a> Exports<'a> {
-    /// Access exported functions from a Frida script.
+    /// Run exported functions from a Frida script.
     pub fn call(&mut self, function_name: &str, args: Option<Value>) -> Result<Option<Value>> {
         let json_req: String = {
             let name = "frida:rpc";
-            // let id = self.script.inc_id();
             let id = self.inc_id();
             let rpc_type = "call";
 
@@ -326,7 +325,6 @@ impl<'a> Exports<'a> {
             )
         };
 
-        // script_borrow.post(&json_req, None).unwrap();
         let message = CString::new(json_req.as_str()).map_err(|_| Error::CStringFailed)?;
 
         unsafe {
