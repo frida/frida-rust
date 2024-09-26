@@ -336,7 +336,7 @@ impl<'a> Exports<'a> {
         }
 
         let borrowed_callback_handler = self.callback_handler.borrow();
-        let (_, rx) = &(*borrowed_callback_handler).channel;
+        let (_, rx) = &borrowed_callback_handler.channel;
         let rpc_result = rx.recv().unwrap();
 
         match rpc_result {
