@@ -1,6 +1,5 @@
-use crate::{Device, Error, Result};
+use crate::{Device, Error, Frida, Result};
 use std::ffi::CString;
-use std::marker::PhantomData;
 use std::path::Path;
 
 #[cfg(unix)]
@@ -11,16 +10,18 @@ use frida_sys::{_FridaInjector, g_bytes_new, g_bytes_unref};
 /// Local library injector
 ///
 /// Implements [Inject] to allow library injection into a target process.
-pub struct Injector<'a> {
+pub struct Injector {
+    _frida: Frida,
     injector_ptr: *mut _FridaInjector,
-    phantom: PhantomData<&'a _FridaInjector>,
 }
 
-impl<'a> Injector<'a> {
-    pub(crate) fn from_raw(injector_ptr: *mut _FridaInjector) -> Injector<'a> {
+unsafe impl Send for Injector {}
+
+impl Injector {
+    pub(crate) fn from_raw(frida: Frida, injector_ptr: *mut _FridaInjector) -> Injector {
         Injector {
+            _frida: frida,
             injector_ptr,
-            phantom: PhantomData,
         }
     }
 
@@ -28,8 +29,8 @@ impl<'a> Injector<'a> {
     ///
     /// The `frida-helper` is a binary compiled into the Frida devkit, and is codesigned
     /// to allow debugging. It is spawned and injection is delegated to the helper.
-    pub fn new() -> Self {
-        Self::from_raw(unsafe { frida_sys::frida_injector_new() })
+    pub fn new(frida: Frida) -> Self {
+        Self::from_raw(frida, unsafe { frida_sys::frida_injector_new() })
     }
 
     /// Create a new inprocess Injector
@@ -39,19 +40,14 @@ impl<'a> Injector<'a> {
     /// See [Injector::new] for details about the `frida-helper` process. Using an
     /// in_process injector may require the debugger process to be codesigned on some
     /// platforms.
-    pub fn in_process() -> Self {
-        Self::from_raw(unsafe { frida_sys::frida_injector_new_inprocess() })
+    pub fn in_process(frida: Frida) -> Self {
+        Self::from_raw(frida, unsafe { frida_sys::frida_injector_new_inprocess() })
     }
 }
 
-impl<'a> Default for Injector<'a> {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
-impl Drop for Injector<'_> {
+impl Drop for Injector {
     fn drop(&mut self) {
+        eprintln!("dropping injector");
         unsafe {
             frida_sys::frida_injector_close_sync(
                 self.injector_ptr,
@@ -130,7 +126,7 @@ pub trait Inject {
         E: AsRef<str>;
 }
 
-impl<'a> Inject for Injector<'a> {
+impl<'a> Inject for Injector {
     fn inject_library_file_sync<D, E, P>(
         &mut self,
         pid: u32,
@@ -228,7 +224,7 @@ impl<'a> Inject for Injector<'a> {
     }
 }
 
-impl<'a> Inject for Device<'a> {
+impl Inject for Device {
     fn inject_library_file_sync<D, E, P>(
         &mut self,
         pid: u32,
@@ -261,7 +257,7 @@ impl<'a> Inject for Device<'a> {
 
         let id = unsafe {
             frida_sys::frida_device_inject_library_file_sync(
-                self.device_ptr,
+                self.ptr(),
                 pid as frida_sys::guint,
                 path.as_ptr() as *const frida_sys::gchar,
                 entrypoint.as_ptr() as *const frida_sys::gchar,
@@ -301,7 +297,7 @@ impl<'a> Inject for Device<'a> {
         let id = unsafe {
             let g_blob = g_bytes_new(blob.as_ptr() as _, blob.len() as _);
             let id = frida_sys::frida_device_inject_library_blob_sync(
-                self.device_ptr,
+                self.ptr(),
                 pid,
                 g_blob,
                 entrypoint.as_ptr() as *const frida_sys::gchar,
