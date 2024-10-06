@@ -262,3 +262,10 @@ impl Drop for Listener {
         unsafe { frida_gum_sys::g_object_unref(*ptr) }
     }
 }
+
+impl Clone for Listener {
+    fn clone(&self) -> Self {
+        let Self(NativePointer(ptr)) = self;
+        Self(NativePointer(unsafe { frida_gum_sys::g_object_ref(*ptr) }))
+    }
+}
