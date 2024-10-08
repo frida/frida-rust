@@ -5,22 +5,6 @@ members = [
     "frida-gum",
     "frida-sys",
     "frida",
-    "examples/gum/open",
-    "examples/gum/stalker",
-    "examples/gum/stalker_observer",
-    "examples/gum/hook_open",
-    "examples/gum/hook_instruction",
-    "examples/gum/debug_symbol",
-    "examples/gum/fast_interceptor",
-    "examples/gum/linux_no_std",
-    "examples/gum/memory_access_monitor",
-    "examples/gum/script",
-    "examples/core/hello",
-    "examples/core/usb_device",
-    "examples/core/console_log",
-    "examples/core/list_exports",
-    "examples/core/get_processes",
-    "examples/core/rpc_execute_function",
 ]
 # We miss our linux_no_std example from the default members since `cargo check`
 # and `cargo test` both attempt to link the `std` library into it in error.
