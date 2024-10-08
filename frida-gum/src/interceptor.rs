@@ -254,6 +254,7 @@ impl Interceptor {
 }
 
 /// An instance of a listener attached to an instruction or function.
+#[allow(dead_code)]
 pub struct Listener(NativePointer);
 
 impl Drop for Listener {
