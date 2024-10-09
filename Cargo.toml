@@ -1,6 +1,13 @@
 [workspace]
 resolver = "2"
-members = ["frida-gum-sys", "frida-gum", "frida-sys", "frida"]
+members = [
+    "frida-gum-sys",
+    "frida-gum",
+    "frida-sys",
+    "frida",
+    "examples/core/*",
+    "examples/gum/*",
+]
 # We miss our linux_no_std example from the default members since `cargo check`
 # and `cargo test` both attempt to link the `std` library into it in error.
 default-members = ["frida-gum-sys", "frida-gum", "frida-sys", "frida"]
