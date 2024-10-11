@@ -37,6 +37,8 @@ fn main() {
         println!("cargo:rustc-link-lib=pthread");
         if target_os == "macos" {
             println!("cargo:rustc-link-lib=framework=AppKit");
+            println!("cargo:rustc-link-lib=framework=Security");
+            println!("cargo:rustc-link-lib=framework=IOKit");
         }
     }
 
