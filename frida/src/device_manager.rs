@@ -147,12 +147,11 @@ impl<'a> DeviceManager<'a> {
 
 impl<'a> Drop for DeviceManager<'a> {
     fn drop(&mut self) {
-        let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         unsafe {
             frida_sys::frida_device_manager_close_sync(
                 self.manager_ptr,
                 std::ptr::null_mut(),
-                &mut error,
+                std::ptr::null_mut(),
             );
             frida_sys::frida_unref(self.manager_ptr as _)
         }
