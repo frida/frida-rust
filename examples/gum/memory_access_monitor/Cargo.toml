@@ -5,6 +5,7 @@ authors = ["Liu Xiangru <liuxiangru@iie.ac.cn>"]
 edition = "2021"
 license = "MIT"
 description = "Example of monitoring memory access using Frida's MemoryAccessMonitor API"
+publish = false
 
 [dependencies]
 frida-gum = { path = "../../../frida-gum", features = [

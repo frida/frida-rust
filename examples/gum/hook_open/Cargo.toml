@@ -4,6 +4,7 @@ version = "0.1.0"
 authors = ["Aviram Hassan <aviramyhassan@gmail.com>"]
 edition = "2018"
 license = "MIT"
+publish = false
 
 [lib]
 crate-type = ["cdylib"]

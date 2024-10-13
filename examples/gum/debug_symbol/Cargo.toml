@@ -4,6 +4,7 @@ version = "0.1.0"
 authors = ["Tal Liberman <talliberman@users.noreply.github.com>"]
 edition = "2018"
 license = "MIT"
+publish = false
 
 [dependencies]
 frida-gum = { path = "../../../frida-gum", features = ["invocation-listener"] }

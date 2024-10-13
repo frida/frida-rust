@@ -3,6 +3,7 @@ name = "rpc_execute_function"
 version = "0.1.0"
 edition = "2021"
 authors = ["Ricardo J Marques Montilla / Xoffio"]
+publish = false
 
 [dependencies]
 frida = { path = "../../../frida" }

@@ -4,6 +4,7 @@ version = "0.1.0"
 authors = ["WorksButNotTested"]
 edition = "2018"
 license = "MIT"
+publish = false
 
 [dependencies]
 frida-gum = { path = "../../../frida-gum" }
