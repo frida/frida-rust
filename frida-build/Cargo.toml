@@ -7,6 +7,9 @@ license.workspace = true
 repository.workspace = true
 description.workspace = true
 
+[features]
+auto-download = []
+
 [dependencies]
 reqwest = { version = "0.12.2", default-features = false, features = [
     "blocking",
