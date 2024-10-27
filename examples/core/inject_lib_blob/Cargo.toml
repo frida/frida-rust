@@ -1,0 +1,14 @@
+[package]
+name = "inject_lib_blob"
+edition = "2021"
+authors = ["Ricardo J Marques Montilla / Xoffio"]
+publish = false
+
+[lib]
+name = "inject_example"
+crate-type = ["cdylib"]
+
+[dependencies]
+frida = { path = "../../../frida" }
+frida-sys = { path = "../../../frida-sys" }
+lazy_static = "1.5.0"
