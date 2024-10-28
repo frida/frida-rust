@@ -1,15 +1,14 @@
 use frida_gum::DebugSymbol;
 use frida_gum::{Gum, Module};
-use lazy_static::lazy_static;
-
-lazy_static! {
-    static ref GUM: Gum = unsafe { Gum::obtain() };
-}
+use std::iter::Once;
+use std::sync::OnceLock;
 
 fn main() {
-    lazy_static::initialize(&GUM);
+    static CELL: OnceLock<Gum> = OnceLock::new();
+    let gum = CELL.get_or_init(|| Gum::obtain());
 
-    let symbol = Module::find_export_by_name(None, "mmap").unwrap();
+    let module = Module::from_gum(gum);
+    let symbol = module.find_export_by_name(None, "mmap").unwrap();
     let symbol_details = DebugSymbol::from_address(symbol).unwrap();
     println!(
         "address={:#x?} module_name={:?} symbol_name={:?} file_name={:?} line_number={:?}",

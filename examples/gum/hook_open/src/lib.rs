@@ -4,9 +4,9 @@ use lazy_static::lazy_static;
 use libc::{c_char, c_int, c_void};
 use std::cell::UnsafeCell;
 use std::sync::Mutex;
+use std::sync::OnceLock;
 
 lazy_static! {
-    static ref GUM: Gum = unsafe { Gum::obtain() };
     static ref ORIGINAL_OPEN: Mutex<UnsafeCell<Option<OpenFunc>>> =
         Mutex::new(UnsafeCell::new(None));
 }
@@ -29,8 +29,11 @@ unsafe extern "C" fn open_detour(name: *const c_char, flags: c_int) -> c_int {
 
 #[ctor]
 fn init() {
-    let mut interceptor = Interceptor::obtain(&GUM);
-    let open = Module::find_export_by_name(None, "open").unwrap();
+    static CELL: OnceLock<Gum> = OnceLock::new();
+    let gum = CELL.get_or_init(|| Gum::obtain());
+    let module = Module::from_gum(gum);
+    let mut interceptor = Interceptor::obtain(gum);
+    let open = module.find_export_by_name(None, "open").unwrap();
     unsafe {
         *ORIGINAL_OPEN.lock().unwrap().get_mut() = Some(std::mem::transmute::<
             *mut libc::c_void,

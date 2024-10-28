@@ -14,7 +14,7 @@
 )]
 
 use {
-    crate::{NativePointer, PageProtection, RangeDetails},
+    crate::{Gum, NativePointer, PageProtection, RangeDetails},
     core::ffi::c_void,
     cstr_core::CString,
     frida_gum_sys as gum_sys,
@@ -56,12 +56,23 @@ pub struct ModuleDetailsOwned {
     pub size: usize,
 }
 
-pub struct Module;
+pub struct Module {
+    // This is to verify that Gum is initialized before using any Module methods which requires
+    // intialization.
+    // Note that Gum is expected to be initialized via OnceCell which provides &Gum for every
+    // instance.
+    _gum: &'static Gum,
+}
 
 impl Module {
+    pub fn from_gum(gum: &'static Gum) -> Module {
+        Module { _gum: gum }
+    }
+
     /// The absolute address of the export. In the event that no such export
     /// could be found, returns NULL.
     pub fn find_export_by_name(
+        self: &Self,
         module_name: Option<&str>,
         symbol_name: &str,
     ) -> Option<NativePointer> {
@@ -92,7 +103,11 @@ impl Module {
 
     /// The absolute address of the symbol. In the event that no such symbol
     /// could be found, returns NULL.
-    pub fn find_symbol_by_name(module_name: &str, symbol_name: &str) -> Option<NativePointer> {
+    pub fn find_symbol_by_name(
+        self: &Self,
+        module_name: &str,
+        symbol_name: &str,
+    ) -> Option<NativePointer> {
         let symbol_name = CString::new(symbol_name).unwrap();
 
         let module_name = CString::new(module_name).unwrap();
@@ -112,7 +127,7 @@ impl Module {
 
     /// Returns the base address of the specified module. In the event that no
     /// such module could be found, returns NULL.
-    pub fn find_base_address(module_name: &str) -> NativePointer {
+    pub fn find_base_address(self: &Self, module_name: &str) -> NativePointer {
         let module_name = CString::new(module_name).unwrap();
 
         unsafe {
@@ -124,6 +139,7 @@ impl Module {
 
     /// Enumerates memory ranges satisfying protection given.
     pub fn enumerate_ranges(
+        self: &Self,
         module_name: &str,
         prot: PageProtection,
         callout: impl FnMut(RangeDetails) -> bool,
@@ -147,7 +163,7 @@ impl Module {
     }
 
     /// Enumerates modules.
-    pub fn enumerate_modules() -> Vec<ModuleDetailsOwned> {
+    pub fn enumerate_modules(self: &Self) -> Vec<ModuleDetailsOwned> {
         let result: Vec<ModuleDetailsOwned> = vec![];
 
         unsafe extern "C" fn callback(
@@ -187,7 +203,7 @@ impl Module {
     }
 
     /// Enumerates exports in module.
-    pub fn enumerate_exports(module_name: &str) -> Vec<ExportDetails> {
+    pub fn enumerate_exports(self: &Self, module_name: &str) -> Vec<ExportDetails> {
         let result: Vec<ExportDetails> = vec![];
 
         unsafe extern "C" fn callback(
@@ -219,7 +235,7 @@ impl Module {
     }
 
     /// Enumerates symbols in module.
-    pub fn enumerate_symbols(module_name: &str) -> Vec<SymbolDetails> {
+    pub fn enumerate_symbols(self: &Self, module_name: &str) -> Vec<SymbolDetails> {
         let result: Vec<SymbolDetails> = vec![];
         unsafe extern "C" fn callback(
             details: *const GumSymbolDetails,

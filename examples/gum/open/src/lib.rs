@@ -5,12 +5,8 @@ use gum::{
     interceptor::{Interceptor, InvocationContext, InvocationListener},
     Gum, Module,
 };
-use lazy_static::lazy_static;
 use std::os::raw::{c_int, c_void};
-
-lazy_static! {
-    static ref GUM: Gum = unsafe { Gum::obtain() };
-}
+use std::sync::OnceLock;
 
 struct OpenListener;
 
@@ -28,10 +24,14 @@ impl InvocationListener for OpenListener {
 extern "C" fn example_agent_main(_user_data: *const c_void, resident: *mut c_int) {
     unsafe { *resident = 1 };
 
-    let mut interceptor = Interceptor::obtain(&GUM);
+    static CELL: OnceLock<Gum> = OnceLock::new();
+    let gum = CELL.get_or_init(|| Gum::obtain());
+
+    let mut interceptor = Interceptor::obtain(gum);
     let mut listener = OpenListener {};
 
-    let modules = Module::enumerate_modules();
+    let module = Module::from_gum(gum);
+    let modules = module.enumerate_modules();
     for module in modules {
         println!(
             "{}@{:#x}/{:#x}",
@@ -39,6 +39,6 @@ extern "C" fn example_agent_main(_user_data: *const c_void, resident: *mut c_int
         );
     }
 
-    let open = Module::find_export_by_name(None, "open").unwrap();
+    let open = module.find_export_by_name(None, "open").unwrap();
     interceptor.attach(open, &mut listener).unwrap();
 }
