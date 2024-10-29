@@ -12,6 +12,9 @@ use std::path::PathBuf;
 fn main() {
     println!("cargo:rerun-if-changed=build.rs");
 
+    #[cfg(not(feature = "auto-download"))]
+    let docs = std::env::var("DOCS_RS").is_ok();
+
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
     let target_vendor = env::var("CARGO_CFG_TARGET_VENDOR").unwrap();
     #[cfg(feature = "event-sink")]
@@ -72,13 +75,14 @@ fn main() {
     let bindings = bindings.clang_arg(format!("-I{include_dir}"));
 
     #[cfg(not(feature = "auto-download"))]
-    let bindings = if std::env::var("DOCS_RS").is_ok() {
+    let bindings = if docs {
         bindings.clang_arg("-Iinclude")
     } else {
         bindings
     };
 
-    let bindings = if cfg!(feature = "js") {
+    let bindings = if cfg!(feature = "js") || (!cfg!(feature = "auto-download") && docs) {
+        // We always use frida-gumjs.h for docs to not have to ship two big header files in this repo.
         bindings
             .clang_arg("-DUSE_GUM_JS=1")
             .header_contents("gum.h", "#include \"frida-gumjs.h\"")
@@ -126,7 +130,7 @@ fn main() {
         let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if std::env::var("DOCS_RS").is_ok() {
+        let builder = if docs {
             builder.include("include")
         } else {
             &mut builder
@@ -148,7 +152,7 @@ fn main() {
         let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if std::env::var("DOCS_RS").is_ok() {
+        let builder = if docs {
             builder.include("include")
         } else {
             &mut builder
@@ -167,7 +171,7 @@ fn main() {
         let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if std::env::var("DOCS_RS").is_ok() {
+        let builder = if docs {
             builder.include("include")
         } else {
             &mut builder
@@ -188,7 +192,7 @@ fn main() {
         let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if std::env::var("DOCS_RS").is_ok() {
+        let builder = if docs {
             builder.include("include")
         } else {
             &mut builder
@@ -210,7 +214,7 @@ fn main() {
         let mut builder = builder.include(include_dir);
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if std::env::var("DOCS_RS").is_ok() {
+        let builder = if docs {
             builder.include("include")
         } else {
             &mut builder
