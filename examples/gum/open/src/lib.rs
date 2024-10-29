@@ -30,7 +30,7 @@ extern "C" fn example_agent_main(_user_data: *const c_void, resident: *mut c_int
     let mut interceptor = Interceptor::obtain(gum);
     let mut listener = OpenListener {};
 
-    let module = Module::from_gum(gum);
+    let module = Module::obtain(gum);
     let modules = module.enumerate_modules();
     for module in modules {
         println!(

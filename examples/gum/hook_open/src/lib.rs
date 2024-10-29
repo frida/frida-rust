@@ -31,7 +31,7 @@ unsafe extern "C" fn open_detour(name: *const c_char, flags: c_int) -> c_int {
 fn init() {
     static CELL: OnceLock<Gum> = OnceLock::new();
     let gum = CELL.get_or_init(|| Gum::obtain());
-    let module = Module::from_gum(gum);
+    let module = Module::obtain(gum);
     let mut interceptor = Interceptor::obtain(gum);
     let open = module.find_export_by_name(None, "open").unwrap();
     unsafe {

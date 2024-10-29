@@ -18,7 +18,7 @@ fn init() {
     static CELL: OnceLock<Gum> = OnceLock::new();
     let gum = CELL.get_or_init(|| Gum::obtain());
     let mut interceptor = Interceptor::obtain(gum);
-    let module = Module::from_gum(gum);
+    let module = Module::obtain(gum);
     let open = module.find_export_by_name(None, "open").unwrap();
     let mut listener = OpenProbeListener;
     interceptor.attach_instruction(open, &mut listener).unwrap();

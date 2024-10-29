@@ -65,7 +65,7 @@ pub struct Module {
 }
 
 impl Module {
-    pub fn from_gum(gum: &'static Gum) -> Module {
+    pub fn obtain(gum: &'static Gum) -> Module {
         Module { _gum: gum }
     }
 

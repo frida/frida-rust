@@ -7,7 +7,7 @@ fn main() {
     static CELL: OnceLock<Gum> = OnceLock::new();
     let gum = CELL.get_or_init(|| Gum::obtain());
 
-    let module = Module::from_gum(gum);
+    let module = Module::obtain(gum);
     let symbol = module.find_export_by_name(None, "mmap").unwrap();
     let symbol_details = DebugSymbol::from_address(symbol).unwrap();
     println!(
