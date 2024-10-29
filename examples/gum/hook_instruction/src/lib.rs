@@ -3,11 +3,7 @@ use frida_gum::{
     interceptor::{Interceptor, InvocationContext, ProbeListener},
     Gum, Module,
 };
-use lazy_static::lazy_static;
-
-lazy_static! {
-    static ref GUM: Gum = unsafe { Gum::obtain() };
-}
+use std::sync::OnceLock;
 #[derive(Default, Debug)]
 struct OpenProbeListener;
 
@@ -19,8 +15,11 @@ impl ProbeListener for OpenProbeListener {
 
 #[ctor]
 fn init() {
-    let mut interceptor = Interceptor::obtain(&GUM);
-    let open = Module::find_export_by_name(None, "open").unwrap();
+    static CELL: OnceLock<Gum> = OnceLock::new();
+    let gum = CELL.get_or_init(|| Gum::obtain());
+    let mut interceptor = Interceptor::obtain(gum);
+    let module = Module::obtain(gum);
+    let open = module.find_export_by_name(None, "open").unwrap();
     let mut listener = OpenProbeListener;
     interceptor.attach_instruction(open, &mut listener).unwrap();
 }
