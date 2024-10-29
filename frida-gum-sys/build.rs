@@ -14,6 +14,18 @@ fn main() {
 
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
     let target_vendor = env::var("CARGO_CFG_TARGET_VENDOR").unwrap();
+
+    let docs = std::env::var("DOCS_RS").is_ok();
+    // We always use frida-gumjs.h for docs to not have to ship two big header files in this repo.
+    let use_gum_js = cfg!(feature = "js") || (!cfg!(feature = "auto-download") && docs);
+    #[cfg(any(
+        feature = "event-sink",
+        feature = "invocation-listener",
+        feature = "stalker-observer",
+        feature = "stalker-params"
+    ))]
+    let use_gum_js_env = if use_gum_js { "1" } else { "0" };
+
     #[cfg(feature = "event-sink")]
     {
         println!("cargo:rerun-if-changed=event_sink.c");
@@ -72,13 +84,13 @@ fn main() {
     let bindings = bindings.clang_arg(format!("-I{include_dir}"));
 
     #[cfg(not(feature = "auto-download"))]
-    let bindings = if std::env::var("DOCS_RS").is_ok() {
+    let bindings = if docs {
         bindings.clang_arg("-Iinclude")
     } else {
         bindings
     };
 
-    let bindings = if cfg!(feature = "js") {
+    let bindings = if use_gum_js {
         bindings
             .clang_arg("-DUSE_GUM_JS=1")
             .header_contents("gum.h", "#include \"frida-gumjs.h\"")
@@ -109,14 +121,6 @@ fn main() {
         .write_to_file(out_path.join("bindings.rs"))
         .unwrap();
 
-    #[cfg(any(
-        feature = "event-sink",
-        feature = "invocation-listener",
-        feature = "stalker-observer",
-        feature = "stalker-params"
-    ))]
-    let use_gum_js = if cfg!(feature = "js") { "1" } else { "0" };
-
     #[cfg(feature = "event-sink")]
     {
         let mut builder = cc::Build::new();
@@ -126,7 +130,7 @@ fn main() {
         let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if std::env::var("DOCS_RS").is_ok() {
+        let builder = if docs {
             builder.include("include")
         } else {
             &mut builder
@@ -135,7 +139,7 @@ fn main() {
         builder
             .file("event_sink.c")
             .opt_level(3)
-            .define("USE_GUM_JS", use_gum_js)
+            .define("USE_GUM_JS", use_gum_js_env)
             .compile("event_sink");
     }
 
@@ -148,7 +152,7 @@ fn main() {
         let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if std::env::var("DOCS_RS").is_ok() {
+        let builder = if docs {
             builder.include("include")
         } else {
             &mut builder
@@ -157,7 +161,7 @@ fn main() {
         builder
             .file("invocation_listener.c")
             .opt_level(3)
-            .define("USE_GUM_JS", use_gum_js)
+            .define("USE_GUM_JS", use_gum_js_env)
             .compile("invocation_listener");
 
         let mut builder = cc::Build::new();
@@ -167,7 +171,7 @@ fn main() {
         let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if std::env::var("DOCS_RS").is_ok() {
+        let builder = if docs {
             builder.include("include")
         } else {
             &mut builder
@@ -175,7 +179,7 @@ fn main() {
         builder
             .file("probe_listener.c")
             .opt_level(3)
-            .define("USE_GUM_JS", use_gum_js)
+            .define("USE_GUM_JS", use_gum_js_env)
             .compile("probe_listener");
     }
 
@@ -188,7 +192,7 @@ fn main() {
         let mut builder = builder.include(include_dir.clone());
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if std::env::var("DOCS_RS").is_ok() {
+        let builder = if docs {
             builder.include("include")
         } else {
             &mut builder
@@ -197,7 +201,7 @@ fn main() {
         builder
             .file("stalker_observer.c")
             .opt_level(3)
-            .define("USE_GUM_JS", use_gum_js)
+            .define("USE_GUM_JS", use_gum_js_env)
             .compile("stalker_observer");
     }
 
@@ -210,7 +214,7 @@ fn main() {
         let mut builder = builder.include(include_dir);
 
         #[cfg(not(feature = "auto-download"))]
-        let builder = if std::env::var("DOCS_RS").is_ok() {
+        let builder = if docs {
             builder.include("include")
         } else {
             &mut builder
@@ -219,7 +223,7 @@ fn main() {
         builder
             .file("stalker_params.c")
             .opt_level(3)
-            .define("USE_GUM_JS", use_gum_js)
+            .define("USE_GUM_JS", use_gum_js_env)
             .compile("stalker_params");
     }
 
