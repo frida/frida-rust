@@ -44,7 +44,7 @@ static ALLOC: Bump<[u8; HEAP_SIZE]> = Bump::uninit();
 #[no_mangle]
 extern "C" fn main() {
     println!("NOSTD START");
-    let gum = unsafe { Gum::obtain() };
+    let gum = Gum::obtain();
     println!("gum: {:p}", &gum);
     println!("NOSTD DONE");
     unsafe { _exit(0) };
