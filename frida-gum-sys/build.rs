@@ -12,7 +12,6 @@ use std::path::PathBuf;
 fn main() {
     println!("cargo:rerun-if-changed=build.rs");
 
-    #[cfg(not(feature = "auto-download"))]
     let docs = std::env::var("DOCS_RS").is_ok();
 
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
