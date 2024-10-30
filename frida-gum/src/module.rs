@@ -56,16 +56,16 @@ pub struct ModuleDetailsOwned {
     pub size: usize,
 }
 
-pub struct Module {
+pub struct Module<'a> {
     // This is to verify that Gum is initialized before using any Module methods which requires
     // intialization.
     // Note that Gum is expected to be initialized via OnceCell which provides &Gum for every
     // instance.
-    _gum: &'static Gum,
+    _gum: &'a Gum,
 }
 
-impl Module {
-    pub fn obtain(gum: &'static Gum) -> Module {
+impl<'a> Module<'a> {
+    pub fn obtain(gum: &Gum) -> Module {
         Module { _gum: gum }
     }
 
