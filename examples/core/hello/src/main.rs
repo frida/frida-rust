@@ -1,11 +1,9 @@
 /* This example is in the public domain */
 
 use frida::Frida;
-use lazy_static::lazy_static;
+use std::sync::LazyLock;
 
-lazy_static! {
-    static ref FRIDA: Frida = unsafe { Frida::obtain() };
-}
+static FRIDA: LazyLock<Frida> = LazyLock::new(|| unsafe { Frida::obtain() });
 
 fn main() {
     println!("Hello, world!");
