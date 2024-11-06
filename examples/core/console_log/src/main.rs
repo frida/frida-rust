@@ -1,9 +1,7 @@
 use frida::{DeviceManager, Frida, ScriptHandler, ScriptOption, ScriptRuntime};
-use lazy_static::lazy_static;
+use std::sync::LazyLock;
 
-lazy_static! {
-    static ref FRIDA: Frida = unsafe { Frida::obtain() };
-}
+static FRIDA: LazyLock<Frida> = LazyLock::new(|| unsafe { Frida::obtain() });
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();

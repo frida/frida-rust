@@ -10,4 +10,3 @@ crate-type = ["cdylib"]
 
 [dependencies]
 frida = { path = "../../../frida" }
-frida-sys = { path = "../../../frida-sys" }

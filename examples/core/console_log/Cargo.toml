@@ -7,4 +7,3 @@ publish = false
 
 [dependencies]
 frida = { path = "../../../frida" }
-lazy_static = "1.4"
