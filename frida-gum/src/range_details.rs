@@ -15,6 +15,7 @@ use {
     crate::MemoryRange,
     core::{
         ffi::{c_void, CStr},
+        fmt,
         marker::PhantomData,
     },
     frida_gum_sys as gum_sys,
@@ -38,6 +39,20 @@ pub enum PageProtection {
     ReadWriteExecute = gum_sys::_GumPageProtection_GUM_PAGE_READ as u32
         | gum_sys::_GumPageProtection_GUM_PAGE_WRITE as u32
         | gum_sys::_GumPageProtection_GUM_PAGE_EXECUTE as u32,
+}
+
+impl fmt::Display for PageProtection {
+    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            PageProtection::NoAccess => write!(fmt, "---"),
+            PageProtection::Read => write!(fmt, "r--"),
+            PageProtection::Write => write!(fmt, "-w-"),
+            PageProtection::Execute => write!(fmt, "--e"),
+            PageProtection::ReadWrite => write!(fmt, "rw-"),
+            PageProtection::ReadExecute => write!(fmt, "r-e"),
+            PageProtection::ReadWriteExecute => write!(fmt, "rwe"),
+        }
+    }
 }
 
 /// The file association to a page.
