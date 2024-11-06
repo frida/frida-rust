@@ -18,7 +18,9 @@ use {
     core::ffi::c_void,
     cstr_core::CString,
     frida_gum_sys as gum_sys,
-    frida_gum_sys::{gboolean, gpointer, GumExportDetails, GumModuleDetails, GumSymbolDetails},
+    frida_gum_sys::{
+        gboolean, gpointer, GumExportDetails, GumModuleDetails, GumSectionDetails, GumSymbolDetails,
+    },
 };
 
 #[cfg(not(feature = "std"))]
@@ -36,6 +38,14 @@ extern "C" fn enumerate_ranges_callout(
 
 /// Module symbol details returned by [`Module::enumerate_symbols`].
 pub struct SymbolDetails {
+    pub name: String,
+    pub address: usize,
+    pub size: usize,
+}
+
+/// Module symbol details returned by [`Module::enumerate_sections`].
+pub struct SectionDetails {
+    pub id: String,
     pub name: String,
     pub address: usize,
     pub size: usize,
@@ -263,6 +273,48 @@ impl<'a> Module<'a> {
 
         unsafe {
             frida_gum_sys::gum_module_enumerate_symbols(
+                module_name.as_ptr().cast(),
+                Some(callback),
+                &result as *const _ as *mut c_void,
+            );
+        }
+        result
+    }
+
+    /// Enumerates sections of module.
+    pub fn enumerate_sections(&self, module_name: &str) -> Vec<SectionDetails> {
+        let result: Vec<SectionDetails> = vec![];
+
+        unsafe extern "C" fn callback(
+            details: *const GumSectionDetails,
+            user_data: gpointer,
+        ) -> gboolean {
+            let res = &mut *(user_data as *mut Vec<SectionDetails>);
+
+            let id: String = NativePointer((*details).id as *mut _)
+                .try_into()
+                .unwrap_or_default();
+            let name: String = NativePointer((*details).name as *mut _)
+                .try_into()
+                .unwrap_or_default();
+            let address = (*details).address as usize;
+            let size = (*details).size as usize;
+
+            let info = SectionDetails {
+                id,
+                name,
+                address,
+                size,
+            };
+            res.push(info);
+
+            1
+        }
+
+        let module_name = CString::new(module_name).unwrap();
+
+        unsafe {
+            frida_gum_sys::gum_module_enumerate_sections(
                 module_name.as_ptr().cast(),
                 Some(callback),
                 &result as *const _ as *mut c_void,
