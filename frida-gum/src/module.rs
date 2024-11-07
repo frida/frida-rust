@@ -15,7 +15,7 @@
 
 use {
     crate::{Gum, NativePointer, PageProtection, RangeDetails},
-    core::ffi::c_void,
+    core::{ffi::c_void, fmt},
     cstr_core::CString,
     frida_gum_sys as gum_sys,
     frida_gum_sys::{
@@ -36,6 +36,23 @@ extern "C" fn enumerate_ranges_callout(
     r as gum_sys::gboolean
 }
 
+/// Export type.
+#[derive(Clone, FromPrimitive, Debug)]
+#[repr(u32)]
+pub enum ExportType {
+    Function = gum_sys::_GumExportType_GUM_EXPORT_FUNCTION as u32,
+    Variable = gum_sys::_GumExportType_GUM_EXPORT_VARIABLE as u32,
+}
+
+impl fmt::Display for ExportType {
+    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            ExportType::Function => write!(fmt, "function"),
+            ExportType::Variable => write!(fmt, "variable"),
+        }
+    }
+}
+
 /// Module symbol details returned by [`Module::enumerate_symbols`].
 pub struct SymbolDetails {
     pub name: String,
@@ -53,7 +70,7 @@ pub struct SectionDetails {
 
 /// Module export details returned by [`Module::enumerate_exports`].
 pub struct ExportDetails {
-    pub typ: u32,
+    pub typ: ExportType,
     pub name: String,
     pub address: usize,
 }
@@ -226,7 +243,7 @@ impl<'a> Module<'a> {
                 .unwrap_or_default();
 
             let address = (*details).address as usize;
-            let typ = (*details).type_ as u32;
+            let typ = num::FromPrimitive::from_u32((*details).type_ as u32).unwrap();
             let info = ExportDetails { typ, name, address };
             res.push(info);
             1
