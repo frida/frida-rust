@@ -6,7 +6,6 @@
 
 use frida_sys::_FridaDeviceManager;
 use std::ffi::CString;
-use std::marker::PhantomData;
 
 use crate::device::{self, Device};
 use crate::DeviceType;
@@ -15,29 +14,24 @@ use crate::Frida;
 use crate::Result;
 
 /// Platform-independent device manager abstraction access.
-pub struct DeviceManager<'a> {
+#[derive(Clone)]
+pub struct DeviceManager {
+    frida: Frida,
     manager_ptr: *mut _FridaDeviceManager,
-    phantom: PhantomData<&'a _FridaDeviceManager>,
 }
 
-impl<'a> DeviceManager<'a> {
+impl DeviceManager {
     /// Obtain an DeviceManager handle, ensuring that the runtime is properly initialized. This may be called as many
     /// times as needed, and results in a no-op if the DeviceManager is already initialized.
-    pub fn obtain<'b>(_frida: &'b Frida) -> Self
-    where
-        'b: 'a,
-    {
+    pub fn obtain(frida: &Frida) -> Self {
         DeviceManager {
             manager_ptr: unsafe { frida_sys::frida_device_manager_new() },
-            phantom: PhantomData,
+            frida: frida.clone(),
         }
     }
 
     /// Returns all devices.
-    pub fn enumerate_all_devices<'b>(&'a self) -> Vec<Device<'b>>
-    where
-        'a: 'b,
-    {
+    pub fn enumerate_all_devices(&self) -> Vec<Device> {
         let mut devices = Vec::new();
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
 
@@ -54,8 +48,9 @@ impl<'a> DeviceManager<'a> {
             devices.reserve(num_devices as usize);
 
             for i in 0..num_devices {
-                let device =
-                    Device::from_raw(unsafe { frida_sys::frida_device_list_get(devices_ptr, i) });
+                let device = Device::from_raw(self.frida.clone(), unsafe {
+                    frida_sys::frida_device_list_get(devices_ptr, i)
+                });
                 devices.push(device);
             }
         }
@@ -65,7 +60,7 @@ impl<'a> DeviceManager<'a> {
     }
 
     /// Returns the device of the specified type.
-    pub fn get_device_by_type(&'a self, r#type: DeviceType) -> Result<Device<'a>> {
+    pub fn get_device_by_type(&self, r#type: DeviceType) -> Result<Device> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
 
         let device_ptr = unsafe {
@@ -82,11 +77,11 @@ impl<'a> DeviceManager<'a> {
             return Err(Error::DeviceLookupFailed);
         }
 
-        return Ok(Device::from_raw(device_ptr));
+        return Ok(Device::from_raw(self.frida.clone(), device_ptr));
     }
 
     /// Returns the remote device with the specified host.
-    pub fn get_remote_device(&'a self, host: &str) -> Result<Device<'a>> {
+    pub fn get_remote_device(self, host: &str) -> Result<Device> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         let host_cstring = CString::new(host).map_err(|_| Error::CStringFailed)?;
 
@@ -104,11 +99,11 @@ impl<'a> DeviceManager<'a> {
             return Err(Error::DeviceLookupFailed);
         }
 
-        return Ok(Device::from_raw(device_ptr));
+        return Ok(Device::from_raw(self.frida.clone(), device_ptr));
     }
 
     /// Returns the local device.
-    pub fn get_local_device(&'a self) -> Result<Device<'a>> {
+    pub fn get_local_device(&self) -> Result<Device> {
         self.get_device_by_type(device::DeviceType::Local)
     }
 
@@ -123,7 +118,7 @@ impl<'a> DeviceManager<'a> {
     /// let device = device_manager.get_device_by_id(id).unwrap();
     /// assert_eq!(device.get_id(), id);
     ///
-    pub fn get_device_by_id(&'a self, device_id: &str) -> Result<Device<'a>> {
+    pub fn get_device_by_id(&self, device_id: &str) -> Result<Device> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         let cstring = CString::new(device_id).unwrap();
 
@@ -141,11 +136,11 @@ impl<'a> DeviceManager<'a> {
             return Err(Error::DeviceLookupFailed);
         }
 
-        return Ok(Device::from_raw(device_ptr));
+        return Ok(Device::from_raw(self.frida.clone(), device_ptr));
     }
 }
 
-impl<'a> Drop for DeviceManager<'a> {
+impl Drop for DeviceManager {
     fn drop(&mut self) {
         unsafe {
             frida_sys::frida_device_manager_close_sync(
