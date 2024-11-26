@@ -96,7 +96,7 @@ impl<'a> Process<'a> {
             let r_details = RangeDetails::from_raw(details);
 
             let prot = r_details.protection();
-            if &res.protection == &prot {
+            if res.protection == prot {
                 let m_range = r_details.memory_range();
                 let file_map = r_details.file_mapping().to_owned();
 
