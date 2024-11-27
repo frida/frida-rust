@@ -15,8 +15,6 @@ use {
     frida_gum_sys::{gboolean, gpointer},
 };
 
-use crate::alloc::borrow::ToOwned;
-
 #[cfg(not(feature = "std"))]
 use alloc::vec::Vec;
 
@@ -98,7 +96,7 @@ impl<'a> Process<'a> {
             let prot = r_details.protection();
             if res.protection == prot {
                 let m_range = r_details.memory_range();
-                let file_map = r_details.file_mapping().to_owned();
+                let file_map = r_details.file_mapping();
 
                 res.ranges.push(Range {
                     base: m_range.base_address(),
