@@ -63,9 +63,10 @@ impl<'a> Process<'a> {
         let id = unsafe { gum_sys::gum_process_get_id() };
         let platform =
             num::FromPrimitive::from_u32(unsafe { gum_sys::gum_process_get_native_os() }).unwrap();
-        let code_signing_policy =
-            num::FromPrimitive::from_u32(unsafe { gum_sys::gum_process_get_code_signing_policy() })
-                .unwrap();
+        let code_signing_policy = num::FromPrimitive::from_u32(unsafe {
+            gum_sys::gum_process_get_code_signing_policy() as u32
+        })
+        .unwrap();
 
         let main_module = unsafe {
             module::ModuleDetailsOwned::from_module_details(gum_sys::gum_process_get_main_module())
