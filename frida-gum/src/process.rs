@@ -1,4 +1,4 @@
-//! Module helpers.
+//! Process helpers.
 //!
 
 #![cfg_attr(
@@ -40,9 +40,13 @@ pub enum Os {
 }
 
 pub struct Range<'a> {
+    /// Base address
     pub base: NativePointer,
+    /// Size in bytes
     pub size: usize,
+    /// Protection flag (e.g., Read, Write, Execute)
     pub protection: PageProtection,
+    /// When available, file mapping details.
     pub file: Option<FileMapping<'a>>,
 }
 
@@ -52,13 +56,19 @@ pub struct Process<'a> {
     // Note that Gum is expected to be initialized via OnceCell which provides &Gum for every
     // instance.
     _gum: &'a Gum,
+    /// Property containing the PID as a number
     pub id: u32,
+    /// Properly specifying the current platform.
     pub platform: Os,
+    /// Property which can be `optional` or `required`, where the latter means Frida will avoid modifying
+    /// existing code in memory and will not try to run unsigned code.
     pub code_signing_policy: CodeSigningPolicy,
+    /// Contains a Module representing the main executable of the process.
     pub main_module: module::ModuleDetailsOwned,
 }
 
 impl<'a> Process<'a> {
+    /// Initialize a new process
     pub fn obtain(gum: &'a Gum) -> Process<'a> {
         let id = unsafe { gum_sys::gum_process_get_id() };
         let platform =
@@ -81,6 +91,7 @@ impl<'a> Process<'a> {
         }
     }
 
+    /// Enumerates memory ranges satisfying `protection` given
     pub fn enumerate_ranges(&self, protection: PageProtection) -> Vec<Range<'a>> {
         struct CallbackData<'a> {
             ranges: Vec<Range<'a>>,
@@ -110,7 +121,6 @@ impl<'a> Process<'a> {
             1
         }
 
-        // Initialize the callback data
         let callback_data = CallbackData {
             ranges: Vec::new(),
             protection: protection.clone(),
