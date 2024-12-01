@@ -25,7 +25,7 @@ use {
 use alloc::{boxed::Box, string::String};
 
 /// The memory protection of an unassociated page.
-#[derive(Clone, FromPrimitive, Debug)]
+#[derive(Clone, FromPrimitive, Debug, PartialEq)]
 #[repr(u32)]
 pub enum PageProtection {
     NoAccess = gum_sys::_GumPageProtection_GUM_PAGE_NO_ACCESS as u32,
@@ -64,7 +64,7 @@ pub struct FileMapping<'a> {
     phantom: PhantomData<&'a gum_sys::GumFileMapping>,
 }
 
-impl<'a> FileMapping<'a> {
+impl FileMapping<'_> {
     pub(crate) fn from_raw(file: *const gum_sys::GumFileMapping) -> Option<Self> {
         if file.is_null() {
             None

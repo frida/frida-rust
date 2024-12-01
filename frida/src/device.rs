@@ -253,7 +253,7 @@ impl<'a> Device<'a> {
     }
 }
 
-impl<'a> Drop for Device<'a> {
+impl Drop for Device<'_> {
     fn drop(&mut self) {
         unsafe { frida_sys::frida_unref(self.device_ptr as _) }
     }

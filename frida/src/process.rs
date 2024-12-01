@@ -36,7 +36,7 @@ impl<'a> Process<'a> {
     }
 }
 
-impl<'a> Drop for Process<'a> {
+impl Drop for Process<'_> {
     fn drop(&mut self) {
         unsafe { frida_sys::frida_unref(self.process_ptr as _) }
     }
@@ -59,7 +59,7 @@ pub struct SpawnOptions<'a> {
     phantom: PhantomData<&'a FridaSpawnOptions>,
 }
 
-impl<'a> SpawnOptions<'a> {
+impl SpawnOptions<'_> {
     pub(crate) fn from_raw(options_ptr: *mut FridaSpawnOptions) -> Self {
         Self {
             options_ptr,
@@ -159,13 +159,13 @@ impl<'a> SpawnOptions<'a> {
     }
 }
 
-impl<'a> Default for SpawnOptions<'a> {
+impl Default for SpawnOptions<'_> {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl<'a> Drop for SpawnOptions<'a> {
+impl Drop for SpawnOptions<'_> {
     fn drop(&mut self) {
         unsafe { frida_sys::frida_unref(self.options_ptr as _) }
     }

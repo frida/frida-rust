@@ -82,7 +82,7 @@ impl<'a> DeviceManager<'a> {
             return Err(Error::DeviceLookupFailed);
         }
 
-        return Ok(Device::from_raw(device_ptr));
+        Ok(Device::from_raw(device_ptr))
     }
 
     /// Returns the remote device with the specified host.
@@ -104,7 +104,7 @@ impl<'a> DeviceManager<'a> {
             return Err(Error::DeviceLookupFailed);
         }
 
-        return Ok(Device::from_raw(device_ptr));
+        Ok(Device::from_raw(device_ptr))
     }
 
     /// Returns the local device.
@@ -141,11 +141,11 @@ impl<'a> DeviceManager<'a> {
             return Err(Error::DeviceLookupFailed);
         }
 
-        return Ok(Device::from_raw(device_ptr));
+        Ok(Device::from_raw(device_ptr))
     }
 }
 
-impl<'a> Drop for DeviceManager<'a> {
+impl Drop for DeviceManager<'_> {
     fn drop(&mut self) {
         unsafe {
             frida_sys::frida_device_manager_close_sync(
