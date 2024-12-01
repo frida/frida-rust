@@ -122,7 +122,7 @@ pub struct Module<'a> {
     _gum: &'a Gum,
 }
 
-impl<'a> Module<'a> {
+impl Module<'_> {
     pub fn obtain(gum: &Gum) -> Module {
         Module { _gum: gum }
     }

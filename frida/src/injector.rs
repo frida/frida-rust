@@ -44,7 +44,7 @@ impl<'a> Injector<'a> {
     }
 }
 
-impl<'a> Default for Injector<'a> {
+impl Default for Injector<'_> {
     fn default() -> Self {
         Self::new()
     }
@@ -130,7 +130,7 @@ pub trait Inject {
         E: AsRef<str>;
 }
 
-impl<'a> Inject for Injector<'a> {
+impl Inject for Injector<'_> {
     fn inject_library_file_sync<D, E, P>(
         &mut self,
         pid: u32,
@@ -228,7 +228,7 @@ impl<'a> Inject for Injector<'a> {
     }
 }
 
-impl<'a> Inject for Device<'a> {
+impl Inject for Device<'_> {
     fn inject_library_file_sync<D, E, P>(
         &mut self,
         pid: u32,

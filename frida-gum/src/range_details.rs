@@ -64,7 +64,7 @@ pub struct FileMapping<'a> {
     phantom: PhantomData<&'a gum_sys::GumFileMapping>,
 }
 
-impl<'a> FileMapping<'a> {
+impl FileMapping<'_> {
     pub(crate) fn from_raw(file: *const gum_sys::GumFileMapping) -> Option<Self> {
         if file.is_null() {
             None
