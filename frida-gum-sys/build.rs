@@ -243,6 +243,6 @@ fn main() {
     #[cfg(all(feature = "js", target_os = "macos"))]
     println!("cargo:rustc-link-lib=dylib=c++");
 
-    #[cfg(target_os = "macos")]
+    #[cfg(target_vendor = "apple")]
     println!("cargo:rustc-link-lib=dylib=resolv");
 }
