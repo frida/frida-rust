@@ -160,7 +160,7 @@ impl Exports<'_> {
     }
 }
 
-impl Script<'_> {
+impl<'a> Script<'a> {
     pub(crate) fn from_raw(script_ptr: *mut _FridaScript) -> Script<'a> {
         let rpc_counter = Rc::new(RefCell::new(0));
         let handler = Rc::new(RefCell::new(CallbackHandler::new()));
