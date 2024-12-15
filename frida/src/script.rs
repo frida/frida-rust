@@ -356,7 +356,7 @@ impl Exports<'_> {
     }
 }
 
-impl<'a> Drop for Script<'a> {
+impl Drop for Script<'_> {
     fn drop(&mut self) {
         unsafe { frida_sys::frida_unref(self.script_ptr as _) }
     }
