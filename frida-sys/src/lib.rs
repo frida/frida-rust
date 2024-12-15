@@ -18,8 +18,8 @@ pub use bindings::*;
 
 #[cfg(not(any(target_vendor = "apple", target_os = "windows")))]
 pub use crate::{
-    _frida_g_bytes_new as g_bytes_new, _frida_g_bytes_unref as g_bytes_unref,
-    _frida_g_clear_object as g_clear_object,
+    _frida_g_bytes_get_data as g_bytes_get_data, _frida_g_bytes_new as g_bytes_new,
+    _frida_g_bytes_unref as g_bytes_unref, _frida_g_clear_object as g_clear_object,
     _frida_g_hash_table_iter_init as g_hash_table_iter_init,
     _frida_g_hash_table_iter_next as g_hash_table_iter_next,
     _frida_g_hash_table_size as g_hash_table_size, _frida_g_idle_source_new as g_idle_source_new,

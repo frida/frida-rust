@@ -4,7 +4,9 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
-use frida_sys::{FridaScriptOptions, _FridaScript, g_bytes_new, g_bytes_unref};
+use frida_sys::{
+    FridaScriptOptions, _FridaScript, _GBytes, g_bytes_get_data, g_bytes_new, g_bytes_unref, gsize,
+};
 use serde::Deserialize;
 use serde_json::Value;
 use std::sync::mpsc::{channel, Receiver, Sender};
@@ -95,7 +97,7 @@ pub struct SendPayload {
 unsafe extern "C" fn call_on_message<I: ScriptHandler>(
     _script_ptr: *mut _FridaScript,
     message: *const i8,
-    _data: &frida_sys::_GBytes,
+    data: *const frida_sys::_GBytes,
     user_data: *mut c_void,
 ) {
     let c_msg = CStr::from_ptr(message as *const c_char)
@@ -118,20 +120,42 @@ unsafe extern "C" fn call_on_message<I: ScriptHandler>(
         }
         _ => {
             let handler: &mut I = &mut *(user_data as *mut I);
-            handler.on_message(&formatted_msg);
+
+            // Retrieve extra message data, if any.
+            if data.is_null() {
+                handler.on_message(&formatted_msg, None);
+                return;
+            }
+
+            let mut raw_data_size: gsize = 0;
+            let raw_data: *const u8 = g_bytes_get_data(
+                // Cast to mut should be safe, as this function doesn't modify the data.
+                data as *mut _GBytes,
+                std::ptr::from_mut(&mut raw_data_size),
+            ) as *const u8;
+            let data_vec = if raw_data_size == 0 || raw_data.is_null() {
+                None
+            } else {
+                // Copy to a vector to avoid potential lifetime issues.
+                Some(
+                    std::slice::from_raw_parts(raw_data, raw_data_size.try_into().unwrap())
+                        .to_vec(),
+                )
+            };
+            handler.on_message(&formatted_msg, data_vec);
         }
     }
 }
 
 fn on_message(cb_handler: &mut CallbackHandler, message: Message) {
     let (tx, _) = &cb_handler.channel;
-    let _ = tx.send(message);
+    let _ = tx.send((message, None));
 }
 
 /// Represents a script signal handler.
 pub trait ScriptHandler {
     /// Handler called when a message is shared from JavaScript to Rust.
-    fn on_message(&mut self, message: &Message);
+    fn on_message(&mut self, message: &Message, data: Option<Vec<u8>>);
 }
 
 /// Represents a Frida script.
@@ -212,8 +236,9 @@ impl<'a> Script<'a> {
     /// struct Handler;
     ///
     /// impl ScriptHandler for Handler {
-    ///     fn on_message(&mut self, message: &frida::Message) {
-    ///         println!("{:?}", message);
+    ///     fn on_message(&mut self, message: &frida::Message, data: Option<Vec<u8>>) {
+    ///         println!("Message: {:?}", message);
+    ///         println!("Data: {:?}", data);
     ///     }
     /// }
     /// ```
@@ -284,7 +309,7 @@ impl<'a> Script<'a> {
         self.post(&json_req, None).unwrap();
         let borrowed_callback_handler = self.callback_handler.borrow();
         let (_, rx) = &borrowed_callback_handler.channel;
-        let rpc_result = rx.recv().unwrap();
+        let (rpc_result, _) = rx.recv().unwrap();
 
         let func_list: Vec<String> = match rpc_result {
             Message::Send(r) => {
@@ -335,7 +360,7 @@ impl Exports<'_> {
 
         let borrowed_callback_handler = self.callback_handler.borrow();
         let (_, rx) = &borrowed_callback_handler.channel;
-        let rpc_result = rx.recv().unwrap();
+        let (rpc_result, _) = rx.recv().unwrap();
 
         match rpc_result {
             Message::Send(r) => {
@@ -433,8 +458,10 @@ impl Drop for ScriptOption {
     }
 }
 
+type MsgSender = Sender<(Message, Option<Vec<u8>>)>;
+type MsgReceiver = Receiver<(Message, Option<Vec<u8>>)>;
 struct CallbackHandler {
-    channel: (Sender<Message>, Receiver<Message>),
+    channel: (MsgSender, MsgReceiver),
     script_handler: Option<Box<dyn ScriptHandler>>,
 }
 
