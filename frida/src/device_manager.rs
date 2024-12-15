@@ -104,7 +104,7 @@ impl<'a> DeviceManager<'a> {
             return Err(Error::DeviceLookupFailed);
         }
 
-        return Ok(Device::from_raw(device_ptr))
+        Ok(Device::from_raw(device_ptr))
     }
 
     /// Returns the local device.
