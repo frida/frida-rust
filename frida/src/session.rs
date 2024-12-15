@@ -77,7 +77,7 @@ impl<'a> Session<'a> {
     }
 }
 
-impl<'a> Drop for Session<'a> {
+impl Drop for Session<'_> {
     fn drop(&mut self) {
         unsafe { frida_sys::frida_unref(self.session_ptr as _) }
     }

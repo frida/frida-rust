@@ -204,7 +204,7 @@ impl<'a> Transformer<'a> {
     }
 }
 
-impl<'a> Drop for Transformer<'a> {
+impl Drop for Transformer<'_> {
     fn drop(&mut self) {
         unsafe { frida_gum_sys::g_object_unref(self.transformer as *mut c_void) }
     }
