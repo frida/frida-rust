@@ -152,7 +152,7 @@ pub struct Exports<'a> {
     phantom: PhantomData<&'a _FridaScript>,
 }
 
-impl<'a> Exports<'a> {
+impl Exports<'_> {
     fn inc_id(&mut self) -> usize {
         let mut counter_borrow = self.rpc_id_counter.borrow_mut();
         *counter_borrow += 1;
@@ -160,7 +160,7 @@ impl<'a> Exports<'a> {
     }
 }
 
-impl<'a> Script<'a> {
+impl Script<'_> {
     pub(crate) fn from_raw(script_ptr: *mut _FridaScript) -> Script<'a> {
         let rpc_counter = Rc::new(RefCell::new(0));
         let handler = Rc::new(RefCell::new(CallbackHandler::new()));
@@ -306,7 +306,7 @@ impl<'a> Script<'a> {
     }
 }
 
-impl<'a> Exports<'a> {
+impl Exports<'_> {
     /// Run exported functions from a Frida script.
     pub fn call(&mut self, function_name: &str, args: Option<Value>) -> Result<Option<Value>> {
         let json_req: String = {
