@@ -53,6 +53,37 @@ impl fmt::Display for ExportType {
     }
 }
 
+impl ModuleDetailsOwned {
+    pub unsafe fn from_module_details(details: *const GumModuleDetails) -> Self {
+        let name: String = NativePointer((*details).name as *mut _)
+            .try_into()
+            .unwrap_or_default();
+        let path: String = NativePointer((*details).path as *mut _)
+            .try_into()
+            .unwrap_or_default();
+        let range = (*details).range;
+        let base_address = (*range).base_address as usize;
+        let size = (*range).size as usize;
+
+        ModuleDetailsOwned {
+            name,
+            path,
+            base_address,
+            size,
+        }
+    }
+}
+
+impl fmt::Display for ModuleDetailsOwned {
+    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            fmt,
+            "{{\n\tbase: 0x{:x}\n\tname: {}\n\tpath: {}\n\tsize: {}\n}}",
+            self.base_address, self.name, self.path, self.size
+        )
+    }
+}
+
 /// Module symbol details returned by [`Module::enumerate_symbols`].
 pub struct SymbolDetails {
     pub name: String,
@@ -198,23 +229,7 @@ impl Module<'_> {
             user_data: gpointer,
         ) -> gboolean {
             let res = &mut *(user_data as *mut Vec<ModuleDetailsOwned>);
-
-            let name: String = NativePointer((*details).name as *mut _)
-                .try_into()
-                .unwrap_or_default();
-            let path: String = NativePointer((*details).path as *mut _)
-                .try_into()
-                .unwrap_or_default();
-            let range = (*details).range;
-            let base_address = (*range).base_address as usize;
-            let size = (*range).size as usize;
-            let module_details = ModuleDetailsOwned {
-                name,
-                path,
-                base_address,
-                size,
-            };
-            res.push(module_details);
+            res.push(ModuleDetailsOwned::from_module_details(details));
 
             1
         }
