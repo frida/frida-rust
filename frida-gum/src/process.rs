@@ -10,13 +10,19 @@ use crate::{FileMapping, NativePointer};
 
 use {
     crate::{module, Gum, PageProtection, RangeDetails},
-    core::ffi::c_void,
+    core::ffi::{c_char, c_void, CStr},
     frida_gum_sys as gum_sys,
     frida_gum_sys::{gboolean, gpointer},
 };
 
 #[cfg(not(feature = "std"))]
-use alloc::vec::Vec;
+use alloc::{string::String, string::ToString, vec::Vec};
+
+extern "C" {
+    pub fn _frida_g_get_home_dir() -> *const c_char;
+    pub fn _frida_g_get_current_dir() -> *const c_char;
+    pub fn _frida_g_get_tmp_dir() -> *const c_char;
+}
 
 #[derive(Clone, FromPrimitive, Debug)]
 #[repr(u32)]
@@ -89,6 +95,38 @@ impl<'a> Process<'a> {
             code_signing_policy,
             main_module,
         }
+    }
+
+    /// Returns a string specifying the filesystem path to the current working directory
+    pub fn current_dir(&self) -> String {
+        unsafe {
+            CStr::from_ptr(_frida_g_get_current_dir())
+                .to_string_lossy()
+                .to_string()
+        }
+    }
+
+    /// Returns a string specifying the filesystem path to the directory to use for temporary files
+    pub fn tmp_dir(&self) -> String {
+        unsafe {
+            CStr::from_ptr(_frida_g_get_tmp_dir())
+                .to_string_lossy()
+                .to_string()
+        }
+    }
+
+    /// Returns a string specifying the filesystem path to the current user’s home directory
+    pub fn home_dir(&self) -> String {
+        unsafe {
+            CStr::from_ptr(_frida_g_get_home_dir())
+                .to_string_lossy()
+                .to_string()
+        }
+    }
+
+    /// Get this thread’s OS-specific id as a number
+    pub fn current_thread_id(&self) -> u32 {
+        unsafe { gum_sys::gum_process_get_current_thread_id() as u32 }
     }
 
     /// Enumerates memory ranges satisfying `protection` given
