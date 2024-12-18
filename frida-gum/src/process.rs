@@ -98,7 +98,7 @@ impl<'a> Process<'a> {
     }
 
     /// Returns a string specifying the filesystem path to the current working directory
-    pub fn get_current_dir(&self) -> String {
+    pub fn current_dir(&self) -> String {
         unsafe {
             CStr::from_ptr(_frida_g_get_current_dir())
                 .to_string_lossy()
@@ -107,7 +107,7 @@ impl<'a> Process<'a> {
     }
 
     /// Returns a string specifying the filesystem path to the directory to use for temporary files
-    pub fn get_tmp_dir(&self) -> String {
+    pub fn tmp_dir(&self) -> String {
         unsafe {
             CStr::from_ptr(_frida_g_get_tmp_dir())
                 .to_string_lossy()
@@ -116,7 +116,7 @@ impl<'a> Process<'a> {
     }
 
     /// Returns a string specifying the filesystem path to the current user’s home directory
-    pub fn get_home_dir(&self) -> String {
+    pub fn home_dir(&self) -> String {
         unsafe {
             CStr::from_ptr(_frida_g_get_home_dir())
                 .to_string_lossy()
@@ -125,7 +125,7 @@ impl<'a> Process<'a> {
     }
 
     /// Get this thread’s OS-specific id as a number
-    pub fn get_current_thread_id(&self) -> u32 {
+    pub fn current_thread_id(&self) -> u32 {
         unsafe { gum_sys::gum_process_get_current_thread_id() as u32 }
     }
 
