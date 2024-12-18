@@ -125,8 +125,8 @@ impl<'a> Process<'a> {
     }
 
     /// Get this thread’s OS-specific id as a number
-    pub fn get_current_thread_id(&self) -> u64 {
-        unsafe { gum_sys::gum_process_get_current_thread_id() }
+    pub fn get_current_thread_id(&self) -> u32 {
+        unsafe { gum_sys::gum_process_get_current_thread_id() as u32 }
     }
 
     /// Enumerates memory ranges satisfying `protection` given
