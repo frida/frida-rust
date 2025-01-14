@@ -15,7 +15,7 @@
 
 use crate::MemoryRange;
 
-use core::alloc::string::ToString;
+use std::string::ToString;
 use {
     crate::{Gum, NativePointer, PageProtection, RangeDetails},
     core::{ffi::c_void, ffi::CStr, fmt},
