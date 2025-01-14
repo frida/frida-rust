@@ -6,10 +6,10 @@
     allow(clippy::unnecessary_cast)
 )]
 
-use crate::{FileMapping, NativePointer};
+use crate::{FileMapping, Module, NativePointer};
 
 use {
-    crate::{module, Gum, PageProtection, RangeDetails},
+    crate::{Gum, PageProtection, RangeDetails},
     core::ffi::{c_char, c_void, CStr},
     frida_gum_sys as gum_sys,
     frida_gum_sys::{gboolean, gpointer},
@@ -17,6 +17,7 @@ use {
 
 #[cfg(not(feature = "std"))]
 use alloc::{string::String, string::ToString, vec::Vec};
+use cstr_core::CString;
 
 extern "C" {
     pub fn _frida_g_get_home_dir() -> *const c_char;
@@ -70,7 +71,7 @@ pub struct Process<'a> {
     /// existing code in memory and will not try to run unsigned code.
     pub code_signing_policy: CodeSigningPolicy,
     /// Contains a Module representing the main executable of the process.
-    pub main_module: module::ModuleDetailsOwned,
+    pub main_module: Module,
 }
 
 impl<'a> Process<'a> {
@@ -84,9 +85,7 @@ impl<'a> Process<'a> {
         })
         .unwrap();
 
-        let main_module = unsafe {
-            module::ModuleDetailsOwned::from_module_details(gum_sys::gum_process_get_main_module())
-        };
+        let main_module = unsafe { Module::from_raw(gum_sys::gum_process_get_main_module()) };
 
         Process {
             _gum: gum,
@@ -97,6 +96,18 @@ impl<'a> Process<'a> {
         }
     }
 
+    pub fn find_module_by_name(&self, module_name: &str) -> Module {
+        let module_name = CString::new(module_name).unwrap();
+        unsafe {
+            Module::from_raw(gum_sys::gum_process_find_module_by_name(
+                module_name.as_ptr().cast(),
+            ))
+        }
+    }
+
+    pub fn find_module_by_address(&self, address: usize) -> Module {
+        unsafe { Module::from_raw(gum_sys::gum_process_find_module_by_address(address as u64)) }
+    }
     /// Returns a string specifying the filesystem path to the current working directory
     pub fn current_dir(&self) -> String {
         unsafe {
