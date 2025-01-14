@@ -35,9 +35,7 @@ unsafe extern "C" fn save_module_details_by_name(
 ) -> i32 {
     let context = &mut *(context as *mut SaveModuleDetailsByNameContext);
     let module = Module::from_raw(gum_sys::g_object_ref(details.cast()).cast());
-    let path_string = CStr::from_ptr(module.path() as *const _)
-        .to_string_lossy()
-        .to_string();
+    let path_string = module.path();
     if (context.name.starts_with('/') && path_string.eq(&context.name))
         || (context.name.contains('/')
             && Path::new(&path_string)
