@@ -11,7 +11,7 @@
 )]
 
 use {
-    crate::{Gum, Module},
+    crate::Module,
     core::{ffi::c_void, slice::from_raw_parts},
     frida_gum_sys as gum_sys,
 };
@@ -22,26 +22,22 @@ use alloc::{boxed::Box, vec::Vec};
 #[cfg(feature = "module-names")]
 use std::path::Path;
 
-pub struct ModuleMap<'a> {
-    _gum: &'a Gum,
+pub struct ModuleMap {
     pub(crate) module_map: *mut gum_sys::GumModuleMap,
 }
 
-impl<'a> ModuleMap<'a> {
-    pub(crate) fn from_raw(gum: &'a Gum, module_map: *mut gum_sys::GumModuleMap) -> Self {
-        Self {
-            _gum: gum,
-            module_map,
-        }
+impl ModuleMap {
+    pub(crate) fn from_raw(module_map: *mut gum_sys::GumModuleMap) -> Self {
+        Self { module_map }
     }
 
     /// Create a new [`ModuleMap`]
-    pub fn new(_gum: &'a Gum) -> Self {
-        Self::from_raw(_gum, unsafe { gum_sys::gum_module_map_new() })
+    pub fn new() -> Self {
+        Self::from_raw(unsafe { gum_sys::gum_module_map_new() })
     }
 
     /// Create a new [`ModuleMap`] with a filter function
-    pub fn new_with_filter(_gum: &'a Gum, filter: &mut dyn FnMut(Module) -> bool) -> Self {
+    pub fn new_with_filter(filter: &mut dyn FnMut(Module) -> bool) -> Self {
         unsafe extern "C" fn module_map_filter(
             details: *mut gum_sys::GumModule,
             callback: *mut c_void,
@@ -49,7 +45,7 @@ impl<'a> ModuleMap<'a> {
             let callback = &mut *(callback as *mut Box<&mut dyn FnMut(Module) -> bool>);
             i32::from((callback)(Module::from_raw(details)))
         }
-        Self::from_raw(_gum, unsafe {
+        Self::from_raw(unsafe {
             gum_sys::gum_module_map_new_filtered(
                 Some(module_map_filter),
                 &mut Box::new(filter) as *mut _ as *mut c_void,
@@ -60,8 +56,8 @@ impl<'a> ModuleMap<'a> {
 
     /// Create a new [`ModuleMap`] from a list of names
     #[cfg(feature = "module-names")]
-    pub fn new_from_names(gum: &'a Gum, names: &[&str]) -> Self {
-        Self::new_with_filter(gum, &mut |details: Module| {
+    pub fn new_from_names(names: &[&str]) -> Self {
+        Self::new_with_filter(&mut |details: Module| {
             for name in names {
                 if (name.starts_with('/') && details.path().eq(name))
                     || (name.contains('/')
@@ -111,7 +107,7 @@ impl<'a> ModuleMap<'a> {
     }
 }
 
-impl Drop for ModuleMap<'_> {
+impl Drop for ModuleMap {
     fn drop(&mut self) {
         unsafe { gum_sys::g_object_unref(self.module_map as *mut c_void) }
     }
