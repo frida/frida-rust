@@ -20,7 +20,7 @@ use {
 use alloc::{boxed::Box, vec::Vec};
 
 #[cfg(feature = "module-names")]
-use std::path::Path;
+use std::{ffi::CStr, path::Path};
 
 #[cfg(feature = "module-names")]
 struct SaveModuleDetailsByNameContext {
@@ -91,7 +91,7 @@ impl<'a> ModuleMap<'a> {
 
     /// Create a new [`ModuleMap`] from a list of names
     #[cfg(feature = "module-names")]
-    pub fn new_from_names(gum: &Gum, names: &[&str]) -> Self {
+    pub fn new_from_names(gum: &'a Gum, names: &[&str]) -> Self {
         Self::new_with_filter(gum, &mut |details: Module| {
             for name in names {
                 if (name.starts_with('/') && details.path().eq(name))
@@ -142,7 +142,7 @@ impl<'a> ModuleMap<'a> {
     }
 }
 
-impl<'a> Drop for ModuleMap<'_> {
+impl Drop for ModuleMap<'_> {
     fn drop(&mut self) {
         unsafe { gum_sys::g_object_unref(self.module_map as *mut c_void) }
     }
