@@ -15,11 +15,11 @@
 
 use crate::MemoryRange;
 #[cfg(feature = "std")]
-use std::string::ToString;
+use std::{ffi::CStr, string::ToString};
 
 use {
     crate::{Gum, NativePointer, PageProtection, RangeDetails},
-    core::{ffi::c_void, ffi::CStr, fmt},
+    core::{ffi::c_void, fmt},
     cstr_core::CString,
     frida_gum_sys as gum_sys,
     frida_gum_sys::{
