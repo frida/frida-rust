@@ -6632,6 +6632,7 @@ typedef unsigned long guintptr;
 
 #define G_VA_COPY va_copy
 
+#define G_VA_COPY_AS_ARRAY 1
 
 #define G_HAVE_ISO_VARARGS 1
 
@@ -61670,7 +61671,7 @@ G_END_DECLS
 
 #endif /* __G_IO_H__ */
 /*
- * Copyright (C) 2008-2023 Ole André Vadla Ravnås <oleavr@nowsecure.com>
+ * Copyright (C) 2008-2024 Ole André Vadla Ravnås <oleavr@nowsecure.com>
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */
@@ -61694,8 +61695,6 @@ G_END_DECLS
 
 #ifndef __GUM_ENUM_TYPES_H__
 #define __GUM_ENUM_TYPES_H__
-
-#ifndef GUM_DIET
 
 
 G_BEGIN_DECLS
@@ -61752,6 +61751,16 @@ GType gum_attach_return_get_type (void) G_GNUC_CONST;
 GType gum_replace_return_get_type (void) G_GNUC_CONST;
 #define GUM_TYPE_REPLACE_RETURN (gum_replace_return_get_type ())
 
+/* Enumerations from "gummodule.h" */
+GType gum_import_type_get_type (void) G_GNUC_CONST;
+#define GUM_TYPE_IMPORT_TYPE (gum_import_type_get_type ())
+GType gum_export_type_get_type (void) G_GNUC_CONST;
+#define GUM_TYPE_EXPORT_TYPE (gum_export_type_get_type ())
+GType gum_symbol_type_get_type (void) G_GNUC_CONST;
+#define GUM_TYPE_SYMBOL_TYPE (gum_symbol_type_get_type ())
+GType gum_dependency_type_get_type (void) G_GNUC_CONST;
+#define GUM_TYPE_DEPENDENCY_TYPE (gum_dependency_type_get_type ())
+
 /* Enumerations from "gumprocess.h" */
 GType gum_teardown_requirement_get_type (void) G_GNUC_CONST;
 #define GUM_TYPE_TEARDOWN_REQUIREMENT (gum_teardown_requirement_get_type ())
@@ -61763,11 +61772,7 @@ GType gum_thread_state_get_type (void) G_GNUC_CONST;
 #define GUM_TYPE_THREAD_STATE (gum_thread_state_get_type ())
 GType gum_watch_conditions_get_type (void) G_GNUC_CONST;
 #define GUM_TYPE_WATCH_CONDITIONS (gum_watch_conditions_get_type ())
-GType gum_dependency_type_get_type (void) G_GNUC_CONST;
-#define GUM_TYPE_DEPENDENCY_TYPE (gum_dependency_type_get_type ())
 G_END_DECLS
-
-#endif
 
 #endif /* __GUM_ENUM_TYPES_H__ */
 
@@ -62297,60 +62302,6 @@ enum _GumRelocationScenario
     (((gint64) (i)) >= (gint64) G_MININT32 && \
      ((gint64) (i)) <= (gint64) G_MAXINT32)
 
-#ifndef GUM_DIET
-
-# define GUM_DECLARE_FINAL_TYPE(ModuleObjName, module_obj_name, MODULE, \
-      OBJ_NAME, ParentName) \
-    G_DECLARE_FINAL_TYPE (ModuleObjName, module_obj_name, MODULE, OBJ_NAME, \
-      ParentName)
-# define GUM_DECLARE_INTERFACE(ModuleObjName, module_obj_name, MODULE, \
-      OBJ_NAME, PrerequisiteName) \
-    G_DECLARE_INTERFACE (ModuleObjName, module_obj_name, MODULE, OBJ_NAME, \
-      PrerequisiteName)
-# define GUM_DEFINE_BOXED_TYPE(TypeName, type_name, copy_func, free_func) \
-    G_DEFINE_BOXED_TYPE (TypeName, type_name, copy_func, free_func)
-# define gum_object_ref(object) g_object_ref (object)
-# define gum_object_unref(object) g_object_unref (object)
-# define gum_clear_object(object_ptr) \
-    g_clear_pointer ((object_ptr), g_object_unref)
-
-#else
-
-# define GUM_DECLARE_FINAL_TYPE(ModuleObjName, module_obj_name, MODULE, \
-      OBJ_NAME, ParentName) \
-    typedef struct _##ModuleObjName ModuleObjName; \
-    \
-    G_GNUC_UNUSED static inline ModuleObjName * MODULE##_##OBJ_NAME ( \
-      gpointer obj) \
-    { \
-      return obj; \
-    }
-# define GUM_DECLARE_INTERFACE(ModuleObjName, module_obj_name, MODULE, \
-      OBJ_NAME, PrerequisiteName) \
-    typedef struct _##ModuleObjName ModuleObjName; \
-    \
-    G_GNUC_UNUSED static inline ModuleObjName * MODULE##_##OBJ_NAME ( \
-      gpointer obj) \
-    { \
-      return obj; \
-    }
-# define GUM_DEFINE_BOXED_TYPE(TypeName, type_name, copy_func, free_func)
-# define gum_clear_object(object_ptr) \
-    g_clear_pointer ((object_ptr), gum_object_unref)
-
-typedef struct _GumObject GumObject;
-
-struct _GumObject
-{
-  gint ref_count;
-  void (* finalize) (GumObject * object);
-};
-
-GUM_API gpointer gum_object_ref (gpointer object);
-GUM_API void gum_object_unref (gpointer object);
-
-#endif
-
 #ifdef G_NORETURN
 # define GUM_NORETURN G_NORETURN
 #else
@@ -62372,9 +62323,7 @@ GUM_API gpointer gum_cpu_context_get_return_value (GumCpuContext * self);
 GUM_API void gum_cpu_context_replace_return_value (GumCpuContext * self,
     gpointer value);
 
-#ifndef GUM_DIET
 GUM_API GType gum_address_get_type (void) G_GNUC_CONST;
-#endif
 
 G_END_DECLS
 
@@ -62395,15 +62344,13 @@ G_BEGIN_DECLS
 #define GUM_API_SIZE_NONE -1
 
 #define GUM_TYPE_API_RESOLVER (gum_api_resolver_get_type ())
-GUM_DECLARE_INTERFACE (GumApiResolver, gum_api_resolver, GUM, API_RESOLVER,
-                       GObject)
+G_DECLARE_INTERFACE (GumApiResolver, gum_api_resolver, GUM, API_RESOLVER,
+                     GObject)
 
 typedef struct _GumApiDetails GumApiDetails;
 
 typedef gboolean (* GumFoundApiFunc) (const GumApiDetails * details,
     gpointer user_data);
-
-#ifndef GUM_DIET
 
 struct _GumApiResolverInterface
 {
@@ -62412,8 +62359,6 @@ struct _GumApiResolverInterface
   void (* enumerate_matches) (GumApiResolver * self, const gchar * query,
       GumFoundApiFunc func, gpointer user_data, GError ** error);
 };
-
-#endif
 
 struct _GumApiDetails
 {
@@ -62487,9 +62432,7 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 #define GUM_TYPE_BACKTRACER (gum_backtracer_get_type ())
-GUM_DECLARE_INTERFACE (GumBacktracer, gum_backtracer, GUM, BACKTRACER, GObject)
-
-#ifndef GUM_DIET
+G_DECLARE_INTERFACE (GumBacktracer, gum_backtracer, GUM, BACKTRACER, GObject)
 
 struct _GumBacktracerInterface
 {
@@ -62498,8 +62441,6 @@ struct _GumBacktracerInterface
   void (* generate) (GumBacktracer * self, const GumCpuContext * cpu_context,
       GumReturnAddressArray * return_addresses, guint limit);
 };
-
-#endif
 
 GUM_API GumBacktracer * gum_backtracer_make_accurate (void);
 GUM_API GumBacktracer * gum_backtracer_make_fuzzy (void);
@@ -62525,7 +62466,7 @@ G_END_DECLS
 #define __GUM_CLOAK_H__
 
 /*
- * Copyright (C) 2008-2022 Ole André Vadla Ravnås <oleavr@nowsecure.com>
+ * Copyright (C) 2008-2024 Ole André Vadla Ravnås <oleavr@nowsecure.com>
  * Copyright (C) 2008 Christian Berentsen <jc.berentsen@gmail.com>
  *
  * Licence: wxWindows Library Licence, Version 3.1
@@ -62552,7 +62493,9 @@ typedef guint GumRwxSupport;
 typedef guint GumMemoryOperation;
 typedef guint GumPageProtection;
 typedef struct _GumAddressSpec GumAddressSpec;
+typedef struct _GumRangeDetails GumRangeDetails;
 typedef struct _GumMemoryRange GumMemoryRange;
+typedef struct _GumFileMapping GumFileMapping;
 typedef struct _GumMatchPattern GumMatchPattern;
 
 typedef gboolean (* GumMemoryIsNearFunc) (gpointer memory, gpointer address);
@@ -62593,12 +62536,28 @@ struct _GumAddressSpec
   gsize max_distance;
 };
 
+struct _GumRangeDetails
+{
+  const GumMemoryRange * range;
+  GumPageProtection protection;
+  const GumFileMapping * file;
+};
+
 struct _GumMemoryRange
 {
   GumAddress base_address;
   gsize size;
 };
 
+struct _GumFileMapping
+{
+  const gchar * path;
+  guint64 offset;
+  gsize size;
+};
+
+typedef gboolean (* GumFoundRangeFunc) (const GumRangeDetails * details,
+    gpointer user_data);
 typedef void (* GumMemoryPatchApplyFunc) (gpointer mem, gpointer user_data);
 typedef gboolean (* GumMemoryScanMatchFunc) (GumAddress address, gsize size,
     gpointer user_data);
@@ -62629,9 +62588,7 @@ GUM_API void gum_memory_scan (const GumMemoryRange * range,
     const GumMatchPattern * pattern, GumMemoryScanMatchFunc func,
     gpointer user_data);
 
-#ifndef GUM_DIET
 GUM_API GType gum_match_pattern_get_type (void) G_GNUC_CONST;
-#endif
 GUM_API GumMatchPattern * gum_match_pattern_new_from_string (
     const gchar * pattern_str);
 GUM_API GumMatchPattern * gum_match_pattern_ref (GumMatchPattern * pattern);
@@ -62689,9 +62646,7 @@ GUM_API gboolean gum_memory_decommit (gpointer address, gsize size);
 GUM_API gboolean gum_address_spec_is_satisfied_by (const GumAddressSpec * spec,
     gconstpointer address);
 
-#ifndef GUM_DIET
 GUM_API GType gum_memory_range_get_type (void) G_GNUC_CONST;
-#endif
 GUM_API GumMemoryRange * gum_memory_range_copy (const GumMemoryRange * range);
 GUM_API void gum_memory_range_free (GumMemoryRange * range);
 
@@ -62699,7 +62654,7 @@ G_END_DECLS
 
 #endif
 /*
- * Copyright (C) 2008-2023 Ole André Vadla Ravnås <oleavr@nowsecure.com>
+ * Copyright (C) 2008-2024 Ole André Vadla Ravnås <oleavr@nowsecure.com>
  * Copyright (C) 2020-2024 Francesco Tamagni <mrmacete@protonmail.ch>
  * Copyright (C) 2023 Grant Douglas <me@hexplo.it>
  * Copyright (C) 2024 Håvard Sørbø <havard@hsorbo.no>
@@ -62710,6 +62665,180 @@ G_END_DECLS
 #ifndef __GUM_PROCESS_H__
 #define __GUM_PROCESS_H__
 
+/*
+ * Copyright (C) 2008-2024 Ole André Vadla Ravnås <oleavr@nowsecure.com>
+ *
+ * Licence: wxWindows Library Licence, Version 3.1
+ */
+
+#ifndef __GUM_MODULE_H__
+#define __GUM_MODULE_H__
+
+
+G_BEGIN_DECLS
+
+#define GUM_TYPE_MODULE (gum_module_get_type ())
+G_DECLARE_INTERFACE (GumModule, gum_module, GUM, MODULE, GObject)
+
+typedef struct _GumImportDetails GumImportDetails;
+typedef struct _GumExportDetails GumExportDetails;
+typedef struct _GumSymbolDetails GumSymbolDetails;
+typedef struct _GumSymbolSection GumSymbolSection;
+typedef struct _GumSectionDetails GumSectionDetails;
+typedef struct _GumDependencyDetails GumDependencyDetails;
+
+typedef gboolean (* GumFoundImportFunc) (const GumImportDetails * details,
+    gpointer user_data);
+typedef gboolean (* GumFoundExportFunc) (const GumExportDetails * details,
+    gpointer user_data);
+typedef gboolean (* GumFoundSymbolFunc) (const GumSymbolDetails * details,
+    gpointer user_data);
+typedef gboolean (* GumFoundSectionFunc) (const GumSectionDetails * details,
+    gpointer user_data);
+typedef gboolean (* GumFoundDependencyFunc) (
+    const GumDependencyDetails * details, gpointer user_data);
+typedef GumAddress (* GumResolveExportFunc) (const char * module_name,
+    const char * symbol_name, gpointer user_data);
+
+typedef enum {
+  GUM_IMPORT_UNKNOWN,
+  GUM_IMPORT_FUNCTION,
+  GUM_IMPORT_VARIABLE
+} GumImportType;
+
+typedef enum {
+  GUM_EXPORT_FUNCTION = 1,
+  GUM_EXPORT_VARIABLE
+} GumExportType;
+
+typedef enum {
+  /* Common */
+  GUM_SYMBOL_UNKNOWN,
+  GUM_SYMBOL_SECTION,
+
+  /* Mach-O */
+  GUM_SYMBOL_UNDEFINED,
+  GUM_SYMBOL_ABSOLUTE,
+  GUM_SYMBOL_PREBOUND_UNDEFINED,
+  GUM_SYMBOL_INDIRECT,
+
+  /* ELF */
+  GUM_SYMBOL_OBJECT,
+  GUM_SYMBOL_FUNCTION,
+  GUM_SYMBOL_FILE,
+  GUM_SYMBOL_COMMON,
+  GUM_SYMBOL_TLS,
+} GumSymbolType;
+
+struct _GumModuleInterface
+{
+  GTypeInterface parent;
+
+  const gchar * (* get_name) (GumModule * self);
+  const gchar * (* get_path) (GumModule * self);
+  const GumMemoryRange * (* get_range) (GumModule * self);
+  void (* ensure_initialized) (GumModule * self);
+  void (* enumerate_imports) (GumModule * self, GumFoundImportFunc func,
+      gpointer user_data);
+  void (* enumerate_exports) (GumModule * self, GumFoundExportFunc func,
+      gpointer user_data);
+  void (* enumerate_symbols) (GumModule * self, GumFoundSymbolFunc func,
+      gpointer user_data);
+  void (* enumerate_ranges) (GumModule * self, GumPageProtection prot,
+      GumFoundRangeFunc func, gpointer user_data);
+  void (* enumerate_sections) (GumModule * self, GumFoundSectionFunc func,
+      gpointer user_data);
+  void (* enumerate_dependencies) (GumModule * self,
+      GumFoundDependencyFunc func, gpointer user_data);
+  GumAddress (* find_export_by_name) (GumModule * self,
+      const gchar * symbol_name);
+  GumAddress (* find_symbol_by_name) (GumModule * self,
+      const gchar * symbol_name);
+};
+
+struct _GumImportDetails
+{
+  GumImportType type;
+  const gchar * name;
+  const gchar * module;
+  GumAddress address;
+  GumAddress slot;
+};
+
+struct _GumExportDetails
+{
+  GumExportType type;
+  const gchar * name;
+  GumAddress address;
+};
+
+struct _GumSymbolDetails
+{
+  gboolean is_global;
+  GumSymbolType type;
+  const GumSymbolSection * section;
+  const gchar * name;
+  GumAddress address;
+  gssize size;
+};
+
+struct _GumSymbolSection
+{
+  const gchar * id;
+  GumPageProtection protection;
+};
+
+struct _GumSectionDetails
+{
+  const gchar * id;
+  const gchar * name;
+  GumAddress address;
+  gsize size;
+};
+
+typedef enum {
+  GUM_DEPENDENCY_REGULAR,
+  GUM_DEPENDENCY_WEAK,
+  GUM_DEPENDENCY_REEXPORT,
+  GUM_DEPENDENCY_UPWARD,
+} GumDependencyType;
+
+struct _GumDependencyDetails
+{
+  const gchar * name;
+  GumDependencyType type;
+};
+
+GUM_API GumModule * gum_module_load (const gchar * module_name,
+    GError ** error);
+
+GUM_API const gchar * gum_module_get_name (GumModule * self);
+GUM_API const gchar * gum_module_get_path (GumModule * self);
+GUM_API const GumMemoryRange * gum_module_get_range (GumModule * self);
+
+GUM_API void gum_module_ensure_initialized (GumModule * self);
+GUM_API void gum_module_enumerate_imports (GumModule * self,
+    GumFoundImportFunc func, gpointer user_data);
+GUM_API void gum_module_enumerate_exports (GumModule * self,
+    GumFoundExportFunc func, gpointer user_data);
+GUM_API void gum_module_enumerate_symbols (GumModule * self,
+    GumFoundSymbolFunc func, gpointer user_data);
+GUM_API void gum_module_enumerate_ranges (GumModule * self,
+    GumPageProtection prot, GumFoundRangeFunc func, gpointer user_data);
+GUM_API void gum_module_enumerate_sections (GumModule * self,
+    GumFoundSectionFunc func, gpointer user_data);
+GUM_API void gum_module_enumerate_dependencies (GumModule * self,
+    GumFoundDependencyFunc func, gpointer user_data);
+GUM_API GumAddress gum_module_find_export_by_name (GumModule * self,
+    const gchar * symbol_name);
+GUM_API GumAddress gum_module_find_global_export_by_name (
+    const gchar * symbol_name);
+GUM_API GumAddress gum_module_find_symbol_by_name (GumModule * self,
+    const gchar * symbol_name);
+
+G_END_DECLS
+
+#endif
 
 #define GUM_THREAD_ID_INVALID ((GumThreadId) -1)
 
@@ -62720,18 +62849,6 @@ G_BEGIN_DECLS
 typedef guint GumProcessId;
 typedef gsize GumThreadId;
 typedef struct _GumThreadDetails GumThreadDetails;
-typedef struct _GumModuleDetails GumModuleDetails;
-typedef guint GumImportType;
-typedef guint GumExportType;
-typedef guint GumSymbolType;
-typedef struct _GumImportDetails GumImportDetails;
-typedef struct _GumExportDetails GumExportDetails;
-typedef struct _GumSymbolDetails GumSymbolDetails;
-typedef struct _GumSymbolSection GumSymbolSection;
-typedef struct _GumRangeDetails GumRangeDetails;
-typedef struct _GumFileMapping GumFileMapping;
-typedef struct _GumSectionDetails GumSectionDetails;
-typedef struct _GumDependencyDetails GumDependencyDetails;
 typedef struct _GumMallocRangeDetails GumMallocRangeDetails;
 
 typedef enum {
@@ -62770,113 +62887,6 @@ typedef enum {
   GUM_WATCH_WRITE = (1 << 1),
 } GumWatchConditions;
 
-struct _GumModuleDetails
-{
-  const gchar * name;
-  const GumMemoryRange * range;
-  const gchar * path;
-};
-
-enum _GumImportType
-{
-  GUM_IMPORT_UNKNOWN,
-  GUM_IMPORT_FUNCTION,
-  GUM_IMPORT_VARIABLE
-};
-
-enum _GumExportType
-{
-  GUM_EXPORT_FUNCTION = 1,
-  GUM_EXPORT_VARIABLE
-};
-
-enum _GumSymbolType
-{
-  /* Common */
-  GUM_SYMBOL_UNKNOWN,
-  GUM_SYMBOL_SECTION,
-
-  /* Mach-O */
-  GUM_SYMBOL_UNDEFINED,
-  GUM_SYMBOL_ABSOLUTE,
-  GUM_SYMBOL_PREBOUND_UNDEFINED,
-  GUM_SYMBOL_INDIRECT,
-
-  /* ELF */
-  GUM_SYMBOL_OBJECT,
-  GUM_SYMBOL_FUNCTION,
-  GUM_SYMBOL_FILE,
-  GUM_SYMBOL_COMMON,
-  GUM_SYMBOL_TLS,
-};
-
-struct _GumImportDetails
-{
-  GumImportType type;
-  const gchar * name;
-  const gchar * module;
-  GumAddress address;
-  GumAddress slot;
-};
-
-struct _GumExportDetails
-{
-  GumExportType type;
-  const gchar * name;
-  GumAddress address;
-};
-
-struct _GumSymbolDetails
-{
-  gboolean is_global;
-  GumSymbolType type;
-  const GumSymbolSection * section;
-  const gchar * name;
-  GumAddress address;
-  gssize size;
-};
-
-struct _GumSymbolSection
-{
-  const gchar * id;
-  GumPageProtection protection;
-};
-
-struct _GumRangeDetails
-{
-  const GumMemoryRange * range;
-  GumPageProtection protection;
-  const GumFileMapping * file;
-};
-
-struct _GumFileMapping
-{
-  const gchar * path;
-  guint64 offset;
-  gsize size;
-};
-
-struct _GumSectionDetails
-{
-  const gchar * id;
-  const gchar * name;
-  GumAddress address;
-  gsize size;
-};
-
-typedef enum {
-  GUM_DEPENDENCY_REGULAR,
-  GUM_DEPENDENCY_WEAK,
-  GUM_DEPENDENCY_REEXPORT,
-  GUM_DEPENDENCY_UPWARD,
-} GumDependencyType;
-
-struct _GumDependencyDetails
-{
-  const gchar * name;
-  GumDependencyType type;
-};
-
 struct _GumMallocRangeDetails
 {
   const GumMemoryRange * range;
@@ -62886,24 +62896,10 @@ typedef void (* GumModifyThreadFunc) (GumThreadId thread_id,
     GumCpuContext * cpu_context, gpointer user_data);
 typedef gboolean (* GumFoundThreadFunc) (const GumThreadDetails * details,
     gpointer user_data);
-typedef gboolean (* GumFoundModuleFunc) (const GumModuleDetails * details,
+typedef gboolean (* GumFoundModuleFunc) (GumModule * module,
     gpointer user_data);
-typedef gboolean (* GumFoundImportFunc) (const GumImportDetails * details,
-    gpointer user_data);
-typedef gboolean (* GumFoundExportFunc) (const GumExportDetails * details,
-    gpointer user_data);
-typedef gboolean (* GumFoundSymbolFunc) (const GumSymbolDetails * details,
-    gpointer user_data);
-typedef gboolean (* GumFoundRangeFunc) (const GumRangeDetails * details,
-    gpointer user_data);
-typedef gboolean (* GumFoundSectionFunc) (const GumSectionDetails * details,
-    gpointer user_data);
-typedef gboolean (* GumFoundDependencyFunc) (
-    const GumDependencyDetails * details, gpointer user_data);
 typedef gboolean (* GumFoundMallocRangeFunc) (
     const GumMallocRangeDetails * details, gpointer user_data);
-typedef GumAddress (* GumResolveExportFunc) (const char * module_name,
-    const char * symbol_name, gpointer user_data);
 
 GUM_API GumOS gum_process_get_native_os (void);
 GUM_API GumTeardownRequirement gum_process_get_teardown_requirement (void);
@@ -62911,7 +62907,6 @@ GUM_API void gum_process_set_teardown_requirement (
     GumTeardownRequirement requirement);
 GUM_API GumCodeSigningPolicy gum_process_get_code_signing_policy (void);
 GUM_API void gum_process_set_code_signing_policy (GumCodeSigningPolicy policy);
-GUM_API const gchar * gum_process_query_libc_name (void);
 GUM_API gboolean gum_process_is_debugger_attached (void);
 GUM_API GumProcessId gum_process_get_id (void);
 GUM_API GumThreadId gum_process_get_current_thread_id (void);
@@ -62920,9 +62915,10 @@ GUM_API gboolean gum_process_modify_thread (GumThreadId thread_id,
     GumModifyThreadFunc func, gpointer user_data, GumModifyThreadFlags flags);
 GUM_API void gum_process_enumerate_threads (GumFoundThreadFunc func,
     gpointer user_data);
-GUM_API const GumModuleDetails * gum_process_get_main_module (void);
-GUM_API gboolean gum_process_resolve_module_pointer (gconstpointer ptr,
-    gchar ** path, GumMemoryRange * range);
+GUM_API GumModule * gum_process_get_main_module (void);
+GUM_API GumModule * gum_process_get_libc_module (void);
+GUM_API GumModule * gum_process_find_module_by_name (const gchar * name);
+GUM_API GumModule * gum_process_find_module_by_address (GumAddress address);
 GUM_API void gum_process_enumerate_modules (GumFoundModuleFunc func,
     gpointer user_data);
 GUM_API void gum_process_enumerate_ranges (GumPageProtection prot,
@@ -62944,35 +62940,9 @@ GUM_API gboolean gum_thread_set_hardware_watchpoint (GumThreadId thread_id,
     GError ** error);
 GUM_API gboolean gum_thread_unset_hardware_watchpoint (GumThreadId thread_id,
     guint watchpoint_id, GError ** error);
-GUM_API gboolean gum_module_load (const gchar * module_name, GError ** error);
-GUM_API gboolean gum_module_ensure_initialized (const gchar * module_name);
-GUM_API void gum_module_enumerate_imports (const gchar * module_name,
-    GumFoundImportFunc func, gpointer user_data);
-GUM_API void gum_module_enumerate_exports (const gchar * module_name,
-    GumFoundExportFunc func, gpointer user_data);
-GUM_API void gum_module_enumerate_symbols (const gchar * module_name,
-    GumFoundSymbolFunc func, gpointer user_data);
-GUM_API void gum_module_enumerate_ranges (const gchar * module_name,
-    GumPageProtection prot, GumFoundRangeFunc func, gpointer user_data);
-GUM_API void gum_module_enumerate_sections (const gchar * module_name,
-    GumFoundSectionFunc func, gpointer user_data);
-GUM_API void gum_module_enumerate_dependencies (const gchar * module_name,
-    GumFoundDependencyFunc func, gpointer user_data);
-GUM_API GumAddress gum_module_find_base_address (const gchar * module_name);
-GUM_API GumAddress gum_module_find_export_by_name (const gchar * module_name,
-    const gchar * symbol_name);
-GUM_API GumAddress gum_module_find_symbol_by_name (const gchar * module_name,
-    const gchar * symbol_name);
 
 GUM_API const gchar * gum_code_signing_policy_to_string (
     GumCodeSigningPolicy policy);
-
-#ifndef GUM_DIET
-GUM_API GType gum_module_details_get_type (void) G_GNUC_CONST;
-#endif
-GUM_API GumModuleDetails * gum_module_details_copy (
-    const GumModuleDetails * module);
-GUM_API void gum_module_details_free (GumModuleDetails * module);
 
 GUM_API const gchar * gum_symbol_type_to_string (GumSymbolType type);
 
@@ -63077,18 +63047,14 @@ GUM_API GumCodeSlice * gum_code_allocator_alloc_slice (GumCodeAllocator * self);
 GUM_API GumCodeSlice * gum_code_allocator_try_alloc_slice_near (
     GumCodeAllocator * self, const GumAddressSpec * spec, gsize alignment);
 GUM_API void gum_code_allocator_commit (GumCodeAllocator * self);
-#ifndef GUM_DIET
 GUM_API GType gum_code_slice_get_type (void) G_GNUC_CONST;
-#endif
 GUM_API GumCodeSlice * gum_code_slice_ref (GumCodeSlice * slice);
 GUM_API void gum_code_slice_unref (GumCodeSlice * slice);
 
 GUM_API GumCodeDeflector * gum_code_allocator_alloc_deflector (
     GumCodeAllocator * self, const GumAddressSpec * caller,
     gpointer return_address, gpointer target, gboolean dedicated);
-#ifndef GUM_DIET
 GUM_API GType gum_code_deflector_get_type (void) G_GNUC_CONST;
-#endif
 GUM_API GumCodeDeflector * gum_code_deflector_ref (
     GumCodeDeflector * deflector);
 GUM_API void gum_code_deflector_unref (GumCodeDeflector * deflector);
@@ -63150,8 +63116,8 @@ typedef enum {
 } GumDarwinGrafterFlags;
 
 #define GUM_TYPE_DARWIN_GRAFTER (gum_darwin_grafter_get_type ())
-GUM_DECLARE_FINAL_TYPE (GumDarwinGrafter, gum_darwin_grafter, GUM,
-                        DARWIN_GRAFTER, GObject)
+G_DECLARE_FINAL_TYPE (GumDarwinGrafter, gum_darwin_grafter, GUM, DARWIN_GRAFTER,
+                      GObject)
 
 GUM_API GumDarwinGrafter * gum_darwin_grafter_new_from_file (
     const gchar * path, GumDarwinGrafterFlags flags);
@@ -63179,8 +63145,8 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 #define GUM_TYPE_DARWIN_MODULE (gum_darwin_module_get_type ())
-GUM_DECLARE_FINAL_TYPE (GumDarwinModule, gum_darwin_module, GUM, DARWIN_MODULE,
-                        GObject)
+G_DECLARE_FINAL_TYPE (GumDarwinModule, gum_darwin_module, GUM, DARWIN_MODULE,
+                      GObject)
 
 #define GUM_TYPE_DARWIN_MODULE_IMAGE (gum_darwin_module_image_get_type ())
 
@@ -63277,11 +63243,7 @@ typedef struct _GumChainedPtrArm64eAuthBind24 GumChainedPtrArm64eAuthBind24;
 
 struct _GumDarwinModule
 {
-#ifndef GUM_DIET
   GObject parent;
-#else
-  GumObject parent;
-#endif
 
   GumDarwinModuleFiletype filetype;
   gchar * name;
@@ -63308,6 +63270,7 @@ struct _GumDarwinModule
 
   GArray * segments;
   GArray * text_ranges;
+  gsize text_size;
 
   const guint8 * rebases;
   const guint8 * rebases_end;
@@ -63819,9 +63782,7 @@ GUM_API gboolean gum_darwin_module_ensure_image_loaded (GumDarwinModule * self,
 GUM_API void gum_darwin_threaded_item_parse (guint64 value,
     GumDarwinThreadedItem * result);
 
-#ifndef GUM_DIET
 GUM_API GType gum_darwin_module_image_get_type (void) G_GNUC_CONST;
-#endif
 GUM_API GumDarwinModuleImage * gum_darwin_module_image_new (void);
 GUM_API GumDarwinModuleImage * gum_darwin_module_image_dup (
     const GumDarwinModuleImage * other);
@@ -63843,7 +63804,7 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 #define GUM_ELF_TYPE_MODULE (gum_elf_module_get_type ())
-GUM_DECLARE_FINAL_TYPE (GumElfModule, gum_elf_module, GUM_ELF, MODULE, GObject)
+G_DECLARE_FINAL_TYPE (GumElfModule, gum_elf_module, GUM_ELF, MODULE, GObject)
 
 typedef enum {
   GUM_ELF_NONE,
@@ -64931,20 +64892,18 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 #define GUM_TYPE_EVENT_SINK (gum_event_sink_get_type ())
-GUM_DECLARE_INTERFACE (GumEventSink, gum_event_sink, GUM, EVENT_SINK, GObject)
+G_DECLARE_INTERFACE (GumEventSink, gum_event_sink, GUM, EVENT_SINK, GObject)
 
 #define GUM_TYPE_DEFAULT_EVENT_SINK (gum_default_event_sink_get_type ())
-GUM_DECLARE_FINAL_TYPE (GumDefaultEventSink, gum_default_event_sink, GUM,
-                        DEFAULT_EVENT_SINK, GObject)
+G_DECLARE_FINAL_TYPE (GumDefaultEventSink, gum_default_event_sink, GUM,
+                      DEFAULT_EVENT_SINK, GObject)
 
 #define GUM_TYPE_CALLBACK_EVENT_SINK (gum_callback_event_sink_get_type ())
-GUM_DECLARE_FINAL_TYPE (GumCallbackEventSink, gum_callback_event_sink, GUM,
-                        CALLBACK_EVENT_SINK, GObject)
+G_DECLARE_FINAL_TYPE (GumCallbackEventSink, gum_callback_event_sink, GUM,
+                      CALLBACK_EVENT_SINK, GObject)
 
 typedef void (* GumEventSinkCallback) (const GumEvent * event,
     GumCpuContext * cpu_context, gpointer user_data);
-
-#ifndef GUM_DIET
 
 struct _GumEventSinkInterface
 {
@@ -64957,8 +64916,6 @@ struct _GumEventSinkInterface
   void (* flush) (GumEventSink * self);
   void (* stop) (GumEventSink * self);
 };
-
-#endif
 
 GUM_API GumEventType gum_event_sink_query_mask (GumEventSink * self);
 GUM_API void gum_event_sink_start (GumEventSink * self);
@@ -64989,7 +64946,7 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 #define GUM_TYPE_EXCEPTOR (gum_exceptor_get_type ())
-GUM_DECLARE_FINAL_TYPE (GumExceptor, gum_exceptor, GUM, EXCEPTOR, GObject)
+G_DECLARE_FINAL_TYPE (GumExceptor, gum_exceptor, GUM, EXCEPTOR, GObject)
 
 #if defined (G_OS_WIN32) || defined (__APPLE__)
 # define GUM_NATIVE_SETJMP(env) setjmp (env)
@@ -65246,13 +65203,11 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 #define GUM_TYPE_INVOCATION_LISTENER (gum_invocation_listener_get_type ())
-GUM_DECLARE_INTERFACE (GumInvocationListener, gum_invocation_listener, GUM,
-                       INVOCATION_LISTENER, GObject)
+G_DECLARE_INTERFACE (GumInvocationListener, gum_invocation_listener, GUM,
+                     INVOCATION_LISTENER, GObject)
 
 typedef void (* GumInvocationCallback) (GumInvocationContext * context,
     gpointer user_data);
-
-#ifndef GUM_DIET
 
 struct _GumInvocationListenerInterface
 {
@@ -65263,21 +65218,6 @@ struct _GumInvocationListenerInterface
   void (* on_leave) (GumInvocationListener * self,
       GumInvocationContext * context);
 };
-
-#else
-
-struct _GumInvocationListener
-{
-  GumObject parent;
-
-  GumInvocationCallback on_enter;
-  GumInvocationCallback on_leave;
-
-  gpointer data;
-  GDestroyNotify data_destroy;
-};
-
-#endif
 
 GUM_API GumInvocationListener * gum_make_call_listener (
     GumInvocationCallback on_enter, GumInvocationCallback on_leave,
@@ -65297,8 +65237,8 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 #define GUM_TYPE_INTERCEPTOR (gum_interceptor_get_type ())
-GUM_DECLARE_FINAL_TYPE (GumInterceptor, gum_interceptor, GUM, INTERCEPTOR,
-                        GObject)
+G_DECLARE_FINAL_TYPE (GumInterceptor, gum_interceptor, GUM, INTERCEPTOR,
+                      GObject)
 
 typedef GArray GumInvocationStack;
 typedef guint GumInvocationState;
@@ -65370,7 +65310,7 @@ G_END_DECLS
 
 #endif
 /*
- * Copyright (C) 2015-2021 Ole André Vadla Ravnås <oleavr@nowsecure.com>
+ * Copyright (C) 2015-2024 Ole André Vadla Ravnås <oleavr@nowsecure.com>
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */
@@ -65382,6 +65322,7 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 typedef struct _GumKernelModuleRangeDetails GumKernelModuleRangeDetails;
+typedef struct _GumKernelModuleDetails GumKernelModuleDetails;
 
 struct _GumKernelModuleRangeDetails
 {
@@ -65391,8 +65332,17 @@ struct _GumKernelModuleRangeDetails
   GumPageProtection protection;
 };
 
+struct _GumKernelModuleDetails
+{
+  const gchar * name;
+  const GumMemoryRange * range;
+  const gchar * path;
+};
+
 typedef gboolean (* GumFoundKernelModuleRangeFunc) (
     const GumKernelModuleRangeDetails * details, gpointer user_data);
+typedef gboolean (* GumFoundKernelModuleFunc) (
+    const GumKernelModuleDetails * details, gpointer user_data);
 
 GUM_API gboolean gum_kernel_api_is_available (void);
 GUM_API guint gum_kernel_query_page_size (void);
@@ -65412,7 +65362,7 @@ GUM_API void gum_kernel_enumerate_ranges (GumPageProtection prot,
 GUM_API void gum_kernel_enumerate_module_ranges (const gchar * module_name,
     GumPageProtection prot, GumFoundKernelModuleRangeFunc func,
     gpointer user_data);
-GUM_API void gum_kernel_enumerate_modules (GumFoundModuleFunc func,
+GUM_API void gum_kernel_enumerate_modules (GumFoundKernelModuleFunc func,
     gpointer user_data);
 GUM_API GumAddress gum_kernel_find_base_address (void);
 GUM_API void gum_kernel_set_base_address (GumAddress base);
@@ -65452,8 +65402,8 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 #define GUM_TYPE_MEMORY_ACCESS_MONITOR (gum_memory_access_monitor_get_type ())
-GUM_DECLARE_FINAL_TYPE (GumMemoryAccessMonitor, gum_memory_access_monitor, GUM,
-                        MEMORY_ACCESS_MONITOR, GObject)
+G_DECLARE_FINAL_TYPE (GumMemoryAccessMonitor, gum_memory_access_monitor, GUM,
+                      MEMORY_ACCESS_MONITOR, GObject)
 
 typedef struct _GumMemoryAccessDetails GumMemoryAccessDetails;
 
@@ -65498,7 +65448,7 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 #define GUM_TYPE_MEMORY_MAP (gum_memory_map_get_type ())
-GUM_DECLARE_FINAL_TYPE (GumMemoryMap, gum_memory_map, GUM, MEMORY_MAP, GObject)
+G_DECLARE_FINAL_TYPE (GumMemoryMap, gum_memory_map, GUM, MEMORY_MAP, GObject)
 
 GUM_API GumMemoryMap * gum_memory_map_new (GumPageProtection prot);
 
@@ -65660,8 +65610,8 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 #define GUM_TYPE_MODULE_API_RESOLVER (gum_module_api_resolver_get_type ())
-GUM_DECLARE_FINAL_TYPE (GumModuleApiResolver, gum_module_api_resolver, GUM,
-                        MODULE_API_RESOLVER, GObject)
+G_DECLARE_FINAL_TYPE (GumModuleApiResolver, gum_module_api_resolver, GUM,
+                      MODULE_API_RESOLVER, GObject)
 
 GUM_API GumApiResolver * gum_module_api_resolver_new (void);
 
@@ -65669,7 +65619,7 @@ G_END_DECLS
 
 #endif
 /*
- * Copyright (C) 2015-2022 Ole André Vadla Ravnås <oleavr@nowsecure.com>
+ * Copyright (C) 2015-2024 Ole André Vadla Ravnås <oleavr@nowsecure.com>
  *
  * Licence: wxWindows Library Licence, Version 3.1
  */
@@ -65681,21 +65631,21 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 #define GUM_TYPE_MODULE_MAP (gum_module_map_get_type ())
-GUM_DECLARE_FINAL_TYPE (GumModuleMap, gum_module_map, GUM, MODULE_MAP, GObject)
+G_DECLARE_FINAL_TYPE (GumModuleMap, gum_module_map, GUM, MODULE_MAP, GObject)
 
-typedef gboolean (* GumModuleMapFilterFunc) (const GumModuleDetails * details,
+typedef gboolean (* GumModuleMapFilterFunc) (GumModule * module,
     gpointer user_data);
 
 GUM_API GumModuleMap * gum_module_map_new (void);
 GUM_API GumModuleMap * gum_module_map_new_filtered (GumModuleMapFilterFunc func,
     gpointer data, GDestroyNotify data_destroy);
 
-GUM_API const GumModuleDetails * gum_module_map_find (GumModuleMap * self,
+GUM_API GumModule * gum_module_map_find (GumModuleMap * self,
     GumAddress address);
 
 GUM_API void gum_module_map_update (GumModuleMap * self);
 
-GUM_API GArray * gum_module_map_get_values (GumModuleMap * self);
+GUM_API GPtrArray * gum_module_map_get_values (GumModuleMap * self);
 
 G_END_DECLS
 
@@ -84307,29 +84257,29 @@ G_END_DECLS
 G_BEGIN_DECLS
 
 #define GUM_TYPE_STALKER (gum_stalker_get_type ())
-GUM_DECLARE_FINAL_TYPE (GumStalker, gum_stalker, GUM, STALKER, GObject)
+G_DECLARE_FINAL_TYPE (GumStalker, gum_stalker, GUM, STALKER, GObject)
 
 #define GUM_TYPE_STALKER_TRANSFORMER (gum_stalker_transformer_get_type ())
-GUM_DECLARE_INTERFACE (GumStalkerTransformer, gum_stalker_transformer, GUM,
-                       STALKER_TRANSFORMER, GObject)
+G_DECLARE_INTERFACE (GumStalkerTransformer, gum_stalker_transformer, GUM,
+                     STALKER_TRANSFORMER, GObject)
 
 #define GUM_TYPE_DEFAULT_STALKER_TRANSFORMER \
     (gum_default_stalker_transformer_get_type ())
-GUM_DECLARE_FINAL_TYPE (GumDefaultStalkerTransformer,
-                        gum_default_stalker_transformer,
-                        GUM, DEFAULT_STALKER_TRANSFORMER,
-                        GObject)
+G_DECLARE_FINAL_TYPE (GumDefaultStalkerTransformer,
+                      gum_default_stalker_transformer,
+                      GUM, DEFAULT_STALKER_TRANSFORMER,
+                      GObject)
 
 #define GUM_TYPE_CALLBACK_STALKER_TRANSFORMER \
     (gum_callback_stalker_transformer_get_type ())
-GUM_DECLARE_FINAL_TYPE (GumCallbackStalkerTransformer,
-                        gum_callback_stalker_transformer,
-                        GUM, CALLBACK_STALKER_TRANSFORMER,
-                        GObject)
+G_DECLARE_FINAL_TYPE (GumCallbackStalkerTransformer,
+                      gum_callback_stalker_transformer,
+                      GUM, CALLBACK_STALKER_TRANSFORMER,
+                      GObject)
 
 #define GUM_TYPE_STALKER_OBSERVER (gum_stalker_observer_get_type ())
-GUM_DECLARE_INTERFACE (GumStalkerObserver, gum_stalker_observer, GUM,
-                       STALKER_OBSERVER, GObject)
+G_DECLARE_INTERFACE (GumStalkerObserver, gum_stalker_observer, GUM,
+                     STALKER_OBSERVER, GObject)
 
 typedef struct _GumStalkerIterator GumStalkerIterator;
 typedef struct _GumStalkerOutput GumStalkerOutput;
@@ -84353,8 +84303,6 @@ typedef void (* GumCallProbeCallback) (GumCallDetails * details,
     gpointer user_data);
 typedef void (* GumStalkerRunOnThreadFunc) (const GumCpuContext * cpu_context,
     gpointer user_data);
-
-#ifndef GUM_DIET
 
 struct _GumStalkerTransformerInterface
 {
@@ -84418,8 +84366,6 @@ struct _GumStalkerObserverInterface
 
   GumStalkerSwitchCallbackFunc switch_callback;
 };
-
-#endif
 
 union _GumStalkerWriter
 {
