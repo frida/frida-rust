@@ -131,7 +131,7 @@ impl<'a> ModuleMap<'a> {
 
             raw_module_details
                 .iter()
-                .map(|raw| Module::from_raw(raw.clone()))
+                .map(|raw| Module::from_raw(*raw))
                 .collect::<Vec<_>>()
         }
     }
@@ -142,7 +142,7 @@ impl<'a> ModuleMap<'a> {
     }
 }
 
-impl<'a> Drop for ModuleMap<'a> {
+impl<'a> Drop for ModuleMap<'_> {
     fn drop(&mut self) {
         unsafe { gum_sys::g_object_unref(self.module_map as *mut c_void) }
     }
