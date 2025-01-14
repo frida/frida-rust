@@ -13,13 +13,17 @@
     allow(clippy::unnecessary_cast)
 )]
 
+use crate::MemoryRange;
+#[cfg(feature = "std")]
+use std::{ffi::CStr, string::ToString};
+
 use {
     crate::{Gum, NativePointer, PageProtection, RangeDetails},
     core::{ffi::c_void, fmt},
     cstr_core::CString,
     frida_gum_sys as gum_sys,
     frida_gum_sys::{
-        gboolean, gpointer, GumExportDetails, GumModuleDetails, GumSectionDetails, GumSymbolDetails,
+        gboolean, gpointer, GumExportDetails, GumModule, GumSectionDetails, GumSymbolDetails,
     },
 };
 
@@ -40,8 +44,8 @@ extern "C" fn enumerate_ranges_callout(
 #[derive(Clone, FromPrimitive, Debug)]
 #[repr(u32)]
 pub enum ExportType {
-    Function = gum_sys::_GumExportType_GUM_EXPORT_FUNCTION as u32,
-    Variable = gum_sys::_GumExportType_GUM_EXPORT_VARIABLE as u32,
+    Function = gum_sys::GumExportType_GUM_EXPORT_FUNCTION as u32,
+    Variable = gum_sys::GumExportType_GUM_EXPORT_VARIABLE as u32,
 }
 
 impl fmt::Display for ExportType {
@@ -50,37 +54,6 @@ impl fmt::Display for ExportType {
             ExportType::Function => write!(fmt, "function"),
             ExportType::Variable => write!(fmt, "variable"),
         }
-    }
-}
-
-impl ModuleDetailsOwned {
-    pub unsafe fn from_module_details(details: *const GumModuleDetails) -> Self {
-        let name: String = NativePointer((*details).name as *mut _)
-            .try_into()
-            .unwrap_or_default();
-        let path: String = NativePointer((*details).path as *mut _)
-            .try_into()
-            .unwrap_or_default();
-        let range = (*details).range;
-        let base_address = (*range).base_address as usize;
-        let size = (*range).size as usize;
-
-        ModuleDetailsOwned {
-            name,
-            path,
-            base_address,
-            size,
-        }
-    }
-}
-
-impl fmt::Display for ModuleDetailsOwned {
-    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(
-            fmt,
-            "{{\n\tbase: 0x{:x}\n\tname: {}\n\tpath: {}\n\tsize: {}\n}}",
-            self.base_address, self.name, self.path, self.size
-        )
     }
 }
 
@@ -106,51 +79,66 @@ pub struct ExportDetails {
     pub address: usize,
 }
 
-/// Module details returned by [`Module::enumerate_modules`].
-pub struct ModuleDetailsOwned {
-    pub name: String,
-    pub path: String,
-    pub base_address: usize,
-    pub size: usize,
+impl Drop for Module {
+    fn drop(&mut self) {
+        unsafe {
+            gum_sys::g_object_unref(self.inner as _);
+        }
+    }
 }
 
-pub struct Module<'a> {
-    // This is to verify that Gum is initialized before using any Module methods which requires
-    // intialization.
-    // Note that Gum is expected to be initialized via OnceCell which provides &Gum for every
-    // instance.
-    _gum: &'a Gum,
+pub struct Module {
+    inner: *mut GumModule,
 }
 
-impl Module<'_> {
-    pub fn obtain(gum: &Gum) -> Module {
-        Module { _gum: gum }
+impl Module {
+    pub(crate) fn from_raw(module: *mut GumModule) -> Self {
+        Self { inner: module }
+    }
+    /// Load a module by name
+    pub fn load(_gum: &Gum, module_name: &str) -> Self {
+        let module_name = CString::new(module_name).unwrap();
+        Self {
+            inner: unsafe {
+                gum_sys::gum_module_load(module_name.as_ptr().cast(), core::ptr::null_mut())
+            },
+        }
+    }
+
+    #[cfg(feature = "std")]
+    /// Get the name of this module
+    pub fn name(&self) -> String {
+        unsafe {
+            CStr::from_ptr(gum_sys::gum_module_get_name(self.inner))
+                .to_string_lossy()
+                .to_string()
+        }
+    }
+
+    #[cfg(feature = "std")]
+    /// Get the path of this module
+    pub fn path(&self) -> String {
+        unsafe {
+            CStr::from_ptr(gum_sys::gum_module_get_path(self.inner))
+                .to_string_lossy()
+                .to_string()
+        }
+    }
+
+    /// Get the range of this module
+    pub fn range(&self) -> MemoryRange {
+        MemoryRange::from_raw(unsafe { gum_sys::gum_module_get_range(self.inner) })
     }
 
     /// The absolute address of the export. In the event that no such export
     /// could be found, returns NULL.
-    pub fn find_export_by_name(
-        &self,
-        module_name: Option<&str>,
-        symbol_name: &str,
-    ) -> Option<NativePointer> {
+    pub fn find_export_by_name(&self, symbol_name: &str) -> Option<NativePointer> {
         let symbol_name = CString::new(symbol_name).unwrap();
 
-        let ptr = match module_name {
-            None => unsafe {
-                gum_sys::gum_module_find_export_by_name(
-                    core::ptr::null_mut(),
-                    symbol_name.as_ptr().cast(),
-                )
-            },
-            Some(name) => unsafe {
-                let module_name = CString::new(name).unwrap();
-                gum_sys::gum_module_find_export_by_name(
-                    module_name.as_ptr().cast(),
-                    symbol_name.as_ptr().cast(),
-                )
-            },
-        } as *mut c_void;
+        let ptr = unsafe {
+            gum_sys::gum_module_find_export_by_name(self.inner, symbol_name.as_ptr().cast())
+                as *mut c_void
+        };
 
         if ptr.is_null() {
             None
@@ -161,19 +149,11 @@ impl Module<'_> {
 
     /// The absolute address of the symbol. In the event that no such symbol
     /// could be found, returns NULL.
-    pub fn find_symbol_by_name(
-        &self,
-        module_name: &str,
-        symbol_name: &str,
-    ) -> Option<NativePointer> {
+    pub fn find_symbol_by_name(&self, symbol_name: &str) -> Option<NativePointer> {
         let symbol_name = CString::new(symbol_name).unwrap();
 
-        let module_name = CString::new(module_name).unwrap();
         let ptr = unsafe {
-            gum_sys::gum_module_find_symbol_by_name(
-                module_name.as_ptr().cast(),
-                symbol_name.as_ptr().cast(),
-            )
+            gum_sys::gum_module_find_symbol_by_name(self.inner, symbol_name.as_ptr().cast())
         } as *mut c_void;
 
         if ptr.is_null() {
@@ -183,34 +163,19 @@ impl Module<'_> {
         }
     }
 
-    /// Returns the base address of the specified module. In the event that no
-    /// such module could be found, returns NULL.
-    pub fn find_base_address(&self, module_name: &str) -> NativePointer {
-        let module_name = CString::new(module_name).unwrap();
-
-        unsafe {
-            NativePointer(
-                gum_sys::gum_module_find_base_address(module_name.as_ptr().cast()) as *mut c_void,
-            )
-        }
-    }
-
     /// Enumerates memory ranges satisfying protection given.
     pub fn enumerate_ranges(
         &self,
-        module_name: &str,
         prot: PageProtection,
         callout: impl FnMut(RangeDetails) -> bool,
     ) {
-        let module_name = CString::new(module_name).unwrap();
-
         unsafe {
             let user_data = Box::leak(Box::new(
                 Box::new(callout) as Box<dyn FnMut(RangeDetails) -> bool>
             )) as *mut _ as *mut c_void;
 
             gum_sys::gum_module_enumerate_ranges(
-                module_name.as_ptr().cast(),
+                self.inner,
                 prot as u32,
                 Some(enumerate_ranges_callout),
                 user_data,
@@ -220,32 +185,8 @@ impl Module<'_> {
         }
     }
 
-    /// Enumerates modules.
-    pub fn enumerate_modules(&self) -> Vec<ModuleDetailsOwned> {
-        let result: Vec<ModuleDetailsOwned> = vec![];
-
-        unsafe extern "C" fn callback(
-            details: *const GumModuleDetails,
-            user_data: gpointer,
-        ) -> gboolean {
-            let res = &mut *(user_data as *mut Vec<ModuleDetailsOwned>);
-            res.push(ModuleDetailsOwned::from_module_details(details));
-
-            1
-        }
-
-        unsafe {
-            frida_gum_sys::gum_process_enumerate_modules(
-                Some(callback),
-                &result as *const _ as *mut c_void,
-            );
-        }
-
-        result
-    }
-
     /// Enumerates exports in module.
-    pub fn enumerate_exports(&self, module_name: &str) -> Vec<ExportDetails> {
+    pub fn enumerate_exports(&self) -> Vec<ExportDetails> {
         let result: Vec<ExportDetails> = vec![];
 
         unsafe extern "C" fn callback(
@@ -264,11 +205,9 @@ impl Module<'_> {
             1
         }
 
-        let module_name = CString::new(module_name).unwrap();
-
         unsafe {
             frida_gum_sys::gum_module_enumerate_exports(
-                module_name.as_ptr().cast(),
+                self.inner,
                 Some(callback),
                 &result as *const _ as *mut c_void,
             );
@@ -277,7 +216,7 @@ impl Module<'_> {
     }
 
     /// Enumerates symbols in module.
-    pub fn enumerate_symbols(&self, module_name: &str) -> Vec<SymbolDetails> {
+    pub fn enumerate_symbols(&self) -> Vec<SymbolDetails> {
         let result: Vec<SymbolDetails> = vec![];
         unsafe extern "C" fn callback(
             details: *const GumSymbolDetails,
@@ -301,11 +240,9 @@ impl Module<'_> {
             1
         }
 
-        let module_name = CString::new(module_name).unwrap();
-
         unsafe {
             frida_gum_sys::gum_module_enumerate_symbols(
-                module_name.as_ptr().cast(),
+                self.inner,
                 Some(callback),
                 &result as *const _ as *mut c_void,
             );
@@ -314,7 +251,7 @@ impl Module<'_> {
     }
 
     /// Enumerates sections of module.
-    pub fn enumerate_sections(&self, module_name: &str) -> Vec<SectionDetails> {
+    pub fn enumerate_sections(&self) -> Vec<SectionDetails> {
         let result: Vec<SectionDetails> = vec![];
 
         unsafe extern "C" fn callback(
@@ -343,11 +280,9 @@ impl Module<'_> {
             1
         }
 
-        let module_name = CString::new(module_name).unwrap();
-
         unsafe {
             frida_gum_sys::gum_module_enumerate_sections(
-                module_name.as_ptr().cast(),
+                self.inner,
                 Some(callback),
                 &result as *const _ as *mut c_void,
             );

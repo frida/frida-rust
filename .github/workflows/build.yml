@@ -73,6 +73,9 @@ jobs:
         os: [ubuntu-latest, macOS-latest, windows-latest]
         arch: [x86, x86_64]
         include:
+          - arch: aarch64
+            os: macOS-latest
+            target: aarch64-apple-darwin
           - arch: x86
             os: ubuntu-latest
             target: i686-unknown-linux-gnu
