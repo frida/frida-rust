@@ -96,17 +96,27 @@ impl<'a> Process<'a> {
         }
     }
 
-    pub fn find_module_by_name(&self, module_name: &str) -> Module {
+    pub fn find_module_by_name(&self, module_name: &str) -> Option<Module> {
         let module_name = CString::new(module_name).unwrap();
         unsafe {
-            Module::from_raw(gum_sys::gum_process_find_module_by_name(
-                module_name.as_ptr().cast(),
-            ))
+            let module = gum_sys::gum_process_find_module_by_name(module_name.as_ptr().cast());
+            if !module.is_null() {
+                Some(Module::from_raw(module))
+            } else {
+                None
+            }
         }
     }
 
-    pub fn find_module_by_address(&self, address: usize) -> Module {
-        unsafe { Module::from_raw(gum_sys::gum_process_find_module_by_address(address as u64)) }
+    pub fn find_module_by_address(&self, address: usize) -> Option<Module> {
+        unsafe {
+            let module = gum_sys::gum_process_find_module_by_address(address as u64);
+            if !module.is_null() {
+                Some(Module::from_raw(module))
+            } else {
+                None
+            }
+        }
     }
     /// Returns a string specifying the filesystem path to the current working directory
     pub fn current_dir(&self) -> String {
