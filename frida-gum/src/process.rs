@@ -195,4 +195,34 @@ impl<'a> Process<'a> {
 
         callback_data.ranges
     }
+
+    /// Enumerates loaded modules
+    pub fn enumerate_modules(&self) -> Vec<Module> {
+        struct CallbackData {
+            modules: Vec<Module>,
+        }
+
+        unsafe extern "C" fn enumerate_modules_callback(
+            details: *mut gum_sys::GumModule,
+            user_data: gpointer,
+        ) -> gboolean {
+            let res = &mut *(user_data as *mut CallbackData);
+            res.modules.push(Module::from_raw(details));
+
+            1
+        }
+
+        let callback_data = CallbackData {
+            modules: Vec::new(),
+        };
+
+        unsafe {
+            gum_sys::gum_process_enumerate_modules(
+                Some(enumerate_modules_callback),
+                &callback_data as *const _ as *mut c_void,
+            );
+        }
+
+        callback_data.modules
+    }
 }
