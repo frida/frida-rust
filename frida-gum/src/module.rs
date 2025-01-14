@@ -14,8 +14,9 @@
 )]
 
 use crate::MemoryRange;
-
+#[cfg(feature = "std")]
 use std::string::ToString;
+
 use {
     crate::{Gum, NativePointer, PageProtection, RangeDetails},
     core::{ffi::c_void, ffi::CStr, fmt},
@@ -55,24 +56,6 @@ impl fmt::Display for ExportType {
         }
     }
 }
-
-// impl Module {
-//     pub unsafe fn from_module(module: *const GumModule) -> Self {
-//         Self {
-//             inner: gum_sys::g_object_ref(module as _) as *mut GumModule,
-//         }
-//     }
-// }
-//
-// impl fmt::Display for ModuleDetailsOwned {
-//     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
-//         write!(
-//             fmt,
-//             "{{\n\tbase: 0x{:x}\n\tname: {}\n\tpath: {}\n\tsize: {}\n}}",
-//             self.base_address, self.name, self.path, self.size
-//         )
-//     }
-// }
 
 /// Module symbol details returned by [`Module::enumerate_symbols`].
 pub struct SymbolDetails {
@@ -122,6 +105,7 @@ impl Module {
         }
     }
 
+    #[cfg(feature = "std")]
     /// Get the name of this module
     pub fn name(&self) -> String {
         unsafe {
@@ -131,6 +115,7 @@ impl Module {
         }
     }
 
+    #[cfg(feature = "std")]
     /// Get the path of this module
     pub fn path(&self) -> String {
         unsafe {
