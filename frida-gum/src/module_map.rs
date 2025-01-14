@@ -89,7 +89,7 @@ impl<'a> ModuleMap<'a> {
         }
     }
 
-    /// Get an array of the [`ModuleDetails`] which make up this [`ModuleMap`]
+    /// Get an array of the [`Module`] which make up this [`ModuleMap`]
     pub fn values(&self) -> Vec<Module> {
         unsafe {
             let array = gum_sys::gum_module_map_get_values(self.module_map);
