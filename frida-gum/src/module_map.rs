@@ -20,36 +20,7 @@ use {
 use alloc::{boxed::Box, vec::Vec};
 
 #[cfg(feature = "module-names")]
-use std::{ffi::CStr, path::Path};
-
-#[cfg(feature = "module-names")]
-struct SaveModuleDetailsByNameContext {
-    name: String,
-    details: Module,
-}
-
-#[cfg(feature = "module-names")]
-unsafe extern "C" fn save_module_details_by_name(
-    details: *mut gum_sys::GumModule,
-    context: *mut c_void,
-) -> i32 {
-    let context = &mut *(context as *mut SaveModuleDetailsByNameContext);
-    let module = Module::from_raw(gum_sys::g_object_ref(details.cast()).cast());
-    let path_string = module.path();
-    if (context.name.starts_with('/') && path_string.eq(&context.name))
-        || (context.name.contains('/')
-            && Path::new(&path_string)
-                .file_name()
-                .unwrap_or_default()
-                .to_string_lossy()
-                .eq(&context.name))
-    {
-        context.details = module;
-        return 0;
-    }
-
-    1
-}
+use std::path::Path;
 
 pub struct ModuleMap<'a> {
     _gum: &'a Gum,
