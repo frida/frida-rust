@@ -13,7 +13,7 @@ members = [
 default-members = ["frida-gum-sys", "frida-gum", "frida-sys", "frida"]
 
 [workspace.package]
-version = "0.16.4"
+version = "0.16.5"
 authors = [
     "Keegan Saunders <keegan@undefinedbehaviour.org>",
     "Shmarya Rubenstein <github@shmarya.net>",
