@@ -93,6 +93,9 @@ pub struct Module {
 
 impl Module {
     pub(crate) fn from_raw(module: *mut GumModule) -> Self {
+        unsafe {
+            gum_sys::g_object_ref(module.cast());
+        }
         Self { inner: module }
     }
     /// Load a module by name

@@ -207,7 +207,6 @@ impl<'a> Process<'a> {
             user_data: gpointer,
         ) -> gboolean {
             let res = &mut *(user_data as *mut CallbackData);
-            gum_sys::g_object_ref(details.cast());
             res.modules.push(Module::from_raw(details));
 
             1
