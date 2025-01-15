@@ -150,6 +150,23 @@ impl Module {
         }
     }
 
+    /// The absolute address of the export. In the event that no such export
+    /// could be found, returns NULL.
+    pub fn find_global_export_by_name(symbol_name: &str) -> Option<NativePointer> {
+        let symbol_name = CString::new(symbol_name).unwrap();
+
+        let ptr = unsafe {
+            gum_sys::gum_module_find_global_export_by_name(symbol_name.as_ptr().cast())
+                as *mut c_void
+        };
+
+        if ptr.is_null() {
+            None
+        } else {
+            Some(NativePointer(ptr))
+        }
+    }
+
     /// The absolute address of the symbol. In the event that no such symbol
     /// could be found, returns NULL.
     pub fn find_symbol_by_name(&self, symbol_name: &str) -> Option<NativePointer> {
