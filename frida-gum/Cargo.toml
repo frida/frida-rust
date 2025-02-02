@@ -23,7 +23,7 @@ std = []
 cstr_core = { version = "0.2.6", default-features = false, features = [
     "alloc",
 ] }
-frida-gum-sys = { path = "../frida-gum-sys", version = "0.16.5" }
+frida-gum-sys = { path = "../frida-gum-sys", version = "0.16.6" }
 libc = { version = "0.2.153", default-features = false, optional = true }
 num = { version = "0.4.1", default-features = false }
 num-derive = { version = "0.4.2", default-features = false }
