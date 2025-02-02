@@ -28,9 +28,9 @@ extern "C" {
 
 #[cfg(not(target_os = "linux"))]
 extern "C" {
-    pub fn _g_get_home_dir() -> *const c_char;
-    pub fn _g_get_current_dir() -> *const c_char;
-    pub fn _g_get_tmp_dir() -> *const c_char;
+    pub fn g_get_home_dir() -> *const c_char;
+    pub fn g_get_current_dir() -> *const c_char;
+    pub fn g_get_tmp_dir() -> *const c_char;
 }
 
 #[derive(Clone, FromPrimitive, Debug)]
@@ -132,7 +132,7 @@ impl<'a> Process<'a> {
             #[cfg(target_os = "linux")]
             let dir = _frida_g_get_current_dir();
             #[cfg(not(target_os = "linux"))]
-            let dir = _g_get_current_dir();
+            let dir = g_get_current_dir();
 
             CStr::from_ptr(dir).to_string_lossy().to_string()
         }
@@ -144,7 +144,7 @@ impl<'a> Process<'a> {
             #[cfg(target_os = "linux")]
             let dir = _frida_g_get_tmp_dir();
             #[cfg(not(target_os = "linux"))]
-            let dir = _g_get_tmp_dir();
+            let dir = g_get_tmp_dir();
 
             CStr::from_ptr(dir).to_string_lossy().to_string()
         }
@@ -156,7 +156,7 @@ impl<'a> Process<'a> {
             #[cfg(target_os = "linux")]
             let dir = _frida_g_get_home_dir();
             #[cfg(not(target_os = "linux"))]
-            let dir = _g_get_home_dir();
+            let dir = g_get_home_dir();
 
             CStr::from_ptr(dir).to_string_lossy().to_string()
         }
