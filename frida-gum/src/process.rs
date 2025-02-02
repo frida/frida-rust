@@ -19,11 +19,20 @@ use {
 use alloc::{string::String, string::ToString, vec::Vec};
 use cstr_core::CString;
 
+#[cfg(target_os = "linux")]
 extern "C" {
     pub fn _frida_g_get_home_dir() -> *const c_char;
     pub fn _frida_g_get_current_dir() -> *const c_char;
     pub fn _frida_g_get_tmp_dir() -> *const c_char;
 }
+
+#[cfg(not(target_os = "linux"))]
+extern "C" {
+    pub fn _g_get_home_dir() -> *const c_char;
+    pub fn _g_get_current_dir() -> *const c_char;
+    pub fn _g_get_tmp_dir() -> *const c_char;
+}
+
 
 #[derive(Clone, FromPrimitive, Debug)]
 #[repr(u32)]
@@ -121,7 +130,12 @@ impl<'a> Process<'a> {
     /// Returns a string specifying the filesystem path to the current working directory
     pub fn current_dir(&self) -> String {
         unsafe {
+            #[cfg(target_os = "linux")]
             CStr::from_ptr(_frida_g_get_current_dir())
+                .to_string_lossy()
+                .to_string()
+            #[cfg(not(target_os = "linux"))]
+            CStr::from_ptr(_g_get_current_dir())
                 .to_string_lossy()
                 .to_string()
         }
@@ -130,7 +144,12 @@ impl<'a> Process<'a> {
     /// Returns a string specifying the filesystem path to the directory to use for temporary files
     pub fn tmp_dir(&self) -> String {
         unsafe {
+            #[cfg(target_os = "linux")]
             CStr::from_ptr(_frida_g_get_tmp_dir())
+                .to_string_lossy()
+                .to_string()
+            #[cfg(not(target_os = "linux"))]
+            CStr::from_ptr(_g_get_tmp_dir())
                 .to_string_lossy()
                 .to_string()
         }
@@ -139,7 +158,12 @@ impl<'a> Process<'a> {
     /// Returns a string specifying the filesystem path to the current user’s home directory
     pub fn home_dir(&self) -> String {
         unsafe {
+            #[cfg(target_os = "linux")]
             CStr::from_ptr(_frida_g_get_home_dir())
+                .to_string_lossy()
+                .to_string()
+            #[cfg(not(target_os = "linux"))]
+            CStr::from_ptr(_g_get_home_dir())
                 .to_string_lossy()
                 .to_string()
         }
