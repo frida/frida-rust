@@ -33,7 +33,6 @@ extern "C" {
     pub fn _g_get_tmp_dir() -> *const c_char;
 }
 
-
 #[derive(Clone, FromPrimitive, Debug)]
 #[repr(u32)]
 pub enum CodeSigningPolicy {
@@ -135,9 +134,7 @@ impl<'a> Process<'a> {
             #[cfg(not(target_os = "linux"))]
             let dir = _g_get_current_dir();
 
-            CStr::from_ptr(dir)
-                .to_string_lossy()
-                .to_string()
+            CStr::from_ptr(dir).to_string_lossy().to_string()
         }
     }
 
@@ -149,9 +146,7 @@ impl<'a> Process<'a> {
             #[cfg(not(target_os = "linux"))]
             let dir = _g_get_tmp_dir();
 
-            CStr::from_ptr(dir)
-                .to_string_lossy()
-                .to_string()
+            CStr::from_ptr(dir).to_string_lossy().to_string()
         }
     }
 
@@ -163,9 +158,7 @@ impl<'a> Process<'a> {
             #[cfg(not(target_os = "linux"))]
             let dir = _g_get_home_dir();
 
-            CStr::from_ptr(dir)
-                .to_string_lossy()
-                .to_string()
+            CStr::from_ptr(dir).to_string_lossy().to_string()
         }
     }
 
