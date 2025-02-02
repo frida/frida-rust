@@ -131,11 +131,11 @@ impl<'a> Process<'a> {
     pub fn current_dir(&self) -> String {
         unsafe {
             #[cfg(target_os = "linux")]
-            CStr::from_ptr(_frida_g_get_current_dir())
-                .to_string_lossy()
-                .to_string()
+            let dir = _frida_g_get_current_dir();
             #[cfg(not(target_os = "linux"))]
-            CStr::from_ptr(_g_get_current_dir())
+            let dir = _g_get_current_dir();
+
+            CStr::from_ptr(dir)
                 .to_string_lossy()
                 .to_string()
         }
@@ -145,11 +145,11 @@ impl<'a> Process<'a> {
     pub fn tmp_dir(&self) -> String {
         unsafe {
             #[cfg(target_os = "linux")]
-            CStr::from_ptr(_frida_g_get_tmp_dir())
-                .to_string_lossy()
-                .to_string()
+            let dir = _frida_g_get_tmp_dir();
             #[cfg(not(target_os = "linux"))]
-            CStr::from_ptr(_g_get_tmp_dir())
+            let dir = _g_get_tmp_dir();
+
+            CStr::from_ptr(dir)
                 .to_string_lossy()
                 .to_string()
         }
@@ -159,11 +159,11 @@ impl<'a> Process<'a> {
     pub fn home_dir(&self) -> String {
         unsafe {
             #[cfg(target_os = "linux")]
-            CStr::from_ptr(_frida_g_get_home_dir())
-                .to_string_lossy()
-                .to_string()
+            let dir = _frida_g_get_home_dir();
             #[cfg(not(target_os = "linux"))]
-            CStr::from_ptr(_g_get_home_dir())
+            let dir = _g_get_home_dir();
+
+            CStr::from_ptr(dir)
                 .to_string_lossy()
                 .to_string()
         }
