@@ -17,6 +17,10 @@ pub enum Error {
     #[error("Failed to lookup device")]
     DeviceLookupFailed,
 
+    /// Failed to get front most application.
+    #[error("Failed to get front most application")]
+    DeviceGetFrontMostApplicationError,
+
     /// Failed to detach a session.
     #[error("Failed to detach the current session")]
     SessionDetachError,
