@@ -1,0 +1,9 @@
+[package]
+name = "get_apps"
+version = "0.1.0"
+edition = "2021"
+authors = ["Zhi Zhou"]
+publish = false
+
+[dependencies]
+frida = { path = "../../../frida" }
