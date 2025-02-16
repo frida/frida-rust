@@ -5,7 +5,7 @@ fn main() {
     let device_manager = frida::DeviceManager::obtain(&frida);
 
     // get the first usb device (assuming there is one attached)
-    let device = device_manager.get_device_by_type(DeviceType::USB).unwrap();
+    let device = device_manager.get_usb_device().unwrap();
     assert_eq!(device.get_type(), DeviceType::USB);
     println!(
         "found {} with type: {}",

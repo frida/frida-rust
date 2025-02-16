@@ -1,6 +1,8 @@
 use std::collections::HashMap;
 use std::ffi::{CStr, CString};
 
+use frida_sys::{_GBytes, g_bytes_get_data, gsize};
+
 #[derive(Clone, PartialEq, Eq)]
 /// GVariant types used by Frida
 pub enum Variant {
@@ -18,6 +20,9 @@ pub enum Variant {
 
     /// Array of Maps
     MapList(Vec<HashMap<String, Variant>>),
+
+    /// Byte array
+    ByteArray(Vec<u8>),
 }
 
 impl Variant {
@@ -37,6 +42,22 @@ impl Variant {
             "x" => Self::Int64(frida_sys::g_variant_get_int64(variant)),
             "a{sv}" => Self::Map(sv_array_to_map(variant)),
             "aa{sv}" => Self::MapList(asv_array_to_maplist(variant)),
+            "ay" => {
+                let data = frida_sys::g_variant_get_data_as_bytes(variant);
+                let mut raw_data_size: gsize = 0;
+                let raw_data: *const u8 =
+                    g_bytes_get_data(data as *mut _GBytes, std::ptr::from_mut(&mut raw_data_size))
+                        as *const u8;
+                let data_vec = if raw_data_size == 0 || raw_data.is_null() {
+                    None
+                } else {
+                    Some(
+                        std::slice::from_raw_parts(raw_data, raw_data_size.try_into().unwrap())
+                            .to_vec(),
+                    )
+                };
+                Self::ByteArray(data_vec.unwrap_or_default())
+            }
             other => todo!("Unimplemented variant: {other}"),
         }
     }
@@ -84,6 +105,7 @@ impl std::fmt::Debug for Variant {
             Self::Boolean(b) => b.fmt(f),
             Self::Map(m) => m.fmt(f),
             Self::MapList(l) => l.fmt(f),
+            Self::ByteArray(b) => b.fmt(f),
         }
     }
 }
