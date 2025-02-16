@@ -3,7 +3,7 @@ use frida::{Scope, DeviceType};
 fn main() {
     let frida = unsafe { frida::Frida::obtain() };
     let device_manager = frida::DeviceManager::obtain(&frida);
-    let device = device_manager.get_device_by_type(DeviceType::USB).unwrap();
+    let device = device_manager.get_usb_device().unwrap();
     assert_eq!(device.get_type(), DeviceType::USB);
     let apps = device.enumerate_applications(None, None);
 

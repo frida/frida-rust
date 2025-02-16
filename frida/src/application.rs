@@ -57,7 +57,7 @@ impl<'a> Application<'a> {
     ///# use std::collections::HashMap;
     ///# let frida = unsafe { frida::Frida::obtain() };
     ///# let device_manager = frida::DeviceManager::obtain(&frida);
-    ///# let device = device_manager.get_device_by_type(DeviceType::USB).unwrap();
+    ///# let device = device_manager.get_usb_device().unwrap();
     ///# let app = device.enumerate_applications().into_iter().find(|app| app.get_identifier() == "com.example.app").unwrap();
     /// let params = app.get_parameters()
     ///    .expect("Failed to get parameters");
