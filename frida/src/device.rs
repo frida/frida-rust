@@ -13,7 +13,7 @@ use crate::process::Process;
 use crate::application::Application;
 use crate::session::Session;
 use crate::variant::Variant;
-use crate::{ApplicationQueryOptions, Error, Result, SpawnOptions};
+use crate::{ApplicationQueryOptions, Error, FrontmostApplicationQueryOptions, Result, SpawnOptions};
 
 /// Access to a Frida device.
 pub struct Device<'a> {
@@ -129,6 +129,33 @@ impl<'a> Device<'a> {
     /// Returns if the device is lost or not.
     pub fn is_lost(&self) -> bool {
         unsafe { frida_sys::frida_device_is_lost(self.device_ptr) == 1 }
+    }
+
+    /// Returns front most application.
+    pub fn frontmost_application<'b>(&'a self, scope: Option<Scope>) -> Option<Application<'b>>
+    where
+        'a: 'b,
+    {
+        let mut error: *mut frida_sys::GError = std::ptr::null_mut();
+        let options = FrontmostApplicationQueryOptions::new();
+        if let Some(scope) = scope {
+            options.set_scope(scope as _);
+        }
+
+        let application_ptr = unsafe {
+            frida_sys::frida_device_get_frontmost_application_sync(
+                self.device_ptr,
+                options.options_ptr,
+                std::ptr::null_mut(),
+                &mut error,
+            )
+        };
+
+        if error.is_null() {
+            Some(Application::from_raw(application_ptr))
+        } else {
+            None
+        }
     }
 
     /// Returns all applications.

@@ -4,10 +4,7 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
-use frida_sys::{
-    FridaApplicationQueryOptions, FridaScope_FRIDA_SCOPE_FULL, FridaScope_FRIDA_SCOPE_METADATA,
-    FridaScope_FRIDA_SCOPE_MINIMAL, _FridaApplication,
-};
+use frida_sys::{FridaApplicationQueryOptions, FridaFrontmostQueryOptions, _FridaApplication};
 use std::collections::HashMap;
 use std::ffi::{CStr, CString};
 use std::marker::PhantomData;
@@ -93,6 +90,32 @@ impl Drop for Application<'_> {
     }
 }
 
+/// Frontmost Application Query Options
+pub struct FrontmostApplicationQueryOptions<'a> {
+    pub(crate) options_ptr: *mut FridaFrontmostQueryOptions,
+    phantom: PhantomData<&'a FridaFrontmostQueryOptions>,
+}
+
+impl FrontmostApplicationQueryOptions<'_> {
+    pub(crate) fn from_raw(options_ptr: *mut FridaFrontmostQueryOptions) -> Self {
+        Self {
+            options_ptr,
+            phantom: PhantomData,
+        }
+    }
+
+    /// Create an empty FrontmostApplicationQueryOptions instance
+    pub fn new() -> Self {
+        let options_ptr = unsafe { frida_sys::frida_frontmost_query_options_new() };
+        Self::from_raw(options_ptr)
+    }
+
+    /// Set the scope of the query.
+    pub fn set_scope(&self, scope: u32) {
+        unsafe { frida_sys::frida_frontmost_query_options_set_scope(self.options_ptr, scope as _) }
+    }
+}
+
 /// Application Query Options
 pub struct ApplicationQueryOptions<'a> {
     pub(crate) options_ptr: *mut FridaApplicationQueryOptions,
@@ -115,13 +138,6 @@ impl ApplicationQueryOptions<'_> {
 
     /// Set the scope of the query.
     pub fn set_scope(&self, scope: u32) {
-        if scope != FridaScope_FRIDA_SCOPE_MINIMAL as u32
-            && scope != FridaScope_FRIDA_SCOPE_METADATA as u32
-            && scope != FridaScope_FRIDA_SCOPE_FULL as u32
-        {
-            panic!("Invalid scope value");
-        }
-
         unsafe {
             frida_sys::frida_application_query_options_set_scope(self.options_ptr, scope as _)
         }

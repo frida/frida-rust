@@ -18,6 +18,13 @@ fn main() {
         for (k, v) in params {
             println!("{}: {:?}", k, v);
         }
+
+        println!("---");
+
+        if let Some(frontmost) = device.frontmost_application(None) {
+            println!("frontmost: {} {} {:?}", frontmost.get_name(), frontmost.get_identifier(), frontmost.get_pid());
+            println!("---");
+        }
     }
 
     for a in apps {
