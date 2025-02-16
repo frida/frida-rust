@@ -4,20 +4,33 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
-use frida_sys::_FridaDevice;
+use frida_sys::{FridaScope_FRIDA_SCOPE_FULL, FridaScope_FRIDA_SCOPE_METADATA, FridaScope_FRIDA_SCOPE_MINIMAL, _FridaDevice};
 use std::collections::HashMap;
 use std::ffi::{CStr, CString};
 use std::marker::PhantomData;
 
 use crate::process::Process;
+use crate::application::Application;
 use crate::session::Session;
 use crate::variant::Variant;
-use crate::{Error, Result, SpawnOptions};
+use crate::{ApplicationQueryOptions, Error, Result, SpawnOptions};
 
 /// Access to a Frida device.
 pub struct Device<'a> {
     pub(crate) device_ptr: *mut _FridaDevice,
     phantom: PhantomData<&'a _FridaDevice>,
+}
+
+/// Scope to query applications
+pub enum Scope {
+    /// include no parameters
+    Minimal = FridaScope_FRIDA_SCOPE_MINIMAL as _, // 0
+
+    /// include parameters without icons
+    Metadata = FridaScope_FRIDA_SCOPE_METADATA as _, // 1
+
+    /// include all parameters
+    Full = FridaScope_FRIDA_SCOPE_FULL as _, // 2
 }
 
 impl<'a> Device<'a> {
@@ -116,6 +129,49 @@ impl<'a> Device<'a> {
     /// Returns if the device is lost or not.
     pub fn is_lost(&self) -> bool {
         unsafe { frida_sys::frida_device_is_lost(self.device_ptr) == 1 }
+    }
+
+    /// Returns all applications.
+    pub fn enumerate_applications<'b>(&'a self, identifiers: Option<&[&str]>, scope: Option<Scope>) -> Vec<Application<'b>>
+    where
+        'a: 'b,
+    {
+        let mut applications = Vec::new();
+        let mut error: *mut frida_sys::GError = std::ptr::null_mut();
+        let options = ApplicationQueryOptions::new();
+
+        if let Some(ids) = identifiers {
+            for identifier in ids {
+                options.add_identifier(identifier);
+            }
+        }
+
+        if let Some(scope) = scope {
+            options.set_scope(scope as _);
+        }
+
+        let applications_ptr = unsafe {
+            frida_sys::frida_device_enumerate_applications_sync(
+                self.device_ptr,
+                options.options_ptr,
+                std::ptr::null_mut(),
+                &mut error,
+            )
+        };
+
+        if error.is_null() {
+            let num_applications = unsafe { frida_sys::frida_application_list_size(applications_ptr) };
+            applications.reserve(num_applications as usize);
+
+            for i in 0..num_applications {
+                let application_ptr = unsafe { frida_sys::frida_application_list_get(applications_ptr, i) };
+                let application = Application::from_raw(application_ptr);
+                applications.push(application);
+            }
+        }
+
+        unsafe { frida_sys::frida_unref(applications_ptr as _) };
+        applications
     }
 
     /// Returns all processes.

@@ -25,6 +25,9 @@ pub use error::Error;
 mod injector;
 pub use injector::*;
 
+mod application;
+pub use application::*;
+
 mod process;
 pub use process::*;
 
