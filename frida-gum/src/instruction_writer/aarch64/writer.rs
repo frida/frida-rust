@@ -74,6 +74,11 @@ impl Aarch64InstructionWriter {
         }
     }
 
+    /// Get the underlying frida gum writer object
+    pub fn writer(&self) -> *mut gum_sys::_GumArm64Writer {
+        self.writer
+    }
+
     /// Insert a `b` to a label. The label is specified by `id`.
     pub fn put_b_label(&self, id: u64) {
         unsafe { gum_sys::gum_arm64_writer_put_b_label(self.writer, id as *const c_void) }

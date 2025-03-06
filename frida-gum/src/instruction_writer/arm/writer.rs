@@ -57,6 +57,11 @@ impl ArmInstructionWriter {
             is_from_new: false,
         }
     }
+
+    /// Get the underlying frida gum writer object
+    pub fn writer(&self) -> *mut gum_sys::_GumArmWriter {
+        self.writer
+    }
 }
 
 impl Drop for ArmInstructionWriter {

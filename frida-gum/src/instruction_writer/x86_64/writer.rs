@@ -71,6 +71,11 @@ impl X86InstructionWriter {
         }
     }
 
+    /// Get the underlying frida gum writer object
+    pub fn writer(&self) -> *mut gum_sys::_GumX86Writer {
+        self.writer
+    }
+
     pub fn put_leave(&self) -> bool {
         unsafe {
             gum_sys::gum_x86_writer_put_leave(self.writer);
