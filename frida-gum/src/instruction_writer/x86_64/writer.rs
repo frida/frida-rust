@@ -58,6 +58,10 @@ impl InstructionWriter for X86InstructionWriter {
         unsafe { gum_sys::gum_x86_writer_put_jmp_address(self.writer, address) != 0 }
     }
 
+    fn put_nop(&self) {
+        unsafe { gum_sys::gum_x86_writer_put_nop(self.writer) }
+    }
+
     fn flush(&self) -> bool {
         unsafe { gum_sys::gum_x86_writer_flush(self.writer) != 0 }
     }

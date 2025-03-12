@@ -61,6 +61,10 @@ impl InstructionWriter for Aarch64InstructionWriter {
         unsafe { gum_sys::gum_arm64_writer_put_b_imm(self.writer, address) != 0 }
     }
 
+    fn put_nop(&self) {
+        unsafe { gum_sys::gum_arm64_writer_put_nop(self.writer) }
+    }
+
     fn flush(&self) -> bool {
         unsafe { gum_sys::gum_arm64_writer_flush(self.writer) != 0 }
     }
