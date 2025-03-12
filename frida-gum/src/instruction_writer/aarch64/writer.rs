@@ -79,7 +79,7 @@ impl Aarch64InstructionWriter {
     }
 
     /// Get the underlying frida gum writer object
-    pub fn writer(&self) -> *mut gum_sys::_GumArm64Writer {
+    pub fn raw_writer(&self) -> *mut gum_sys::_GumArm64Writer {
         self.writer
     }
 

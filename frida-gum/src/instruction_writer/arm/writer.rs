@@ -63,7 +63,7 @@ impl ArmInstructionWriter {
     }
 
     /// Get the underlying frida gum writer object
-    pub fn writer(&self) -> *mut gum_sys::_GumArmWriter {
+    pub fn raw_writer(&self) -> *mut gum_sys::_GumArmWriter {
         self.writer
     }
 }
