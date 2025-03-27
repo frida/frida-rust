@@ -55,6 +55,7 @@ fn main() {
     };
 
     let bindings = bindings
+        .formatter(bindgen::Formatter::Prettyplease)
         .header_contents("core.h", "#include \"frida-core.h\"")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .generate_comments(false)
