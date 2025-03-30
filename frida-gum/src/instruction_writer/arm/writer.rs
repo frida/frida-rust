@@ -45,6 +45,10 @@ impl InstructionWriter for ArmInstructionWriter {
         unsafe { gum_sys::gum_arm_writer_put_b_imm(self.writer, address) != 0 }
     }
 
+    fn put_nop(&self) {
+        unsafe { gum_sys::gum_arm_writer_put_nop(self.writer) }
+    }
+
     fn flush(&self) -> bool {
         unsafe { gum_sys::gum_arm_writer_flush(self.writer) != 0 }
     }
@@ -56,6 +60,11 @@ impl ArmInstructionWriter {
             writer,
             is_from_new: false,
         }
+    }
+
+    /// Get the underlying frida gum writer object
+    pub fn raw_writer(&self) -> *mut gum_sys::_GumArmWriter {
+        self.writer
     }
 }
 
