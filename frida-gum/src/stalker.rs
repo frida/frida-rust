@@ -113,6 +113,14 @@ impl Stalker {
         }
     }
 
+    /// Create a new Stalker object from existing raw stalker pointer.
+    pub fn from_raw(gum: &Gum, raw_stalker: *mut frida_gum_sys::GumStalker) -> Stalker {
+        Stalker {
+            stalker: raw_stalker,
+            _gum: gum.clone(),
+        }
+    }
+
     /// Create a new Stalker with parameters
     ///
     /// This call has the overhead of checking if the Stalker is
@@ -300,5 +308,13 @@ impl Stalker {
 impl Drop for Stalker {
     fn drop(&mut self) {
         unsafe { gum_sys::g_object_unref(self.stalker as *mut c_void) };
+    }
+}
+
+impl core::fmt::Debug for Stalker {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        f.debug_struct("Stalker")
+            .field("stalker", &self.stalker)
+            .finish_non_exhaustive()
     }
 }
