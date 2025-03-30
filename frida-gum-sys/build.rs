@@ -78,7 +78,9 @@ fn main() {
         println!("cargo:rustc-link-lib=pthread");
     }
 
-    let bindings = bindgen::Builder::default().use_core();
+    let bindings = bindgen::Builder::default()
+        .use_core()
+        .formatter(bindgen::Formatter::Prettyplease);
 
     #[cfg(feature = "auto-download")]
     let bindings = bindings.clang_arg(format!("-I{include_dir}"));
