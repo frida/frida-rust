@@ -112,6 +112,11 @@ impl<'a> DeviceManager<'a> {
         self.get_device_by_type(device::DeviceType::Local)
     }
 
+    /// Returns the usb device.
+    pub fn get_usb_device(&'a self) -> Result<Device<'a>> {
+        self.get_device_by_type(device::DeviceType::USB)
+    }
+
     /// Returns the device with the specified id.
     ///
     /// # Example
