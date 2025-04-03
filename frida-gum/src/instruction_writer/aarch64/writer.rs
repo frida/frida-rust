@@ -12,6 +12,7 @@ use {
     feature = "backtrace",
     feature = "memory-access-monitor"
 )))]
+#[cfg(not(feature = "std"))]
 use alloc::vec::Vec;
 
 /// The Aarch64 instruction writer.
