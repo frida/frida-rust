@@ -115,14 +115,14 @@ impl<'a> DeviceManager<'a> {
     /// Returns the device with the specified id.
     ///
     /// # Example
-    ///
+    /// ```no_run
     /// let frida = unsafe { frida::Frida::obtain() };
     /// let device_manager = frida::DeviceManager::obtain(&frida);
     ///
     /// let id = "<some id>";
     /// let device = device_manager.get_device_by_id(id).unwrap();
     /// assert_eq!(device.get_id(), id);
-    ///
+    /// ```
     pub fn get_device_by_id(&'a self, device_id: &str) -> Result<Device<'a>> {
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
         let cstring = CString::new(device_id).unwrap();
