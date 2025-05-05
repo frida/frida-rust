@@ -20,7 +20,6 @@ fn panic(info: &PanicInfo) -> ! {
 }
 
 #[lang = "eh_personality"]
-#[no_mangle]
 extern "C" fn rust_eh_personality() {
     println!("rust_eh_personality");
     unsafe {
