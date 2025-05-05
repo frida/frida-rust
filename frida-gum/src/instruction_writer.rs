@@ -58,6 +58,9 @@ pub trait InstructionWriter {
     /// Add a branch to an immediate address
     fn put_branch_address(&self, address: u64) -> bool;
 
+    /// Add a nop instruction
+    fn put_nop(&self);
+
     /// Flush the writer, outputing any pending ldr-immediates
     fn flush(&self) -> bool;
 }

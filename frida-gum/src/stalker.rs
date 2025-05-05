@@ -153,6 +153,11 @@ impl Stalker {
         }
     }
 
+    /// Get the underlying frida stalker object
+    pub fn raw_stalker(&self) -> *mut frida_gum_sys::GumStalker {
+        self.stalker
+    }
+
     /// Exclude a range of address from the Stalker engine.
     ///
     /// This exclusion will prevent the Stalker from tracing into the memory range,
