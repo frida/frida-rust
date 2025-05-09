@@ -28,6 +28,9 @@ pub use injector::*;
 mod process;
 pub use process::*;
 
+mod frida_application;
+pub use frida_application::*;
+
 mod script;
 pub use script::*;
 
