@@ -100,7 +100,7 @@ impl Interceptor {
     ) -> Result<Listener> {
         let listener = probe_listener_transform(listener);
         match unsafe {
-            gum_sys::gum_interceptor_attach(self.interceptor, instr.0, listener, ptr::null_mut())
+            gum_sys::gum_interceptor_attach(self.interceptor, instr.0, listener, ptr::null_mut(), 0)
         } {
             gum_sys::GumAttachReturn_GUM_ATTACH_OK => {
                 Ok(Listener(NativePointer(listener as *mut c_void)))
