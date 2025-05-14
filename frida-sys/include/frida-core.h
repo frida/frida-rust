@@ -1,6 +1,24 @@
 #ifndef __FRIDA_SYMBOL_MAPPINGS__
 #define __FRIDA_SYMBOL_MAPPINGS__
 
+#define cs_arch_register_arm _frida_cs_arch_register_arm
+#define cs_arch_register_arm64 _frida_cs_arch_register_arm64
+#define cs_arch_register_bpf _frida_cs_arch_register_bpf
+#define cs_arch_register_evm _frida_cs_arch_register_evm
+#define cs_arch_register_m680x _frida_cs_arch_register_m680x
+#define cs_arch_register_m68k _frida_cs_arch_register_m68k
+#define cs_arch_register_mips _frida_cs_arch_register_mips
+#define cs_arch_register_mos65xx _frida_cs_arch_register_mos65xx
+#define cs_arch_register_ppc _frida_cs_arch_register_ppc
+#define cs_arch_register_riscv _frida_cs_arch_register_riscv
+#define cs_arch_register_sh _frida_cs_arch_register_sh
+#define cs_arch_register_sparc _frida_cs_arch_register_sparc
+#define cs_arch_register_sysz _frida_cs_arch_register_sysz
+#define cs_arch_register_tms320c64x _frida_cs_arch_register_tms320c64x
+#define cs_arch_register_tricore _frida_cs_arch_register_tricore
+#define cs_arch_register_wasm _frida_cs_arch_register_wasm
+#define cs_arch_register_x86 _frida_cs_arch_register_x86
+#define cs_arch_register_xcore _frida_cs_arch_register_xcore
 #define cs_close _frida_cs_close
 #define cs_disasm _frida_cs_disasm
 #define cs_disasm_iter _frida_cs_disasm_iter
@@ -2659,6 +2677,11 @@
 #define g_ptr_array_steal_index _frida_g_ptr_array_steal_index
 #define g_ptr_array_steal_index_fast _frida_g_ptr_array_steal_index_fast
 #define g_ptr_array_unref _frida_g_ptr_array_unref
+#define g_ptr_set_add _frida_g_ptr_set_add
+#define g_ptr_set_foreach _frida_g_ptr_set_foreach
+#define g_ptr_set_free _frida_g_ptr_set_free
+#define g_ptr_set_new _frida_g_ptr_set_new
+#define g_ptr_set_remove _frida_g_ptr_set_remove
 #define g_qsort_with_data _frida_g_qsort_with_data
 #define g_quark_from_static_string _frida_g_quark_from_static_string
 #define g_quark_from_string _frida_g_quark_from_string
@@ -3772,10 +3795,6 @@
 #define g_timer_reset _frida_g_timer_reset
 #define g_timer_start _frida_g_timer_start
 #define g_timer_stop _frida_g_timer_stop
-#define g_tinylist_foreach _frida_g_tinylist_foreach
-#define g_tinylist_free _frida_g_tinylist_free
-#define g_tinylist_prepend _frida_g_tinylist_prepend
-#define g_tinylist_remove _frida_g_tinylist_remove
 #define g_tls_authentication_mode_get_type _frida_g_tls_authentication_mode_get_type
 #define g_tls_backend_get_certificate_type _frida_g_tls_backend_get_certificate_type
 #define g_tls_backend_get_client_connection_type _frida_g_tls_backend_get_client_connection_type
@@ -15743,7 +15762,7 @@ struct _GPollFD
   gushort 	events;
   gushort 	revents;
 #ifdef G_POLLFD_KQUEUE
-  gint	       *kq;
+  gpointer      handle;
 #endif
 };
 
@@ -34210,7 +34229,7 @@ G_END_DECLS
 
 G_BEGIN_DECLS
 
-/* enumerations from "../../../deps/glib/gobject/../glib/gunicode.h" */
+/* enumerations from "../../../glib/gobject/../glib/gunicode.h" */
 GOBJECT_AVAILABLE_IN_2_60 GType g_unicode_type_get_type (void) G_GNUC_CONST;
 #define G_TYPE_UNICODE_TYPE (g_unicode_type_get_type ())
 GOBJECT_AVAILABLE_IN_2_60 GType g_unicode_break_type_get_type (void) G_GNUC_CONST;
@@ -51922,7 +51941,7 @@ G_END_DECLS
 
 G_BEGIN_DECLS
 
-/* enumerations from "../../../deps/glib/gio/gioenums.h" */
+/* enumerations from "../../../glib/gio/gioenums.h" */
 GIO_AVAILABLE_IN_ALL GType g_app_info_create_flags_get_type (void) G_GNUC_CONST;
 #define G_TYPE_APP_INFO_CREATE_FLAGS (g_app_info_create_flags_get_type ())
 GIO_AVAILABLE_IN_ALL GType g_converter_flags_get_type (void) G_GNUC_CONST;
@@ -52084,11 +52103,11 @@ GIO_AVAILABLE_IN_ALL GType g_pollable_return_get_type (void) G_GNUC_CONST;
 GIO_AVAILABLE_IN_ALL GType g_memory_monitor_warning_level_get_type (void) G_GNUC_CONST;
 #define G_TYPE_MEMORY_MONITOR_WARNING_LEVEL (g_memory_monitor_warning_level_get_type ())
 
-/* enumerations from "../../../deps/glib/gio/gresolver.h" */
+/* enumerations from "../../../glib/gio/gresolver.h" */
 GIO_AVAILABLE_IN_ALL GType g_resolver_name_lookup_flags_get_type (void) G_GNUC_CONST;
 #define G_TYPE_RESOLVER_NAME_LOOKUP_FLAGS (g_resolver_name_lookup_flags_get_type ())
 
-/* enumerations from "../../../deps/glib/gio/gsettings.h" */
+/* enumerations from "../../../glib/gio/gsettings.h" */
 GIO_AVAILABLE_IN_ALL GType g_settings_bind_flags_get_type (void) G_GNUC_CONST;
 #define G_TYPE_SETTINGS_BIND_FLAGS (g_settings_bind_flags_get_type ())
 G_END_DECLS
@@ -64426,6 +64445,7 @@ typedef struct _FridaChildList FridaChildList;
 typedef struct _FridaChild FridaChild;
 typedef struct _FridaCrash FridaCrash;
 typedef struct _FridaBus FridaBus;
+typedef struct _FridaService FridaService;
 typedef struct _FridaSession FridaSession;
 typedef struct _FridaScript FridaScript;
 typedef struct _FridaSnapshotOptions FridaSnapshotOptions;
@@ -64438,6 +64458,7 @@ typedef struct _FridaRpcClient FridaRpcClient;
 typedef struct _FridaRpcPeer FridaRpcPeer;
 typedef struct _FridaRpcPeerIface FridaRpcPeerIface;
 typedef struct _FridaInjector FridaInjector;
+typedef struct _FridaInjectorIface FridaInjectorIface;
 typedef struct _FridaControlService FridaControlService;
 typedef struct _FridaControlServiceOptions FridaControlServiceOptions;
 typedef struct _FridaPortalService FridaPortalService;
@@ -64450,7 +64471,6 @@ typedef struct _FridaCompiler FridaCompiler;
 typedef struct _FridaCompilerOptions FridaCompilerOptions;
 typedef struct _FridaBuildOptions FridaBuildOptions;
 typedef struct _FridaWatchOptions FridaWatchOptions;
-typedef struct _FridaHostSession FridaHostSession;
 
 typedef enum {
   FRIDA_RUNTIME_GLIB,
@@ -64474,27 +64494,10 @@ typedef enum {
 } FridaJsCompression;
 
 typedef enum {
-  FRIDA_AGENT_MESSAGE_KIND_SCRIPT = 1,
-  FRIDA_AGENT_MESSAGE_KIND_DEBUGGER
-} FridaAgentMessageKind;
-
-typedef enum {
   FRIDA_CHILD_ORIGIN_FORK,
   FRIDA_CHILD_ORIGIN_EXEC,
   FRIDA_CHILD_ORIGIN_SPAWN
 } FridaChildOrigin;
-
-typedef enum {
-  FRIDA_PEER_SETUP_ACTIVE,
-  FRIDA_PEER_SETUP_PASSIVE,
-  FRIDA_PEER_SETUP_ACTPASS,
-  FRIDA_PEER_SETUP_HOLDCONN
-} FridaPeerSetup;
-
-typedef enum {
-  FRIDA_PORT_CONFLICT_BEHAVIOR_FAIL,
-  FRIDA_PORT_CONFLICT_BEHAVIOR_PICK_NEXT
-} FridaPortConflictBehavior;
 
 typedef enum {
   FRIDA_REALM_NATIVE,
@@ -64537,22 +64540,6 @@ typedef enum {
   FRIDA_STDIO_PIPE
 } FridaStdio;
 
-typedef enum {
-  FRIDA_UNLOAD_POLICY_IMMEDIATE,
-  FRIDA_UNLOAD_POLICY_RESIDENT,
-  FRIDA_UNLOAD_POLICY_DEFERRED
-} FridaUnloadPolicy;
-
-typedef enum {
-  FRIDA_WEB_SERVICE_FLAVOR_CONTROL,
-  FRIDA_WEB_SERVICE_FLAVOR_CLUSTER
-} FridaWebServiceFlavor;
-
-typedef enum {
-  FRIDA_WEB_SERVICE_TRANSPORT_PLAIN,
-  FRIDA_WEB_SERVICE_TRANSPORT_TLS
-} FridaWebServiceTransport;
-
 /* Library lifetime */
 void frida_init (void);
 void frida_shutdown (void);
@@ -64570,7 +64557,11 @@ const gchar * frida_version_string (void);
 typedef gboolean (* FridaDeviceManagerPredicate) (FridaDevice * device, gpointer user_data);
 
 FridaDeviceManager * frida_device_manager_new (void);
+FridaDeviceManager * frida_device_manager_new_with_nonlocal_backends_only (void);
+FridaDeviceManager * frida_device_manager_new_with_socket_backend_only (void);
 
+FridaDeviceManager * frida_device_manager_construct_with_nonlocal_backends_only (GType object_type);
+FridaDeviceManager * frida_device_manager_construct_with_socket_backend_only (GType object_type);
 void frida_device_manager_close (FridaDeviceManager * self, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
 void frida_device_manager_close_finish (FridaDeviceManager * self, GAsyncResult * result, GError ** error);
 void frida_device_manager_close_sync (FridaDeviceManager * self, GCancellable * cancellable, GError ** error);
@@ -64614,7 +64605,6 @@ const gchar * frida_device_get_name (FridaDevice * self);
 GVariant * frida_device_get_icon (FridaDevice * self);
 FridaDeviceType frida_device_get_dtype (FridaDevice * self);
 FridaBus * frida_device_get_bus (FridaDevice * self);
-FridaDeviceManager * frida_device_get_manager (FridaDevice * self);
 
 gboolean frida_device_is_lost (FridaDevice * self);
 void frida_device_query_system_parameters (FridaDevice * self, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
@@ -64683,9 +64673,12 @@ guint frida_device_inject_library_blob_sync (FridaDevice * self, guint pid, GByt
 void frida_device_open_channel (FridaDevice * self, const gchar * address, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
 GIOStream * frida_device_open_channel_finish (FridaDevice * self, GAsyncResult * result, GError ** error);
 GIOStream * frida_device_open_channel_sync (FridaDevice * self, const gchar * address, GCancellable * cancellable, GError ** error);
-void frida_device_get_host_session (FridaDevice * self, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
-FridaHostSession * frida_device_get_host_session_finish (FridaDevice * self, GAsyncResult * result, GError ** error);
-FridaHostSession * frida_device_get_host_session_sync (FridaDevice * self, GCancellable * cancellable, GError ** error);
+void frida_device_open_service (FridaDevice * self, const gchar * address, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
+FridaService * frida_device_open_service_finish (FridaDevice * self, GAsyncResult * result, GError ** error);
+FridaService * frida_device_open_service_sync (FridaDevice * self, const gchar * address, GCancellable * cancellable, GError ** error);
+void frida_device_unpair (FridaDevice * self, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
+void frida_device_unpair_finish (FridaDevice * self, GAsyncResult * result, GError ** error);
+void frida_device_unpair_sync (FridaDevice * self, GCancellable * cancellable, GError ** error);
 
 /* RemoteDeviceOptions */
 FridaRemoteDeviceOptions * frida_remote_device_options_new (void);
@@ -64777,9 +64770,11 @@ FridaSessionOptions * frida_session_options_new (void);
 
 FridaRealm frida_session_options_get_realm (FridaSessionOptions * self);
 guint frida_session_options_get_persist_timeout (FridaSessionOptions * self);
+const gchar * frida_session_options_get_emulated_agent_path (FridaSessionOptions * self);
 
 void frida_session_options_set_realm (FridaSessionOptions * self, FridaRealm value);
 void frida_session_options_set_persist_timeout (FridaSessionOptions * self, guint value);
+void frida_session_options_set_emulated_agent_path (FridaSessionOptions * self, const gchar * value);
 
 /* SpawnList */
 gint frida_spawn_list_size (FridaSpawnList * self);
@@ -64810,18 +64805,27 @@ const gchar * frida_crash_get_report (FridaCrash * self);
 GHashTable * frida_crash_get_parameters (FridaCrash * self);
 
 /* Bus */
-FridaDevice * frida_bus_get_device (FridaBus * self);
-
 gboolean frida_bus_is_detached (FridaBus * self);
 void frida_bus_attach (FridaBus * self, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
 void frida_bus_attach_finish (FridaBus * self, GAsyncResult * result, GError ** error);
 void frida_bus_attach_sync (FridaBus * self, GCancellable * cancellable, GError ** error);
 void frida_bus_post (FridaBus * self, const gchar * json, GBytes * data);
 
+/* Service */
+gboolean frida_service_is_closed (FridaService * self);
+void frida_service_activate (FridaService * self, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
+void frida_service_activate_finish (FridaService * self, GAsyncResult * result, GError ** error);
+void frida_service_activate_sync (FridaService * self, GCancellable * cancellable, GError ** error);
+void frida_service_cancel (FridaService * self, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
+void frida_service_cancel_finish (FridaService * self, GAsyncResult * result, GError ** error);
+void frida_service_cancel_sync (FridaService * self, GCancellable * cancellable, GError ** error);
+void frida_service_request (FridaService * self, GVariant * parameters, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
+GVariant * frida_service_request_finish (FridaService * self, GAsyncResult * result, GError ** error);
+GVariant * frida_service_request_sync (FridaService * self, GVariant * parameters, GCancellable * cancellable, GError ** error);
+
 /* Session */
 guint frida_session_get_pid (FridaSession * self);
 guint frida_session_get_persist_timeout (FridaSession * self);
-FridaDevice * frida_session_get_device (FridaSession * self);
 
 gboolean frida_session_is_detached (FridaSession * self);
 void frida_session_detach (FridaSession * self, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
@@ -64926,8 +64930,6 @@ void frida_portal_options_set_token (FridaPortalOptions * self, const gchar * va
 void frida_portal_options_set_acl (FridaPortalOptions * self, gchar ** value, gint value_length);
 
 /* PortalMembership */
-guint frida_portal_membership_get_id (FridaPortalMembership * self);
-
 void frida_portal_membership_terminate (FridaPortalMembership * self, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
 void frida_portal_membership_terminate_finish (FridaPortalMembership * self, GAsyncResult * result, GError ** error);
 void frida_portal_membership_terminate_sync (FridaPortalMembership * self, GCancellable * cancellable, GError ** error);
@@ -64937,21 +64939,37 @@ FridaRpcClient * frida_rpc_client_new (FridaRpcPeer * peer);
 
 FridaRpcPeer * frida_rpc_client_get_peer (FridaRpcClient * self);
 
-void frida_rpc_client_call (FridaRpcClient * self, const gchar * method, JsonNode ** args, gint args_length, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
+void frida_rpc_client_call (FridaRpcClient * self, const gchar * method, JsonNode ** args, gint args_length, GBytes * data, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
 JsonNode * frida_rpc_client_call_finish (FridaRpcClient * self, GAsyncResult * result, GError ** error);
 gboolean frida_rpc_client_try_handle_message (FridaRpcClient * self, const gchar * json);
 
 /* RpcPeer */
 struct _FridaRpcPeerIface {
   GTypeInterface parent_iface;
-  void (* post_rpc_message) (FridaRpcPeer * self, const gchar * json, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
+  void (* post_rpc_message) (FridaRpcPeer * self, const gchar * json, GBytes * data, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
   void (* post_rpc_message_finish) (FridaRpcPeer * self, GAsyncResult * result, GError ** error);
 };
 
-void frida_rpc_peer_post_rpc_message (FridaRpcPeer * self, const gchar * json, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
+void frida_rpc_peer_post_rpc_message (FridaRpcPeer * self, const gchar * json, GBytes * data, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
 void frida_rpc_peer_post_rpc_message_finish (FridaRpcPeer * self, GAsyncResult * result, GError ** error);
 
 /* Injector */
+struct _FridaInjectorIface {
+  GTypeInterface parent_iface;
+  void (* close) (FridaInjector * self, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
+  void (* close_finish) (FridaInjector * self, GAsyncResult * result, GError ** error);
+  void (* inject_library_file) (FridaInjector * self, guint pid, const gchar * path, const gchar * entrypoint, const gchar * data, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
+  guint (* inject_library_file_finish) (FridaInjector * self, GAsyncResult * result, GError ** error);
+  void (* inject_library_blob) (FridaInjector * self, guint pid, GBytes * blob, const gchar * entrypoint, const gchar * data, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
+  guint (* inject_library_blob_finish) (FridaInjector * self, GAsyncResult * result, GError ** error);
+  void (* demonitor) (FridaInjector * self, guint id, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
+  void (* demonitor_finish) (FridaInjector * self, GAsyncResult * result, GError ** error);
+  void (* demonitor_and_clone_state) (FridaInjector * self, guint id, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
+  guint (* demonitor_and_clone_state_finish) (FridaInjector * self, GAsyncResult * result, GError ** error);
+  void (* recreate_thread) (FridaInjector * self, guint pid, guint id, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
+  void (* recreate_thread_finish) (FridaInjector * self, GAsyncResult * result, GError ** error);
+};
+
 FridaInjector * frida_injector_new (void);
 FridaInjector * frida_injector_new_inprocess (void);
 
@@ -64975,13 +64993,13 @@ void frida_injector_recreate_thread_finish (FridaInjector * self, GAsyncResult *
 void frida_injector_recreate_thread_sync (FridaInjector * self, guint pid, guint id, GCancellable * cancellable, GError ** error);
 
 /* ControlService */
-FridaControlService * frida_control_service_new (FridaEndpointParameters * endpoint_params, FridaControlServiceOptions * options);
-FridaControlService * frida_control_service_new_with_host_session (FridaHostSession * host_session, FridaEndpointParameters * endpoint_params, FridaControlServiceOptions * options);
+FridaControlService * frida_control_service_new (FridaEndpointParameters * endpoint_params, FridaControlServiceOptions * options, GError ** error);
+FridaControlService * frida_control_service_new_with_device_finish (GAsyncResult * result, GError ** error);
 
-FridaHostSession * frida_control_service_get_host_session (FridaControlService * self);
 FridaEndpointParameters * frida_control_service_get_endpoint_params (FridaControlService * self);
 FridaControlServiceOptions * frida_control_service_get_options (FridaControlService * self);
 
+FridaControlService * frida_control_service_construct_with_device_finish (GAsyncResult * result, GError ** error);
 void frida_control_service_start (FridaControlService * self, GCancellable * cancellable, GAsyncReadyCallback callback, gpointer user_data);
 void frida_control_service_start_finish (FridaControlService * self, GAsyncResult * result, GError ** error);
 void frida_control_service_start_sync (FridaControlService * self, GCancellable * cancellable, GError ** error);
@@ -64992,9 +65010,11 @@ void frida_control_service_stop_sync (FridaControlService * self, GCancellable *
 /* ControlServiceOptions */
 FridaControlServiceOptions * frida_control_service_options_new (void);
 
+const gchar * frida_control_service_options_get_sysroot (FridaControlServiceOptions * self);
 gboolean frida_control_service_options_get_enable_preload (FridaControlServiceOptions * self);
 gboolean frida_control_service_options_get_report_crashes (FridaControlServiceOptions * self);
 
+void frida_control_service_options_set_sysroot (FridaControlServiceOptions * self, const gchar * value);
 void frida_control_service_options_set_enable_preload (FridaControlServiceOptions * self, gboolean value);
 void frida_control_service_options_set_report_crashes (FridaControlServiceOptions * self, gboolean value);
 
@@ -65113,10 +65133,7 @@ GType frida_runtime_get_type (void) G_GNUC_CONST;
 GType frida_device_type_get_type (void) G_GNUC_CONST;
 GType frida_source_maps_get_type (void) G_GNUC_CONST;
 GType frida_js_compression_get_type (void) G_GNUC_CONST;
-GType frida_agent_message_kind_get_type (void) G_GNUC_CONST;
 GType frida_child_origin_get_type (void) G_GNUC_CONST;
-GType frida_peer_setup_get_type (void) G_GNUC_CONST;
-GType frida_port_conflict_behavior_get_type (void) G_GNUC_CONST;
 GType frida_realm_get_type (void) G_GNUC_CONST;
 GType frida_relay_kind_get_type (void) G_GNUC_CONST;
 GType frida_scope_get_type (void) G_GNUC_CONST;
@@ -65124,9 +65141,6 @@ GType frida_script_runtime_get_type (void) G_GNUC_CONST;
 GType frida_session_detach_reason_get_type (void) G_GNUC_CONST;
 GType frida_snapshot_transport_get_type (void) G_GNUC_CONST;
 GType frida_stdio_get_type (void) G_GNUC_CONST;
-GType frida_unload_policy_get_type (void) G_GNUC_CONST;
-GType frida_web_service_flavor_get_type (void) G_GNUC_CONST;
-GType frida_web_service_transport_get_type (void) G_GNUC_CONST;
 GType frida_device_manager_get_type (void) G_GNUC_CONST;
 GType frida_device_list_get_type (void) G_GNUC_CONST;
 GType frida_device_get_type (void) G_GNUC_CONST;
@@ -65147,6 +65161,7 @@ GType frida_child_list_get_type (void) G_GNUC_CONST;
 GType frida_child_get_type (void) G_GNUC_CONST;
 GType frida_crash_get_type (void) G_GNUC_CONST;
 GType frida_bus_get_type (void) G_GNUC_CONST;
+GType frida_service_get_type (void) G_GNUC_CONST;
 GType frida_session_get_type (void) G_GNUC_CONST;
 GType frida_script_get_type (void) G_GNUC_CONST;
 GType frida_snapshot_options_get_type (void) G_GNUC_CONST;
@@ -65179,13 +65194,7 @@ GType frida_watch_options_get_type (void) G_GNUC_CONST;
 
 #define FRIDA_TYPE_JS_COMPRESSION (frida_js_compression_get_type ())
 
-#define FRIDA_TYPE_AGENT_MESSAGE_KIND (frida_agent_message_kind_get_type ())
-
 #define FRIDA_TYPE_CHILD_ORIGIN (frida_child_origin_get_type ())
-
-#define FRIDA_TYPE_PEER_SETUP (frida_peer_setup_get_type ())
-
-#define FRIDA_TYPE_PORT_CONFLICT_BEHAVIOR (frida_port_conflict_behavior_get_type ())
 
 #define FRIDA_TYPE_REALM (frida_realm_get_type ())
 
@@ -65200,12 +65209,6 @@ GType frida_watch_options_get_type (void) G_GNUC_CONST;
 #define FRIDA_TYPE_SNAPSHOT_TRANSPORT (frida_snapshot_transport_get_type ())
 
 #define FRIDA_TYPE_STDIO (frida_stdio_get_type ())
-
-#define FRIDA_TYPE_UNLOAD_POLICY (frida_unload_policy_get_type ())
-
-#define FRIDA_TYPE_WEB_SERVICE_FLAVOR (frida_web_service_flavor_get_type ())
-
-#define FRIDA_TYPE_WEB_SERVICE_TRANSPORT (frida_web_service_transport_get_type ())
 
 #define FRIDA_TYPE_DEVICE_MANAGER (frida_device_manager_get_type ())
 #define FRIDA_DEVICE_MANAGER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), FRIDA_TYPE_DEVICE_MANAGER, FridaDeviceManager))
@@ -65286,6 +65289,10 @@ GType frida_watch_options_get_type (void) G_GNUC_CONST;
 #define FRIDA_TYPE_BUS (frida_bus_get_type ())
 #define FRIDA_BUS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), FRIDA_TYPE_BUS, FridaBus))
 #define FRIDA_IS_BUS(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FRIDA_TYPE_BUS))
+
+#define FRIDA_TYPE_SERVICE (frida_service_get_type ())
+#define FRIDA_SERVICE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), FRIDA_TYPE_SERVICE, FridaService))
+#define FRIDA_IS_SERVICE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FRIDA_TYPE_SERVICE))
 
 #define FRIDA_TYPE_SESSION (frida_session_get_type ())
 #define FRIDA_SESSION(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), FRIDA_TYPE_SESSION, FridaSession))
