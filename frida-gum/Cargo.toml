@@ -23,13 +23,13 @@ std = []
 cstr_core = { version = "0.2.6", default-features = false, features = [
     "alloc",
 ] }
-frida-gum-sys = { path = "../frida-gum-sys", version = "0.16.7" }
-libc = { version = "0.2.153", default-features = false, optional = true }
-num = { version = "0.4.1", default-features = false }
+frida-gum-sys = { path = "../frida-gum-sys", version = "0.16.8" }
+libc = { version = "0.2.172", default-features = false, optional = true }
+num = { version = "0.4.3", default-features = false }
 num-derive = { version = "0.4.2", default-features = false }
-num-traits = { version = "0.2.18", default-features = false }
+num-traits = { version = "0.2.19", default-features = false }
 paste = { version = "1", default-features = false }
-spin = { version = "0.9.8", default-features = false, features = [
+spin = { version = "0.10", default-features = false, features = [
     "mutex",
     "spin_mutex",
 ] }
