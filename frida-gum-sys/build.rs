@@ -103,7 +103,6 @@ fn main() {
     };
 
     let bindings = bindings
-        .clang_arg("-std=c23")
         .header("event_sink.h")
         .header("invocation_listener.h")
         .header("probe_listener.h")
