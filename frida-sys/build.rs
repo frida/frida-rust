@@ -16,8 +16,6 @@ fn main() {
     );
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
     let target_vendor = env::var("CARGO_CFG_TARGET_VENDOR").unwrap();
-    let ndk_home = env::var("ANDROID_NDK_HOME").expect("ANDROID_NDK_HOME must be set");
-    let sysroot = format!("{}/toolchains/llvm/prebuilt/darwin-x86_64/sysroot", ndk_home);
 
     #[cfg(feature = "auto-download")]
     let include_dir = {
@@ -48,8 +46,6 @@ fn main() {
 
     #[cfg(feature = "auto-download")]
     let bindings = bindings
-                    .clang_arg(format!("-I{}/usr/include", sysroot))
-                    .clang_arg(format!("--sysroot={}", sysroot))
                     .clang_arg(format!("-I{include_dir}"));
 
     #[cfg(not(feature = "auto-download"))]
