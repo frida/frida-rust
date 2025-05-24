@@ -12,11 +12,11 @@ use {
     },
 };
 
-/* glib exports are aliased in frida devkit for Linux */
-#[cfg(target_os = "linux")]
+/* glib exports are aliased in frida devkit for Linux and Android */
+#[cfg(any(target_os = "linux", target_os = "android"))]
 use frida_gum_sys::_frida_g_bytes_get_data as g_bytes_get_data;
 
-#[cfg(not(target_os = "linux"))]
+#[cfg(not(any(target_os = "linux", target_os = "android")))]
 use frida_gum_sys::g_bytes_get_data;
 
 pub(crate) struct ScriptData<F>

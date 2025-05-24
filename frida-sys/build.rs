@@ -55,9 +55,12 @@ fn main() {
         bindings
     };
 
+    // Include both frida-core.h and frida-gum.h to get all symbols
+    let header_content = "#include \"frida-core.h\"\n#include \"frida-gum.h\"";
+
     let bindings = bindings
         .formatter(bindgen::Formatter::Prettyplease)
-        .header_contents("core.h", "#include \"frida-core.h\"")
+        .header_contents("core.h", header_content)
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .generate_comments(false)
         .layout_tests(false)
