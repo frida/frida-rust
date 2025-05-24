@@ -241,7 +241,9 @@ fn main() {
     /* GUMJS contains v8 for some architectures, thus it needs to link stdc++ */
     #[cfg(all(feature = "js", target_os = "linux"))]
     println!("cargo:rustc-link-lib=dylib=stdc++");
-
+    
     #[cfg(all(feature = "js", target_os = "macos"))]
     println!("cargo:rustc-link-lib=resolv");
+    #[cfg(all(feature = "js", target_os = "android"))]
+    println!("cargo:rustc-link-lib=log");
 }

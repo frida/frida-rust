@@ -45,8 +45,7 @@ fn main() {
     let bindings = bindgen::Builder::default();
 
     #[cfg(feature = "auto-download")]
-    let bindings = bindings
-                    .clang_arg(format!("-I{include_dir}"));
+    let bindings = bindings.clang_arg(format!("-I{include_dir}"));
 
     #[cfg(not(feature = "auto-download"))]
     let bindings = if std::env::var("DOCS_RS").is_ok() {
@@ -55,12 +54,9 @@ fn main() {
         bindings
     };
 
-    // Include both frida-core.h and frida-gum.h to get all symbols
-    let header_content = "#include \"frida-core.h\"\n#include \"frida-gum.h\"";
-
     let bindings = bindings
         .formatter(bindgen::Formatter::Prettyplease)
-        .header_contents("core.h", header_content)
+        .header_contents("core.h", "#include \"frida-core.h\"")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .generate_comments(false)
         .layout_tests(false)
