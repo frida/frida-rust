@@ -83,8 +83,7 @@ fn main() {
         .formatter(bindgen::Formatter::Prettyplease);
 
     #[cfg(feature = "auto-download")]
-    let bindings = bindings
-                    .clang_arg(format!("-I{include_dir}"));
+    let bindings = bindings.clang_arg(format!("-I{include_dir}"));
 
     #[cfg(not(feature = "auto-download"))]
     let bindings = if docs {
