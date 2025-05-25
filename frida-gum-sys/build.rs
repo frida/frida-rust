@@ -15,6 +15,7 @@ fn main() {
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
     let target_vendor = env::var("CARGO_CFG_TARGET_VENDOR").unwrap();
     let docs = std::env::var("DOCS_RS").is_ok();
+    let target_arch = std::env::var("CARGO_CFG_TARGET_ARCH").unwrap();
     // We always use frida-gumjs.h for docs to not have to ship two big header files in this repo.
     let use_gum_js = cfg!(feature = "js") || (!cfg!(feature = "auto-download") && docs);
     #[cfg(any(
@@ -239,11 +240,17 @@ fn main() {
     }
 
     /* GUMJS contains v8 for some architectures, thus it needs to link stdc++ */
-    #[cfg(all(feature = "js", target_os = "linux"))]
+    #[cfg(all(feature = "js", target_os = "linux",))]
     println!("cargo:rustc-link-lib=dylib=stdc++");
-    
-    #[cfg(all(feature = "js", target_os = "macos"))]
-    println!("cargo:rustc-link-lib=resolv");
-    #[cfg(all(feature = "js", target_os = "android"))]
-    println!("cargo:rustc-link-lib=log");
+
+    // #[cfg(all(feature = "js", target_os = "macos"))]
+    // println!("cargo:rustc-link-lib=resolv");
+    #[cfg(all(feature = "js",target_os = "macos", target_arch = "aarch64"))]
+    {
+    println!("cargo:rustc-link-search=native={}", "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/");
+    println!("cargo:rustc-link-lib=c");
+    println!("cargo:rustc-link-search=native=/Users/bo25or/Library/Android/sdk/ndk/29.0.13113456/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/20/lib/linux/");
+    println!("cargo:rustc-link-lib=static=clang_rt.builtins-aarch64-android");
+    }
+     
 }
