@@ -239,7 +239,7 @@ fn main() {
     }
 
     /* GUMJS contains v8 for some architectures, thus it needs to link stdc++ */
-    #[cfg(all(feature = "js", target_os = "linux",))]
+    #[cfg(all(feature = "js", target_os = "linux"))]
     println!("cargo:rustc-link-lib=dylib=stdc++");
 
     // #[cfg(all(feature = "js", target_os = "macos"))]
@@ -248,7 +248,7 @@ fn main() {
     {
     println!("cargo:rustc-link-search=native={}", "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/");
     println!("cargo:rustc-link-lib=c");
-    println!("cargo:rustc-link-search=native=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/20/lib/linux/");
+    println!("cargo:rustc-link-search=native=/Users/bo25or/Library/Android/sdk/ndk/29.0.13113456/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/20/lib/linux/");
     println!("cargo:rustc-link-lib=static=clang_rt.builtins-aarch64-android");
     }
      
