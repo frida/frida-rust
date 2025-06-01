@@ -245,7 +245,7 @@ fn main() {
     #[cfg(all(feature = "js", target_os = "macos"))]
     println!("cargo:rustc-link-lib=resolv");
 
-    #[cfg(all(feature = "js", target_os = "macos", target_arch = "aarch64"))]
+    #[cfg(all(feature = "js", target_os = "android", target_arch = "aarch64"))]
     {
         // Check if ANDROID_NDK_HOME is set
         let android_ndk_home = match env::var("ANDROID_NDK_HOME") {
@@ -271,7 +271,7 @@ fn main() {
         );
 
         println!("cargo:rustc-link-search=native={}", sysroot_path);
-
+        println!("cargo:rustc-link-lib=c");
         println!("cargo:warning=Using Android NDK sysroot: {}", sysroot_path);
     }
 }
