@@ -14,8 +14,8 @@ fn main() {
 
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
     let target_vendor = env::var("CARGO_CFG_TARGET_VENDOR").unwrap();
+
     let docs = std::env::var("DOCS_RS").is_ok();
-    let _target_arch = std::env::var("CARGO_CFG_TARGET_ARCH").unwrap();
     // We always use frida-gumjs.h for docs to not have to ship two big header files in this repo.
     let use_gum_js = cfg!(feature = "js") || (!cfg!(feature = "auto-download") && docs);
     #[cfg(any(
@@ -242,36 +242,9 @@ fn main() {
     #[cfg(all(feature = "js", target_os = "linux"))]
     println!("cargo:rustc-link-lib=dylib=stdc++");
 
+    #[cfg(all(feature = "js", target_os = "android"))]
+    println!("cargo:rustc-link-lib=c++");
+
     #[cfg(all(feature = "js", target_os = "macos"))]
-    println!("cargo:rustc-link-lib=resolv");
-
-    #[cfg(all(feature = "js", target_os = "android", target_arch = "aarch64"))]
-    {
-        // Check if ANDROID_NDK_HOME is set
-        let android_ndk_home = match env::var("ANDROID_NDK_HOME") {
-            Ok(path) => path,
-            Err(_) => {
-                eprintln!("Error: ANDROID_NDK_HOME environment variable is not set.");
-                eprintln!("Please set ANDROID_NDK_HOME to point to your Android NDK installation.");
-                std::process::exit(1);
-            }
-        };
-        let prebuilt_dir = if cfg!(target_os = "macos") {
-            "darwin-x86_64"
-        } else if cfg!(target_os = "linux") {
-            "linux-x86_64"
-        } else {
-            eprintln!("Error: Unsupported host platform for Android NDK");
-            std::process::exit(1);
-        };
-
-        let sysroot_path = format!(
-            "{}/toolchains/llvm/prebuilt/{}/sysroot/",
-            android_ndk_home, prebuilt_dir
-        );
-
-        println!("cargo:rustc-link-search=native={}", sysroot_path);
-        println!("cargo:rustc-link-lib=c");
-        println!("cargo:warning=Using Android NDK sysroot: {}", sysroot_path);
-    }
+    println!("cargo:rustc-link-lib=c++");
 }
