@@ -192,7 +192,7 @@ impl<'a> RangeDetails<'a> {
     }
 
     /// The associated file mapping, if present.
-    pub fn file_mapping(&self) -> Option<FileMapping> {
+    pub fn file_mapping(&self) -> Option<FileMapping<'_>> {
         self.file.clone()
     }
 }

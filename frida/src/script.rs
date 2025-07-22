@@ -345,8 +345,7 @@ impl Exports<'_> {
             };
 
             format!(
-                "[\"{}\", {}, \"{}\", \"{}\", {}]",
-                name, id, rpc_type, function_name, args
+                "[\"{name}\", {id}, \"{rpc_type}\", \"{function_name}\", {args}]",
             )
         };
 
