@@ -344,9 +344,7 @@ impl Exports<'_> {
                 None => "[]".into(),
             };
 
-            format!(
-                "[\"{name}\", {id}, \"{rpc_type}\", \"{function_name}\", {args}]",
-            )
+            format!("[\"{name}\", {id}, \"{rpc_type}\", \"{function_name}\", {args}]",)
         };
 
         let message = CString::new(json_req.as_str()).map_err(|_| Error::CStringFailed)?;
