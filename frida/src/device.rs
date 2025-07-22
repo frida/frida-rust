@@ -313,6 +313,6 @@ impl From<DeviceType> for frida_sys::FridaDeviceType {
 
 impl std::fmt::Display for DeviceType {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "{:?}", self)
+        write!(f, "{self:?}")
     }
 }
