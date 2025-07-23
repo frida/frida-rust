@@ -6,7 +6,7 @@
     allow(clippy::unnecessary_cast)
 )]
 
-use crate::{FileMapping, Module, NativePointer};
+use crate::{FileMapping, Module, NativePointer, Thread};
 
 use {
     crate::{Gum, PageProtection, RangeDetails},
@@ -18,6 +18,7 @@ use {
 #[cfg(not(feature = "std"))]
 use alloc::{string::String, string::ToString, vec::Vec};
 use cstr_core::CString;
+use frida_gum_sys::GumThreadFlags_GUM_THREAD_FLAGS_ALL;
 
 #[cfg(target_os = "linux")]
 extern "C" {
@@ -241,5 +242,32 @@ impl<'a> Process<'a> {
         }
 
         callback_data.modules
+    }
+
+    /// Enumerates process threads. May crash the application if called too early (if there are no non-frida threads)
+    pub fn enumerate_threads(&self) -> Vec<Thread> {
+        unsafe extern "C" fn enumerate_threads_callback(
+            details: *const gum_sys::GumThreadDetails,
+            user_data: gpointer,
+        ) -> gboolean {
+            let res = &mut *(user_data as *mut Vec<Thread>);
+            res.push(Thread::from_raw(details));
+
+            // if this value is zero, the iteration ends
+            // subprojects/frida-gum/gum/gumthreadregistry.c
+            1
+        }
+
+        let callback_data = Vec::new();
+
+        unsafe {
+            gum_sys::gum_process_enumerate_threads(
+                Some(enumerate_threads_callback),
+                &callback_data as *const _ as *mut c_void,
+                GumThreadFlags_GUM_THREAD_FLAGS_ALL,
+            )
+        };
+
+        callback_data
     }
 }
