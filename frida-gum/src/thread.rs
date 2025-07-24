@@ -35,11 +35,11 @@ bitflags! {
 #[derive(Debug, FromPrimitive)]
 #[repr(u32)] // Repr GumThreadState (c_uint) not available
 pub enum ThreadState {
-    Running = GumThreadState_GUM_THREAD_RUNNING,
-    Stopped = GumThreadState_GUM_THREAD_STOPPED,
-    Waiting = GumThreadState_GUM_THREAD_WAITING,
-    Uninterruptible = GumThreadState_GUM_THREAD_UNINTERRUPTIBLE,
-    Halted = GumThreadState_GUM_THREAD_HALTED,
+    Running = GumThreadState_GUM_THREAD_RUNNING as _,
+    Stopped = GumThreadState_GUM_THREAD_STOPPED as _,
+    Waiting = GumThreadState_GUM_THREAD_WAITING as _,
+    Uninterruptible = GumThreadState_GUM_THREAD_UNINTERRUPTIBLE as _,
+    Halted = GumThreadState_GUM_THREAD_HALTED as _,
 }
 
 #[derive(Debug)]
@@ -74,15 +74,16 @@ impl Thread {
     }
 
     pub fn state(&self) -> ThreadState {
-        ThreadState::from_u32(unsafe { ({ *self.thread }).state }).unwrap()
+        ThreadState::from_u32(unsafe { ({ *self.thread }).state } as _).unwrap()
     }
 
     fn gum_cpu_context(&self) -> &GumCpuContext {
         unsafe { &(*self.thread).cpu_context }
     }
 
-    // Multiple calls to this function will lead to multiple owned values that refer to the same pointer,
-    // but that is a problem only if the value is Send/Sync, right?
+    // todo: return an immutable reference instead of an owned object; without this multiple threads can obtain a Process instance,
+    // get the same CpuContexts and cause a data race
+    /// Modifying CpuContexts from multiple threads is unsound, as they may share the same pointer
     pub fn cpu_context(&self) -> CpuContext<'_> {
         CpuContext::from_raw(self.gum_cpu_context() as *const _ as *mut GumCpuContext)
     }
