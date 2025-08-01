@@ -12,12 +12,19 @@ use {core::mem::MaybeUninit, frida_gum_sys as gum_sys};
 
 // The following function is not exposed through the `frida-gum.h` header, so we don't have an
 // auto-generated binding for it. This may change in a future version.
-#[cfg(not(target_os = "windows"))]
 extern "C" {
     // On some platforms `ucontext` contains a u128 which does not have a defined ABI. In this case,
     // we disable the error as we assume the behaviour is correct (all other platforms are unaffected).
+    #[cfg(target_os = "linux")]
     #[allow(improper_ctypes)]
     fn gum_linux_parse_ucontext(
+        context: *const libc::ucontext_t,
+        cpu_context: *mut gum_sys::GumCpuContext,
+    );
+
+    #[cfg(target_os = "freebsd")]
+    #[allow(improper_ctypes)]
+    fn gum_freebsd_parse_ucontext(
         context: *const libc::ucontext_t,
         cpu_context: *mut gum_sys::GumCpuContext,
     );
@@ -84,24 +91,36 @@ impl Backtracer {
 
     /// Generate an accurate backtrace as a list of return addresses for the supplied signal
     /// context.
-    #[cfg(not(target_os = "windows"))]
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
     pub fn accurate_with_signal_context(context: &libc::ucontext_t) -> Vec<usize> {
         let mut cpu_context = MaybeUninit::<gum_sys::GumCpuContext>::uninit();
 
         unsafe {
+            #[cfg(target_os = "linux")]
             gum_linux_parse_ucontext(context as *const libc::ucontext_t, cpu_context.as_mut_ptr());
+            #[cfg(target_os = "freebsd")]
+            gum_freebsd_parse_ucontext(
+                context as *const libc::ucontext_t,
+                cpu_context.as_mut_ptr(),
+            );
             Self::accurate_with_context(&cpu_context.assume_init())
         }
     }
 
     /// Generate a fuzzy backtrace as a list of return addresses for the supplied signal
     /// context.
-    #[cfg(not(target_os = "windows"))]
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
     pub fn fuzzy_with_signal_context(context: &libc::ucontext_t) -> Vec<usize> {
         let mut cpu_context = MaybeUninit::<gum_sys::GumCpuContext>::uninit();
 
         unsafe {
+            #[cfg(target_os = "linux")]
             gum_linux_parse_ucontext(context as *const libc::ucontext_t, cpu_context.as_mut_ptr());
+            #[cfg(target_os = "freebsd")]
+            gum_freebsd_parse_ucontext(
+                context as *const libc::ucontext_t,
+                cpu_context.as_mut_ptr(),
+            );
             Self::fuzzy_with_context(&cpu_context.assume_init())
         }
     }
