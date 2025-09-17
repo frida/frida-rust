@@ -3,7 +3,7 @@ use {
     frida_gum_sys::{GMainContext, GMainLoop},
 };
 
-#[cfg(any(target_os = "linux", target_os = "android"))]
+#[cfg(any(target_os = "linux", target_os = "android", target_os = "freebsd"))]
 use frida_gum_sys::{
     _frida_g_main_context_iteration as g_main_context_iteration,
     _frida_g_main_context_pending as g_main_context_pending,
@@ -11,7 +11,7 @@ use frida_gum_sys::{
     _frida_g_main_loop_new as g_main_loop_new,
 };
 
-#[cfg(not(any(target_os = "linux", target_os = "android")))]
+#[cfg(not(any(target_os = "linux", target_os = "android", target_os = "freebsd")))]
 use frida_gum_sys::{
     g_main_context_iteration, g_main_context_pending, g_main_context_push_thread_default,
     g_main_loop_new,
