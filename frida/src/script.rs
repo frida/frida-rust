@@ -112,11 +112,9 @@ unsafe extern "C" fn call_on_message<I: ScriptHandler>(
     });
 
     match formatted_msg {
-        Message::Send(msg) => {
-            if msg.payload.r#type == "frida:rpc" {
-                let callback_handler: *mut CallbackHandler = user_data as _;
-                on_message(callback_handler.as_mut().unwrap(), Message::Send(msg));
-            }
+        Message::Send(ref msg) if msg.payload.r#type == "frida:rpc" => {
+            let callback_handler: *mut CallbackHandler = user_data as _;
+            on_message(callback_handler.as_mut().unwrap(), formatted_msg);
         }
         _ => {
             let handler: &mut I = &mut *(user_data as *mut I);

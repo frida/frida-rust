@@ -1,2 +1,9 @@
+frida-gum.h
 libfrida-gum.a
+frida-gum.lib
 frida-gum-example.c
+
+frida-gumjs.h
+libfrida-gumjs.a
+frida-gumjs.lib
+frida-gumjs-example.c
