@@ -46,7 +46,7 @@ fn main() {
 struct Handler;
 
 impl ScriptHandler for Handler {
-    fn on_message(&mut self, message: &frida::Message, _data: Option<Vec<u8>>) {
+    fn on_message(&mut self, message: frida::Message, _data: Option<Vec<u8>>) {
         println!("{:?}", message);
     }
 }
