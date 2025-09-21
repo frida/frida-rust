@@ -13,6 +13,7 @@ use crate::process::Process;
 use crate::session::Session;
 use crate::variant::Variant;
 use crate::{Error, Result, SpawnOptions};
+use crate::frida_application::FridaApplication;
 
 /// Access to a Frida device.
 pub struct Device<'a> {
@@ -148,6 +149,37 @@ impl<'a> Device<'a> {
 
         unsafe { frida_sys::frida_unref(processes_ptr as _) };
         processes
+    }
+
+    /// Returns front most application.
+    pub fn get_frontmost_application<'b>(&'a self) -> Result<FridaApplication<'b>>
+    where
+        'a: 'b,
+    {
+        let mut error: *mut frida_sys::GError = std::ptr::null_mut();
+
+        let app_ptr = unsafe {
+            frida_sys::frida_device_get_frontmost_application_sync(
+                self.device_ptr,
+                std::ptr::null_mut(),
+                std::ptr::null_mut(),
+                &mut error,
+            )
+        };
+
+        if !error.is_null() {
+            let message = unsafe { CString::from_raw((*error).message) }
+                .into_string()
+                .unwrap_or_else(|_| "Unknown error".to_string());
+            panic!("Failed to get frontmost application: {}", message);
+        }
+
+        if app_ptr.is_null() {
+            Err(Error::DeviceGetFrontMostApplicationError)
+        } else {
+            Ok(FridaApplication::from_raw(app_ptr))
+        }
+        
     }
 
     /// Creates [`Session`] and attaches the device to the current PID.
