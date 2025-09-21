@@ -121,7 +121,7 @@ unsafe extern "C" fn call_on_message<I: ScriptHandler>(
 
             // Retrieve extra message data, if any.
             if data.is_null() {
-                handler.on_message(&formatted_msg, None);
+                handler.on_message(formatted_msg, None);
                 return;
             }
 
@@ -140,7 +140,7 @@ unsafe extern "C" fn call_on_message<I: ScriptHandler>(
                         .to_vec(),
                 )
             };
-            handler.on_message(&formatted_msg, data_vec);
+            handler.on_message(formatted_msg, data_vec);
         }
     }
 }
@@ -153,7 +153,7 @@ fn on_message(cb_handler: &mut CallbackHandler, message: Message) {
 /// Represents a script signal handler.
 pub trait ScriptHandler {
     /// Handler called when a message is shared from JavaScript to Rust.
-    fn on_message(&mut self, message: &Message, data: Option<Vec<u8>>);
+    fn on_message(&mut self, message: Message, data: Option<Vec<u8>>);
 }
 
 /// Represents a Frida script.
@@ -234,7 +234,7 @@ impl<'a> Script<'a> {
     /// struct Handler;
     ///
     /// impl ScriptHandler for Handler {
-    ///     fn on_message(&mut self, message: &frida::Message, data: Option<Vec<u8>>) {
+    ///     fn on_message(&mut self, message: frida::Message, data: Option<Vec<u8>>) {
     ///         println!("Message: {:?}", message);
     ///         println!("Data: {:?}", data);
     ///     }
