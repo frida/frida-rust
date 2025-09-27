@@ -1,14 +1,12 @@
 use frida_gum::DebugSymbol;
 use frida_gum::{Gum, Module};
-use std::iter::Once;
 use std::sync::OnceLock;
 
 fn main() {
     static CELL: OnceLock<Gum> = OnceLock::new();
-    let gum = CELL.get_or_init(|| Gum::obtain());
+    let _gum = CELL.get_or_init(|| Gum::obtain());
 
-    let module = Module::obtain(gum);
-    let symbol = module.find_export_by_name(None, "mmap").unwrap();
+    let symbol = Module::find_global_export_by_name("mmap").unwrap();
     let symbol_details = DebugSymbol::from_address(symbol).unwrap();
     println!(
         "address={:#x?} module_name={:?} symbol_name={:?} file_name={:?} line_number={:?}",

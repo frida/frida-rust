@@ -28,11 +28,12 @@ pub fn main() {
     let payload = include_str!("script.js");
     println!("payload: {}", payload);
 
-    let backend = Backend::obtain_v8(&GUM);
+    let backend = Backend::obtain_qjs(&GUM);
     let script = Script::load(&backend, "script.js", payload, Some(callback)).unwrap();
 
     let t2 = test2(987);
     println!("TEST2: {}", t2);
+    test1(123);
 
     /* Run the loop to continue handling callbacks */
     script.run_event_loop();
