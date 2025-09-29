@@ -104,6 +104,9 @@ pub use range_details::*;
 mod debug_symbol;
 pub use debug_symbol::*;
 
+mod thread;
+pub use thread::*;
+
 #[cfg(feature = "backtrace")]
 #[cfg_attr(docsrs, doc(cfg(feature = "backtrace")))]
 mod backtracer;

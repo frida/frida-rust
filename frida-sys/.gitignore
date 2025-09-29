@@ -1,2 +1,4 @@
+frida-core.h
 libfrida-core.a
+frida-core.lib
 frida-core-example.c
