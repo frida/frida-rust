@@ -31,9 +31,8 @@ unsafe extern "C" fn open_detour(name: *const c_char, flags: c_int) -> c_int {
 fn init() {
     static CELL: OnceLock<Gum> = OnceLock::new();
     let gum = CELL.get_or_init(|| Gum::obtain());
-    let module = Module::obtain(gum);
     let mut interceptor = Interceptor::obtain(gum);
-    let open = module.find_export_by_name(None, "open").unwrap();
+    let open = Module::find_global_export_by_name("open").unwrap();
     unsafe {
         *ORIGINAL_OPEN.lock().unwrap().get_mut() = Some(std::mem::transmute::<
             *mut libc::c_void,
