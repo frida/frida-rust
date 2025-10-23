@@ -29,7 +29,7 @@ extern "C" fn example_agent_main(_user_data: *const c_void, resident: *mut c_int
 
     let mut interceptor = Interceptor::obtain(gum);
     let mut listener = OpenListener {};
-    
+
     let process = Process::obtain(gum);
     let modules = process.enumerate_modules();
     for module in modules {
