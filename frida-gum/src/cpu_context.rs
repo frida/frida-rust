@@ -107,4 +107,18 @@ impl<'a> CpuContext<'a> {
     pub fn backtrace_fuzzy(&self) -> Vec<usize> {
         crate::Backtracer::fuzzy_with_context(unsafe { &*self.cpu_context })
     }
+
+    #[cfg(feature = "backtrace")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "backtrace")))]
+    /// Get an accurate backtrace from this CPU context.
+    pub fn backtrace_accurate_with_limit(&self, limit: u32) -> Vec<usize> {
+        crate::Backtracer::accurate_with_context_and_limit(unsafe { &*self.cpu_context }, limit)
+    }
+
+    #[cfg(feature = "backtrace")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "backtrace")))]
+    /// Get a fuzzy backtrace from this CPU context.
+    pub fn backtrace_fuzzy_with_limit(&self, limit: u32) -> Vec<usize> {
+        crate::Backtracer::fuzzy_with_context_and_limit(unsafe { &*self.cpu_context }, limit)
+    }
 }
