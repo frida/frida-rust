@@ -28,7 +28,8 @@ pub fn main() {
     let payload = include_str!("script.js");
     println!("payload: {}", payload);
 
-    let backend = Backend::obtain_v8(&GUM);
+    //let backend = Backend::obtain_v8(&GUM);  // obtain_v8 cannot Script::load. `Err` value: Failed to create script
+    let backend = Backend::obtain_qjs(&GUM); // qjs works fine except failed to attach test2 on release mode
     let script = Script::load(&backend, "script.js", payload, Some(callback)).unwrap();
 
     let t2 = test2(987);
