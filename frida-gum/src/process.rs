@@ -163,6 +163,11 @@ impl<'a> Process<'a> {
         }
     }
 
+    /// Returns a boolean indicating whether a debugger is currently attached
+    pub fn is_debugger_attached(&self) -> bool {
+        unsafe { gum_sys::gum_process_is_debugger_attached() == 1 }
+    }
+
     /// Get this thread’s OS-specific id as a number
     pub fn current_thread_id(&self) -> u32 {
         unsafe { gum_sys::gum_process_get_current_thread_id() as u32 }
