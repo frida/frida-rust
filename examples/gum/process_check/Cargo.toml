@@ -1,0 +1,17 @@
+[package]
+name = "process-check"
+version = "0.1.0"
+authors = ["Xoffio / Ricardo J Marques Montilla"]
+edition = "2018"
+license = "MIT"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+frida-gum = { path = "../../../frida-gum", features = [
+    "invocation-listener",
+    # "std",
+] }
+ctor = "0.6.1"

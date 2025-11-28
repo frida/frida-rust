@@ -11,6 +11,7 @@ use crate::{FileMapping, Module, NativePointer, Thread};
 use {
     crate::{Gum, PageProtection, RangeDetails},
     core::ffi::{c_char, c_void, CStr},
+    core::{fmt, fmt::Debug},
     frida_gum_sys as gum_sys,
     frida_gum_sys::{gboolean, gpointer},
 };
@@ -44,15 +45,15 @@ pub enum CodeSigningPolicy {
 #[derive(Clone, FromPrimitive, Debug)]
 #[repr(u32)]
 pub enum Os {
-    OsWindows = gum_sys::_GumOS_GUM_OS_WINDOWS as u32,
-    OsMacos = gum_sys::_GumOS_GUM_OS_MACOS as u32,
-    OsLinux = gum_sys::_GumOS_GUM_OS_LINUX as u32,
-    OsIos = gum_sys::_GumOS_GUM_OS_IOS as u32,
-    OsWatchos = gum_sys::_GumOS_GUM_OS_WATCHOS as u32,
-    OsTvos = gum_sys::_GumOS_GUM_OS_TVOS as u32,
-    OsAndroid = gum_sys::_GumOS_GUM_OS_ANDROID as u32,
-    OsFreebsd = gum_sys::_GumOS_GUM_OS_FREEBSD as u32,
-    OsQnx = gum_sys::_GumOS_GUM_OS_QNX as u32,
+    Windows = gum_sys::_GumOS_GUM_OS_WINDOWS as u32,
+    Macos = gum_sys::_GumOS_GUM_OS_MACOS as u32,
+    Linux = gum_sys::_GumOS_GUM_OS_LINUX as u32,
+    Ios = gum_sys::_GumOS_GUM_OS_IOS as u32,
+    Watchos = gum_sys::_GumOS_GUM_OS_WATCHOS as u32,
+    Tvos = gum_sys::_GumOS_GUM_OS_TVOS as u32,
+    Android = gum_sys::_GumOS_GUM_OS_ANDROID as u32,
+    Freebsd = gum_sys::_GumOS_GUM_OS_FREEBSD as u32,
+    Qnx = gum_sys::_GumOS_GUM_OS_QNX as u32,
 }
 
 pub struct Range<'a> {
@@ -274,5 +275,16 @@ impl<'a> Process<'a> {
         };
 
         callback_data
+    }
+}
+
+impl Debug for Range<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("Range")
+            .field("base", &self.base)
+            .field("size", &self.size)
+            .field("protection", &self.protection)
+            .field("file", &self.file)
+            .finish()
     }
 }
