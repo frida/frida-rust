@@ -19,7 +19,7 @@ use std::{ffi::CStr, string::ToString};
 
 use {
     crate::{Gum, NativePointer, PageProtection, RangeDetails},
-    core::{ffi::c_void, fmt},
+    core::{ffi::c_void, fmt, fmt::Debug},
     cstr_core::CString,
     frida_gum_sys as gum_sys,
     frida_gum_sys::{
@@ -28,7 +28,10 @@ use {
 };
 
 #[cfg(not(feature = "std"))]
-use alloc::{boxed::Box, string::String, vec, vec::Vec};
+use {
+    alloc::{boxed::Box, string::String, string::ToString, vec, vec::Vec},
+    core::ffi::CStr,
+};
 
 extern "C" fn enumerate_ranges_callout(
     range_details: *const gum_sys::_GumRangeDetails,
@@ -98,6 +101,7 @@ impl Module {
         }
         Self { inner: module }
     }
+
     /// Load a module by name
     pub fn load(_gum: &Gum, module_name: &str) -> Self {
         let module_name = CString::new(module_name).unwrap();
@@ -108,7 +112,6 @@ impl Module {
         }
     }
 
-    #[cfg(feature = "std")]
     /// Get the name of this module
     pub fn name(&self) -> String {
         unsafe {
@@ -118,7 +121,6 @@ impl Module {
         }
     }
 
-    #[cfg(feature = "std")]
     /// Get the path of this module
     pub fn path(&self) -> String {
         unsafe {
@@ -308,5 +310,14 @@ impl Module {
             );
         }
         result
+    }
+}
+
+impl Debug for Module {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("Module")
+            .field("name", &self.name())
+            .field("path", &self.path())
+            .finish_non_exhaustive()
     }
 }

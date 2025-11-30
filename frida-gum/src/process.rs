@@ -11,6 +11,7 @@ use crate::{FileMapping, Module, NativePointer, Thread};
 use {
     crate::{Gum, PageProtection, RangeDetails},
     core::ffi::{c_char, c_void, CStr},
+    core::{fmt, fmt::Debug},
     frida_gum_sys as gum_sys,
     frida_gum_sys::{gboolean, gpointer},
 };
@@ -44,15 +45,15 @@ pub enum CodeSigningPolicy {
 #[derive(Clone, FromPrimitive, Debug)]
 #[repr(u32)]
 pub enum Os {
-    OsWindows = gum_sys::_GumOS_GUM_OS_WINDOWS as u32,
-    OsMacos = gum_sys::_GumOS_GUM_OS_MACOS as u32,
-    OsLinux = gum_sys::_GumOS_GUM_OS_LINUX as u32,
-    OsIos = gum_sys::_GumOS_GUM_OS_IOS as u32,
-    OsWatchos = gum_sys::_GumOS_GUM_OS_WATCHOS as u32,
-    OsTvos = gum_sys::_GumOS_GUM_OS_TVOS as u32,
-    OsAndroid = gum_sys::_GumOS_GUM_OS_ANDROID as u32,
-    OsFreebsd = gum_sys::_GumOS_GUM_OS_FREEBSD as u32,
-    OsQnx = gum_sys::_GumOS_GUM_OS_QNX as u32,
+    Windows = gum_sys::_GumOS_GUM_OS_WINDOWS as u32,
+    Macos = gum_sys::_GumOS_GUM_OS_MACOS as u32,
+    Linux = gum_sys::_GumOS_GUM_OS_LINUX as u32,
+    Ios = gum_sys::_GumOS_GUM_OS_IOS as u32,
+    Watchos = gum_sys::_GumOS_GUM_OS_WATCHOS as u32,
+    Tvos = gum_sys::_GumOS_GUM_OS_TVOS as u32,
+    Android = gum_sys::_GumOS_GUM_OS_ANDROID as u32,
+    Freebsd = gum_sys::_GumOS_GUM_OS_FREEBSD as u32,
+    Qnx = gum_sys::_GumOS_GUM_OS_QNX as u32,
 }
 
 pub struct Range<'a> {
@@ -72,37 +73,36 @@ pub struct Process<'a> {
     // Note that Gum is expected to be initialized via OnceCell which provides &Gum for every
     // instance.
     _gum: &'a Gum,
-    /// Property containing the PID as a number
-    pub id: u32,
-    /// Properly specifying the current platform.
-    pub platform: Os,
-    /// Property which can be `optional` or `required`, where the latter means Frida will avoid modifying
-    /// existing code in memory and will not try to run unsigned code.
-    pub code_signing_policy: CodeSigningPolicy,
-    /// Contains a Module representing the main executable of the process.
-    pub main_module: Module,
 }
 
 impl<'a> Process<'a> {
     /// Initialize a new process
     pub fn obtain(gum: &'a Gum) -> Process<'a> {
-        let id = unsafe { gum_sys::gum_process_get_id() };
-        let platform =
-            num::FromPrimitive::from_u32(unsafe { gum_sys::gum_process_get_native_os() }).unwrap();
-        let code_signing_policy = num::FromPrimitive::from_u32(unsafe {
+        Process { _gum: gum }
+    }
+
+    /// Property containing the PID as a number
+    pub fn id(&self) -> u32 {
+        unsafe { gum_sys::gum_process_get_id() }
+    }
+
+    /// Properly specifying the current platform.
+    pub fn platform(&self) -> Os {
+        num::FromPrimitive::from_u32(unsafe { gum_sys::gum_process_get_native_os() }).unwrap()
+    }
+
+    /// Returns property which can be `optional` or `required`, where the latter means Frida will avoid modifying
+    /// existing code in memory and will not try to run unsigned code.
+    pub fn code_signing_policy(&self) -> CodeSigningPolicy {
+        num::FromPrimitive::from_u32(unsafe {
             gum_sys::gum_process_get_code_signing_policy() as u32
         })
-        .unwrap();
+        .unwrap()
+    }
 
-        let main_module = unsafe { Module::from_raw(gum_sys::gum_process_get_main_module()) };
-
-        Process {
-            _gum: gum,
-            id,
-            platform,
-            code_signing_policy,
-            main_module,
-        }
+    /// Returns a Module representing the main executable of the process.
+    pub fn main_module(&self) -> Module {
+        unsafe { Module::from_raw(gum_sys::gum_process_get_main_module()) }
     }
 
     pub fn find_module_by_name(&self, module_name: &str) -> Option<Module> {
@@ -127,6 +127,7 @@ impl<'a> Process<'a> {
             }
         }
     }
+
     /// Returns a string specifying the filesystem path to the current working directory
     pub fn current_dir(&self) -> String {
         unsafe {
@@ -274,5 +275,16 @@ impl<'a> Process<'a> {
         };
 
         callback_data
+    }
+}
+
+impl Debug for Range<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("Range")
+            .field("base", &self.base)
+            .field("size", &self.size)
+            .field("protection", &self.protection)
+            .field("file", &self.file)
+            .finish()
     }
 }

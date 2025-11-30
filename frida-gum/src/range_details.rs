@@ -56,7 +56,7 @@ impl fmt::Display for PageProtection {
 }
 
 /// The file association to a page.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct FileMapping<'a> {
     path: String,
     size: usize,
