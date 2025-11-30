@@ -73,37 +73,36 @@ pub struct Process<'a> {
     // Note that Gum is expected to be initialized via OnceCell which provides &Gum for every
     // instance.
     _gum: &'a Gum,
-    /// Property containing the PID as a number
-    pub id: u32,
-    /// Properly specifying the current platform.
-    pub platform: Os,
-    /// Property which can be `optional` or `required`, where the latter means Frida will avoid modifying
-    /// existing code in memory and will not try to run unsigned code.
-    pub code_signing_policy: CodeSigningPolicy,
-    /// Contains a Module representing the main executable of the process.
-    pub main_module: Module,
 }
 
 impl<'a> Process<'a> {
     /// Initialize a new process
     pub fn obtain(gum: &'a Gum) -> Process<'a> {
-        let id = unsafe { gum_sys::gum_process_get_id() };
-        let platform =
-            num::FromPrimitive::from_u32(unsafe { gum_sys::gum_process_get_native_os() }).unwrap();
-        let code_signing_policy = num::FromPrimitive::from_u32(unsafe {
+        Process { _gum: gum }
+    }
+
+    /// Property containing the PID as a number
+    pub fn id(&self) -> u32 {
+        unsafe { gum_sys::gum_process_get_id() }
+    }
+
+    /// Properly specifying the current platform.
+    pub fn platform(&self) -> Os {
+        num::FromPrimitive::from_u32(unsafe { gum_sys::gum_process_get_native_os() }).unwrap()
+    }
+
+    /// Returns property which can be `optional` or `required`, where the latter means Frida will avoid modifying
+    /// existing code in memory and will not try to run unsigned code.
+    pub fn code_signing_policy(&self) -> CodeSigningPolicy {
+        num::FromPrimitive::from_u32(unsafe {
             gum_sys::gum_process_get_code_signing_policy() as u32
         })
-        .unwrap();
+        .unwrap()
+    }
 
-        let main_module = unsafe { Module::from_raw(gum_sys::gum_process_get_main_module()) };
-
-        Process {
-            _gum: gum,
-            id,
-            platform,
-            code_signing_policy,
-            main_module,
-        }
+    /// Returns a Module representing the main executable of the process.
+    pub fn main_module(&self) -> Module {
+        unsafe { Module::from_raw(gum_sys::gum_process_get_main_module()) }
     }
 
     pub fn find_module_by_name(&self, module_name: &str) -> Option<Module> {
@@ -128,6 +127,7 @@ impl<'a> Process<'a> {
             }
         }
     }
+
     /// Returns a string specifying the filesystem path to the current working directory
     pub fn current_dir(&self) -> String {
         unsafe {

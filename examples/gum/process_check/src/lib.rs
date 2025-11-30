@@ -47,10 +47,13 @@ fn init() {
 
     println!("Process Information");
     println!("-------------------");
-    println!(" - ID: {}", process.id);
-    println!(" - Platform {:?}", process.platform);
-    println!(" - Code signing policy: {:?}", process.code_signing_policy);
-    println!(" - Main module: {:?}", process.main_module);
+    println!(" - ID: {}", process.id());
+    println!(" - Platform {:?}", process.platform());
+    println!(
+        " - Code signing policy: {:?}",
+        process.code_signing_policy()
+    );
+    println!(" - Main module: {:?}", process.main_module());
     println!(" - Current directory: {}", process.current_dir());
     println!(" - Home directory: {}", process.home_dir());
     println!(" - Tmp directory: {}", process.tmp_dir());
