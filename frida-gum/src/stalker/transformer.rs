@@ -4,7 +4,9 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
+use crate::CpuContextAccess;
 use frida_gum_sys::Insn;
+
 use {
     crate::{instruction_writer::TargetInstructionWriter, CpuContext, Gum},
     core::{ffi::c_void, marker::PhantomData},
@@ -23,7 +25,10 @@ extern "C" fn put_callout_callback(
     user_data: *mut c_void,
 ) {
     let mut f = unsafe { Box::from_raw(user_data as *mut Box<dyn FnMut(CpuContext)>) };
-    f(CpuContext::from_raw(cpu_context));
+    f(CpuContext::from_raw(
+        cpu_context,
+        CpuContextAccess::CpuCcontextReadWrite,
+    ));
     // Leak the box again, we want to destruct it in the data_destroy callback.
     //
     Box::leak(f);
