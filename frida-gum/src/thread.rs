@@ -16,7 +16,7 @@ use num::FromPrimitive;
 
 #[cfg(feature = "backtrace")]
 use crate::Backtracer;
-use crate::{CpuContext, NativePointer};
+use crate::{CpuContext, CpuContextAccess, NativePointer};
 
 bitflags! {
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -81,11 +81,11 @@ impl Thread {
         unsafe { &(*self.thread).cpu_context }
     }
 
-    // todo: return an immutable reference instead of an owned object; without this multiple threads can obtain a Process instance,
-    // get the same CpuContexts and cause a data race
-    /// Modifying CpuContexts from multiple threads is unsound, as they may share the same pointer
-    pub fn cpu_context(&self) -> CpuContext<'_> {
-        CpuContext::from_raw(self.gum_cpu_context() as *const _ as *mut GumCpuContext)
+    pub fn cpu_context(&self) -> CpuContext {
+        CpuContext::from_raw(
+            self.gum_cpu_context() as *const _ as *mut GumCpuContext,
+            CpuContextAccess::CpuContextReadOnly,
+        )
     }
 
     pub fn entrypoint(&self) -> Entrypoint {
@@ -119,6 +119,7 @@ impl Debug for Thread {
             .field("id", &self.id())
             .field("name", &self.name())
             .field("state", &self.state())
-            .finish_non_exhaustive()
+            .field("context", &self.cpu_context())
+            .finish()
     }
 }

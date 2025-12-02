@@ -10,8 +10,5 @@ publish = false
 crate-type = ["cdylib"]
 
 [dependencies]
-frida-gum = { path = "../../../frida-gum", features = [
-    "invocation-listener",
-    # "std",
-] }
+frida-gum = { path = "../../../frida-gum", features = ["invocation-listener"] }
 ctor = "0.6.1"

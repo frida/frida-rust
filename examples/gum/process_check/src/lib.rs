@@ -66,7 +66,7 @@ fn init() {
     println!(" - Enumerate threads:");
     let threads = process.enumerate_threads();
     for thread in threads {
-        println!("   - {:?}", thread);
+        println!("   - {:#?}", thread);
     }
 
     println!(" - Enumerate modules:");
