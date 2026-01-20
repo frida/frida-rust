@@ -46,9 +46,11 @@ fn download_and_use_devkit_internal(
 
     if !devkit_path.is_dir() {
         if !devkit_tar.is_file() {
-            let frida_url = format!(
-                "https://github.com/frida/frida/releases/download/{version}/{devkit_name}.tar.xz",
-            );
+            let cdn = env::var("FRIDA_DOWNLOAD_CND")
+                .unwrap_or("https://github.com/frida/frida/releases/download".to_owned());
+            let cdn = cdn.trim_end_matches("/");
+
+            let frida_url = format!("{cdn}/{version}/{devkit_name}.tar.xz",);
 
             println!(
                 "cargo:warning=Frida {} devkit not found, downloading from {}...",
