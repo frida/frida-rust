@@ -46,7 +46,7 @@ fn download_and_use_devkit_internal(
 
     if !devkit_path.is_dir() {
         if !devkit_tar.is_file() {
-            let cdn = env::var("FRIDA_DOWNLOAD_CND")
+            let cdn = env::var("FRIDA_DOWNLOAD_CDN")
                 .unwrap_or("https://github.com/frida/frida/releases/download".to_owned());
             let cdn = cdn.trim_end_matches("/");
 
