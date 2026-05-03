@@ -5,7 +5,7 @@
  */
 
 use frida_sys::{
-    FridaScriptOptions, _FridaScript, _GBytes, g_bytes_get_data, g_bytes_new, g_bytes_unref, gsize,
+    _FridaScript, _GBytes, g_bytes_get_data, g_bytes_new, g_bytes_unref, gsize, FridaScriptOptions,
 };
 use serde::Deserialize;
 use serde_json::Value;
