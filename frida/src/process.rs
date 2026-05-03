@@ -4,7 +4,7 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
-use frida_sys::{FridaSpawnOptions, _FridaProcess};
+use frida_sys::{_FridaProcess, FridaSpawnOptions};
 use std::ffi::{CStr, CString};
 use std::marker::PhantomData;
 
