@@ -94,12 +94,21 @@ pub struct SendPayload {
     pub returns: Value,
 }
 
+// PATCH (frida-rust#189): user_data is `*mut CallbackHandler` (set by
+// handle_message). The pre-patch code cast it to `*mut I` and called
+// I::on_message on garbage memory; that only worked when I was a ZST.
+// Route through cb.script_handler (where handle_message actually stored
+// the boxed trait object) instead. The `I` type parameter is now unused
+// but kept so monomorphization still produces a distinct fn pointer per
+// handler type, matching the original ABI.
 unsafe extern "C" fn call_on_message<I: ScriptHandler>(
     _script_ptr: *mut _FridaScript,
     message: *const i8,
     data: *const frida_sys::_GBytes,
     user_data: *mut c_void,
 ) {
+    let _ = std::marker::PhantomData::<I>;
+
     let c_msg = CStr::from_ptr(message as *const c_char)
         .to_str()
         .unwrap_or_default();
@@ -111,36 +120,41 @@ unsafe extern "C" fn call_on_message<I: ScriptHandler>(
         }))
     });
 
+    let callback_handler: *mut CallbackHandler = user_data as _;
+    let cb = match callback_handler.as_mut() {
+        Some(cb) => cb,
+        None => return,
+    };
+
     match formatted_msg {
         Message::Send(ref msg) if msg.payload.r#type == "frida:rpc" => {
-            let callback_handler: *mut CallbackHandler = user_data as _;
-            on_message(callback_handler.as_mut().unwrap(), formatted_msg);
+            on_message(cb, formatted_msg);
         }
         _ => {
-            let handler: &mut I = &mut *(user_data as *mut I);
-
             // Retrieve extra message data, if any.
-            if data.is_null() {
-                handler.on_message(formatted_msg, None);
-                return;
-            }
-
-            let mut raw_data_size: gsize = 0;
-            let raw_data: *const u8 = g_bytes_get_data(
-                // Cast to mut should be safe, as this function doesn't modify the data.
-                data as *mut _GBytes,
-                std::ptr::from_mut(&mut raw_data_size),
-            ) as *const u8;
-            let data_vec = if raw_data_size == 0 || raw_data.is_null() {
+            let data_vec = if data.is_null() {
                 None
             } else {
-                // Copy to a vector to avoid potential lifetime issues.
-                Some(
-                    std::slice::from_raw_parts(raw_data, raw_data_size.try_into().unwrap())
-                        .to_vec(),
-                )
+                let mut raw_data_size: gsize = 0;
+                let raw_data: *const u8 = g_bytes_get_data(
+                    // Cast to mut should be safe, as this function doesn't modify the data.
+                    data as *mut _GBytes,
+                    std::ptr::from_mut(&mut raw_data_size),
+                ) as *const u8;
+                if raw_data_size == 0 || raw_data.is_null() {
+                    None
+                } else {
+                    // Copy to a vector to avoid potential lifetime issues.
+                    Some(
+                        std::slice::from_raw_parts(raw_data, raw_data_size.try_into().unwrap())
+                            .to_vec(),
+                    )
+                }
             };
-            handler.on_message(formatted_msg, data_vec);
+
+            if let Some(handler) = cb.script_handler.as_deref_mut() {
+                handler.on_message(formatted_msg, data_vec);
+            }
         }
     }
 }
