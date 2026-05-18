@@ -4,9 +4,12 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
+use crate::variant::Variant;
 use frida_sys::{_FridaProcess, FridaSpawnOptions};
+use std::collections::HashMap;
 use std::ffi::{CStr, CString};
 use std::marker::PhantomData;
+use std::os::raw::c_void;
 
 /// Process management in Frida.
 pub struct Process<'a> {
@@ -33,6 +36,35 @@ impl<'a> Process<'a> {
     /// Returns the process ID of the process.
     pub fn get_pid(&self) -> u32 {
         unsafe { frida_sys::frida_process_get_pid(self.process_ptr) }
+    }
+
+    /// Returns extended parameters attached to this process by frida-core.
+    ///
+    /// Only populated when the process was enumerated with
+    /// [`crate::Scope::Full`]; calling [`crate::Device::enumerate_processes`]
+    /// (which uses [`crate::Scope::Minimal`]) returns an empty map.
+    ///
+    /// Common keys (host-dependent): `ppid` (Int64), `path` (String),
+    /// `user` (String), `started` (String, ISO timestamp).
+    pub fn get_parameters(&self) -> HashMap<String, Variant> {
+        let mut out = HashMap::new();
+        unsafe {
+            let hash = frida_sys::frida_process_get_parameters(self.process_ptr);
+            if hash.is_null() {
+                return out;
+            }
+            let mut iter: frida_sys::GHashTableIter =
+                std::mem::MaybeUninit::zeroed().assume_init();
+            frida_sys::g_hash_table_iter_init(&mut iter, hash);
+            let mut key: *mut c_void = std::ptr::null_mut();
+            let mut value: *mut c_void = std::ptr::null_mut();
+            while frida_sys::g_hash_table_iter_next(&mut iter, &mut key, &mut value) != 0 {
+                let k = CStr::from_ptr(key.cast()).to_string_lossy().into_owned();
+                let v = Variant::from_ptr(value.cast());
+                out.insert(k, v);
+            }
+        }
+        out
     }
 }
 
