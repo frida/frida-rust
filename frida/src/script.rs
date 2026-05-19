@@ -37,7 +37,7 @@ pub enum Message {
 #[derive(Deserialize, Debug)]
 pub struct MessageSend {
     /// Payload of a Send Message.
-    pub payload: SendPayload,
+    pub payload: Value,
 }
 
 /// Log Message.
@@ -81,19 +81,6 @@ pub enum MessageLogLevel {
     Error,
 }
 
-/// Represents a MessageSend's payload.
-#[derive(Deserialize, Debug)]
-pub struct SendPayload {
-    /// Send message type
-    pub r#type: String,
-    /// Send message ID
-    pub id: usize,
-    /// Send message result.
-    pub result: String,
-    /// Send message returns.
-    pub returns: Value,
-}
-
 unsafe extern "C" fn call_on_message<I: ScriptHandler>(
     _script_ptr: *mut _FridaScript,
     message: *const i8,
@@ -112,7 +99,9 @@ unsafe extern "C" fn call_on_message<I: ScriptHandler>(
     });
 
     match formatted_msg {
-        Message::Send(ref msg) if msg.payload.r#type == "frida:rpc" => {
+        Message::Send(ref msg)
+            if msg.payload.get(0).and_then(|v| v.as_str()) == Some("frida:rpc") =>
+        {
             let callback_handler: *mut CallbackHandler = user_data as _;
             on_message(callback_handler.as_mut().unwrap(), formatted_msg);
         }
@@ -313,12 +302,14 @@ impl<'a> Script<'a> {
             Message::Send(r) => {
                 let tmp_list: Vec<String> = r
                     .payload
-                    .returns
-                    .as_array()
-                    .unwrap_or(&Vec::new())
-                    .iter()
-                    .map(|i| i.as_str().unwrap_or("").to_string())
-                    .collect();
+                    .get(3)
+                    .and_then(|v| v.as_array())
+                    .map(|arr| {
+                        arr.iter()
+                            .map(|i| i.as_str().unwrap_or("").to_string())
+                            .collect::<Vec<String>>()
+                    })
+                    .unwrap_or_default();
 
                 tmp_list
             }
@@ -359,15 +350,25 @@ impl Exports<'_> {
 
         match rpc_result {
             Message::Send(r) => {
-                if r.payload.result == "ok" {
-                    let returns = r.payload.returns;
+                if r.payload.get(2).and_then(|v| v.as_str()) == Some("ok") {
+                    let returns = match r.payload.get(3) {
+                        Some(v) => v.clone(),
+                        None => return Err(Error::RpcUnexpectedMessage),
+                    };
 
                     match returns {
                         Value::Null => Ok(None),
                         _ => Ok(Some(returns)),
                     }
                 } else {
-                    let err_msg = r.payload.returns.to_string();
+                    let err_msg = r
+                        .payload
+                        .get(3)
+                        .and_then(|v| v.as_str())
+                        .unwrap_or(
+                            "RPC call failed. Result is not ok and no error message provided.",
+                        )
+                        .to_string();
                     Err(Error::RpcJsError { message: err_msg })
                 }
             }

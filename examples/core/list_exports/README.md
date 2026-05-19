@@ -2,12 +2,14 @@ Example to showing how to use `script.list_exports()`.
 Once ran you should expect an output similar to the next one:
 
 ```
-[*] Frida version: 16.4.8
+[*] Frida version: 17.5.1
 [*] Device name: Local System
-- Log(MessageLog { level: Info, payload: "Logging message from JS" })
-- Log(MessageLog { level: Warning, payload: "Warning message from JS" })
-- Log(MessageLog { level: Debug, payload: "Debug message from JS" })
-- Log(MessageLog { level: Error, payload: "Error message from JS" })
+[*] Info: "Logging message from JS"
+[*] Warning: "Warning message from JS"
+[*] Debug: "Debug message from JS"
+[*] Error: "Error message from JS"
+[*] Send: String("Send message from JS")
+[*] Send: String("Send message with data"), Data: [1, 2, 3]
 [*] Script loaded.
 ["increment", "getvalue"]
 ["increment", "getvalue"]
