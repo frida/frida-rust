@@ -53,8 +53,7 @@ impl<'a> Process<'a> {
             if hash.is_null() {
                 return out;
             }
-            let mut iter: frida_sys::GHashTableIter =
-                std::mem::MaybeUninit::zeroed().assume_init();
+            let mut iter: frida_sys::GHashTableIter = std::mem::MaybeUninit::zeroed().assume_init();
             frida_sys::g_hash_table_iter_init(&mut iter, hash);
             let mut key: *mut c_void = std::ptr::null_mut();
             let mut value: *mut c_void = std::ptr::null_mut();

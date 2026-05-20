@@ -56,10 +56,7 @@ fn main() {
     for p in &matches {
         let params = p.get_parameters();
         let pid = p.get_pid();
-        let ppid = params
-            .get("ppid")
-            .and_then(|v| v.get_int())
-            .unwrap_or(0) as u32;
+        let ppid = params.get("ppid").and_then(|v| v.get_int()).unwrap_or(0) as u32;
         let path = params
             .get("path")
             .and_then(|v| v.get_string())
