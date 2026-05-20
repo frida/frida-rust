@@ -118,22 +118,40 @@ impl<'a> Device<'a> {
         unsafe { frida_sys::frida_device_is_lost(self.device_ptr) == 1 }
     }
 
-    /// Returns all processes.
+    /// Returns all processes (with [`Scope::Minimal`] — name + pid only).
     pub fn enumerate_processes<'b>(&'a self) -> Vec<Process<'b>>
+    where
+        'a: 'b,
+    {
+        self.enumerate_processes_with_options(Scope::Minimal)
+    }
+
+    /// Returns all processes, controlling how much metadata each one carries.
+    ///
+    /// With [`Scope::Full`] each returned [`Process`] populates
+    /// [`Process::get_parameters`] (ppid, path, user, started, ...).
+    pub fn enumerate_processes_with_options<'b>(&'a self, scope: Scope) -> Vec<Process<'b>>
     where
         'a: 'b,
     {
         let mut processes = Vec::new();
         let mut error: *mut frida_sys::GError = std::ptr::null_mut();
 
+        let opts = unsafe { frida_sys::frida_process_query_options_new() };
+        unsafe {
+            frida_sys::frida_process_query_options_set_scope(opts, scope as frida_sys::FridaScope);
+        }
+
         let processes_ptr = unsafe {
             frida_sys::frida_device_enumerate_processes_sync(
                 self.device_ptr,
-                std::ptr::null_mut(),
+                opts,
                 std::ptr::null_mut(),
                 &mut error,
             )
         };
+
+        unsafe { frida_sys::frida_unref(opts as _) };
 
         if error.is_null() {
             let num_processes = unsafe { frida_sys::frida_process_list_size(processes_ptr) };
@@ -315,4 +333,20 @@ impl std::fmt::Display for DeviceType {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(f, "{self:?}")
     }
+}
+
+/// How much metadata frida-core should attach to enumerated processes.
+///
+/// Maps to `FridaScope` in frida-core. `Minimal` is the default and only
+/// fills `name` + `pid`; `Full` additionally populates
+/// [`Process::get_parameters`].
+#[repr(i32)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Scope {
+    /// Name + pid only (frida-core default).
+    Minimal = 0,
+    /// Lightweight extras where the host platform supplies them cheaply.
+    Metadata = 1,
+    /// Includes parameters (ppid, path, user, started, ...).
+    Full = 2,
 }
