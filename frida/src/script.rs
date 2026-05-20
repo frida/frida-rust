@@ -81,19 +81,6 @@ pub enum MessageLogLevel {
     Error,
 }
 
-/// Represents a MessageSend's payload.
-#[derive(Deserialize, Debug)]
-pub struct SendPayload {
-    /// Send message type
-    pub r#type: String,
-    /// Send message ID
-    pub id: usize,
-    /// Send message result.
-    pub result: String,
-    /// Send message returns.
-    pub returns: Value,
-}
-
 // PATCH (frida-rust#189): user_data is `*mut CallbackHandler` (set by
 // handle_message). The pre-patch code cast it to `*mut I` and called
 // I::on_message on garbage memory; that only worked when I was a ZST.
@@ -127,7 +114,9 @@ unsafe extern "C" fn call_on_message<I: ScriptHandler>(
     };
 
     match formatted_msg {
-        Message::Send(ref msg) if msg.payload.r#type == "frida:rpc" => {
+        Message::Send(ref msg)
+            if msg.payload.get(0).and_then(|v| v.as_str()) == Some("frida:rpc") =>
+        {
             on_message(cb, formatted_msg);
         }
         _ => {
