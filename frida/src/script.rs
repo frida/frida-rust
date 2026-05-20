@@ -81,7 +81,7 @@ pub enum MessageLogLevel {
     Error,
 }
 
-unsafe extern "C" fn call_on_message<I: ScriptHandler>(
+unsafe extern "C" fn call_on_message(
     _script_ptr: *mut _FridaScript,
     message: *const i8,
     data: *const frida_sys::_GBytes,
@@ -106,7 +106,11 @@ unsafe extern "C" fn call_on_message<I: ScriptHandler>(
             on_message(callback_handler.as_mut().unwrap(), formatted_msg);
         }
         _ => {
-            let handler: &mut I = &mut *(user_data as *mut I);
+            let callback_handler: &mut CallbackHandler = &mut *(user_data as *mut CallbackHandler);
+            let handler = match callback_handler.script_handler.as_mut() {
+                Some(h) => h,
+                None => return,
+            };
 
             // Retrieve extra message data, if any.
             if data.is_null() {
@@ -239,7 +243,7 @@ impl<'a> Script<'a> {
             let callback = Some(std::mem::transmute::<
                 *mut std::ffi::c_void,
                 unsafe extern "C" fn(),
-            >(call_on_message::<I> as *mut c_void));
+            >(call_on_message as *mut c_void));
 
             frida_sys::g_signal_connect_data(
                 self.script_ptr as _,
