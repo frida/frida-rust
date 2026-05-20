@@ -1,0 +1,9 @@
+[package]
+name = "compile_script"
+version = "0.1.0"
+edition = "2021"
+license = "wxWindows"
+publish = false
+
+[dependencies]
+frida = { path = "../../../frida" }
