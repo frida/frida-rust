@@ -26,6 +26,10 @@ fn main() {
             console.warn("Warning message from JS");
             console.debug("Debug message from JS");
             console.error("Error message from JS");
+            send("Send message from JS");
+
+            let send_data = [1, 2 ,3];
+            send("Send message with data", send_data);
 
             rpc.exports = {
                 increment: function() {
@@ -74,7 +78,17 @@ fn main() {
 struct Handler;
 
 impl frida::ScriptHandler for Handler {
-    fn on_message(&mut self, message: Message, _data: Option<Vec<u8>>) {
-        println!("- {:?}", message);
+    fn on_message(&mut self, message: Message, data: Option<Vec<u8>>) {
+        match message {
+            Message::Log(msg) => println!("[*] {:?}: {:?}", msg.level, msg.payload),
+            Message::Send(msg) => {
+                if let Some(data) = data {
+                    println!("[*] Send: {:?}, Data: {:?}", msg.payload, data);
+                } else {
+                    println!("[*] Send: {:?}", msg.payload);
+                }
+            }
+            _ => println!("- {:?}", message),
+        }
     }
 }

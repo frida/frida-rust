@@ -37,7 +37,7 @@ pub enum Message {
 #[derive(Deserialize, Debug)]
 pub struct MessageSend {
     /// Payload of a Send Message.
-    pub payload: SendPayload,
+    pub payload: Value,
 }
 
 /// Log Message.
@@ -327,12 +327,14 @@ impl<'a> Script<'a> {
             Message::Send(r) => {
                 let tmp_list: Vec<String> = r
                     .payload
-                    .returns
-                    .as_array()
-                    .unwrap_or(&Vec::new())
-                    .iter()
-                    .map(|i| i.as_str().unwrap_or("").to_string())
-                    .collect();
+                    .get(3)
+                    .and_then(|v| v.as_array())
+                    .map(|arr| {
+                        arr.iter()
+                            .map(|i| i.as_str().unwrap_or("").to_string())
+                            .collect::<Vec<String>>()
+                    })
+                    .unwrap_or_default();
 
                 tmp_list
             }
@@ -373,15 +375,25 @@ impl Exports<'_> {
 
         match rpc_result {
             Message::Send(r) => {
-                if r.payload.result == "ok" {
-                    let returns = r.payload.returns;
+                if r.payload.get(2).and_then(|v| v.as_str()) == Some("ok") {
+                    let returns = match r.payload.get(3) {
+                        Some(v) => v.clone(),
+                        None => return Err(Error::RpcUnexpectedMessage),
+                    };
 
                     match returns {
                         Value::Null => Ok(None),
                         _ => Ok(Some(returns)),
                     }
                 } else {
-                    let err_msg = r.payload.returns.to_string();
+                    let err_msg = r
+                        .payload
+                        .get(3)
+                        .and_then(|v| v.as_str())
+                        .unwrap_or(
+                            "RPC call failed. Result is not ok and no error message provided.",
+                        )
+                        .to_string();
                     Err(Error::RpcJsError { message: err_msg })
                 }
             }

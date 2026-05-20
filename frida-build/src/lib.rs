@@ -21,19 +21,23 @@ fn download_and_use_devkit_internal(
     force_download: bool,
 ) -> Result<String, Error> {
     let mut target_arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap();
+    let os = env::var("CARGO_CFG_TARGET_OS").unwrap();
 
     let out_dir = env::var_os("OUT_DIR").unwrap();
     let out_dir_path = Path::new(&out_dir);
 
-    if target_arch == "aarch64" {
-        target_arch = "arm64".to_string();
-    } else if target_arch == "arm" {
-        target_arch = "armhf".to_string();
-    } else if target_arch == "i686" {
-        target_arch = "x86".to_string();
+    match (os.as_str(), target_arch.as_str()) {
+        (_, "aarch64") => {
+            target_arch = "arm64".to_string();
+        }
+        ("linux", "arm") => {
+            target_arch = "armhf".to_string();
+        }
+        (_, "i686") => {
+            target_arch = "x86".to_string();
+        }
+        _ => {}
     }
-
-    let os = env::var("CARGO_CFG_TARGET_OS").unwrap();
 
     let devkit_name = format!("frida-{kind}-devkit-{version}-{os}-{target_arch}",);
 
