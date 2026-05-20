@@ -6,9 +6,19 @@
 //! which fetches the matching frida-core devkit.
 
 use frida::{DeviceManager, Error, Frida, Message, ScriptHandler, ScriptOption, ScriptRuntime};
-use std::sync::LazyLock;
+use std::sync::{LazyLock, Mutex, MutexGuard};
 
 static FRIDA: LazyLock<Frida> = LazyLock::new(|| unsafe { Frida::obtain() });
+
+// Frida-core is a process-wide singleton: concurrent self-attach from
+// multiple cargo-test threads corrupts its agent state (observed as
+// STATUS_STACK_BUFFER_OVERRUN on Windows). Every #[test] in this file
+// must hold this lock for the full attach -> detach span.
+static FRIDA_SERIAL: Mutex<()> = Mutex::new(());
+
+fn serial_guard() -> MutexGuard<'static, ()> {
+    FRIDA_SERIAL.lock().unwrap_or_else(|p| p.into_inner())
+}
 
 struct NoopHandler;
 
@@ -24,6 +34,7 @@ fn qjs_options(name: &str) -> ScriptOption {
 
 #[test]
 fn compile_script_produces_loadable_bytecode() {
+    let _serial = serial_guard();
     let device_manager = DeviceManager::obtain(&FRIDA);
     let device = device_manager
         .get_local_device()
@@ -62,6 +73,7 @@ fn compile_script_produces_loadable_bytecode() {
 
 #[test]
 fn compile_script_rejects_source_with_interior_nul() {
+    let _serial = serial_guard();
     let device_manager = DeviceManager::obtain(&FRIDA);
     let device = device_manager
         .get_local_device()
@@ -90,6 +102,7 @@ fn compile_script_rejects_source_with_interior_nul() {
 fn create_script_from_bytes_accepts_default_options() {
     // Regression: the new method must work with bare `ScriptOption::default()`
     // (no name, no explicit runtime), just like `create_script` does today.
+    let _serial = serial_guard();
     let device_manager = DeviceManager::obtain(&FRIDA);
     let device = device_manager
         .get_local_device()
