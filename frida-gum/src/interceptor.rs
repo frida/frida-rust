@@ -149,12 +149,23 @@ impl Interceptor {
     ) -> Result<NativePointer> {
         let mut original_function = NativePointer(ptr::null_mut());
         unsafe {
+            let options = gum_sys::GumReplaceOptions {
+                instrumentation: gum_sys::GumInterceptorOptions {
+                    scratch_register: -1,
+                    scenario: gum_sys::GumInterceptorScenario_GUM_INTERCEPTOR_SCENARIO_DEFAULT,
+                    relocation_policy: gum_sys::GumRelocationPolicy_GUM_RELOCATION_DEFAULT,
+                    write_redirect: None,
+                    write_redirect_data: ptr::null_mut(),
+                    redirect_space_hint: 0,
+                },
+                replacement_data: replacement_data.0,
+            };
             match gum_sys::gum_interceptor_replace(
                 self.interceptor,
                 function.0,
                 replacement.0,
-                replacement_data.0,
                 &mut original_function.0,
+                &options,
             ) {
                 gum_sys::GumReplaceReturn_GUM_REPLACE_OK => Ok(original_function),
                 gum_sys::GumReplaceReturn_GUM_REPLACE_WRONG_SIGNATURE => {
@@ -190,11 +201,20 @@ impl Interceptor {
     ) -> Result<NativePointer> {
         let mut original_function = NativePointer(ptr::null_mut());
         unsafe {
+            let options = gum_sys::GumInterceptorOptions {
+                scratch_register: -1,
+                scenario: gum_sys::GumInterceptorScenario_GUM_INTERCEPTOR_SCENARIO_DEFAULT,
+                relocation_policy: gum_sys::GumRelocationPolicy_GUM_RELOCATION_DEFAULT,
+                write_redirect: None,
+                write_redirect_data: ptr::null_mut(),
+                redirect_space_hint: 0,
+            };
             match gum_sys::gum_interceptor_replace_fast(
                 self.interceptor,
                 function.0,
                 replacement.0,
                 &mut original_function.0,
+                &options,
             ) {
                 gum_sys::GumReplaceReturn_GUM_REPLACE_OK => Ok(original_function),
                 gum_sys::GumReplaceReturn_GUM_REPLACE_WRONG_SIGNATURE => {
