@@ -42,6 +42,16 @@ pub enum CodeSigningPolicy {
     CodeSigningRequired = gum_sys::GumCodeSigningPolicy_GUM_CODE_SIGNING_REQUIRED as u32,
 }
 
+/// How thoroughly Gum should clean up its state when shutting down.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[repr(i32)]
+pub enum TeardownRequirement {
+    /// Complete teardown of all internal state.
+    Full = gum_sys::GumTeardownRequirement_GUM_TEARDOWN_REQUIREMENT_FULL,
+    /// Minimal teardown, intended for short-lived processes.
+    Minimal = gum_sys::GumTeardownRequirement_GUM_TEARDOWN_REQUIREMENT_MINIMAL,
+}
+
 #[derive(Clone, FromPrimitive, Debug)]
 #[repr(u32)]
 pub enum Os {
@@ -103,6 +113,97 @@ impl<'a> Process<'a> {
     /// Returns a Module representing the main executable of the process.
     pub fn main_module(&self) -> Module {
         unsafe { Module::from_raw(gum_sys::gum_process_get_main_module()) }
+    }
+
+    /// Returns the libc / system C runtime module if available.
+    pub fn libc_module(&self) -> Option<Module> {
+        unsafe {
+            let module = gum_sys::gum_process_get_libc_module();
+            if module.is_null() {
+                None
+            } else {
+                Some(Module::from_raw(module))
+            }
+        }
+    }
+
+    /// Check whether the specified thread exists.
+    pub fn has_thread(&self, thread_id: usize) -> bool {
+        unsafe { gum_sys::gum_process_has_thread(thread_id as gum_sys::GumThreadId) != 0 }
+    }
+
+    /// Set the process-wide code signing policy.
+    pub fn set_code_signing_policy(&self, policy: CodeSigningPolicy) {
+        let raw: gum_sys::GumCodeSigningPolicy = match policy {
+            CodeSigningPolicy::CodeSigningOptional => {
+                gum_sys::GumCodeSigningPolicy_GUM_CODE_SIGNING_OPTIONAL
+            }
+            CodeSigningPolicy::CodeSigningRequired => {
+                gum_sys::GumCodeSigningPolicy_GUM_CODE_SIGNING_REQUIRED
+            }
+        };
+        unsafe { gum_sys::gum_process_set_code_signing_policy(raw) };
+    }
+
+    /// Get the current teardown requirement.
+    pub fn teardown_requirement(&self) -> TeardownRequirement {
+        let raw = unsafe { gum_sys::gum_process_get_teardown_requirement() };
+        if raw == gum_sys::GumTeardownRequirement_GUM_TEARDOWN_REQUIREMENT_FULL {
+            TeardownRequirement::Full
+        } else {
+            TeardownRequirement::Minimal
+        }
+    }
+
+    /// Set the process teardown requirement.
+    pub fn set_teardown_requirement(&self, requirement: TeardownRequirement) {
+        unsafe {
+            gum_sys::gum_process_set_teardown_requirement(
+                requirement as gum_sys::GumTeardownRequirement,
+            );
+        }
+    }
+
+    /// Suspend the specified thread, run `callback` with its CPU context,
+    /// then resume.
+    ///
+    /// The callback runs synchronously on the calling thread; you may
+    /// inspect or modify the suspended thread's registers via the supplied
+    /// `*mut GumCpuContext`.
+    ///
+    /// Set `abort_safely` to `true` to allow Frida to terminate the request
+    /// at safe points if the suspended thread is in a critical region.
+    ///
+    /// Returns `true` on success.
+    pub fn modify_thread<F>(&self, thread_id: usize, mut callback: F, abort_safely: bool) -> bool
+    where
+        F: FnMut(usize, *mut gum_sys::GumCpuContext),
+    {
+        unsafe extern "C" fn trampoline<F>(
+            thread_id: gum_sys::GumThreadId,
+            cpu_context: *mut gum_sys::GumCpuContext,
+            user_data: gpointer,
+        ) where
+            F: FnMut(usize, *mut gum_sys::GumCpuContext),
+        {
+            let cb = &mut *(user_data as *mut F);
+            cb(thread_id as usize, cpu_context);
+        }
+
+        let flags = if abort_safely {
+            gum_sys::GumModifyThreadFlags_GUM_MODIFY_THREAD_FLAGS_ABORT_SAFELY
+        } else {
+            gum_sys::GumModifyThreadFlags_GUM_MODIFY_THREAD_FLAGS_NONE
+        };
+
+        unsafe {
+            gum_sys::gum_process_modify_thread(
+                thread_id as gum_sys::GumThreadId,
+                Some(trampoline::<F>),
+                &mut callback as *mut _ as *mut c_void,
+                flags,
+            ) != 0
+        }
     }
 
     pub fn find_module_by_name(&self, module_name: &str) -> Option<Module> {
@@ -218,6 +319,38 @@ impl<'a> Process<'a> {
         }
 
         callback_data.ranges
+    }
+
+    /// Enumerate ranges that the libc allocator is currently using.
+    ///
+    /// Each entry is the [`crate::MemoryRange`] of a heap chunk reported by
+    /// the host's malloc implementation (Windows heap, glibc, jemalloc, etc.).
+    /// The set of returned ranges is a snapshot — concurrent allocations
+    /// may invalidate it.
+    pub fn enumerate_malloc_ranges(&self) -> Vec<crate::MemoryRange> {
+        let mut result: Vec<crate::MemoryRange> = Vec::new();
+
+        unsafe extern "C" fn callback(
+            details: *const gum_sys::GumMallocRangeDetails,
+            user_data: gpointer,
+        ) -> gboolean {
+            let res = &mut *(user_data as *mut Vec<crate::MemoryRange>);
+            let r = *(*details).range;
+            res.push(crate::MemoryRange::new(
+                NativePointer(r.base_address as *mut c_void),
+                r.size as usize,
+            ));
+            1
+        }
+
+        unsafe {
+            gum_sys::gum_process_enumerate_malloc_ranges(
+                Some(callback),
+                &mut result as *mut _ as *mut c_void,
+            );
+        }
+
+        result
     }
 
     /// Enumerates loaded modules

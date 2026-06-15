@@ -1,5 +1,8 @@
 use {
-    crate::instruction_writer::{Argument, InstructionWriter, X86BranchCondition, X86Register},
+    crate::{
+        instruction_writer::{Argument, InstructionWriter, X86BranchCondition, X86Register},
+        NativePointer,
+    },
     core::ffi::c_void,
     frida_gum_sys as gum_sys,
     gum_sys::{gssize, GumArgument, GumBranchHint},
@@ -78,6 +81,45 @@ impl X86InstructionWriter {
     /// Get the underlying frida gum writer object
     pub fn raw_writer(&self) -> *mut gum_sys::_GumX86Writer {
         self.writer
+    }
+
+    /// Clear (free) the writer's internal state without deallocating the
+    /// writer struct itself.
+    pub fn clear(&self) {
+        unsafe { gum_sys::gum_x86_writer_clear(self.writer) };
+    }
+
+    /// Get a pointer to the writer's current write cursor.
+    pub fn cur(&self) -> NativePointer {
+        NativePointer(unsafe { gum_sys::gum_x86_writer_cur(self.writer) })
+    }
+
+    /// Get the writer's byte offset from the original code address.
+    pub fn offset(&self) -> u32 {
+        unsafe { gum_sys::gum_x86_writer_offset(self.writer) }
+    }
+
+    /// Set the target CPU type (IA32, AMD64, etc).
+    pub fn set_target_cpu(&self, cpu_type: gum_sys::GumCpuType) {
+        unsafe { gum_sys::gum_x86_writer_set_target_cpu(self.writer, cpu_type) };
+    }
+
+    /// Set the target ABI (Unix or Windows). This affects how
+    /// `put_call_*_with_arguments` lays out arguments.
+    pub fn set_target_abi(&self, abi_type: gum_sys::GumAbiType) {
+        unsafe { gum_sys::gum_x86_writer_set_target_abi(self.writer, abi_type) };
+    }
+
+    /// Get the register that holds the n-th argument of a function call
+    /// under the writer's current ABI / CPU configuration.
+    ///
+    /// Returns `None` if Frida reports a register that is unknown to this
+    /// binding (typically an indication that the writer has not been
+    /// configured with a target ABI).
+    pub fn get_cpu_register_for_nth_argument(&self, n: u32) -> Option<X86Register> {
+        let raw =
+            unsafe { gum_sys::gum_x86_writer_get_cpu_register_for_nth_argument(self.writer, n) };
+        num::FromPrimitive::from_u32(raw as u32)
     }
 
     pub fn put_leave(&self) -> bool {
@@ -514,6 +556,668 @@ impl X86InstructionWriter {
             gum_sys::gum_x86_writer_put_popax(self.writer);
         }
         true
+    }
+
+    /// Insert a breakpoint instruction (int3).
+    pub fn put_breakpoint(&self) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_breakpoint(self.writer);
+        }
+    }
+
+    /// Insert padding bytes (NOP instructions).
+    pub fn put_padding(&self, n: u32) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_padding(self.writer, n);
+        }
+    }
+
+    /// Insert NOP instructions with specific encoding for padding.
+    pub fn put_nop_padding(&self, n: u32) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_nop_padding(self.writer, n);
+        }
+    }
+
+    /// Insert a single unsigned 8-bit value.
+    pub fn put_u8(&self, value: u8) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_u8(self.writer, value);
+        }
+    }
+
+    /// Insert a single signed 8-bit value.
+    pub fn put_s8(&self, value: i8) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_s8(self.writer, value);
+        }
+    }
+
+    /// Insert a `call` indirect through an address.
+    pub fn put_call_indirect(&self, addr: u64) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_call_indirect(self.writer, addr) != 0 }
+    }
+
+    /// Insert a `call` indirect through a label.
+    pub fn put_call_indirect_label(&self, label_id: u64) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_call_indirect_label(self.writer, label_id as *const c_void)
+                != 0
+        }
+    }
+
+    /// Insert a `call` near to a label.
+    pub fn put_call_near_label(&self, label_id: u64) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_call_near_label(self.writer, label_id as *const c_void);
+        }
+    }
+
+    /// Insert a `call` to a register.
+    pub fn put_call_reg(&self, reg: X86Register) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_call_reg(self.writer, reg as u32) != 0 }
+    }
+
+    /// Insert a `call` to a register with offset.
+    pub fn put_call_reg_offset_ptr(&self, reg: X86Register, offset: isize) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_call_reg_offset_ptr(
+                self.writer,
+                reg as u32,
+                offset as gssize,
+            ) != 0
+        }
+    }
+
+    /// Insert a `call` to an address with arguments array.
+    ///
+    /// # Safety
+    ///
+    /// The `args` pointer must be valid for `n_args` elements.
+    pub unsafe fn put_call_address_with_arguments_array(
+        &self,
+        conv: gum_sys::GumCallingConvention,
+        func: u64,
+        n_args: u32,
+        args: *const GumArgument,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_call_address_with_arguments_array(
+                self.writer,
+                conv,
+                func,
+                n_args,
+                args,
+            ) != 0
+        }
+    }
+
+    /// Insert a `call` to an address with aligned arguments array.
+    ///
+    /// # Safety
+    ///
+    /// The `args` pointer must be valid for `n_args` elements.
+    pub unsafe fn put_call_address_with_aligned_arguments_array(
+        &self,
+        conv: gum_sys::GumCallingConvention,
+        func: u64,
+        n_args: u32,
+        args: *const GumArgument,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_call_address_with_aligned_arguments_array(
+                self.writer,
+                conv,
+                func,
+                n_args,
+                args,
+            ) != 0
+        }
+    }
+
+    /// Insert a `call` to a register with arguments.
+    pub fn put_call_reg_with_arguments(&self, reg: X86Register, arguments: &[Argument]) -> bool {
+        let gum_arguments = Self::convert_arguments(arguments);
+        unsafe {
+            gum_sys::gum_x86_writer_put_call_reg_with_arguments(
+                self.writer,
+                gum_sys::_GumCallingConvention_GUM_CALL_CAPI
+                    .try_into()
+                    .unwrap(),
+                reg as u32,
+                gum_arguments.len() as u32,
+                gum_arguments.as_ptr(),
+            ) != 0
+        }
+    }
+
+    /// Insert a `call` to a register with arguments array.
+    ///
+    /// # Safety
+    ///
+    /// The `args` pointer must be valid for `n_args` elements.
+    pub unsafe fn put_call_reg_with_arguments_array(
+        &self,
+        conv: gum_sys::GumCallingConvention,
+        reg: u32,
+        n_args: u32,
+        args: *const GumArgument,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_call_reg_with_arguments_array(
+                self.writer,
+                conv,
+                reg,
+                n_args,
+                args,
+            ) != 0
+        }
+    }
+
+    /// Insert a `call` to a register with aligned arguments array.
+    ///
+    /// # Safety
+    ///
+    /// The `args` pointer must be valid for `n_args` elements.
+    pub unsafe fn put_call_reg_with_aligned_arguments_array(
+        &self,
+        conv: gum_sys::GumCallingConvention,
+        reg: u32,
+        n_args: u32,
+        args: *const GumArgument,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_call_reg_with_aligned_arguments_array(
+                self.writer,
+                conv,
+                reg,
+                n_args,
+                args,
+            ) != 0
+        }
+    }
+
+    /// Insert a `call` to a register offset pointer with arguments.
+    pub fn put_call_reg_offset_ptr_with_arguments(
+        &self,
+        reg: X86Register,
+        offset: isize,
+        arguments: &[Argument],
+    ) -> bool {
+        let gum_arguments = Self::convert_arguments(arguments);
+        unsafe {
+            gum_sys::gum_x86_writer_put_call_reg_offset_ptr_with_arguments(
+                self.writer,
+                gum_sys::_GumCallingConvention_GUM_CALL_CAPI
+                    .try_into()
+                    .unwrap(),
+                reg as u32,
+                offset as gssize,
+                gum_arguments.len() as u32,
+                gum_arguments.as_ptr(),
+            ) != 0
+        }
+    }
+
+    /// Insert a `call` to a register offset pointer with arguments array.
+    ///
+    /// # Safety
+    ///
+    /// The `args` pointer must be valid for `n_args` elements.
+    pub unsafe fn put_call_reg_offset_ptr_with_arguments_array(
+        &self,
+        conv: gum_sys::GumCallingConvention,
+        reg: u32,
+        offset: isize,
+        n_args: u32,
+        args: *const GumArgument,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_call_reg_offset_ptr_with_arguments_array(
+                self.writer,
+                conv,
+                reg,
+                offset as gssize,
+                n_args,
+                args,
+            ) != 0
+        }
+    }
+
+    /// Insert a `call` to a register offset pointer with aligned arguments.
+    pub fn put_call_reg_offset_ptr_with_aligned_arguments(
+        &self,
+        reg: X86Register,
+        offset: isize,
+        arguments: &[Argument],
+    ) -> bool {
+        let gum_arguments = Self::convert_arguments(arguments);
+        unsafe {
+            gum_sys::gum_x86_writer_put_call_reg_offset_ptr_with_aligned_arguments(
+                self.writer,
+                gum_sys::_GumCallingConvention_GUM_CALL_CAPI
+                    .try_into()
+                    .unwrap(),
+                reg as u32,
+                offset as gssize,
+                gum_arguments.len() as u32,
+                gum_arguments.as_ptr(),
+            ) != 0
+        }
+    }
+
+    /// Insert a `call` to a register offset pointer with aligned arguments array.
+    ///
+    /// # Safety
+    ///
+    /// The `args` pointer must be valid for `n_args` elements.
+    pub unsafe fn put_call_reg_offset_ptr_with_aligned_arguments_array(
+        &self,
+        conv: gum_sys::GumCallingConvention,
+        reg: u32,
+        offset: isize,
+        n_args: u32,
+        args: *const GumArgument,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_call_reg_offset_ptr_with_aligned_arguments_array(
+                self.writer,
+                conv,
+                reg,
+                offset as gssize,
+                n_args,
+                args,
+            ) != 0
+        }
+    }
+
+    /// Insert a `call` to a register with aligned arguments.
+    pub fn put_call_reg_with_aligned_arguments(
+        &self,
+        reg: X86Register,
+        arguments: &[Argument],
+    ) -> bool {
+        let gum_arguments = Self::convert_arguments(arguments);
+        unsafe {
+            gum_sys::gum_x86_writer_put_call_reg_with_aligned_arguments(
+                self.writer,
+                gum_sys::_GumCallingConvention_GUM_CALL_CAPI
+                    .try_into()
+                    .unwrap(),
+                reg as u32,
+                gum_arguments.len() as u32,
+                gum_arguments.as_ptr(),
+            ) != 0
+        }
+    }
+
+    /// Insert a CLC (clear carry flag) instruction.
+    pub fn put_clc(&self) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_clc(self.writer);
+        }
+    }
+
+    /// Insert a STC (set carry flag) instruction.
+    pub fn put_stc(&self) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_stc(self.writer);
+        }
+    }
+
+    /// Insert a CLD (clear direction flag) instruction.
+    pub fn put_cld(&self) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_cld(self.writer);
+        }
+    }
+
+    /// Insert a STD (set direction flag) instruction.
+    pub fn put_std(&self) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_std(self.writer);
+        }
+    }
+
+    /// Insert a CPUID instruction.
+    pub fn put_cpuid(&self) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_cpuid(self.writer);
+        }
+    }
+
+    /// Insert a LFENCE (load fence) instruction.
+    pub fn put_lfence(&self) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_lfence(self.writer);
+        }
+    }
+
+    /// Insert an RDTSC (read time-stamp counter) instruction.
+    pub fn put_rdtsc(&self) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_rdtsc(self.writer);
+        }
+    }
+
+    /// Insert a PAUSE instruction.
+    pub fn put_pause(&self) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_pause(self.writer);
+        }
+    }
+
+    /// Insert a LAHF (load flags into AH) instruction.
+    pub fn put_lahf(&self) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_lahf(self.writer);
+        }
+    }
+
+    /// Insert a SAHF (store AH into flags) instruction.
+    pub fn put_sahf(&self) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_sahf(self.writer);
+        }
+    }
+
+    /// Insert a `cmp` immediate pointer with immediate u32.
+    pub fn put_cmp_imm_ptr_imm_u32(&self, imm_ptr: u64, imm_value: u32) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_cmp_imm_ptr_imm_u32(
+                self.writer,
+                imm_ptr as *const c_void,
+                imm_value,
+            );
+        }
+    }
+
+    /// Insert a `cmp` register with immediate i32.
+    pub fn put_cmp_reg_i32(&self, reg: X86Register, imm_value: i32) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_cmp_reg_i32(self.writer, reg as u32, imm_value) != 0 }
+    }
+
+    /// Insert a `cmp` register offset pointer with register.
+    pub fn put_cmp_reg_offset_ptr_reg(
+        &self,
+        reg_a: X86Register,
+        offset: isize,
+        reg_b: X86Register,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_cmp_reg_offset_ptr_reg(
+                self.writer,
+                reg_a as u32,
+                offset as gssize,
+                reg_b as u32,
+            ) != 0
+        }
+    }
+
+    /// Insert a `cmp` register with register.
+    pub fn put_cmp_reg_reg(&self, reg_a: X86Register, reg_b: X86Register) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_cmp_reg_reg(self.writer, reg_a as u32, reg_b as u32) != 0
+        }
+    }
+
+    /// Insert a `test` register with immediate u32.
+    pub fn put_test_reg_u32(&self, reg: X86Register, imm_value: u32) -> bool {
+        unsafe { gum_sys::gum_x86_writer_put_test_reg_u32(self.writer, reg as u32, imm_value) != 0 }
+    }
+
+    /// Insert a conditional jump short to the given condition.
+    pub fn put_jcc_short(
+        &self,
+        condition: X86BranchCondition,
+        target: u64,
+        hint: GumBranchHint,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_jcc_short(
+                self.writer,
+                condition as i32,
+                target as *const c_void,
+                hint,
+            ) != 0
+        }
+    }
+
+    /// Insert a conditional jump near to the given condition.
+    pub fn put_jcc_near(
+        &self,
+        condition: X86BranchCondition,
+        target: u64,
+        hint: GumBranchHint,
+    ) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_jcc_near(
+                self.writer,
+                condition as i32,
+                target as *const c_void,
+                hint,
+            ) != 0
+        }
+    }
+
+    /// Insert a `inc` to a register pointer.
+    ///
+    /// # Arguments
+    ///
+    /// * `target` - Pointer size: BYTE (0), DWORD (1), or QWORD (2)
+    /// * `reg` - Register to increment
+    pub fn put_inc_reg_ptr(&self, target: u32, reg: X86Register) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_inc_reg_ptr(self.writer, target, reg as u32);
+        }
+    }
+
+    /// Insert a `dec` to a register pointer.
+    ///
+    /// # Arguments
+    ///
+    /// * `target` - Pointer size: BYTE (0), DWORD (1), or QWORD (2)
+    /// * `reg` - Register to decrement
+    pub fn put_dec_reg_ptr(&self, target: u32, reg: X86Register) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_dec_reg_ptr(self.writer, target, reg as u32);
+        }
+    }
+
+    /// Insert a `lock inc` to an immediate 32-bit pointer.
+    pub fn put_lock_inc_imm32_ptr(&self, target: u64) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_lock_inc_imm32_ptr(self.writer, target as *mut c_void) != 0
+        }
+    }
+
+    /// Insert a `lock dec` to an immediate 32-bit pointer.
+    pub fn put_lock_dec_imm32_ptr(&self, target: u64) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_lock_dec_imm32_ptr(self.writer, target as *mut c_void) != 0
+        }
+    }
+
+    /// Insert a `lock cmpxchg` register pointer with register.
+    pub fn put_lock_cmpxchg_reg_ptr_reg(&self, dst_reg: X86Register, src_reg: X86Register) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_lock_cmpxchg_reg_ptr_reg(
+                self.writer,
+                dst_reg as u32,
+                src_reg as u32,
+            );
+        }
+    }
+
+    /// Insert a `lock xadd` register pointer with register.
+    pub fn put_lock_xadd_reg_ptr_reg(&self, dst_reg: X86Register, src_reg: X86Register) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_lock_xadd_reg_ptr_reg(
+                self.writer,
+                dst_reg as u32,
+                src_reg as u32,
+            );
+        }
+    }
+
+    /// Insert a `xchg` register with register pointer.
+    pub fn put_xchg_reg_reg_ptr(&self, left_reg: X86Register, right_reg: X86Register) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_xchg_reg_reg_ptr(
+                self.writer,
+                left_reg as u32,
+                right_reg as u32,
+            );
+        }
+    }
+
+    /// Insert a `push` immediate pointer.
+    pub fn put_push_imm_ptr(&self, imm_ptr: u64) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_push_imm_ptr(self.writer, imm_ptr as *const c_void);
+            true
+        }
+    }
+
+    /// Insert a `mov` from near pointer to register.
+    pub fn put_mov_reg_near_ptr(&self, dst_reg: X86Register, src: u64) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_reg_near_ptr(self.writer, dst_reg as u32, src) != 0
+        }
+    }
+
+    /// Insert a `mov` from register to near pointer.
+    pub fn put_mov_near_ptr_reg(&self, dst: u64, src_reg: X86Register) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_near_ptr_reg(self.writer, dst, src_reg as u32) != 0
+        }
+    }
+
+    /// Insert a `mov` from FS segment register pointer to register.
+    pub fn put_mov_reg_fs_reg_ptr(&self, dst_reg: X86Register, src_reg: X86Register) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_reg_fs_reg_ptr(
+                self.writer,
+                dst_reg as u32,
+                src_reg as u32,
+            );
+        }
+    }
+
+    /// Insert a `mov` from FS segment u32 pointer to register.
+    pub fn put_mov_reg_fs_u32_ptr(&self, dst_reg: X86Register, fs_offset: u32) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_reg_fs_u32_ptr(self.writer, dst_reg as u32, fs_offset)
+                != 0
+        }
+    }
+
+    /// Insert a `mov` from register to FS segment register pointer.
+    pub fn put_mov_fs_reg_ptr_reg(&self, dst_reg: X86Register, src_reg: X86Register) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_fs_reg_ptr_reg(
+                self.writer,
+                dst_reg as u32,
+                src_reg as u32,
+            );
+        }
+    }
+
+    /// Insert a `mov` from register to FS segment u32 pointer.
+    pub fn put_mov_fs_u32_ptr_reg(&self, fs_offset: u32, src_reg: X86Register) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_fs_u32_ptr_reg(self.writer, fs_offset, src_reg as u32)
+                != 0
+        }
+    }
+
+    /// Insert a `mov` from GS segment register pointer to register.
+    pub fn put_mov_reg_gs_reg_ptr(&self, dst_reg: X86Register, src_reg: X86Register) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_reg_gs_reg_ptr(
+                self.writer,
+                dst_reg as u32,
+                src_reg as u32,
+            );
+        }
+    }
+
+    /// Insert a `mov` from register to GS segment register pointer.
+    pub fn put_mov_gs_reg_ptr_reg(&self, dst_reg: X86Register, src_reg: X86Register) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_gs_reg_ptr_reg(
+                self.writer,
+                dst_reg as u32,
+                src_reg as u32,
+            );
+        }
+    }
+
+    /// Insert a `mov` from register to GS segment u32 pointer.
+    pub fn put_mov_gs_u32_ptr_reg(&self, gs_offset: u32, src_reg: X86Register) -> bool {
+        unsafe {
+            gum_sys::gum_x86_writer_put_mov_gs_u32_ptr_reg(self.writer, gs_offset, src_reg as u32)
+                != 0
+        }
+    }
+
+    /// Insert a `movdqu` from XMM0 to EAX offset pointer.
+    pub fn put_movdqu_eax_offset_ptr_xmm0(&self, offset: i8) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_movdqu_eax_offset_ptr_xmm0(self.writer, offset);
+        }
+    }
+
+    /// Insert a `movdqu` from ESP offset pointer to XMM0.
+    pub fn put_movdqu_xmm0_esp_offset_ptr(&self, offset: i8) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_movdqu_xmm0_esp_offset_ptr(self.writer, offset);
+        }
+    }
+
+    /// Insert a `movq` from XMM0 to EAX offset pointer.
+    pub fn put_movq_eax_offset_ptr_xmm0(&self, offset: i8) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_movq_eax_offset_ptr_xmm0(self.writer, offset);
+        }
+    }
+
+    /// Insert a `movq` from ESP offset pointer to XMM0.
+    pub fn put_movq_xmm0_esp_offset_ptr(&self, offset: i8) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_movq_xmm0_esp_offset_ptr(self.writer, offset);
+        }
+    }
+
+    /// Insert an `fxsave` to a register pointer.
+    pub fn put_fxsave_reg_ptr(&self, reg: X86Register) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_fxsave_reg_ptr(self.writer, reg as u32);
+        }
+    }
+
+    /// Insert an `fxrstor` from a register pointer.
+    pub fn put_fxrstor_reg_ptr(&self, reg: X86Register) {
+        unsafe {
+            gum_sys::gum_x86_writer_put_fxrstor_reg_ptr(self.writer, reg as u32);
+        }
+    }
+
+    /// Helper to convert Argument slice to GumArgument Vec.
+    fn convert_arguments(arguments: &[Argument]) -> Vec<GumArgument> {
+        arguments
+            .iter()
+            .map(|arg| match arg {
+                Argument::Register(reg) => GumArgument {
+                    type_: gum_sys::_GumArgType_GUM_ARG_REGISTER.try_into().unwrap(),
+                    value: gum_sys::_GumArgument__bindgen_ty_1 { reg: *reg as i32 },
+                },
+                Argument::Address(addr) => GumArgument {
+                    type_: gum_sys::_GumArgType_GUM_ARG_ADDRESS.try_into().unwrap(),
+                    value: gum_sys::_GumArgument__bindgen_ty_1 { address: *addr },
+                },
+            })
+            .collect()
     }
 }
 

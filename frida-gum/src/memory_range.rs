@@ -4,7 +4,12 @@
  * Licence: wxWindows Library Licence, Version 3.1
  */
 
-use {crate::NativePointer, core::ffi::c_void, cstr_core::CString, frida_gum_sys as gum_sys};
+use {
+    crate::{NativePointer, PageProtection},
+    core::ffi::c_void,
+    cstr_core::CString,
+    frida_gum_sys as gum_sys,
+};
 
 use core::{
     fmt::{Debug, Display, LowerHex, UpperHex},
@@ -30,6 +35,34 @@ impl MatchPattern {
             None
         }
     }
+
+    /// Get the size in bytes of a buffer that this pattern could match.
+    pub fn size(&self) -> u32 {
+        unsafe { gum_sys::gum_match_pattern_get_size(self.internal) }
+    }
+
+    /// Get the raw pointer to the GLib `GPtrArray` of pattern tokens.
+    ///
+    /// Exposed for advanced users who need to inspect the compiled pattern
+    /// structure directly. The returned pointer aliases storage owned by
+    /// this `MatchPattern`; do not free it or retain it beyond the
+    /// `MatchPattern`'s lifetime.
+    ///
+    /// # Safety
+    ///
+    /// The caller must treat the returned pointer as borrowed from `&self`
+    /// and must not mutate the underlying array.
+    pub unsafe fn tokens(&self) -> *mut gum_sys::GPtrArray {
+        gum_sys::gum_match_pattern_get_tokens(self.internal)
+    }
+}
+
+impl Clone for MatchPattern {
+    fn clone(&self) -> Self {
+        MatchPattern {
+            internal: unsafe { gum_sys::gum_match_pattern_ref(self.internal) },
+        }
+    }
 }
 
 impl Drop for MatchPattern {
@@ -37,6 +70,45 @@ impl Drop for MatchPattern {
         unsafe { gum_sys::gum_match_pattern_unref(self.internal) }
     }
 }
+
+/// Cached map of memory pages matching a given protection.
+///
+/// Useful for fast "is this address inside an executable / readable region?"
+/// queries — much cheaper than repeatedly enumerating process ranges.
+pub struct MemoryMap {
+    inner: *mut gum_sys::GumMemoryMap,
+}
+
+impl MemoryMap {
+    /// Build a memory map covering all pages with the given protection.
+    pub fn new(protection: PageProtection) -> Self {
+        MemoryMap {
+            inner: unsafe { gum_sys::gum_memory_map_new(protection as u32) },
+        }
+    }
+
+    /// Test whether the entire range is contained within the cached map.
+    pub fn contains(&self, range: &MemoryRange) -> bool {
+        unsafe { gum_sys::gum_memory_map_contains(self.inner, &range.memory_range) != 0 }
+    }
+
+    /// Re-scan the process and update the cached map.
+    ///
+    /// Call this after operations that may alter page protection
+    /// (`VirtualProtect`, `mprotect`, allocations, etc.).
+    pub fn update(&self) {
+        unsafe { gum_sys::gum_memory_map_update(self.inner) };
+    }
+}
+
+impl Drop for MemoryMap {
+    fn drop(&mut self) {
+        unsafe { gum_sys::g_object_unref(self.inner as *mut c_void) };
+    }
+}
+
+unsafe impl Send for MemoryMap {}
+unsafe impl Sync for MemoryMap {}
 
 #[allow(dead_code)]
 pub struct ScanResult {

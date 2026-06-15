@@ -109,7 +109,7 @@ impl Backtracer {
     /// Generate a fuzzy backtrace as a list of return addresses for the supplied cpu
     /// context.
     pub fn fuzzy_with_context(context: &gum_sys::GumCpuContext) -> Vec<usize> {
-        Self::fuzzy_with_context_and_limit(&context, gum_sys::GUM_MAX_BACKTRACE_DEPTH)
+        Self::fuzzy_with_context_and_limit(context, gum_sys::GUM_MAX_BACKTRACE_DEPTH)
     }
 
     /// Generate a fuzzy backtrace as a list of return addresses for the supplied cpu

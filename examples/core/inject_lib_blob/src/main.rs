@@ -1,8 +1,12 @@
+#[cfg(target_os = "linux")]
 use frida::{Frida, Inject};
+#[cfg(target_os = "linux")]
 use std::sync::LazyLock;
 
+#[cfg(target_os = "linux")]
 static FRIDA: LazyLock<Frida> = LazyLock::new(|| unsafe { Frida::obtain() });
 
+#[cfg(target_os = "linux")]
 fn main() {
     let device_manager = frida::DeviceManager::obtain(&FRIDA);
     let local_device = device_manager.get_local_device();
@@ -20,4 +24,9 @@ fn main() {
 
         println!("*** Injected, id={}", id);
     }
+}
+
+#[cfg(not(target_os = "linux"))]
+fn main() {
+    println!("This example only works on Linux.");
 }

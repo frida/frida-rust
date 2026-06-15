@@ -3,7 +3,7 @@
 use frida_gum as gum;
 use gum::{
     interceptor::{Interceptor, InvocationContext, InvocationListener},
-    Gum, Module,
+    Gum, Module, Process,
 };
 use std::os::raw::{c_int, c_void};
 use std::sync::OnceLock;
@@ -25,20 +25,22 @@ extern "C" fn example_agent_main(_user_data: *const c_void, resident: *mut c_int
     unsafe { *resident = 1 };
 
     static CELL: OnceLock<Gum> = OnceLock::new();
-    let gum = CELL.get_or_init(|| Gum::obtain());
+    let gum = CELL.get_or_init(Gum::obtain);
 
     let mut interceptor = Interceptor::obtain(gum);
     let mut listener = OpenListener {};
 
-    let module = Module::obtain(gum);
-    let modules = module.enumerate_modules();
-    for module in modules {
+    let process = Process::obtain(gum);
+    for module in process.enumerate_modules() {
+        let range = module.range();
         println!(
             "{}@{:#x}/{:#x}",
-            module.name, module.base_address, module.size
+            module.name(),
+            range.base_address().0 as usize,
+            range.size()
         );
     }
 
-    let open = module.find_export_by_name(None, "open").unwrap();
+    let open = Module::find_global_export_by_name("open").expect("expected `open` to be exported");
     interceptor.attach(open, &mut listener).unwrap();
 }
