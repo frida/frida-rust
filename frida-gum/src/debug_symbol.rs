@@ -4,8 +4,8 @@ use {
     cstr_core::{CStr, CString},
     frida_gum_sys as gum_sys,
     gum_sys::{
-        gum_find_function, gum_symbol_details_from_address, gum_symbol_type_to_string,
-        GumDebugSymbolDetails, GumSymbolType,
+        GumDebugSymbolDetails, GumSymbolType, gum_find_function, gum_symbol_details_from_address,
+        gum_symbol_type_to_string,
     },
 };
 
@@ -115,6 +115,17 @@ impl DebugSymbol {
         match Self::find_function(name) {
             Some(address) => Self::from_address(address),
             None => None,
+        }
+    }
+
+    /// Load debug symbols from the module (or symbol file) at `path`.
+    ///
+    /// Useful when symbols live in a separate file (e.g. a stripped binary with
+    /// a companion `.debug`/`.pdb`). Returns `true` if symbols were loaded.
+    pub fn load_symbols<S: AsRef<str>>(path: S) -> bool {
+        match CString::new(path.as_ref()) {
+            Ok(path) => unsafe { gum_sys::gum_load_symbols(path.as_ptr().cast()) != 0 },
+            Err(_) => false,
         }
     }
 }

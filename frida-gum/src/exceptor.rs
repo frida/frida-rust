@@ -10,13 +10,17 @@
 //! The Exceptor allows you to intercept and handle exceptions/signals
 //! before they reach the application's normal exception handlers.
 
-use {crate::Gum, core::ffi::c_void, frida_gum_sys as gum_sys};
+use {
+    crate::Gum,
+    core::ffi::{CStr, c_char, c_void},
+    frida_gum_sys as gum_sys,
+};
 
 #[cfg(not(feature = "std"))]
-use alloc::boxed::Box;
+use alloc::{boxed::Box, string::String};
 
 #[cfg(feature = "std")]
-use std::boxed::Box;
+use std::{boxed::Box, string::String};
 
 /// Operating mode for the global exceptor.
 #[repr(i32)]
@@ -56,6 +60,13 @@ pub enum ExceptionType {
 }
 
 /// Exception handler interface.
+///
+/// Handlers registered with [`Exceptor::add`] are **not** removed automatically
+/// when the `Exceptor` is dropped: the underlying exceptor is a process-wide
+/// singleton, so dropping this handle does not tear down the C-side registration.
+/// Each handler must be explicitly removed with [`Exceptor::remove`] before the
+/// data captured by its closure goes out of scope; otherwise the closure leaks
+/// and a subsequent exception could invoke a callback over freed state.
 pub struct Exceptor {
     exceptor: *mut gum_sys::GumExceptor,
     _gum: Gum,
@@ -103,7 +114,7 @@ impl Exceptor {
     /// ```
     pub fn add<F>(&mut self, callback: F) -> ExceptionHandlerHandle
     where
-        F: FnMut(*mut gum_sys::GumExceptionDetails) -> bool + 'static,
+        F: FnMut(*mut gum_sys::GumExceptionDetails) -> bool + Send + 'static,
     {
         unsafe extern "C" fn trampoline<F>(
             details: *mut gum_sys::GumExceptionDetails,
@@ -112,11 +123,9 @@ impl Exceptor {
         where
             F: FnMut(*mut gum_sys::GumExceptionDetails) -> bool,
         {
-            let callback = &mut *(user_data as *mut F);
-            if callback(details) {
-                1
-            } else {
-                0
+            unsafe {
+                let callback = &mut *(user_data as *mut F);
+                if callback(details) { 1 } else { 0 }
             }
         }
 
@@ -127,8 +136,10 @@ impl Exceptor {
         where
             F: FnMut(*mut gum_sys::GumExceptionDetails) -> bool,
         {
-            // Reconstruct and drop the Box with the correct type
-            let _ = Box::from_raw(user_data as *mut F);
+            unsafe {
+                // Reconstruct and drop the Box with the correct type
+                let _ = Box::from_raw(user_data as *mut F);
+            }
         }
 
         unsafe {
@@ -178,6 +189,33 @@ impl Exceptor {
     /// to fully disable Frida's signal handling.
     pub fn set_mode(mode: ExceptorMode) {
         unsafe { gum_sys::gum_exceptor_set_mode(mode as gum_sys::GumExceptorMode) };
+    }
+
+    /// Format the given exception details into a human-readable string.
+    ///
+    /// `details` is the pointer handed to an exception handler registered with
+    /// [`Exceptor::add`].
+    ///
+    /// # Safety
+    ///
+    /// `details` must be a valid `GumExceptionDetails` pointer (e.g. the one
+    /// received by an exception handler).
+    pub unsafe fn exception_details_to_string(
+        details: *const gum_sys::GumExceptionDetails,
+    ) -> String {
+        unsafe {
+            let raw = gum_sys::gum_exception_details_to_string(details);
+            if raw.is_null() {
+                return String::new();
+            }
+            let owned = CStr::from_ptr(raw as *const c_char)
+                .to_string_lossy()
+                .into_owned();
+            // gum_exception_details_to_string returns a newly-allocated string
+            // (transfer-full) that the caller must release.
+            gum_sys::g_free(raw as *mut c_void);
+            owned
+        }
     }
 }
 

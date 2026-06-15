@@ -1,4 +1,4 @@
-use core::ffi::{c_void, CStr};
+use core::ffi::{CStr, c_void};
 use core::fmt::{self, Debug};
 use core::ptr;
 
@@ -281,28 +281,30 @@ pub struct ThreadError {
 }
 
 unsafe fn check_error(ok: bool, err: *mut gum_sys::GError) -> Result<(), ThreadError> {
-    if ok {
-        if !err.is_null() {
-            gum_sys::g_error_free(err);
+    unsafe {
+        if ok {
+            if !err.is_null() {
+                gum_sys::g_error_free(err);
+            }
+            return Ok(());
         }
-        return Ok(());
-    }
-    let message = if !err.is_null() {
-        let msg = if !(*err).message.is_null() {
-            Some(
-                CStr::from_ptr((*err).message)
-                    .to_string_lossy()
-                    .into_owned(),
-            )
+        let message = if !err.is_null() {
+            let msg = if !(*err).message.is_null() {
+                Some(
+                    CStr::from_ptr((*err).message)
+                        .to_string_lossy()
+                        .into_owned(),
+                )
+            } else {
+                None
+            };
+            gum_sys::g_error_free(err);
+            msg
         } else {
             None
         };
-        gum_sys::g_error_free(err);
-        msg
-    } else {
-        None
-    };
-    Err(ThreadError { message })
+        Err(ThreadError { message })
+    }
 }
 
 impl Debug for Thread {

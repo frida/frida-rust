@@ -1,7 +1,7 @@
 use {
     crate::instruction_writer::{Aarch64InstructionWriter, Relocator},
     core::ffi::c_void,
-    frida_gum_sys::{cs_insn, Insn},
+    frida_gum_sys::{Insn, cs_insn},
 };
 
 pub struct Aarch64Relocator {

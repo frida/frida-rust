@@ -114,15 +114,17 @@ impl Query {
     /// `mem` must point to a region of at least `size` bytes that is part of
     /// a single allocation visible to Frida.
     pub unsafe fn page_allocation_range(mem: NativePointer, size: u32) -> Option<MemoryRange> {
-        let mut raw: gum_sys::GumMemoryRange = core::mem::zeroed();
-        gum_sys::gum_query_page_allocation_range(mem.0, size, &mut raw);
-        if raw.size == 0 {
-            None
-        } else {
-            Some(MemoryRange::new(
-                NativePointer(raw.base_address as *mut core::ffi::c_void),
-                raw.size as usize,
-            ))
+        unsafe {
+            let mut raw: gum_sys::GumMemoryRange = core::mem::zeroed();
+            gum_sys::gum_query_page_allocation_range(mem.0, size, &mut raw);
+            if raw.size == 0 {
+                None
+            } else {
+                Some(MemoryRange::new(
+                    NativePointer(raw.base_address as *mut core::ffi::c_void),
+                    raw.size as usize,
+                ))
+            }
         }
     }
 }

@@ -34,7 +34,7 @@ impl CodeSlice {
     ///
     /// The caller must ensure they don't write beyond the size of the slice.
     pub unsafe fn as_mut_ptr(&mut self) -> *mut u8 {
-        (*self.slice).data as *mut u8
+        unsafe { (*self.slice).data as *mut u8 }
     }
 
     /// Get a slice view of the code memory.
@@ -43,7 +43,12 @@ impl CodeSlice {
     ///
     /// The caller must ensure the memory contains valid data.
     pub unsafe fn as_slice(&self) -> &[u8] {
-        core::slice::from_raw_parts((*self.slice).data as *const u8, (*self.slice).size as usize)
+        unsafe {
+            core::slice::from_raw_parts(
+                (*self.slice).data as *const u8,
+                (*self.slice).size as usize,
+            )
+        }
     }
 
     /// Get a mutable slice view of the code memory.
@@ -52,7 +57,12 @@ impl CodeSlice {
     ///
     /// The caller must ensure proper synchronization if the code is being executed.
     pub unsafe fn as_mut_slice(&mut self) -> &mut [u8] {
-        core::slice::from_raw_parts_mut((*self.slice).data as *mut u8, (*self.slice).size as usize)
+        unsafe {
+            core::slice::from_raw_parts_mut(
+                (*self.slice).data as *mut u8,
+                (*self.slice).size as usize,
+            )
+        }
     }
 }
 
@@ -72,6 +82,45 @@ impl Drop for CodeSlice {
 
 unsafe impl Send for CodeSlice {}
 unsafe impl Sync for CodeSlice {}
+
+/// A code deflector trampoline allocated by [`CodeAllocator::alloc_deflector`].
+pub struct CodeDeflector {
+    deflector: *mut gum_sys::GumCodeDeflector,
+}
+
+impl CodeDeflector {
+    /// The return address this deflector redirects from.
+    pub fn return_address(&self) -> NativePointer {
+        NativePointer(unsafe { (*self.deflector).return_address })
+    }
+
+    /// The address execution is redirected to.
+    pub fn target(&self) -> NativePointer {
+        NativePointer(unsafe { (*self.deflector).target })
+    }
+
+    /// The trampoline entry point installed near the caller.
+    pub fn trampoline(&self) -> NativePointer {
+        NativePointer(unsafe { (*self.deflector).trampoline })
+    }
+}
+
+impl Clone for CodeDeflector {
+    fn clone(&self) -> Self {
+        CodeDeflector {
+            deflector: unsafe { gum_sys::gum_code_deflector_ref(self.deflector) },
+        }
+    }
+}
+
+impl Drop for CodeDeflector {
+    fn drop(&mut self) {
+        unsafe { gum_sys::gum_code_deflector_unref(self.deflector) };
+    }
+}
+
+unsafe impl Send for CodeDeflector {}
+unsafe impl Sync for CodeDeflector {}
 
 /// Allocator for executable code memory.
 ///
@@ -155,6 +204,50 @@ impl CodeAllocator {
     /// This ensures all allocated slices are fully committed and ready for use.
     pub fn commit(&mut self) {
         unsafe { gum_sys::gum_code_allocator_commit(&mut self.allocator) };
+    }
+
+    /// Allocate a code deflector.
+    ///
+    /// A deflector installs a small trampoline near `caller` that redirects
+    /// execution arriving from `return_address` to `target`. Set `dedicated`
+    /// to reserve the deflector for a single caller.
+    ///
+    /// # Arguments
+    ///
+    /// * `caller` - Address to allocate the deflector near, with the maximum
+    ///   distance permitted.
+    /// * `max_distance` - Maximum distance in bytes from `caller`.
+    /// * `return_address` - The return address that should be deflected.
+    /// * `target` - Where execution should be redirected to.
+    /// * `dedicated` - Whether the deflector is dedicated to a single caller.
+    pub fn alloc_deflector(
+        &mut self,
+        caller: NativePointer,
+        max_distance: usize,
+        return_address: NativePointer,
+        target: NativePointer,
+        dedicated: bool,
+    ) -> Option<CodeDeflector> {
+        let spec = gum_sys::GumAddressSpec {
+            near_address: caller.0,
+            max_distance: max_distance as u64,
+        };
+
+        let deflector = unsafe {
+            gum_sys::gum_code_allocator_alloc_deflector(
+                &mut self.allocator,
+                &spec,
+                return_address.0,
+                target.0,
+                i32::from(dedicated),
+            )
+        };
+
+        if deflector.is_null() {
+            None
+        } else {
+            Some(CodeDeflector { deflector })
+        }
     }
 }
 

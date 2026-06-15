@@ -9,7 +9,7 @@
 //! written, or executed.
 
 use {
-    crate::{error::Error, MemoryRange, NativePointer, PageProtection},
+    crate::{MemoryRange, NativePointer, PageProtection, error::Error},
     core::{ffi::c_void, ptr},
     frida_gum_sys as gum_sys,
 };

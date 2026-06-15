@@ -12,7 +12,7 @@
 
 use {
     crate::NativePointer,
-    core::ffi::{c_void, CStr},
+    core::ffi::{CStr, c_void},
     cstr_core::CString,
     frida_gum_sys as gum_sys,
 };

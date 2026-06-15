@@ -58,11 +58,9 @@ impl Cloak {
         where
             F: FnMut(usize) -> bool,
         {
-            let cb = &mut *(user_data as *mut F);
-            if cb(id as usize) {
-                1
-            } else {
-                0
+            unsafe {
+                let cb = &mut *(user_data as *mut F);
+                if cb(id as usize) { 1 } else { 0 }
             }
         }
 
@@ -129,16 +127,14 @@ impl Cloak {
         where
             F: FnMut(&MemoryRange) -> bool,
         {
-            let cb = &mut *(user_data as *mut F);
-            let r = *range;
-            let memory_range = MemoryRange::new(
-                NativePointer(r.base_address as *mut c_void),
-                r.size as usize,
-            );
-            if cb(&memory_range) {
-                1
-            } else {
-                0
+            unsafe {
+                let cb = &mut *(user_data as *mut F);
+                let r = *range;
+                let memory_range = MemoryRange::new(
+                    NativePointer(r.base_address as *mut c_void),
+                    r.size as usize,
+                );
+                if cb(&memory_range) { 1 } else { 0 }
             }
         }
 
@@ -177,11 +173,9 @@ impl Cloak {
         where
             F: FnMut(i32) -> bool,
         {
-            let cb = &mut *(user_data as *mut F);
-            if cb(fd) {
-                1
-            } else {
-                0
+            unsafe {
+                let cb = &mut *(user_data as *mut F);
+                if cb(fd) { 1 } else { 0 }
             }
         }
 
@@ -199,8 +193,10 @@ impl Cloak {
     /// of the callback.
     pub fn with_lock_held<F: FnOnce()>(callback: F) {
         unsafe extern "C" fn trampoline<F: FnOnce()>(user_data: gum_sys::gpointer) {
-            let cb = Box::from_raw(user_data as *mut F);
-            cb();
+            unsafe {
+                let cb = Box::from_raw(user_data as *mut F);
+                cb();
+            }
         }
 
         let boxed = Box::new(callback);

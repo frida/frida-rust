@@ -51,7 +51,9 @@ impl ModuleRegistry {
     ///
     /// Must be paired one-for-one with [`Self::lock`].
     pub unsafe fn unlock(&self) {
-        gum_sys::gum_module_registry_unlock(self.inner);
+        unsafe {
+            gum_sys::gum_module_registry_unlock(self.inner);
+        }
     }
 
     /// Run `f` while holding the registry lock.
@@ -70,9 +72,11 @@ impl ModuleRegistry {
             module: *mut gum_sys::GumModule,
             user_data: gum_sys::gpointer,
         ) -> gum_sys::gboolean {
-            let res = &mut *(user_data as *mut Vec<Module>);
-            res.push(Module::from_raw(module));
-            1
+            unsafe {
+                let res = &mut *(user_data as *mut Vec<Module>);
+                res.push(Module::from_raw(module));
+                1
+            }
         }
 
         unsafe {
@@ -114,7 +118,9 @@ impl ThreadRegistry {
     ///
     /// Must be paired one-for-one with [`Self::lock`].
     pub unsafe fn unlock(&self) {
-        gum_sys::gum_thread_registry_unlock(self.inner);
+        unsafe {
+            gum_sys::gum_thread_registry_unlock(self.inner);
+        }
     }
 
     /// Run `f` while holding the registry lock.
@@ -133,9 +139,11 @@ impl ThreadRegistry {
             details: *const gum_sys::GumThreadDetails,
             user_data: gum_sys::gpointer,
         ) -> gum_sys::gboolean {
-            let res = &mut *(user_data as *mut Vec<Thread>);
-            res.push(Thread::from_raw(details));
-            1
+            unsafe {
+                let res = &mut *(user_data as *mut Vec<Thread>);
+                res.push(Thread::from_raw(details));
+                1
+            }
         }
 
         unsafe {

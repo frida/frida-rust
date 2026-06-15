@@ -1,8 +1,8 @@
 use {
     crate::script::{backend::Backend, context::Context},
     frida_gum_sys::{
-        gum_script_backend_get_scheduler, gum_script_scheduler_disable_background_thread,
-        gum_script_scheduler_get_js_context, GumScriptScheduler,
+        GumScriptScheduler, gum_script_backend_get_scheduler,
+        gum_script_scheduler_disable_background_thread, gum_script_scheduler_get_js_context,
     },
 };
 

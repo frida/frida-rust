@@ -48,8 +48,10 @@ impl Frida {
     /// be called as many times as needed, and results in a no-op if the Frida runtime is
     /// already initialized.
     pub unsafe fn obtain() -> Frida {
-        frida_sys::frida_init();
-        Frida {}
+        unsafe {
+            frida_sys::frida_init();
+            Frida {}
+        }
     }
 
     /// Gets the current version of frida core
@@ -67,17 +69,21 @@ impl Frida {
             unsafe extern "C" fn trampoline<F: FnOnce() + Send + 'static>(
                 func: frida_sys::gpointer,
             ) -> frida_sys::gboolean {
-                let func: &mut Option<F> = &mut *(func as *mut Option<F>);
-                let func = func
-                    .take()
-                    .expect("schedule_on_main closure called multiple times");
-                func();
-                frida_sys::G_SOURCE_REMOVE as frida_sys::gboolean
+                unsafe {
+                    let func: &mut Option<F> = &mut *(func as *mut Option<F>);
+                    let func = func
+                        .take()
+                        .expect("schedule_on_main closure called multiple times");
+                    func();
+                    frida_sys::G_SOURCE_REMOVE as frida_sys::gboolean
+                }
             }
             unsafe extern "C" fn destroy_closure<F: FnOnce() + Send + 'static>(
                 ptr: frida_sys::gpointer,
             ) {
-                let _ = Box::<Option<F>>::from_raw(ptr as *mut _);
+                unsafe {
+                    let _ = Box::<Option<F>>::from_raw(ptr as *mut _);
+                }
             }
 
             let func = Box::into_raw(Box::new(Some(func)));

@@ -59,7 +59,7 @@ extern crate num;
 extern crate num_derive;
 
 use core::{
-    ffi::{c_char, c_void, CStr},
+    ffi::{CStr, c_char, c_void},
     fmt::{Debug, Display, Formatter, LowerHex, UpperHex},
 };
 
@@ -121,6 +121,12 @@ pub use cloak::*;
 
 mod query;
 pub use query::*;
+
+mod control_flow_graph;
+pub use control_flow_graph::*;
+
+mod unwind_broker;
+pub use unwind_broker::*;
 
 mod tls;
 pub use tls::*;

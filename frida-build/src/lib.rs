@@ -7,7 +7,7 @@
 
 use std::{
     env,
-    fs::{remove_file, File},
+    fs::{File, remove_file},
     io::{self, Error},
     path::Path,
 };

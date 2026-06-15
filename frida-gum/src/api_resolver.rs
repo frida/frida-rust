@@ -14,7 +14,7 @@
 
 use {
     crate::NativePointer,
-    core::ffi::{c_void, CStr},
+    core::ffi::{CStr, c_void},
     cstr_core::CString,
     frida_gum_sys as gum_sys,
 };
@@ -110,31 +110,33 @@ impl ApiResolver {
             details: *const gum_sys::GumApiDetails,
             user_data: gum_sys::gpointer,
         ) -> gum_sys::gboolean {
-            let matches = &mut *(user_data as *mut Vec<ApiMatch>);
+            unsafe {
+                let matches = &mut *(user_data as *mut Vec<ApiMatch>);
 
-            let name = if !(*details).name.is_null() {
-                CStr::from_ptr((*details).name)
-                    .to_string_lossy()
-                    .into_owned()
-            } else {
-                String::new()
-            };
+                let name = if !(*details).name.is_null() {
+                    CStr::from_ptr((*details).name)
+                        .to_string_lossy()
+                        .into_owned()
+                } else {
+                    String::new()
+                };
 
-            let address = NativePointer((*details).address as *mut c_void);
+                let address = NativePointer((*details).address as *mut c_void);
 
-            let size = if (*details).size > 0 {
-                Some((*details).size as usize)
-            } else {
-                None
-            };
+                let size = if (*details).size > 0 {
+                    Some((*details).size as usize)
+                } else {
+                    None
+                };
 
-            matches.push(ApiMatch {
-                name,
-                address,
-                size,
-            });
+                matches.push(ApiMatch {
+                    name,
+                    address,
+                    size,
+                });
 
-            1 // Continue enumeration
+                1 // Continue enumeration
+            }
         }
 
         let mut error: *mut gum_sys::GError = core::ptr::null_mut();

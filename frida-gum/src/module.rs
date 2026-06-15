@@ -23,8 +23,8 @@ use {
     cstr_core::CString,
     frida_gum_sys as gum_sys,
     frida_gum_sys::{
-        gboolean, gpointer, GumDependencyDetails, GumExportDetails, GumImportDetails, GumModule,
-        GumSectionDetails, GumSymbolDetails,
+        GumDependencyDetails, GumExportDetails, GumImportDetails, GumModule, GumSectionDetails,
+        GumSymbolDetails, gboolean, gpointer,
     },
 };
 
@@ -250,29 +250,31 @@ impl Module {
 
     /// Enumerates exports in module.
     pub fn enumerate_exports(&self) -> Vec<ExportDetails> {
-        let result: Vec<ExportDetails> = vec![];
+        let mut result: Vec<ExportDetails> = vec![];
 
         unsafe extern "C" fn callback(
             details: *const GumExportDetails,
             user_data: gpointer,
         ) -> gboolean {
-            let res = &mut *(user_data as *mut Vec<ExportDetails>);
-            let name: String = NativePointer((*details).name as *mut _)
-                .try_into()
-                .unwrap_or_default();
+            unsafe {
+                let res = &mut *(user_data as *mut Vec<ExportDetails>);
+                let name: String = NativePointer((*details).name as *mut _)
+                    .try_into()
+                    .unwrap_or_default();
 
-            let address = (*details).address as usize;
-            let typ = num::FromPrimitive::from_u32((*details).type_ as u32).unwrap();
-            let info = ExportDetails { typ, name, address };
-            res.push(info);
-            1
+                let address = (*details).address as usize;
+                let typ = num::FromPrimitive::from_u32((*details).type_ as u32).unwrap();
+                let info = ExportDetails { typ, name, address };
+                res.push(info);
+                1
+            }
         }
 
         unsafe {
             frida_gum_sys::gum_module_enumerate_exports(
                 self.inner,
                 Some(callback),
-                &result as *const _ as *mut c_void,
+                &mut result as *mut _ as *mut c_void,
             );
         }
         result
@@ -280,34 +282,36 @@ impl Module {
 
     /// Enumerates symbols in module.
     pub fn enumerate_symbols(&self) -> Vec<SymbolDetails> {
-        let result: Vec<SymbolDetails> = vec![];
+        let mut result: Vec<SymbolDetails> = vec![];
         unsafe extern "C" fn callback(
             details: *const GumSymbolDetails,
             user_data: gpointer,
         ) -> gboolean {
-            let res = &mut *(user_data as *mut Vec<SymbolDetails>);
+            unsafe {
+                let res = &mut *(user_data as *mut Vec<SymbolDetails>);
 
-            let name: String = NativePointer((*details).name as *mut _)
-                .try_into()
-                .unwrap_or_default();
-            let address = (*details).address as usize;
-            let size = (*details).size as usize;
+                let name: String = NativePointer((*details).name as *mut _)
+                    .try_into()
+                    .unwrap_or_default();
+                let address = (*details).address as usize;
+                let size = (*details).size as usize;
 
-            let info = SymbolDetails {
-                name,
-                address,
-                size,
-            };
-            res.push(info);
+                let info = SymbolDetails {
+                    name,
+                    address,
+                    size,
+                };
+                res.push(info);
 
-            1
+                1
+            }
         }
 
         unsafe {
             frida_gum_sys::gum_module_enumerate_symbols(
                 self.inner,
                 Some(callback),
-                &result as *const _ as *mut c_void,
+                &mut result as *mut _ as *mut c_void,
             );
         }
         result
@@ -315,39 +319,41 @@ impl Module {
 
     /// Enumerates sections of module.
     pub fn enumerate_sections(&self) -> Vec<SectionDetails> {
-        let result: Vec<SectionDetails> = vec![];
+        let mut result: Vec<SectionDetails> = vec![];
 
         unsafe extern "C" fn callback(
             details: *const GumSectionDetails,
             user_data: gpointer,
         ) -> gboolean {
-            let res = &mut *(user_data as *mut Vec<SectionDetails>);
+            unsafe {
+                let res = &mut *(user_data as *mut Vec<SectionDetails>);
 
-            let id: String = NativePointer((*details).id as *mut _)
-                .try_into()
-                .unwrap_or_default();
-            let name: String = NativePointer((*details).name as *mut _)
-                .try_into()
-                .unwrap_or_default();
-            let address = (*details).address as usize;
-            let size = (*details).size as usize;
+                let id: String = NativePointer((*details).id as *mut _)
+                    .try_into()
+                    .unwrap_or_default();
+                let name: String = NativePointer((*details).name as *mut _)
+                    .try_into()
+                    .unwrap_or_default();
+                let address = (*details).address as usize;
+                let size = (*details).size as usize;
 
-            let info = SectionDetails {
-                id,
-                name,
-                address,
-                size,
-            };
-            res.push(info);
+                let info = SectionDetails {
+                    id,
+                    name,
+                    address,
+                    size,
+                };
+                res.push(info);
 
-            1
+                1
+            }
         }
 
         unsafe {
             frida_gum_sys::gum_module_enumerate_sections(
                 self.inner,
                 Some(callback),
-                &result as *const _ as *mut c_void,
+                &mut result as *mut _ as *mut c_void,
             );
         }
         result
@@ -361,36 +367,42 @@ impl Module {
             details: *const GumImportDetails,
             user_data: gpointer,
         ) -> gboolean {
-            let res = &mut *(user_data as *mut Vec<ImportDetails>);
+            unsafe {
+                let res = &mut *(user_data as *mut Vec<ImportDetails>);
 
-            let name: String = NativePointer((*details).name as *mut _)
-                .try_into()
-                .unwrap_or_default();
+                let name: String = NativePointer((*details).name as *mut _)
+                    .try_into()
+                    .unwrap_or_default();
 
-            let module = if (*details).module.is_null() {
-                None
-            } else {
-                Some(
-                    NativePointer((*details).module as *mut _)
-                        .try_into()
-                        .unwrap_or_default(),
-                )
-            };
+                let module = if (*details).module.is_null() {
+                    None
+                } else {
+                    Some(
+                        NativePointer((*details).module as *mut _)
+                            .try_into()
+                            .unwrap_or_default(),
+                    )
+                };
 
-            let typ = match (*details).type_ as u32 {
-                x if x == gum_sys::GumImportType_GUM_IMPORT_FUNCTION as u32 => ImportType::Function,
-                x if x == gum_sys::GumImportType_GUM_IMPORT_VARIABLE as u32 => ImportType::Variable,
-                _ => ImportType::Unknown,
-            };
+                let typ = match (*details).type_ as u32 {
+                    x if x == gum_sys::GumImportType_GUM_IMPORT_FUNCTION as u32 => {
+                        ImportType::Function
+                    }
+                    x if x == gum_sys::GumImportType_GUM_IMPORT_VARIABLE as u32 => {
+                        ImportType::Variable
+                    }
+                    _ => ImportType::Unknown,
+                };
 
-            res.push(ImportDetails {
-                typ,
-                name,
-                module,
-                address: (*details).address as usize,
-                slot: (*details).slot as usize,
-            });
-            1
+                res.push(ImportDetails {
+                    typ,
+                    name,
+                    module,
+                    address: (*details).address as usize,
+                    slot: (*details).slot as usize,
+                });
+                1
+            }
         }
 
         unsafe {
@@ -411,27 +423,29 @@ impl Module {
             details: *const GumDependencyDetails,
             user_data: gpointer,
         ) -> gboolean {
-            let res = &mut *(user_data as *mut Vec<DependencyDetails>);
+            unsafe {
+                let res = &mut *(user_data as *mut Vec<DependencyDetails>);
 
-            let name: String = NativePointer((*details).name as *mut _)
-                .try_into()
-                .unwrap_or_default();
+                let name: String = NativePointer((*details).name as *mut _)
+                    .try_into()
+                    .unwrap_or_default();
 
-            let typ = match (*details).type_ as u32 {
-                x if x == gum_sys::GumDependencyType_GUM_DEPENDENCY_WEAK as u32 => {
-                    DependencyType::Weak
-                }
-                x if x == gum_sys::GumDependencyType_GUM_DEPENDENCY_REEXPORT as u32 => {
-                    DependencyType::Reexport
-                }
-                x if x == gum_sys::GumDependencyType_GUM_DEPENDENCY_UPWARD as u32 => {
-                    DependencyType::Upward
-                }
-                _ => DependencyType::Regular,
-            };
+                let typ = match (*details).type_ as u32 {
+                    x if x == gum_sys::GumDependencyType_GUM_DEPENDENCY_WEAK as u32 => {
+                        DependencyType::Weak
+                    }
+                    x if x == gum_sys::GumDependencyType_GUM_DEPENDENCY_REEXPORT as u32 => {
+                        DependencyType::Reexport
+                    }
+                    x if x == gum_sys::GumDependencyType_GUM_DEPENDENCY_UPWARD as u32 => {
+                        DependencyType::Upward
+                    }
+                    _ => DependencyType::Regular,
+                };
 
-            res.push(DependencyDetails { name, typ });
-            1
+                res.push(DependencyDetails { name, typ });
+                1
+            }
         }
 
         unsafe {

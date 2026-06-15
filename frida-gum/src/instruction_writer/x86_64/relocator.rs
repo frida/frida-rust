@@ -1,7 +1,7 @@
 use {
     crate::instruction_writer::{Relocator, X86InstructionWriter},
     core::ffi::c_void,
-    frida_gum_sys::{cs_insn, Insn},
+    frida_gum_sys::{Insn, cs_insn},
 };
 
 pub struct X86Relocator {
@@ -10,9 +10,9 @@ pub struct X86Relocator {
 
 impl Relocator for X86Relocator {
     fn new(input_code: u64, output: &mut X86InstructionWriter) -> Self {
-        extern "C" {
+        unsafe extern "C" {
             fn gum_x86_relocator_new(input_code: *const c_void, output: *mut c_void)
-                -> *mut c_void;
+            -> *mut c_void;
         }
         Self {
             inner: unsafe {
@@ -22,7 +22,7 @@ impl Relocator for X86Relocator {
     }
 
     fn read_one(&mut self) -> (u32, Insn) {
-        extern "C" {
+        unsafe extern "C" {
             fn gum_x86_relocator_read_one(
                 relocator: *mut c_void,
                 instruction: *mut *const cs_insn,
@@ -35,7 +35,7 @@ impl Relocator for X86Relocator {
     }
 
     fn eoi(&mut self) -> bool {
-        extern "C" {
+        unsafe extern "C" {
             fn gum_x86_relocator_eoi(relocator: *mut c_void) -> u32;
         }
 
@@ -43,7 +43,7 @@ impl Relocator for X86Relocator {
     }
 
     fn write_all(&mut self) {
-        extern "C" {
+        unsafe extern "C" {
             fn gum_x86_relocator_write_all(relocator: *mut c_void);
         }
 
@@ -51,7 +51,7 @@ impl Relocator for X86Relocator {
     }
 
     fn write_one(&mut self) -> bool {
-        extern "C" {
+        unsafe extern "C" {
             fn gum_x86_relocator_write_one(relocator: *mut c_void) -> i32;
         }
 
@@ -59,7 +59,7 @@ impl Relocator for X86Relocator {
     }
 
     fn skip_one(&mut self) -> bool {
-        extern "C" {
+        unsafe extern "C" {
             fn gum_x86_relocator_skip_one(relocator: *mut c_void) -> i32;
         }
 
@@ -69,7 +69,7 @@ impl Relocator for X86Relocator {
 
 impl Drop for X86Relocator {
     fn drop(&mut self) {
-        extern "C" {
+        unsafe extern "C" {
             fn gum_x86_relocator_unref(relocator: *mut c_void);
         }
 

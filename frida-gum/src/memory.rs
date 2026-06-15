@@ -37,18 +37,20 @@ impl Memory {
     /// underlying probe is fault-tolerant but undefined memory layouts can
     /// still cause crashes on some platforms.
     pub unsafe fn read(address: NativePointer, size: usize) -> Option<Vec<u8>> {
-        let mut n_read: u64 = 0;
-        let buf = gum_sys::gum_memory_read(address.0, size as u64, &mut n_read);
+        unsafe {
+            let mut n_read: u64 = 0;
+            let buf = gum_sys::gum_memory_read(address.0, size as u64, &mut n_read);
 
-        if buf.is_null() {
-            return None;
+            if buf.is_null() {
+                return None;
+            }
+
+            let n = n_read as usize;
+            let slice = core::slice::from_raw_parts(buf, n);
+            let owned = slice.to_vec();
+            gum_sys::g_free(buf as *mut c_void);
+            Some(owned)
         }
-
-        let n = n_read as usize;
-        let slice = core::slice::from_raw_parts(buf, n);
-        let owned = slice.to_vec();
-        gum_sys::g_free(buf as *mut c_void);
-        Some(owned)
     }
 
     /// Write data to the specified address.
@@ -59,7 +61,9 @@ impl Memory {
     ///
     /// The address must point to valid, writable memory of at least `data.len()` bytes.
     pub unsafe fn write(address: NativePointer, data: &[u8]) -> bool {
-        gum_sys::gum_memory_write(address.0, data.as_ptr() as *const _, data.len() as u64) != 0
+        unsafe {
+            gum_sys::gum_memory_write(address.0, data.as_ptr() as *const _, data.len() as u64) != 0
+        }
     }
 
     /// Allocate memory with the specified size, alignment, and protection.
@@ -138,7 +142,7 @@ impl Memory {
     /// The address must have been allocated with [`Memory::allocate()`] or
     /// [`Memory::allocate_near()`], and must not have been freed already.
     pub unsafe fn free(address: NativePointer, size: usize) -> bool {
-        gum_sys::gum_memory_free(address.0, size as u64) != 0
+        unsafe { gum_sys::gum_memory_free(address.0, size as u64) != 0 }
     }
 
     /// Release memory back to the system.
@@ -149,7 +153,7 @@ impl Memory {
     ///
     /// The address and size must correspond to a previously allocated region.
     pub unsafe fn release(address: NativePointer, size: usize) -> bool {
-        gum_sys::gum_memory_release(address.0, size as u64) != 0
+        unsafe { gum_sys::gum_memory_release(address.0, size as u64) != 0 }
     }
 
     /// Decommit memory pages.
@@ -161,7 +165,7 @@ impl Memory {
     ///
     /// The address and size must correspond to a previously allocated region.
     pub unsafe fn decommit(address: NativePointer, size: usize) -> bool {
-        gum_sys::gum_memory_decommit(address.0, size as u64) != 0
+        unsafe { gum_sys::gum_memory_decommit(address.0, size as u64) != 0 }
     }
 
     /// Recommit previously decommitted memory pages.
@@ -174,7 +178,7 @@ impl Memory {
         size: usize,
         protection: PageProtection,
     ) -> bool {
-        gum_sys::gum_memory_recommit(address.0, size as u64, protection as u32) != 0
+        unsafe { gum_sys::gum_memory_recommit(address.0, size as u64, protection as u32) != 0 }
     }
 
     /// Discard the contents of memory pages.
@@ -186,7 +190,7 @@ impl Memory {
     ///
     /// The address and size must point to valid memory.
     pub unsafe fn discard(address: NativePointer, size: usize) -> bool {
-        gum_sys::gum_memory_discard(address.0, size as u64) != 0
+        unsafe { gum_sys::gum_memory_discard(address.0, size as u64) != 0 }
     }
 
     /// Query the protection flags for a memory region.
@@ -195,11 +199,13 @@ impl Memory {
     ///
     /// The address must point to valid memory.
     pub unsafe fn query_protection(address: NativePointer) -> Option<PageProtection> {
-        let mut prot: gum_sys::GumPageProtection = 0;
-        if gum_sys::gum_memory_query_protection(address.0, &mut prot) != 0 {
-            num::FromPrimitive::from_u32(prot)
-        } else {
-            None
+        unsafe {
+            let mut prot: gum_sys::GumPageProtection = 0;
+            if gum_sys::gum_memory_query_protection(address.0, &mut prot) != 0 {
+                num::FromPrimitive::from_u32(prot)
+            } else {
+                None
+            }
         }
     }
 
@@ -209,7 +215,7 @@ impl Memory {
     ///
     /// The address should be a valid pointer.
     pub unsafe fn is_readable(address: NativePointer, size: usize) -> bool {
-        gum_sys::gum_memory_is_readable(address.0, size as u64) != 0
+        unsafe { gum_sys::gum_memory_is_readable(address.0, size as u64) != 0 }
     }
 
     /// Mark a memory region as executable code.
@@ -223,7 +229,53 @@ impl Memory {
     ///
     /// The address and size must point to valid memory with appropriate permissions.
     pub unsafe fn mark_code(address: NativePointer, size: usize) -> bool {
-        gum_sys::gum_memory_mark_code(address.0, size as u64) != 0
+        unsafe { gum_sys::gum_memory_mark_code(address.0, size as u64) != 0 }
+    }
+
+    /// Change the protection of a memory region, aborting on failure.
+    ///
+    /// Use [`Memory::try_mprotect`] if you need to handle failure gracefully.
+    ///
+    /// # Safety
+    ///
+    /// `address`/`size` must describe a region of mapped pages owned by the
+    /// caller; changing protection on memory in use elsewhere can crash the
+    /// process.
+    pub unsafe fn mprotect(address: NativePointer, size: usize, prot: PageProtection) {
+        unsafe { gum_sys::gum_mprotect(address.0, size as u64, prot as u32) };
+    }
+
+    /// Try to change the protection of a memory region.
+    ///
+    /// Returns `true` if the protection was changed successfully.
+    ///
+    /// # Safety
+    ///
+    /// `address`/`size` must describe a region of mapped pages owned by the
+    /// caller.
+    pub unsafe fn try_mprotect(address: NativePointer, size: usize, prot: PageProtection) -> bool {
+        unsafe { gum_sys::gum_try_mprotect(address.0, size as u64, prot as u32) != 0 }
+    }
+
+    /// Flush the CPU instruction cache for a region of freshly written code.
+    ///
+    /// Required on architectures with separate instruction/data caches (e.g.
+    /// ARM/AArch64) after writing code that is about to be executed.
+    ///
+    /// # Safety
+    ///
+    /// `address`/`size` must describe a region of mapped, executable memory.
+    pub unsafe fn clear_cache(address: NativePointer, size: usize) {
+        unsafe { gum_sys::gum_clear_cache(address.0, size as u64) };
+    }
+
+    /// Ensure a region of code is readable, faulting it in if necessary.
+    ///
+    /// # Safety
+    ///
+    /// `address`/`size` must describe a region of mapped code memory.
+    pub unsafe fn ensure_code_readable(address: NativePointer, size: usize) {
+        unsafe { gum_sys::gum_ensure_code_readable(address.0, size as u64) };
     }
 
     /// Atomically patch code at the specified address.
@@ -248,19 +300,73 @@ impl Memory {
     where
         F: FnOnce(*mut u8),
     {
-        unsafe extern "C" fn trampoline<F>(mem: gum_sys::gpointer, user_data: gum_sys::gpointer)
-        where
-            F: FnOnce(*mut u8),
-        {
-            let callback = Box::from_raw(user_data as *mut F);
-            callback(mem as *mut u8);
+        unsafe {
+            unsafe extern "C" fn trampoline<F>(mem: gum_sys::gpointer, user_data: gum_sys::gpointer)
+            where
+                F: FnOnce(*mut u8),
+            {
+                unsafe {
+                    let callback = Box::from_raw(user_data as *mut F);
+                    callback(mem as *mut u8);
+                }
+            }
+
+            let callback = Box::new(apply);
+            let user_data = Box::into_raw(callback) as *mut _;
+
+            gum_sys::gum_memory_patch_code(address.0, size as u64, Some(trampoline::<F>), user_data)
+                != 0
         }
+    }
 
-        let callback = Box::new(apply);
-        let user_data = Box::into_raw(callback) as *mut _;
+    /// Atomically patch code spanning multiple pages.
+    ///
+    /// Like [`Memory::patch_code`], but for a set of page-aligned addresses. The
+    /// `apply` callback is invoked with `(mem, target_page, n_pages)` for each
+    /// contiguous run, where `mem` is a temporarily-writable mirror of
+    /// `target_page`. When `coalesce` is `true`, adjacent pages are merged into
+    /// a single callback invocation.
+    ///
+    /// Returns `true` if the patch succeeded.
+    ///
+    /// # Safety
+    ///
+    /// Every entry of `pages` must be a page-aligned address of mapped code
+    /// memory, and the callback must not write outside the mirrored pages.
+    pub unsafe fn patch_code_pages<F>(pages: &[NativePointer], coalesce: bool, apply: F) -> bool
+    where
+        F: FnMut(*mut u8, *mut u8, u32),
+    {
+        unsafe {
+            unsafe extern "C" fn trampoline<F>(
+                mem: gum_sys::gpointer,
+                target_page: gum_sys::gpointer,
+                n_pages: gum_sys::guint,
+                user_data: gum_sys::gpointer,
+            ) where
+                F: FnMut(*mut u8, *mut u8, u32),
+            {
+                let callback = unsafe { &mut *(user_data as *mut F) };
+                callback(mem as *mut u8, target_page as *mut u8, n_pages);
+            }
 
-        gum_sys::gum_memory_patch_code(address.0, size as u64, Some(trampoline::<F>), user_data)
-            != 0
+            // gum_memory_patch_code_pages takes a GPtrArray of page addresses.
+            let array = gum_sys::g_ptr_array_sized_new(pages.len() as u32);
+            for page in pages {
+                gum_sys::g_ptr_array_add(array, page.0);
+            }
+
+            let mut apply = apply;
+            let ok = gum_sys::gum_memory_patch_code_pages(
+                array,
+                i32::from(coalesce),
+                Some(trampoline::<F>),
+                &mut apply as *mut _ as *mut c_void,
+            ) != 0;
+
+            gum_sys::g_ptr_array_free(array, gum_sys::true_ as _);
+            ok
+        }
     }
 
     /// Find all pointers in memory ranges that point to any of the specified values.
@@ -283,30 +389,32 @@ impl Memory {
         values: &[usize],
         mask: usize,
     ) -> Vec<NativePointer> {
-        let ranges_raw: Vec<gum_sys::GumMemoryRange> =
-            ranges.iter().map(|r| r.memory_range).collect();
+        unsafe {
+            let ranges_raw: Vec<gum_sys::GumMemoryRange> =
+                ranges.iter().map(|r| r.memory_range).collect();
 
-        let values_u64: Vec<u64> = values.iter().map(|&v| v as u64).collect();
+            let values_u64: Vec<u64> = values.iter().map(|&v| v as u64).collect();
 
-        let result_array = gum_sys::gum_memory_find_pointers(
-            ranges_raw.as_ptr(),
-            ranges_raw.len() as u32,
-            values_u64.as_ptr(),
-            values_u64.len() as u32,
-            mask as u64,
-        );
+            let result_array = gum_sys::gum_memory_find_pointers(
+                ranges_raw.as_ptr(),
+                ranges_raw.len() as u32,
+                values_u64.as_ptr(),
+                values_u64.len() as u32,
+                mask as u64,
+            );
 
-        let mut results = Vec::new();
-        if !result_array.is_null() {
-            let len = (*result_array).len as usize;
-            let data = (*result_array).data as *const u64;
-            for i in 0..len {
-                results.push(NativePointer(*data.add(i) as *mut c_void));
+            let mut results = Vec::new();
+            if !result_array.is_null() {
+                let len = (*result_array).len as usize;
+                let data = (*result_array).data as *const u64;
+                for i in 0..len {
+                    results.push(NativePointer(*data.add(i) as *mut c_void));
+                }
+                frida_gum_sys::g_array_free(result_array, frida_gum_sys::true_ as _);
             }
-            frida_gum_sys::g_array_free(result_array, frida_gum_sys::true_ as _);
-        }
 
-        results
+            results
+        }
     }
 
     /// Check if writable pages can be remapped.
@@ -329,11 +437,13 @@ impl Memory {
         first_page: NativePointer,
         n_pages: u32,
     ) -> Option<NativePointer> {
-        let result = gum_sys::gum_memory_try_remap_writable_pages(first_page.0, n_pages);
-        if result.is_null() {
-            None
-        } else {
-            Some(NativePointer(result))
+        unsafe {
+            let result = gum_sys::gum_memory_try_remap_writable_pages(first_page.0, n_pages);
+            if result.is_null() {
+                None
+            } else {
+                Some(NativePointer(result))
+            }
         }
     }
 
@@ -345,7 +455,9 @@ impl Memory {
     /// `first_page` and `n_pages` must match the values that were passed to
     /// the corresponding [`Memory::try_remap_writable_pages`] call.
     pub unsafe fn dispose_writable_pages(first_page: NativePointer, n_pages: u32) {
-        gum_sys::gum_memory_dispose_writable_pages(first_page.0, n_pages);
+        unsafe {
+            gum_sys::gum_memory_dispose_writable_pages(first_page.0, n_pages);
+        }
     }
 
     /// Allocate a number of whole pages with the given protection.
@@ -390,6 +502,27 @@ impl Memory {
         }
     }
 
+    /// Try to allocate `n_pages` pages within `max_distance` bytes of `near`,
+    /// returning `None` on failure rather than aborting. This is the non-fatal
+    /// variant of [`Memory::alloc_n_pages_near`].
+    pub fn try_alloc_n_pages_near(
+        n_pages: u32,
+        protection: PageProtection,
+        near: NativePointer,
+        max_distance: usize,
+    ) -> Option<NativePointer> {
+        let spec = gum_sys::GumAddressSpec {
+            near_address: near.0,
+            max_distance: max_distance as u64,
+        };
+        let ptr = unsafe { gum_sys::gum_try_alloc_n_pages_near(n_pages, protection as u32, &spec) };
+        if ptr.is_null() {
+            None
+        } else {
+            Some(NativePointer(ptr))
+        }
+    }
+
     /// Free pages previously allocated with [`Memory::alloc_n_pages`] /
     /// [`Memory::try_alloc_n_pages`] / [`Memory::alloc_n_pages_near`].
     ///
@@ -398,6 +531,8 @@ impl Memory {
     /// The address must have been returned by one of the page-allocation APIs
     /// above and must not have been freed already.
     pub unsafe fn free_pages(address: NativePointer) {
-        gum_sys::gum_free_pages(address.0);
+        unsafe {
+            gum_sys::gum_free_pages(address.0);
+        }
     }
 }

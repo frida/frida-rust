@@ -69,22 +69,35 @@ impl Interceptor {
         listener: &mut I,
     ) -> Result<Listener> {
         let listener = invocation_listener_transform(listener);
-        match unsafe {
+        let ret = unsafe {
             gum_sys::gum_interceptor_attach(self.interceptor, f.0, listener, ptr::null_mut())
-        } {
-            gum_sys::GumAttachReturn_GUM_ATTACH_OK => {
-                Ok(Listener(NativePointer(listener as *mut c_void)))
-            }
-            gum_sys::GumAttachReturn_GUM_ATTACH_WRONG_SIGNATURE => {
-                Err(Error::InterceptorBadSignature)
-            }
-            gum_sys::GumAttachReturn_GUM_ATTACH_ALREADY_ATTACHED => {
-                Err(Error::InterceptorAlreadyAttached)
-            }
-            gum_sys::GumAttachReturn_GUM_ATTACH_POLICY_VIOLATION => Err(Error::PolicyViolation),
-            gum_sys::GumAttachReturn_GUM_ATTACH_WRONG_TYPE => Err(Error::WrongType),
-            _ => Err(Error::InterceptorError),
-        }
+        };
+        attach_return_to_result(ret, listener)
+    }
+
+    /// Attach a listener to a function, supplying composable [`AttachOptions`].
+    ///
+    /// This is the full form of [`Interceptor::attach`], exposing the
+    /// instrumentation knobs added in Frida 17.10 (scratch-register selection,
+    /// scenario, relocation policy, redirect space hint), per-listener data,
+    /// and invocation ignorability.
+    ///
+    /// # Safety
+    ///
+    /// The provided address *must* point to the start of a function in a valid
+    /// memory region.
+    #[cfg(feature = "invocation-listener")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "invocation-listener")))]
+    pub unsafe fn attach_with_options<I: InvocationListener>(
+        &mut self,
+        f: NativePointer,
+        listener: &mut I,
+        options: &AttachOptions,
+    ) -> Result<Listener> {
+        let listener = invocation_listener_transform(listener);
+        let raw = options.to_raw();
+        let ret = unsafe { gum_sys::gum_interceptor_attach(self.interceptor, f.0, listener, &raw) };
+        attach_return_to_result(ret, listener)
     }
 
     /// Attach a listener to an instruction address.
@@ -100,22 +113,10 @@ impl Interceptor {
         listener: &mut I,
     ) -> Result<Listener> {
         let listener = probe_listener_transform(listener);
-        match unsafe {
+        let ret = unsafe {
             gum_sys::gum_interceptor_attach(self.interceptor, instr.0, listener, ptr::null_mut())
-        } {
-            gum_sys::GumAttachReturn_GUM_ATTACH_OK => {
-                Ok(Listener(NativePointer(listener as *mut c_void)))
-            }
-            gum_sys::GumAttachReturn_GUM_ATTACH_WRONG_SIGNATURE => {
-                Err(Error::InterceptorBadSignature)
-            }
-            gum_sys::GumAttachReturn_GUM_ATTACH_ALREADY_ATTACHED => {
-                Err(Error::InterceptorAlreadyAttached)
-            }
-            gum_sys::GumAttachReturn_GUM_ATTACH_POLICY_VIOLATION => Err(Error::PolicyViolation),
-            gum_sys::GumAttachReturn_GUM_ATTACH_WRONG_TYPE => Err(Error::WrongType),
-            _ => Err(Error::InterceptorError),
-        }
+        };
+        attach_return_to_result(ret, listener)
     }
 
     /// Detach an attached listener.
@@ -268,7 +269,7 @@ impl Interceptor {
     /// returned pointer aliases Frida-owned memory whose lifetime is bounded
     /// by the current invocation.
     pub unsafe fn current_stack() -> *mut gum_sys::GumInvocationStack {
-        gum_sys::gum_interceptor_get_current_stack()
+        unsafe { gum_sys::gum_interceptor_get_current_stack() }
     }
 
     /// Translate a return address inside Stalker- or Interceptor-generated
@@ -286,10 +287,12 @@ impl Interceptor {
         stack: *mut gum_sys::GumInvocationStack,
         return_address: NativePointer,
     ) -> NativePointer {
-        NativePointer(gum_sys::gum_invocation_stack_translate(
-            stack,
-            return_address.0,
-        ))
+        unsafe {
+            NativePointer(gum_sys::gum_invocation_stack_translate(
+                stack,
+                return_address.0,
+            ))
+        }
     }
 
     /// Ignore all calls from the current thread.
@@ -364,8 +367,10 @@ impl Interceptor {
         where
             F: FnOnce(),
         {
-            let callback = Box::from_raw(user_data as *mut F);
-            callback();
+            unsafe {
+                let callback = Box::from_raw(user_data as *mut F);
+                callback();
+            }
         }
 
         let callback = Box::new(f);
@@ -384,6 +389,38 @@ impl Interceptor {
     /// Returns `true` if any modifications were flushed, `false` otherwise.
     pub fn flush(&mut self) -> bool {
         unsafe { gum_sys::gum_interceptor_flush(self.interceptor) != 0 }
+    }
+
+    /// Flush pending operations for a single function only.
+    ///
+    /// Like [`Interceptor::flush`], but limited to the hooks affecting the
+    /// function at `function_address`. Returns `true` if any modifications were
+    /// flushed.
+    ///
+    /// # Safety
+    ///
+    /// `function_address` must point to a function that has had a hook applied
+    /// via this interceptor.
+    pub unsafe fn flush_function(&mut self, function_address: NativePointer) -> bool {
+        unsafe {
+            gum_sys::gum_interceptor_flush_function(self.interceptor, function_address.0) != 0
+        }
+    }
+
+    /// Flush pending operations for a single listener only.
+    ///
+    /// Like [`Interceptor::flush`], but limited to the hooks owned by the given
+    /// `listener`. Returns `true` if any modifications were flushed.
+    #[cfg(feature = "invocation-listener")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "invocation-listener")))]
+    pub fn flush_listener(&mut self, listener: &Listener) -> bool {
+        let Listener(NativePointer(ptr)) = listener;
+        unsafe {
+            gum_sys::gum_interceptor_flush_listener(
+                self.interceptor,
+                *ptr as *mut gum_sys::GumInvocationListener,
+            ) != 0
+        }
     }
 
     /// Set default options for interceptor operations.
@@ -426,7 +463,7 @@ impl Interceptor {
     ///
     /// `address` must point to readable, valid executable code.
     pub unsafe fn detect_hook_size(address: NativePointer) -> usize {
-        gum_sys::gum_interceptor_detect_hook_size(address.0, 0, ptr::null_mut()) as usize
+        unsafe { gum_sys::gum_interceptor_detect_hook_size(address.0, 0, ptr::null_mut()) as usize }
     }
 
     /// Save the current invocation state into `state`.
@@ -440,7 +477,9 @@ impl Interceptor {
     /// Must be called from within a hook. `state` must remain accessible (and
     /// not move) until [`Interceptor::restore`] is called on the same thread.
     pub unsafe fn save(state: &mut gum_sys::GumInvocationState) {
-        gum_sys::gum_interceptor_save(state);
+        unsafe {
+            gum_sys::gum_interceptor_save(state);
+        }
     }
 
     /// Restore a previously saved invocation state.
@@ -450,7 +489,9 @@ impl Interceptor {
     /// `state` must have been populated by [`Interceptor::save`] on the same
     /// thread, and the corresponding hook must still be on the call stack.
     pub unsafe fn restore(state: &mut gum_sys::GumInvocationState) {
-        gum_sys::gum_interceptor_restore(state);
+        unsafe {
+            gum_sys::gum_interceptor_restore(state);
+        }
     }
 
     /// Begin an [`Interceptor`] transaction. This may improve performance if
@@ -485,5 +526,133 @@ impl Clone for Listener {
     fn clone(&self) -> Self {
         let Self(NativePointer(ptr)) = self;
         Self(NativePointer(unsafe { frida_gum_sys::g_object_ref(*ptr) }))
+    }
+}
+
+/// Map a raw `GumAttachReturn` to a [`Result`], wrapping the listener on success.
+#[cfg(feature = "invocation-listener")]
+fn attach_return_to_result(
+    ret: gum_sys::GumAttachReturn,
+    listener: *mut gum_sys::GumInvocationListener,
+) -> Result<Listener> {
+    match ret {
+        gum_sys::GumAttachReturn_GUM_ATTACH_OK => {
+            Ok(Listener(NativePointer(listener as *mut c_void)))
+        }
+        gum_sys::GumAttachReturn_GUM_ATTACH_WRONG_SIGNATURE => Err(Error::InterceptorBadSignature),
+        gum_sys::GumAttachReturn_GUM_ATTACH_ALREADY_ATTACHED => {
+            Err(Error::InterceptorAlreadyAttached)
+        }
+        gum_sys::GumAttachReturn_GUM_ATTACH_POLICY_VIOLATION => Err(Error::PolicyViolation),
+        gum_sys::GumAttachReturn_GUM_ATTACH_WRONG_TYPE => Err(Error::WrongType),
+        _ => Err(Error::InterceptorError),
+    }
+}
+
+/// Whether an attached hook may be ignored on the current thread.
+#[cfg(feature = "invocation-listener")]
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+pub enum Ignorability {
+    /// The hook honours `ignore_current_thread` (the default).
+    #[default]
+    Ignorable,
+    /// The hook always fires, even on ignored threads.
+    Unignorable,
+}
+
+/// Composable options for [`Interceptor::attach_with_options`].
+///
+/// Build with [`AttachOptions::new`] and chain the setters for the knobs you
+/// need; unset fields use Frida's defaults.
+#[cfg(feature = "invocation-listener")]
+#[derive(Debug, Clone)]
+pub struct AttachOptions {
+    scratch_register: i32,
+    scenario: gum_sys::GumInterceptorScenario,
+    relocation_policy: gum_sys::GumRelocationPolicy,
+    redirect_space_hint: u32,
+    listener_function_data: NativePointer,
+    ignorability: Ignorability,
+}
+
+#[cfg(feature = "invocation-listener")]
+impl Default for AttachOptions {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+#[cfg(feature = "invocation-listener")]
+impl AttachOptions {
+    /// Create attach options with Frida's defaults.
+    pub fn new() -> Self {
+        Self {
+            scratch_register: -1,
+            scenario: gum_sys::GumInterceptorScenario_GUM_INTERCEPTOR_SCENARIO_DEFAULT,
+            relocation_policy: gum_sys::GumRelocationPolicy_GUM_RELOCATION_DEFAULT,
+            redirect_space_hint: 0,
+            listener_function_data: NativePointer(core::ptr::null_mut()),
+            ignorability: Ignorability::Ignorable,
+        }
+    }
+
+    /// Set the scratch register to use for the hook (`-1` selects automatically).
+    pub fn scratch_register(mut self, register: i32) -> Self {
+        self.scratch_register = register;
+        self
+    }
+
+    /// Set the interceptor scenario (`DEFAULT`, `ONLINE`, `OFFLINE`).
+    pub fn scenario(mut self, scenario: gum_sys::GumInterceptorScenario) -> Self {
+        self.scenario = scenario;
+        self
+    }
+
+    /// Set the code relocation policy.
+    pub fn relocation_policy(mut self, policy: gum_sys::GumRelocationPolicy) -> Self {
+        self.relocation_policy = policy;
+        self
+    }
+
+    /// Hint, in bytes, of how much space to reserve for the redirect.
+    pub fn redirect_space_hint(mut self, hint: u32) -> Self {
+        self.redirect_space_hint = hint;
+        self
+    }
+
+    /// Set the per-listener function data pointer, retrievable from the
+    /// invocation context as listener function data.
+    pub fn listener_function_data(mut self, data: NativePointer) -> Self {
+        self.listener_function_data = data;
+        self
+    }
+
+    /// Set whether the hook may be ignored on the current thread.
+    pub fn ignorability(mut self, ignorability: Ignorability) -> Self {
+        self.ignorability = ignorability;
+        self
+    }
+
+    /// Build the raw `GumAttachOptions` consumed by the C API.
+    fn to_raw(&self) -> gum_sys::GumAttachOptions {
+        gum_sys::GumAttachOptions {
+            instrumentation: gum_sys::GumInterceptorOptions {
+                scratch_register: self.scratch_register,
+                scenario: self.scenario,
+                relocation_policy: self.relocation_policy,
+                write_redirect: None,
+                write_redirect_data: ptr::null_mut(),
+                redirect_space_hint: self.redirect_space_hint,
+            },
+            listener_function_data: self.listener_function_data.0,
+            ignorability: match self.ignorability {
+                Ignorability::Ignorable => {
+                    gum_sys::GumInvocationIgnorability_GUM_INVOCATION_IGNORABLE
+                }
+                Ignorability::Unignorable => {
+                    gum_sys::GumInvocationIgnorability_GUM_INVOCATION_UNIGNORABLE
+                }
+            },
+        }
     }
 }

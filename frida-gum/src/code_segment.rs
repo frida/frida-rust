@@ -18,7 +18,7 @@
 //! this API.
 
 use {
-    crate::{error::Error, NativePointer},
+    crate::{NativePointer, error::Error},
     core::ptr,
     frida_gum_sys as gum_sys,
 };
@@ -98,12 +98,14 @@ impl CodeSegment {
         source_size: usize,
         target_address: NativePointer,
     ) {
-        gum_sys::gum_code_segment_map(
-            self.inner,
-            source_offset as u64,
-            source_size as u64,
-            target_address.0,
-        );
+        unsafe {
+            gum_sys::gum_code_segment_map(
+                self.inner,
+                source_offset as u64,
+                source_size as u64,
+                target_address.0,
+            );
+        }
     }
 
     /// Mark `code` of `size` bytes as executable.
@@ -117,15 +119,17 @@ impl CodeSegment {
     /// `code` must point to a region of at least `size` bytes that the
     /// caller owns and that contains valid instructions for the host CPU.
     pub unsafe fn mark(code: NativePointer, size: usize) -> Result<(), Error> {
-        let mut err: *mut gum_sys::GError = ptr::null_mut();
-        let ok = gum_sys::gum_code_segment_mark(code.0, size as u64, &mut err) != 0;
-        if !err.is_null() {
-            gum_sys::g_error_free(err);
-        }
-        if ok {
-            Ok(())
-        } else {
-            Err(Error::MemoryAccessError)
+        unsafe {
+            let mut err: *mut gum_sys::GError = ptr::null_mut();
+            let ok = gum_sys::gum_code_segment_mark(code.0, size as u64, &mut err) != 0;
+            if !err.is_null() {
+                gum_sys::g_error_free(err);
+            }
+            if ok {
+                Ok(())
+            } else {
+                Err(Error::MemoryAccessError)
+            }
         }
     }
 }

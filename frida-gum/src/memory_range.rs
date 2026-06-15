@@ -25,7 +25,9 @@ pub struct MatchPattern {
 
 impl MatchPattern {
     pub fn from_string(pattern: &str) -> Option<Self> {
-        let pattern = CString::new(pattern).unwrap();
+        // An interior NUL can't form a valid pattern; report it as `None`
+        // rather than panicking, matching this function's fallible contract.
+        let pattern = CString::new(pattern).ok()?;
 
         let internal =
             unsafe { gum_sys::gum_match_pattern_new_from_string(pattern.as_ptr().cast()) };
@@ -53,7 +55,7 @@ impl MatchPattern {
     /// The caller must treat the returned pointer as borrowed from `&self`
     /// and must not mutate the underlying array.
     pub unsafe fn tokens(&self) -> *mut gum_sys::GPtrArray {
-        gum_sys::gum_match_pattern_get_tokens(self.internal)
+        unsafe { gum_sys::gum_match_pattern_get_tokens(self.internal) }
     }
 }
 

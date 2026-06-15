@@ -1,14 +1,14 @@
 use {
     crate::error::{Error, GumResult},
     core::{
-        ffi::{c_void, CStr},
+        ffi::{CStr, c_void},
         ptr::null_mut,
         slice::from_raw_parts,
     },
     frida_gum_sys::{
-        gchar, gpointer, gsize, gum_script_backend_create_finish, gum_script_load,
-        gum_script_load_finish, gum_script_set_message_handler, GAsyncResult, GBytes, GCancellable,
-        GError, GObject, GumScript, GumScriptBackend,
+        GAsyncResult, GBytes, GCancellable, GError, GObject, GumScript, GumScriptBackend, gchar,
+        gpointer, gsize, gum_script_backend_create_finish, gum_script_load, gum_script_load_finish,
+        gum_script_set_message_handler,
     },
 };
 

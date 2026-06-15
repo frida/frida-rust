@@ -319,16 +319,20 @@ impl Stalker {
         ) where
             F: FnMut(*mut gum_sys::GumCallDetails),
         {
-            let callback = &mut *(user_data as *mut F);
-            callback(details);
+            unsafe {
+                let callback = &mut *(user_data as *mut F);
+                callback(details);
+            }
         }
 
         unsafe extern "C" fn destroy<F>(user_data: gum_sys::gpointer)
         where
             F: FnMut(*mut gum_sys::GumCallDetails),
         {
-            // Free the Box that holds the callback closure once Frida releases it.
-            let _ = Box::from_raw(user_data as *mut F);
+            unsafe {
+                // Free the Box that holds the callback closure once Frida releases it.
+                let _ = Box::from_raw(user_data as *mut F);
+            }
         }
 
         let callback = Box::new(callback);
@@ -410,7 +414,9 @@ impl Stalker {
     ///
     /// The backpatch pointer must be valid and point to a valid GumBackpatch structure.
     pub unsafe fn prefetch_backpatch(&mut self, backpatch: *const gum_sys::GumBackpatch) {
-        gum_sys::gum_stalker_prefetch_backpatch(self.stalker, backpatch);
+        unsafe {
+            gum_sys::gum_stalker_prefetch_backpatch(self.stalker, backpatch);
+        }
     }
 
     /// Schedule a closure to run on the specified thread.
@@ -446,9 +452,11 @@ impl Stalker {
         ) where
             F: FnOnce(*const gum_sys::GumCpuContext),
         {
-            let state = &mut *(user_data as *mut CallbackState<F>);
-            if let Some(callback) = state.callback.take() {
-                callback(cpu_context);
+            unsafe {
+                let state = &mut *(user_data as *mut CallbackState<F>);
+                if let Some(callback) = state.callback.take() {
+                    callback(cpu_context);
+                }
             }
         }
 
@@ -456,7 +464,9 @@ impl Stalker {
         where
             F: FnOnce(*const gum_sys::GumCpuContext),
         {
-            let _ = Box::from_raw(user_data as *mut CallbackState<F>);
+            unsafe {
+                let _ = Box::from_raw(user_data as *mut CallbackState<F>);
+            }
         }
 
         let state = Box::new(CallbackState {
@@ -502,8 +512,10 @@ impl Stalker {
         ) where
             F: FnOnce(*const gum_sys::GumCpuContext),
         {
-            let callback = Box::from_raw(user_data as *mut F);
-            callback(cpu_context);
+            unsafe {
+                let callback = Box::from_raw(user_data as *mut F);
+                callback(cpu_context);
+            }
         }
 
         let callback = Box::new(func);
@@ -534,7 +546,7 @@ impl Stalker {
     ///
     /// The backpatch pointer must be valid.
     pub unsafe fn backpatch_get_from(backpatch: *const gum_sys::GumBackpatch) -> NativePointer {
-        NativePointer(gum_sys::gum_stalker_backpatch_get_from(backpatch))
+        unsafe { NativePointer(gum_sys::gum_stalker_backpatch_get_from(backpatch)) }
     }
 
     /// Get the destination address from a backpatch notification.
@@ -543,7 +555,7 @@ impl Stalker {
     ///
     /// The backpatch pointer must be valid.
     pub unsafe fn backpatch_get_to(backpatch: *const gum_sys::GumBackpatch) -> NativePointer {
-        NativePointer(gum_sys::gum_stalker_backpatch_get_to(backpatch))
+        unsafe { NativePointer(gum_sys::gum_stalker_backpatch_get_to(backpatch)) }
     }
 
     #[cfg(feature = "stalker-observer")]

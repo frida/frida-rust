@@ -10,7 +10,7 @@ use crate::{FileMapping, Module, NativePointer, Thread};
 
 use {
     crate::{Gum, PageProtection, RangeDetails},
-    core::ffi::{c_char, c_void, CStr},
+    core::ffi::{CStr, c_char, c_void},
     core::{fmt, fmt::Debug},
     frida_gum_sys as gum_sys,
     frida_gum_sys::{gboolean, gpointer},
@@ -29,7 +29,7 @@ extern "C" {
 }
 
 #[cfg(not(any(target_os = "linux", target_os = "freebsd")))]
-extern "C" {
+unsafe extern "C" {
     pub fn g_get_home_dir() -> *const c_char;
     pub fn g_get_current_dir() -> *const c_char;
     pub fn g_get_tmp_dir() -> *const c_char;
@@ -186,8 +186,10 @@ impl<'a> Process<'a> {
         ) where
             F: FnMut(usize, *mut gum_sys::GumCpuContext),
         {
-            let cb = &mut *(user_data as *mut F);
-            cb(thread_id as usize, cpu_context);
+            unsafe {
+                let cb = &mut *(user_data as *mut F);
+                cb(thread_id as usize, cpu_context);
+            }
         }
 
         let flags = if abort_safely {
@@ -229,6 +231,30 @@ impl<'a> Process<'a> {
         }
     }
 
+    /// Find the contiguous code range of the function containing `address`.
+    ///
+    /// Works on stripped binaries without symbol information, by following the
+    /// platform's unwind data. Returns `None` if no function range could be
+    /// determined for the address.
+    ///
+    /// # Safety
+    ///
+    /// `address` must point into executable code (typically the entry or body
+    /// of a function) in a readable memory region.
+    pub unsafe fn find_function_range(&self, address: NativePointer) -> Option<crate::MemoryRange> {
+        unsafe {
+            let mut raw: gum_sys::GumMemoryRange = core::mem::zeroed();
+            if gum_sys::gum_process_find_function_range(address.0, &mut raw) != 0 {
+                Some(crate::MemoryRange::new(
+                    NativePointer(raw.base_address as *mut c_void),
+                    raw.size as usize,
+                ))
+            } else {
+                None
+            }
+        }
+    }
+
     /// Returns a string specifying the filesystem path to the current working directory
     pub fn current_dir(&self) -> String {
         unsafe {
@@ -237,7 +263,11 @@ impl<'a> Process<'a> {
             #[cfg(not(any(target_os = "linux", target_os = "freebsd")))]
             let dir = g_get_current_dir();
 
-            CStr::from_ptr(dir).to_string_lossy().to_string()
+            let owned = CStr::from_ptr(dir).to_string_lossy().to_string();
+            // `g_get_current_dir` returns a newly-allocated string (transfer-full);
+            // unlike `g_get_home_dir`/`g_get_tmp_dir` it must be freed by the caller.
+            gum_sys::g_free(dir as *mut c_void);
+            owned
         }
     }
 
@@ -286,26 +316,28 @@ impl<'a> Process<'a> {
             details: *const gum_sys::GumRangeDetails,
             user_data: gpointer,
         ) -> gboolean {
-            let res = &mut *(user_data as *mut CallbackData);
-            let r_details = RangeDetails::from_raw(details);
+            unsafe {
+                let res = &mut *(user_data as *mut CallbackData);
+                let r_details = RangeDetails::from_raw(details);
 
-            let prot = r_details.protection();
-            if res.protection == prot {
-                let m_range = r_details.memory_range();
-                let file_map = r_details.file_mapping();
+                let prot = r_details.protection();
+                if res.protection == prot {
+                    let m_range = r_details.memory_range();
+                    let file_map = r_details.file_mapping();
 
-                res.ranges.push(Range {
-                    base: m_range.base_address(),
-                    size: m_range.size(),
-                    protection: prot,
-                    file: file_map,
-                });
+                    res.ranges.push(Range {
+                        base: m_range.base_address(),
+                        size: m_range.size(),
+                        protection: prot,
+                        file: file_map,
+                    });
+                }
+
+                1
             }
-
-            1
         }
 
-        let callback_data = CallbackData {
+        let mut callback_data = CallbackData {
             ranges: Vec::new(),
             protection: protection.clone(),
         };
@@ -314,7 +346,7 @@ impl<'a> Process<'a> {
             gum_sys::gum_process_enumerate_ranges(
                 protection as u32,
                 Some(enumerate_ranges_callback),
-                &callback_data as *const _ as *mut c_void,
+                &mut callback_data as *mut _ as *mut c_void,
             );
         }
 
@@ -334,13 +366,15 @@ impl<'a> Process<'a> {
             details: *const gum_sys::GumMallocRangeDetails,
             user_data: gpointer,
         ) -> gboolean {
-            let res = &mut *(user_data as *mut Vec<crate::MemoryRange>);
-            let r = *(*details).range;
-            res.push(crate::MemoryRange::new(
-                NativePointer(r.base_address as *mut c_void),
-                r.size as usize,
-            ));
-            1
+            unsafe {
+                let res = &mut *(user_data as *mut Vec<crate::MemoryRange>);
+                let r = *(*details).range;
+                res.push(crate::MemoryRange::new(
+                    NativePointer(r.base_address as *mut c_void),
+                    r.size as usize,
+                ));
+                1
+            }
         }
 
         unsafe {
@@ -363,20 +397,22 @@ impl<'a> Process<'a> {
             details: *mut gum_sys::GumModule,
             user_data: gpointer,
         ) -> gboolean {
-            let res = &mut *(user_data as *mut CallbackData);
-            res.modules.push(Module::from_raw(details));
+            unsafe {
+                let res = &mut *(user_data as *mut CallbackData);
+                res.modules.push(Module::from_raw(details));
 
-            1
+                1
+            }
         }
 
-        let callback_data = CallbackData {
+        let mut callback_data = CallbackData {
             modules: Vec::new(),
         };
 
         unsafe {
             gum_sys::gum_process_enumerate_modules(
                 Some(enumerate_modules_callback),
-                &callback_data as *const _ as *mut c_void,
+                &mut callback_data as *mut _ as *mut c_void,
             );
         }
 
@@ -389,20 +425,22 @@ impl<'a> Process<'a> {
             details: *const gum_sys::GumThreadDetails,
             user_data: gpointer,
         ) -> gboolean {
-            let res = &mut *(user_data as *mut Vec<Thread>);
-            res.push(Thread::from_raw(details));
+            unsafe {
+                let res = &mut *(user_data as *mut Vec<Thread>);
+                res.push(Thread::from_raw(details));
 
-            // if this value is zero, the iteration ends
-            // subprojects/frida-gum/gum/gumthreadregistry.c
-            1
+                // if this value is zero, the iteration ends
+                // subprojects/frida-gum/gum/gumthreadregistry.c
+                1
+            }
         }
 
-        let callback_data = Vec::new();
+        let mut callback_data = Vec::new();
 
         unsafe {
             gum_sys::gum_process_enumerate_threads(
                 Some(enumerate_threads_callback),
-                &callback_data as *const _ as *mut c_void,
+                &mut callback_data as *mut _ as *mut c_void,
                 GumThreadFlags_GUM_THREAD_FLAGS_ALL,
             )
         };
