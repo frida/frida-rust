@@ -275,7 +275,7 @@ impl Aarch64InstructionWriter {
     }
 
     #[allow(clippy::useless_conversion)]
-    pub fn put_call_address_with_arguments(&self, address: u64, arguments: &[Argument]) -> bool {
+    pub fn put_call_address_with_arguments(&self, address: u64, arguments: &[Argument]) {
         unsafe {
             let arguments: Vec<GumArgument> = arguments
                 .iter()
@@ -299,7 +299,6 @@ impl Aarch64InstructionWriter {
                 arguments.len() as u32,
                 arguments.as_ptr(),
             );
-            true
         }
     }
 
