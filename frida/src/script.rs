@@ -5,14 +5,14 @@
  */
 
 use frida_sys::{
-    _FridaScript, _GBytes, g_bytes_get_data, g_bytes_new, g_bytes_unref, gsize, FridaScriptOptions,
+    _FridaScript, _GBytes, FridaScriptOptions, g_bytes_get_data, g_bytes_new, g_bytes_unref, gsize,
 };
 use serde::Deserialize;
 use serde_json::Value;
-use std::sync::mpsc::{channel, Receiver, Sender};
+use std::sync::mpsc::{Receiver, Sender, channel};
 use std::{cell::RefCell, marker::PhantomData, rc::Rc};
 use std::{
-    ffi::{c_char, c_void, CStr, CString},
+    ffi::{CStr, CString, c_char, c_void},
     ptr::null_mut,
 };
 
@@ -94,58 +94,60 @@ unsafe extern "C" fn call_on_message<I: ScriptHandler>(
     data: *const frida_sys::_GBytes,
     user_data: *mut c_void,
 ) {
-    let _ = std::marker::PhantomData::<I>;
+    unsafe {
+        let _ = std::marker::PhantomData::<I>;
 
-    let c_msg = CStr::from_ptr(message as *const c_char)
-        .to_str()
-        .unwrap_or_default();
+        let c_msg = CStr::from_ptr(message as *const c_char)
+            .to_str()
+            .unwrap_or_default();
 
-    let formatted_msg: Message = serde_json::from_str(c_msg).unwrap_or_else(|err| {
-        Message::Other(serde_json::json!({
-            "error": err.to_string(),
-            "data": c_msg
-        }))
-    });
+        let formatted_msg: Message = serde_json::from_str(c_msg).unwrap_or_else(|err| {
+            Message::Other(serde_json::json!({
+                "error": err.to_string(),
+                "data": c_msg
+            }))
+        });
 
-    let callback_handler: *mut CallbackHandler = user_data as _;
-    let cb = match callback_handler.as_mut() {
-        Some(cb) => cb,
-        None => return,
-    };
+        let callback_handler: *mut CallbackHandler = user_data as _;
+        let cb = match callback_handler.as_mut() {
+            Some(cb) => cb,
+            None => return,
+        };
 
-    match formatted_msg {
-        Message::Send(ref msg)
-            if msg.payload.get(0).and_then(|v| v.as_str()) == Some("frida:rpc") =>
-        {
-            on_message(cb, formatted_msg);
-        }
-        _ => {
-            // Retrieve extra message data, if any.
-            let data_vec = if data.is_null() {
-                None
-            } else {
-                let mut raw_data_size: gsize = 0;
-                let raw_data: *const u8 = g_bytes_get_data(
-                    // Cast to mut should be safe, as this function doesn't modify the data.
-                    data as *mut _GBytes,
-                    std::ptr::from_mut(&mut raw_data_size),
-                ) as *const u8;
-                if raw_data_size == 0 || raw_data.is_null() {
+        match formatted_msg {
+            Message::Send(ref msg)
+                if msg.payload.get(0).and_then(|v| v.as_str()) == Some("frida:rpc") =>
+            {
+                on_message(cb, formatted_msg);
+            }
+            _ => {
+                // Retrieve extra message data, if any.
+                let data_vec = if data.is_null() {
                     None
                 } else {
-                    // Copy to a vector to avoid potential lifetime issues.
-                    Some(
-                        std::slice::from_raw_parts(raw_data, raw_data_size.try_into().unwrap())
-                            .to_vec(),
-                    )
-                }
-            };
+                    let mut raw_data_size: gsize = 0;
+                    let raw_data: *const u8 = g_bytes_get_data(
+                        // Cast to mut should be safe, as this function doesn't modify the data.
+                        data as *mut _GBytes,
+                        std::ptr::from_mut(&mut raw_data_size),
+                    ) as *const u8;
+                    if raw_data_size == 0 || raw_data.is_null() {
+                        None
+                    } else {
+                        // Copy to a vector to avoid potential lifetime issues.
+                        Some(
+                            std::slice::from_raw_parts(raw_data, raw_data_size.try_into().unwrap())
+                                .to_vec(),
+                        )
+                    }
+                };
 
-            if let Some(handler) = cb.script_handler.as_deref_mut() {
-                handler.on_message(formatted_msg, data_vec);
+                if let Some(handler) = cb.script_handler.as_deref_mut() {
+                    handler.on_message(formatted_msg, data_vec);
+                }
             }
         }
-    }
+    } // end unsafe
 }
 
 fn on_message(cb_handler: &mut CallbackHandler, message: Message) {

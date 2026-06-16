@@ -1,12 +1,12 @@
 use super::{memory_range::MemoryRange, range_details::PageProtection};
-use crate::{error::GumResult, NativePointer};
+use crate::{NativePointer, error::GumResult};
 use core::{ffi::c_void, ptr::null_mut};
 use frida_gum_sys::{
     _GumMemoryOperation_GUM_MEMOP_EXECUTE, _GumMemoryOperation_GUM_MEMOP_INVALID,
     _GumMemoryOperation_GUM_MEMOP_READ, _GumMemoryOperation_GUM_MEMOP_WRITE, _GumMemoryRange,
-    false_, gum_memory_access_monitor_disable, gum_memory_access_monitor_enable,
-    gum_memory_access_monitor_new, GError, GumMemoryAccessDetails, GumMemoryAccessMonitor,
-    GumPageProtection,
+    GError, GumMemoryAccessDetails, GumMemoryAccessMonitor, GumPageProtection, false_,
+    gum_memory_access_monitor_disable, gum_memory_access_monitor_enable,
+    gum_memory_access_monitor_new,
 };
 
 pub trait CallbackFn: Fn(&mut MemoryAccessMonitor, &MemoryAccessDetails) {}

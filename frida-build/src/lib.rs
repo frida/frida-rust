@@ -7,7 +7,7 @@
 
 use std::{
     env,
-    fs::{remove_file, File},
+    fs::{File, remove_file},
     io::{self, Error},
     path::Path,
 };
@@ -42,7 +42,7 @@ fn download_and_use_devkit_internal(
     let devkit_name = format!("frida-{kind}-devkit-{version}-{os}-{target_arch}",);
 
     let devkit_path = out_dir_path.join(&devkit_name);
-    let devkit_tar = out_dir_path.join(format!("{}.tar.xz", &devkit_name));
+    let devkit_tar = out_dir_path.join(format!("{devkit_name}.tar.xz"));
 
     if force_download {
         drop(remove_file(&devkit_tar));
@@ -58,7 +58,7 @@ fn download_and_use_devkit_internal(
 
             println!(
                 "cargo:warning=Frida {} devkit not found, downloading from {}...",
-                kind, &frida_url,
+                kind, frida_url,
             );
             // Download devkit
             let mut resp =

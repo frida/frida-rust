@@ -107,33 +107,43 @@ pub trait EventSink {
 }
 
 unsafe extern "C" fn call_start<S: EventSink>(user_data: *mut c_void) {
-    let event_sink: &mut S = &mut *(user_data as *mut S);
-    event_sink.start();
+    unsafe {
+        let event_sink: &mut S = &mut *(user_data as *mut S);
+        event_sink.start();
+    }
 }
 
 unsafe extern "C" fn call_process<S: EventSink>(
     user_data: *mut c_void,
     event: *const frida_gum_sys::GumEvent,
 ) {
-    let event_sink: &mut S = &mut *(user_data as *mut S);
-    event_sink.process(&(*event).into());
+    unsafe {
+        let event_sink: &mut S = &mut *(user_data as *mut S);
+        event_sink.process(&(*event).into());
+    }
 }
 
 unsafe extern "C" fn call_flush<S: EventSink>(user_data: *mut c_void) {
-    let event_sink: &mut S = &mut *(user_data as *mut S);
-    event_sink.flush();
+    unsafe {
+        let event_sink: &mut S = &mut *(user_data as *mut S);
+        event_sink.flush();
+    }
 }
 
 unsafe extern "C" fn call_stop<S: EventSink>(user_data: *mut c_void) {
-    let event_sink: &mut S = &mut *(user_data as *mut S);
-    event_sink.stop();
+    unsafe {
+        let event_sink: &mut S = &mut *(user_data as *mut S);
+        event_sink.stop();
+    }
 }
 
 unsafe extern "C" fn call_query_mask<S: EventSink>(
     user_data: *mut c_void,
 ) -> frida_gum_sys::GumEventType {
-    let event_sink: &mut S = &mut *(user_data as *mut S);
-    event_sink.query_mask() as u32
+    unsafe {
+        let event_sink: &mut S = &mut *(user_data as *mut S);
+        event_sink.query_mask() as u32
+    }
 }
 
 pub(crate) fn event_sink_transform<S: EventSink>(

@@ -23,7 +23,7 @@ use {
     cstr_core::CString,
     frida_gum_sys as gum_sys,
     frida_gum_sys::{
-        gboolean, gpointer, GumExportDetails, GumModule, GumSectionDetails, GumSymbolDetails,
+        GumExportDetails, GumModule, GumSectionDetails, GumSymbolDetails, gboolean, gpointer,
     },
 };
 
@@ -215,16 +215,18 @@ impl Module {
             details: *const GumExportDetails,
             user_data: gpointer,
         ) -> gboolean {
-            let res = &mut *(user_data as *mut Vec<ExportDetails>);
-            let name: String = NativePointer((*details).name as *mut _)
-                .try_into()
-                .unwrap_or_default();
+            unsafe {
+                let res = &mut *(user_data as *mut Vec<ExportDetails>);
+                let name: String = NativePointer((*details).name as *mut _)
+                    .try_into()
+                    .unwrap_or_default();
 
-            let address = (*details).address as usize;
-            let typ = num::FromPrimitive::from_u32((*details).type_ as u32).unwrap();
-            let info = ExportDetails { typ, name, address };
-            res.push(info);
-            1
+                let address = (*details).address as usize;
+                let typ = num::FromPrimitive::from_u32((*details).type_ as u32).unwrap();
+                let info = ExportDetails { typ, name, address };
+                res.push(info);
+                1
+            }
         }
 
         unsafe {
@@ -244,22 +246,24 @@ impl Module {
             details: *const GumSymbolDetails,
             user_data: gpointer,
         ) -> gboolean {
-            let res = &mut *(user_data as *mut Vec<SymbolDetails>);
+            unsafe {
+                let res = &mut *(user_data as *mut Vec<SymbolDetails>);
 
-            let name: String = NativePointer((*details).name as *mut _)
-                .try_into()
-                .unwrap_or_default();
-            let address = (*details).address as usize;
-            let size = (*details).size as usize;
+                let name: String = NativePointer((*details).name as *mut _)
+                    .try_into()
+                    .unwrap_or_default();
+                let address = (*details).address as usize;
+                let size = (*details).size as usize;
 
-            let info = SymbolDetails {
-                name,
-                address,
-                size,
-            };
-            res.push(info);
+                let info = SymbolDetails {
+                    name,
+                    address,
+                    size,
+                };
+                res.push(info);
 
-            1
+                1
+            }
         }
 
         unsafe {
@@ -280,26 +284,28 @@ impl Module {
             details: *const GumSectionDetails,
             user_data: gpointer,
         ) -> gboolean {
-            let res = &mut *(user_data as *mut Vec<SectionDetails>);
+            unsafe {
+                let res = &mut *(user_data as *mut Vec<SectionDetails>);
 
-            let id: String = NativePointer((*details).id as *mut _)
-                .try_into()
-                .unwrap_or_default();
-            let name: String = NativePointer((*details).name as *mut _)
-                .try_into()
-                .unwrap_or_default();
-            let address = (*details).address as usize;
-            let size = (*details).size as usize;
+                let id: String = NativePointer((*details).id as *mut _)
+                    .try_into()
+                    .unwrap_or_default();
+                let name: String = NativePointer((*details).name as *mut _)
+                    .try_into()
+                    .unwrap_or_default();
+                let address = (*details).address as usize;
+                let size = (*details).size as usize;
 
-            let info = SectionDetails {
-                id,
-                name,
-                address,
-                size,
-            };
-            res.push(info);
+                let info = SectionDetails {
+                    id,
+                    name,
+                    address,
+                    size,
+                };
+                res.push(info);
 
-            1
+                1
+            }
         }
 
         unsafe {

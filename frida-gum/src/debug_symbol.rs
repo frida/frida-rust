@@ -3,7 +3,7 @@ use {
     core::{fmt, mem::MaybeUninit, str::Utf8Error},
     cstr_core::{CStr, CString},
     frida_gum_sys as gum_sys,
-    gum_sys::{gum_find_function, gum_symbol_details_from_address, GumDebugSymbolDetails},
+    gum_sys::{GumDebugSymbolDetails, gum_find_function, gum_symbol_details_from_address},
 };
 
 pub struct Symbol {

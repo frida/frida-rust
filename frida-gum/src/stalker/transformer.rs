@@ -8,7 +8,7 @@ use crate::CpuContextAccess;
 use frida_gum_sys::Insn;
 
 use {
-    crate::{instruction_writer::TargetInstructionWriter, CpuContext, Gum},
+    crate::{CpuContext, Gum, instruction_writer::TargetInstructionWriter},
     core::{ffi::c_void, marker::PhantomData},
 };
 
@@ -35,7 +35,9 @@ extern "C" fn put_callout_callback(
 }
 
 unsafe extern "C" fn put_callout_destroy(user_data: *mut c_void) {
-    let _ = Box::from_raw(user_data as *mut Box<dyn FnMut(CpuContext)>);
+    unsafe {
+        let _ = Box::from_raw(user_data as *mut Box<dyn FnMut(CpuContext)>);
+    }
 }
 
 impl<'a> StalkerIterator<'a> {
@@ -176,7 +178,9 @@ extern "C" fn transformer_callback(
 }
 
 unsafe extern "C" fn transformer_destroy(user_data: *mut c_void) {
-    let _ = Box::from_raw(user_data as *mut Box<dyn FnMut(StalkerIterator, StalkerOutput)>);
+    unsafe {
+        let _ = Box::from_raw(user_data as *mut Box<dyn FnMut(StalkerIterator, StalkerOutput)>);
+    }
 }
 
 pub struct Transformer<'a> {
