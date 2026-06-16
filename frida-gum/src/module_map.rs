@@ -39,12 +39,14 @@ impl ModuleMap {
     /// Create a new [`ModuleMap`] with a filter function.
     ///
     /// The filter is retained by the underlying `GumModuleMap` and re-invoked
-    /// on every [`ModuleMap::update`], so it is taken by value (with a `'static`
-    /// bound) rather than borrowed: Frida owns the closure for the lifetime of
-    /// the map and frees it when the map is dropped.
+    /// on every [`ModuleMap::update`]. The closure is boxed and owned by the
+    /// map; `destroy` is called by Frida when the map is finalized, ensuring
+    /// the closure is dropped at the right time. No `'static` bound is required
+    /// because the box is freed before the map's drop — the lifetime is
+    /// managed explicitly via the `destroy` callback.
     pub fn new_with_filter<F>(filter: F) -> Self
     where
-        F: FnMut(Module) -> bool + 'static,
+        F: FnMut(Module) -> bool,
     {
         unsafe extern "C" fn module_map_filter<F>(
             details: *mut gum_sys::GumModule,
