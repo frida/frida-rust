@@ -961,7 +961,7 @@ impl X86InstructionWriter {
         unsafe {
             gum_sys::gum_x86_writer_put_jcc_short(
                 self.writer,
-                condition as i32,
+                condition as _,
                 target as *const c_void,
                 hint,
             ) != 0
@@ -978,7 +978,7 @@ impl X86InstructionWriter {
         unsafe {
             gum_sys::gum_x86_writer_put_jcc_near(
                 self.writer,
-                condition as i32,
+                condition as _,
                 target as *const c_void,
                 hint,
             ) != 0

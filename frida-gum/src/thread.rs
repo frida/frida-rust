@@ -288,7 +288,7 @@ unsafe fn check_error(ok: bool, err: *mut gum_sys::GError) -> Result<(), ThreadE
     unsafe {
         if ok {
             if !err.is_null() {
-                gum_sys::g_error_free(err);
+                crate::glib_compat::g_error_free(err);
             }
             return Ok(());
         }
@@ -302,7 +302,7 @@ unsafe fn check_error(ok: bool, err: *mut gum_sys::GError) -> Result<(), ThreadE
             } else {
                 None
             };
-            gum_sys::g_error_free(err);
+            crate::glib_compat::g_error_free(err);
             msg
         } else {
             None

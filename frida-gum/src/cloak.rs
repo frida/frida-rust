@@ -108,7 +108,7 @@ impl Cloak {
                     r.size as usize,
                 ));
             }
-            gum_sys::g_array_free(array, gum_sys::true_ as _);
+            crate::glib_compat::g_array_free(array, gum_sys::true_ as _);
         }
         results
     }

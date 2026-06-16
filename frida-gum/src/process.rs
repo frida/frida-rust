@@ -266,7 +266,7 @@ impl<'a> Process<'a> {
             let owned = CStr::from_ptr(dir).to_string_lossy().to_string();
             // `g_get_current_dir` returns a newly-allocated string (transfer-full);
             // unlike `g_get_home_dir`/`g_get_tmp_dir` it must be freed by the caller.
-            gum_sys::g_free(dir as *mut c_void);
+            crate::glib_compat::g_free(dir as *mut c_void);
             owned
         }
     }

@@ -213,7 +213,7 @@ impl Exceptor {
                 .into_owned();
             // gum_exception_details_to_string returns a newly-allocated string
             // (transfer-full) that the caller must release.
-            gum_sys::g_free(raw as *mut c_void);
+            crate::glib_compat::g_free(raw as *mut c_void);
             owned
         }
     }

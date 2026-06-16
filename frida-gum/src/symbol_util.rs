@@ -47,8 +47,8 @@ impl SymbolUtil {
         if name_ptr.is_null() {
             None
         } else {
-            let name = unsafe { CStr::from_ptr(name_ptr).to_string_lossy().into_owned() };
-            unsafe { gum_sys::g_free(name_ptr as *mut c_void) };
+            let name = unsafe { CStr::from_ptr(name_ptr.cast()).to_string_lossy().into_owned() };
+            unsafe { crate::glib_compat::g_free(name_ptr as *mut c_void) };
             Some(name)
         }
     }
@@ -72,7 +72,7 @@ impl SymbolUtil {
             Err(_) => return None,
         };
 
-        let ptr = unsafe { gum_sys::gum_find_function(name_cstr.as_ptr()) };
+        let ptr = unsafe { gum_sys::gum_find_function(name_cstr.as_ptr().cast()) };
 
         if ptr.is_null() {
             None
@@ -102,7 +102,7 @@ impl SymbolUtil {
             Err(_) => return Vec::new(),
         };
 
-        let array = unsafe { gum_sys::gum_find_functions_named(name_cstr.as_ptr()) };
+        let array = unsafe { gum_sys::gum_find_functions_named(name_cstr.as_ptr().cast()) };
 
         let mut results = Vec::new();
         if !array.is_null() {
@@ -115,7 +115,7 @@ impl SymbolUtil {
                         results.push(NativePointer(ptr));
                     }
                 }
-                gum_sys::g_array_free(array, gum_sys::true_ as _);
+                crate::glib_compat::g_array_free(array, gum_sys::true_ as _);
             }
         }
 
@@ -145,7 +145,7 @@ impl SymbolUtil {
             Err(_) => return Vec::new(),
         };
 
-        let array = unsafe { gum_sys::gum_find_functions_matching(pattern_cstr.as_ptr()) };
+        let array = unsafe { gum_sys::gum_find_functions_matching(pattern_cstr.as_ptr().cast()) };
 
         let mut results = Vec::new();
         if !array.is_null() {
@@ -158,7 +158,7 @@ impl SymbolUtil {
                         results.push(NativePointer(ptr));
                     }
                 }
-                gum_sys::g_array_free(array, gum_sys::true_ as _);
+                crate::glib_compat::g_array_free(array, gum_sys::true_ as _);
             }
         }
 

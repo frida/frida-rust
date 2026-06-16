@@ -61,7 +61,7 @@ impl ApiResolver {
             Err(_) => return None,
         };
 
-        let resolver = unsafe { gum_sys::gum_api_resolver_make(type_cstr.as_ptr()) };
+        let resolver = unsafe { gum_sys::gum_api_resolver_make(type_cstr.as_ptr().cast()) };
 
         if resolver.is_null() {
             None
@@ -143,13 +143,13 @@ impl ApiResolver {
         unsafe {
             gum_sys::gum_api_resolver_enumerate_matches(
                 self.resolver,
-                query_cstr.as_ptr(),
+                query_cstr.as_ptr().cast(),
                 Some(callback),
                 &mut matches as *mut _ as *mut c_void,
                 &mut error,
             );
             if !error.is_null() {
-                gum_sys::g_error_free(error);
+                crate::glib_compat::g_error_free(error);
             }
         }
 

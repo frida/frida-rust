@@ -71,7 +71,7 @@ pub fn symbol_type_to_string(symbol_type: GumSymbolType) -> Option<&'static str>
         } else {
             // The returned pointer points to a static string in Gum, safe to
             // expose with a 'static lifetime.
-            CStr::from_ptr(ptr).to_str().ok()
+            CStr::from_ptr(ptr.cast()).to_str().ok()
         }
     }
 }

@@ -123,7 +123,7 @@ impl CodeSegment {
             let mut err: *mut gum_sys::GError = ptr::null_mut();
             let ok = gum_sys::gum_code_segment_mark(code.0, size as u64, &mut err) != 0;
             if !err.is_null() {
-                gum_sys::g_error_free(err);
+                crate::glib_compat::g_error_free(err);
             }
             if ok {
                 Ok(())

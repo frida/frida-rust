@@ -48,7 +48,7 @@ impl Memory {
             let n = n_read as usize;
             let slice = core::slice::from_raw_parts(buf, n);
             let owned = slice.to_vec();
-            gum_sys::g_free(buf as *mut c_void);
+            crate::glib_compat::g_free(buf as *mut c_void);
             Some(owned)
         }
     }
@@ -351,9 +351,9 @@ impl Memory {
             }
 
             // gum_memory_patch_code_pages takes a GPtrArray of page addresses.
-            let array = gum_sys::g_ptr_array_sized_new(pages.len() as u32);
+            let array = crate::glib_compat::g_ptr_array_sized_new(pages.len() as u32);
             for page in pages {
-                gum_sys::g_ptr_array_add(array, page.0);
+                crate::glib_compat::g_ptr_array_add(array, page.0);
             }
 
             let mut apply = apply;
@@ -364,7 +364,7 @@ impl Memory {
                 &mut apply as *mut _ as *mut c_void,
             ) != 0;
 
-            gum_sys::g_ptr_array_free(array, gum_sys::true_ as _);
+            crate::glib_compat::g_ptr_array_free(array, gum_sys::true_ as _);
             ok
         }
     }
@@ -410,7 +410,7 @@ impl Memory {
                 for i in 0..len {
                     results.push(NativePointer(*data.add(i) as *mut c_void));
                 }
-                frida_gum_sys::g_array_free(result_array, frida_gum_sys::true_ as _);
+                crate::glib_compat::g_array_free(result_array, frida_gum_sys::true_ as _);
             }
 
             results

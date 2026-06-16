@@ -119,6 +119,8 @@ pub use symbol_util::*;
 mod cloak;
 pub use cloak::*;
 
+mod glib_compat;
+
 mod query;
 pub use query::*;
 
