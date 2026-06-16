@@ -1,5 +1,6 @@
-use core::ffi::CStr;
+use core::ffi::{CStr, c_void};
 use core::fmt::{self, Debug};
+use core::ptr;
 
 use bitflags::bitflags;
 use frida_gum_sys::{
@@ -13,6 +14,14 @@ use frida_gum_sys::{
 };
 use frida_gum_sys::{GumThreadDetails, GumThreadState_GUM_THREAD_RUNNING};
 use num::FromPrimitive;
+
+#[cfg(not(feature = "std"))]
+use alloc::{string::String, vec::Vec};
+
+#[cfg(feature = "std")]
+use std::string::String;
+
+use crate::MemoryRange;
 
 #[cfg(feature = "backtrace")]
 use crate::Backtracer;
@@ -110,6 +119,195 @@ impl Thread {
 impl Drop for Thread {
     fn drop(&mut self) {
         unsafe { gum_sys::gum_thread_details_free(self.thread) };
+    }
+}
+
+/// OS-level thread operations.
+///
+/// These wrap Frida's process-wide thread manipulation primitives. They do
+/// not require an existing [`Thread`] instance because they operate on raw
+/// thread IDs.
+pub struct ThreadOps;
+
+impl ThreadOps {
+    /// Get the calling thread's last system error code.
+    ///
+    /// On Windows this is `GetLastError()`; on POSIX systems this is `errno`.
+    pub fn get_system_error() -> i32 {
+        unsafe { gum_sys::gum_thread_get_system_error() }
+    }
+
+    /// Set the calling thread's last system error code.
+    pub fn set_system_error(value: i32) {
+        unsafe { gum_sys::gum_thread_set_system_error(value) };
+    }
+
+    /// Try to retrieve up to `max` ranges associated with the calling thread.
+    ///
+    /// Returns the ranges actually populated (which may be fewer than `max`).
+    pub fn try_get_ranges(max: u32) -> Vec<MemoryRange> {
+        let mut buffer: Vec<gum_sys::GumMemoryRange> = Vec::with_capacity(max as usize);
+        let count = unsafe {
+            let n = gum_sys::gum_thread_try_get_ranges(buffer.as_mut_ptr(), max);
+            buffer.set_len(n as usize);
+            n as usize
+        };
+        let mut out = Vec::with_capacity(count);
+        for raw in buffer.iter().take(count) {
+            out.push(MemoryRange::new(
+                NativePointer(raw.base_address as *mut c_void),
+                raw.size as usize,
+            ));
+        }
+        out
+    }
+
+    /// Suspend the specified thread.
+    ///
+    /// Returns `true` on success. On failure, `error_message` (if any) will
+    /// contain a description of what went wrong.
+    pub fn suspend(thread_id: usize) -> Result<(), ThreadError> {
+        unsafe {
+            let mut err: *mut gum_sys::GError = ptr::null_mut();
+            let ok = gum_sys::gum_thread_suspend(thread_id as GumThreadId, &mut err) != 0;
+            check_error(ok, err)
+        }
+    }
+
+    /// Resume the specified thread.
+    pub fn resume(thread_id: usize) -> Result<(), ThreadError> {
+        unsafe {
+            let mut err: *mut gum_sys::GError = ptr::null_mut();
+            let ok = gum_sys::gum_thread_resume(thread_id as GumThreadId, &mut err) != 0;
+            check_error(ok, err)
+        }
+    }
+
+    /// Set a hardware breakpoint at `address` on the specified thread.
+    ///
+    /// `breakpoint_id` selects which of the CPU's breakpoint registers to
+    /// use (typically 0..=3 on x86 and 0..=15 on AArch64).
+    pub fn set_hardware_breakpoint(
+        thread_id: usize,
+        breakpoint_id: u32,
+        address: NativePointer,
+    ) -> Result<(), ThreadError> {
+        unsafe {
+            let mut err: *mut gum_sys::GError = ptr::null_mut();
+            let ok = gum_sys::gum_thread_set_hardware_breakpoint(
+                thread_id as GumThreadId,
+                breakpoint_id,
+                address.0 as gum_sys::GumAddress,
+                &mut err,
+            ) != 0;
+            check_error(ok, err)
+        }
+    }
+
+    /// Clear a previously installed hardware breakpoint.
+    pub fn unset_hardware_breakpoint(
+        thread_id: usize,
+        breakpoint_id: u32,
+    ) -> Result<(), ThreadError> {
+        unsafe {
+            let mut err: *mut gum_sys::GError = ptr::null_mut();
+            let ok = gum_sys::gum_thread_unset_hardware_breakpoint(
+                thread_id as GumThreadId,
+                breakpoint_id,
+                &mut err,
+            ) != 0;
+            check_error(ok, err)
+        }
+    }
+
+    /// Set a hardware watchpoint at `address` of `size` bytes.
+    ///
+    /// `conditions` controls whether reads, writes, or both fire the
+    /// watchpoint.
+    pub fn set_hardware_watchpoint(
+        thread_id: usize,
+        watchpoint_id: u32,
+        address: NativePointer,
+        size: usize,
+        conditions: WatchConditions,
+    ) -> Result<(), ThreadError> {
+        unsafe {
+            let mut err: *mut gum_sys::GError = ptr::null_mut();
+            let ok = gum_sys::gum_thread_set_hardware_watchpoint(
+                thread_id as GumThreadId,
+                watchpoint_id,
+                address.0 as gum_sys::GumAddress,
+                size as u64,
+                conditions.bits(),
+                &mut err,
+            ) != 0;
+            check_error(ok, err)
+        }
+    }
+
+    /// Clear a previously installed hardware watchpoint.
+    pub fn unset_hardware_watchpoint(
+        thread_id: usize,
+        watchpoint_id: u32,
+    ) -> Result<(), ThreadError> {
+        unsafe {
+            let mut err: *mut gum_sys::GError = ptr::null_mut();
+            let ok = gum_sys::gum_thread_unset_hardware_watchpoint(
+                thread_id as GumThreadId,
+                watchpoint_id,
+                &mut err,
+            ) != 0;
+            check_error(ok, err)
+        }
+    }
+}
+
+bitflags! {
+    /// Conditions under which a hardware watchpoint fires.
+    ///
+    /// Backed by the binding's own `GumWatchConditions` type so the flag values
+    /// and `bits()` match the FFI parameter on every platform (bindgen types
+    /// this enum as `i32` on MSVC and `u32` on clang targets).
+    #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+    pub struct WatchConditions: gum_sys::GumWatchConditions {
+        /// Fire on reads.
+        const READ = gum_sys::GumWatchConditions_GUM_WATCH_READ;
+        /// Fire on writes.
+        const WRITE = gum_sys::GumWatchConditions_GUM_WATCH_WRITE;
+    }
+}
+
+/// Error returned by [`ThreadOps`] when an operation fails.
+#[derive(Debug)]
+pub struct ThreadError {
+    /// Optional human-readable description of the failure.
+    pub message: Option<String>,
+}
+
+unsafe fn check_error(ok: bool, err: *mut gum_sys::GError) -> Result<(), ThreadError> {
+    unsafe {
+        if ok {
+            if !err.is_null() {
+                crate::glib_compat::g_error_free(err);
+            }
+            return Ok(());
+        }
+        let message = if !err.is_null() {
+            let msg = if !(*err).message.is_null() {
+                Some(
+                    CStr::from_ptr((*err).message)
+                        .to_string_lossy()
+                        .into_owned(),
+                )
+            } else {
+                None
+            };
+            crate::glib_compat::g_error_free(err);
+            msg
+        } else {
+            None
+        };
+        Err(ThreadError { message })
     }
 }
 

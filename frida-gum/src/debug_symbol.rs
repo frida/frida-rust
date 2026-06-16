@@ -3,7 +3,10 @@ use {
     core::{fmt, mem::MaybeUninit, str::Utf8Error},
     cstr_core::{CStr, CString},
     frida_gum_sys as gum_sys,
-    gum_sys::{gum_find_function, gum_symbol_details_from_address, GumDebugSymbolDetails},
+    gum_sys::{
+        GumDebugSymbolDetails, GumSymbolType, gum_find_function, gum_symbol_details_from_address,
+        gum_symbol_type_to_string,
+    },
 };
 
 pub struct Symbol {
@@ -49,6 +52,28 @@ impl Symbol {
     pub fn line_number(&self) -> u32 {
         self.gum_debug_symbol_details.line_number
     }
+
+    /// Column number in file_name (0 when unavailable).
+    pub fn column(&self) -> u32 {
+        self.gum_debug_symbol_details.column
+    }
+}
+
+/// Get a human-readable name for a [`GumSymbolType`].
+///
+/// Wraps `gum_symbol_type_to_string`. Returns `None` if the type is not
+/// recognised by Gum.
+pub fn symbol_type_to_string(symbol_type: GumSymbolType) -> Option<&'static str> {
+    unsafe {
+        let ptr = gum_symbol_type_to_string(symbol_type);
+        if ptr.is_null() {
+            None
+        } else {
+            // The returned pointer points to a static string in Gum, safe to
+            // expose with a 'static lifetime.
+            CStr::from_ptr(ptr.cast()).to_str().ok()
+        }
+    }
 }
 
 pub struct DebugSymbol {}
@@ -75,7 +100,7 @@ impl DebugSymbol {
     pub fn find_function<S: AsRef<str>>(name: S) -> Option<NativePointer> {
         match CString::new(name.as_ref()) {
             Ok(name) => {
-                let address = unsafe { gum_find_function(name.into_raw().cast()) };
+                let address = unsafe { gum_find_function(name.as_ptr().cast()) };
                 if address.is_null() {
                     None
                 } else {
@@ -90,6 +115,17 @@ impl DebugSymbol {
         match Self::find_function(name) {
             Some(address) => Self::from_address(address),
             None => None,
+        }
+    }
+
+    /// Load debug symbols from the module (or symbol file) at `path`.
+    ///
+    /// Useful when symbols live in a separate file (e.g. a stripped binary with
+    /// a companion `.debug`/`.pdb`). Returns `true` if symbols were loaded.
+    pub fn load_symbols<S: AsRef<str>>(path: S) -> bool {
+        match CString::new(path.as_ref()) {
+            Ok(path) => unsafe { gum_sys::gum_load_symbols(path.as_ptr().cast()) != 0 },
+            Err(_) => false,
         }
     }
 }

@@ -1,14 +1,14 @@
 use {
     crate::error::{Error, GumResult},
     core::{
-        ffi::{c_void, CStr},
+        ffi::{CStr, c_void},
         ptr::null_mut,
         slice::from_raw_parts,
     },
     frida_gum_sys::{
-        gchar, gpointer, gsize, gum_script_backend_create_finish, gum_script_load,
-        gum_script_load_finish, gum_script_set_message_handler, GAsyncResult, GBytes, GCancellable,
-        GError, GObject, GumScript, GumScriptBackend,
+        GAsyncResult, GBytes, GCancellable, GError, GObject, GumScript, GumScriptBackend, gchar,
+        gpointer, gsize, gum_script_backend_create_finish, gum_script_load, gum_script_load_finish,
+        gum_script_set_message_handler,
     },
 };
 
@@ -47,24 +47,34 @@ where
         result: *mut GAsyncResult,
         user_data: gpointer,
     ) {
-        let data = &mut *(user_data as *mut ScriptData<F>);
+        let data = unsafe { &mut *(user_data as *mut ScriptData<F>) };
         let mut error: *mut GError = null_mut();
 
-        data.script = gum_script_backend_create_finish(data.backend, result, &mut error);
+        data.script =
+            unsafe { gum_script_backend_create_finish(data.backend, result, &mut error) };
         if data.script.is_null() || !error.is_null() {
             data.result = Err(Error::FailedToCreateScript);
             return;
         }
 
-        gum_script_set_message_handler(data.script, Some(ScriptData::<F>::js_msg), user_data, None);
+        unsafe {
+            gum_script_set_message_handler(
+                data.script,
+                Some(ScriptData::<F>::js_msg),
+                user_data,
+                None,
+            )
+        };
 
         let cancellable: *mut GCancellable = null_mut();
-        gum_script_load(
-            data.script,
-            cancellable,
-            Some(ScriptData::<F>::load_cb),
-            data as *mut ScriptData<F> as *mut c_void,
-        );
+        unsafe {
+            gum_script_load(
+                data.script,
+                cancellable,
+                Some(ScriptData::<F>::load_cb),
+                data as *mut ScriptData<F> as *mut c_void,
+            )
+        };
     }
 
     fn get_bytes(gdata: &mut GBytes) -> GumResult<&[u8]> {
@@ -84,12 +94,12 @@ where
     }
 
     unsafe extern "C" fn js_msg(gmessage: *const gchar, gbytes: *mut GBytes, user_data: gpointer) {
-        let data = &mut *(user_data as *mut ScriptData<F>);
-        let message = CStr::from_ptr(gmessage).to_str().unwrap_or_default();
+        let data = unsafe { &mut *(user_data as *mut ScriptData<F>) };
+        let message = unsafe { CStr::from_ptr(gmessage) }.to_str().unwrap_or_default();
         let bytes = if gbytes.is_null() {
             &[]
         } else {
-            Self::get_bytes(&mut *gbytes).unwrap_or_default()
+            Self::get_bytes(unsafe { &mut *gbytes }).unwrap_or_default()
         };
         if let Some(callback) = &mut data.callback {
             callback(message, bytes);
@@ -101,8 +111,8 @@ where
         result: *mut GAsyncResult,
         user_data: gpointer,
     ) {
-        let data = &mut *(user_data as *mut ScriptData<F>);
-        gum_script_load_finish(data.script, result);
+        let data = unsafe { &mut *(user_data as *mut ScriptData<F>) };
+        unsafe { gum_script_load_finish(data.script, result) };
         data.result = Ok(());
     }
 

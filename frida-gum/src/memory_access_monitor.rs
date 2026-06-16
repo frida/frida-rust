@@ -1,72 +1,63 @@
-use super::{memory_range::MemoryRange, range_details::PageProtection};
-use crate::{error::GumResult, NativePointer};
-use core::{ffi::c_void, ptr::null_mut};
-use frida_gum_sys::{
-    _GumMemoryOperation_GUM_MEMOP_EXECUTE, _GumMemoryOperation_GUM_MEMOP_INVALID,
-    _GumMemoryOperation_GUM_MEMOP_READ, _GumMemoryOperation_GUM_MEMOP_WRITE, _GumMemoryRange,
-    false_, gum_memory_access_monitor_disable, gum_memory_access_monitor_enable,
-    gum_memory_access_monitor_new, GError, GumMemoryAccessDetails, GumMemoryAccessMonitor,
-    GumPageProtection,
+/*
+ * Copyright © 2020-2021 Keegan Saunders
+ * Copyright © 2026 Kirby Kuehl
+ *
+ * Licence: wxWindows Library Licence, Version 3.1
+ */
+
+//! Watch a set of memory ranges and run a callback whenever they are read,
+//! written, or executed.
+
+use {
+    crate::{MemoryRange, NativePointer, PageProtection, error::Error},
+    core::{ffi::c_void, ptr},
+    frida_gum_sys as gum_sys,
 };
 
-pub trait CallbackFn: Fn(&mut MemoryAccessMonitor, &MemoryAccessDetails) {}
+#[cfg(not(feature = "std"))]
+use alloc::{boxed::Box, vec::Vec};
 
-impl<F> CallbackFn for F where F: Fn(&mut MemoryAccessMonitor, &MemoryAccessDetails) {}
+#[cfg(feature = "std")]
+use std::{boxed::Box, vec::Vec};
 
-pub struct CallbackWrapper<F>
-where
-    F: CallbackFn,
-{
-    callback: F,
-}
-
-extern "C" fn c_callback<F>(
-    monitor: *mut GumMemoryAccessMonitor,
-    details: *const GumMemoryAccessDetails,
-    user_data: *mut c_void,
-) where
-    F: CallbackFn,
-{
-    let details = unsafe { &*(details as *const GumMemoryAccessDetails) };
-    let details = MemoryAccessDetails::from(details);
-    let mut monitor = MemoryAccessMonitor { monitor };
-    let cw: &mut CallbackWrapper<F> = unsafe { &mut *(user_data as *mut _) };
-    (cw.callback)(&mut monitor, &details);
-}
-
-#[derive(FromPrimitive)]
+/// Kind of memory access that triggered a notification.
+#[derive(FromPrimitive, Debug, Copy, Clone, PartialEq, Eq)]
 #[repr(u32)]
 pub enum MemoryOperation {
-    Invalid = _GumMemoryOperation_GUM_MEMOP_INVALID as _,
-    Read = _GumMemoryOperation_GUM_MEMOP_READ as _,
-    Write = _GumMemoryOperation_GUM_MEMOP_WRITE as _,
-    Execute = _GumMemoryOperation_GUM_MEMOP_EXECUTE as _,
+    /// Operation could not be determined.
+    Invalid = gum_sys::_GumMemoryOperation_GUM_MEMOP_INVALID as u32,
+    /// Read access.
+    Read = gum_sys::_GumMemoryOperation_GUM_MEMOP_READ as u32,
+    /// Write access.
+    Write = gum_sys::_GumMemoryOperation_GUM_MEMOP_WRITE as u32,
+    /// Execute access.
+    Execute = gum_sys::_GumMemoryOperation_GUM_MEMOP_EXECUTE as u32,
 }
 
-/// Details about a memory access
-///
-/// # Fields
-///
-/// * `operation` - The kind of operation that triggered the access
-/// * `from` - Address of instruction performing the access as a [`NativePointer`]
-/// * `address` - Address being accessed as a [`NativePointer`]
-/// * `range_index` - Index of the accessed range in the ranges provided to
-/// * `page_index` - Index of the accessed memory page inside the specified range
-/// * `pages_completed` - Overall number of pages which have been accessed so far (and are no longer being monitored)
-/// * `pages_total` - Overall number of pages that were initially monitored
+/// Details about a memory access reported by [`MemoryAccessMonitor`].
+#[derive(Debug, Clone)]
 pub struct MemoryAccessDetails {
+    /// Thread that performed the access.
+    pub thread_id: usize,
+    /// Kind of access.
     pub operation: MemoryOperation,
+    /// Address of the instruction that performed the access.
     pub from: NativePointer,
+    /// Address that was accessed.
     pub address: NativePointer,
+    /// Index of the matched range in the slice passed to [`MemoryAccessMonitor::new`].
     pub range_index: usize,
+    /// Index of the accessed page within the matched range.
     pub page_index: usize,
+    /// Number of pages already accessed (and no longer monitored).
     pub pages_completed: usize,
+    /// Total number of pages originally monitored.
     pub pages_total: usize,
 }
 
-impl std::fmt::Display for MemoryAccessDetails {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let operation = match self.operation {
+impl core::fmt::Display for MemoryAccessDetails {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        let op = match self.operation {
             MemoryOperation::Invalid => "invalid",
             MemoryOperation::Read => "read",
             MemoryOperation::Write => "write",
@@ -75,7 +66,7 @@ impl std::fmt::Display for MemoryAccessDetails {
         write!(
             f,
             "MemoryAccessDetails {{ operation: {}, from: {:#x}, address: {:#x}, range_index: {}, page_index: {}, pages_completed: {}, pages_total: {} }}",
-            operation,
+            op,
             self.from.0 as usize,
             self.address.0 as usize,
             self.range_index,
@@ -86,84 +77,123 @@ impl std::fmt::Display for MemoryAccessDetails {
     }
 }
 
-impl From<&GumMemoryAccessDetails> for MemoryAccessDetails {
-    fn from(details: &GumMemoryAccessDetails) -> Self {
+impl From<&gum_sys::GumMemoryAccessDetails> for MemoryAccessDetails {
+    fn from(details: &gum_sys::GumMemoryAccessDetails) -> Self {
         Self {
-            operation: num::FromPrimitive::from_u32(details.operation).unwrap(),
+            thread_id: details.thread_id as usize,
+            operation: num::FromPrimitive::from_u32(details.operation)
+                .unwrap_or(MemoryOperation::Invalid),
             from: NativePointer(details.from),
             address: NativePointer(details.address),
-            range_index: details.range_index as _,
-            page_index: details.page_index as _,
-            pages_completed: details.pages_completed as _,
-            pages_total: details.pages_total as _,
+            range_index: details.range_index as usize,
+            page_index: details.page_index as usize,
+            pages_completed: details.pages_completed as usize,
+            pages_total: details.pages_total as usize,
         }
     }
 }
 
+type Callback = Box<dyn FnMut(&MemoryAccessDetails) + 'static>;
+
+/// Watch one or more memory ranges and invoke a callback on access.
+///
+/// The monitor takes ownership of the callback closure. Dropping the monitor
+/// releases the closure and unregisters Frida's signal/exception hooks.
 pub struct MemoryAccessMonitor {
-    monitor: *mut GumMemoryAccessMonitor,
+    monitor: *mut gum_sys::GumMemoryAccessMonitor,
+    // Kept boxed and alive for the lifetime of the monitor; the C side
+    // holds a *mut c_void into this allocation.
+    _callback: Box<Callback>,
 }
 
 impl MemoryAccessMonitor {
-    /// Create a new [`MemoryAccessMonitor`]
+    /// Create a new monitor watching the supplied ranges.
     ///
     /// # Arguments
     ///
-    /// * `ranges` - The memory ranges to monitor
-    /// * `mask` - The page protection mask to monitor
-    /// * `auto_reset` - Whether to automatically reset the monitor after each access
-    /// * `callback` - The callback to call when an access occurs
+    /// * `ranges` - Ranges to watch.
+    /// * `mask` - Which protection bits to react to (e.g. `Read`, `Write`,
+    ///   `ReadWrite`, `Execute`).
+    /// * `auto_reset` - If `true`, the watch on a page is rearmed after each
+    ///   access; otherwise each page only fires once.
+    /// * `callback` - Closure invoked on every access.
     pub fn new<F>(
         _gum: &crate::Gum,
-        ranges: Vec<MemoryRange>,
+        ranges: &[MemoryRange],
         mask: PageProtection,
         auto_reset: bool,
         callback: F,
     ) -> Self
     where
-        F: CallbackFn,
+        F: FnMut(&MemoryAccessDetails) + 'static,
     {
-        let mut cw = CallbackWrapper { callback };
-        let monitor = unsafe {
-            let size = std::mem::size_of::<_GumMemoryRange>() * ranges.len();
-            let block = std::alloc::alloc(std::alloc::Layout::from_size_align_unchecked(
-                size,
-                std::mem::align_of::<_GumMemoryRange>(),
-            )) as *mut _GumMemoryRange;
-            // copy ranges into the buffer
-            for (i, range) in ranges.iter().enumerate() {
-                std::ptr::write(block.add(i), range.memory_range);
-            }
-            let num_ranges = ranges.len() as u32;
+        unsafe extern "C" fn trampoline(
+            _monitor: *mut gum_sys::GumMemoryAccessMonitor,
+            details: *const gum_sys::GumMemoryAccessDetails,
+            user_data: gum_sys::gpointer,
+        ) {
+            let cb = unsafe { &mut *(user_data as *mut Callback) };
+            let details = MemoryAccessDetails::from(unsafe { &*details });
+            (cb)(&details);
+        }
 
-            gum_memory_access_monitor_new(
-                block,
-                num_ranges,
-                mask as GumPageProtection,
-                auto_reset as _,
-                Some(c_callback::<F>),
-                &mut cw as *mut _ as *mut c_void,
+        // Frida copies the ranges array internally, so a stack-allocated Vec is fine.
+        let raw_ranges: Vec<gum_sys::GumMemoryRange> =
+            ranges.iter().map(|r| r.memory_range).collect();
+
+        let mut boxed: Box<Callback> = Box::new(Box::new(callback));
+        let user_data = &mut *boxed as *mut Callback as *mut c_void;
+
+        let monitor = unsafe {
+            gum_sys::gum_memory_access_monitor_new(
+                raw_ranges.as_ptr(),
+                raw_ranges.len() as u32,
+                mask as gum_sys::GumPageProtection,
+                auto_reset as gum_sys::gboolean,
+                Some(trampoline),
+                user_data,
                 None,
             )
         };
-        Self { monitor }
-    }
 
-    /// Enable the monitor
-    pub fn enable(&self) -> GumResult<()> {
-        let mut error: *mut GError = null_mut();
-        if unsafe { gum_memory_access_monitor_enable(self.monitor, &mut error) } == false_ as _ {
-            Err(crate::error::Error::MemoryAccessError)
-        } else {
-            Ok(())
+        MemoryAccessMonitor {
+            monitor,
+            _callback: boxed,
         }
     }
 
-    /// Disable the monitor
+    /// Arm the monitor.
+    ///
+    /// Returns an error if the underlying VM probes could not be installed
+    /// (e.g. the requested ranges overlap memory that cannot be probed).
+    pub fn enable(&self) -> Result<(), Error> {
+        unsafe {
+            let mut err: *mut gum_sys::GError = ptr::null_mut();
+            let ok = gum_sys::gum_memory_access_monitor_enable(self.monitor, &mut err) != 0;
+            if !err.is_null() {
+                crate::glib_compat::g_error_free(err);
+            }
+            if ok {
+                Ok(())
+            } else {
+                Err(Error::MemoryAccessError)
+            }
+        }
+    }
+
+    /// Disarm the monitor without destroying it.
     pub fn disable(&self) {
-        if self.monitor.is_null() {
-            return;
-        }
-        unsafe { gum_memory_access_monitor_disable(self.monitor) };
+        unsafe { gum_sys::gum_memory_access_monitor_disable(self.monitor) };
     }
 }
+
+impl Drop for MemoryAccessMonitor {
+    fn drop(&mut self) {
+        unsafe {
+            gum_sys::gum_memory_access_monitor_disable(self.monitor);
+            gum_sys::g_object_unref(self.monitor as *mut c_void);
+        }
+    }
+}
+
+unsafe impl Send for MemoryAccessMonitor {}

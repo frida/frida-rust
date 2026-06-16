@@ -8,11 +8,11 @@ use frida_sys::_FridaDeviceManager;
 use std::ffi::CString;
 use std::marker::PhantomData;
 
-use crate::device::{self, Device};
 use crate::DeviceType;
 use crate::Error;
 use crate::Frida;
 use crate::Result;
+use crate::device::{self, Device};
 
 /// Platform-independent device manager abstraction access.
 pub struct DeviceManager<'a> {

@@ -75,6 +75,8 @@ pub mod interceptor;
 
 pub mod instruction_writer;
 
+mod glib_compat;
+
 mod module;
 pub use module::*;
 

@@ -36,20 +36,42 @@ impl ModuleMap {
         Self::from_raw(unsafe { gum_sys::gum_module_map_new() })
     }
 
-    /// Create a new [`ModuleMap`] with a filter function
-    pub fn new_with_filter(filter: &mut dyn FnMut(Module) -> bool) -> Self {
-        unsafe extern "C" fn module_map_filter(
+    /// Create a new [`ModuleMap`] with a filter function.
+    ///
+    /// The filter is retained by the underlying `GumModuleMap` and re-invoked
+    /// on every [`ModuleMap::update`], so it is taken by value (with a `'static`
+    /// bound) rather than borrowed: Frida owns the closure for the lifetime of
+    /// the map and frees it when the map is dropped.
+    pub fn new_with_filter<F>(filter: F) -> Self
+    where
+        F: FnMut(Module) -> bool + 'static,
+    {
+        unsafe extern "C" fn module_map_filter<F>(
             details: *mut gum_sys::GumModule,
             callback: *mut c_void,
-        ) -> i32 {
-            let callback = &mut *(callback as *mut Box<&mut dyn FnMut(Module) -> bool>);
-            i32::from((callback)(Module::from_raw(details)))
+        ) -> i32
+        where
+            F: FnMut(Module) -> bool,
+        {
+            unsafe {
+                let callback = &mut *(callback as *mut F);
+                i32::from(callback(Module::from_raw(details)))
+            }
         }
+
+        // Frees the boxed closure when the GumModuleMap is finalized.
+        unsafe extern "C" fn destroy<F>(data: *mut c_void) {
+            unsafe {
+                drop(Box::from_raw(data as *mut F));
+            }
+        }
+
+        let filter = Box::into_raw(Box::new(filter));
         Self::from_raw(unsafe {
             gum_sys::gum_module_map_new_filtered(
-                Some(module_map_filter),
-                &mut Box::new(filter) as *mut _ as *mut c_void,
-                None,
+                Some(module_map_filter::<F>),
+                filter as *mut c_void,
+                Some(destroy::<F>),
             )
         })
     }
@@ -57,21 +79,19 @@ impl ModuleMap {
     /// Create a new [`ModuleMap`] from a list of names
     #[cfg(feature = "module-names")]
     pub fn new_from_names(names: &[&str]) -> Self {
-        Self::new_with_filter(&mut |details: Module| {
-            for name in names {
-                if (name.starts_with('/') && details.path().eq(name))
+        // The filter outlives this call (Frida retains it), so capture owned
+        // copies of the names rather than borrowing the caller's slice.
+        let names: Vec<String> = names.iter().map(|name| (*name).to_owned()).collect();
+        Self::new_with_filter(move |details: Module| {
+            names.iter().any(|name| {
+                (name.starts_with('/') && details.path().eq(name))
                     || (name.contains('/')
-                        && details.name().eq(Path::new(name)
+                        && Path::new(name)
                             .file_name()
-                            .unwrap()
-                            .to_str()
-                            .unwrap()))
-                    || (details.name().eq(name))
-                {
-                    return true;
-                }
-            }
-            false
+                            .and_then(|f| f.to_str())
+                            .is_some_and(|f| details.name().eq(f)))
+                    || details.name().eq(name)
+            })
         })
     }
     /// Find the given address in the [`ModuleMap`]
