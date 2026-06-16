@@ -45,9 +45,9 @@ unsafe extern "C" fn put_callout_destroy(user_data: *mut c_void) {
 #[repr(i32)]
 pub enum MemoryAccess {
     /// Other code is allowed to access the page concurrently.
-    Open = frida_gum_sys::GumMemoryAccess_GUM_MEMORY_ACCESS_OPEN,
+    Open = frida_gum_sys::GumMemoryAccess_GUM_MEMORY_ACCESS_OPEN as _,
     /// The instruction has exclusive access to the page.
-    Exclusive = frida_gum_sys::GumMemoryAccess_GUM_MEMORY_ACCESS_EXCLUSIVE,
+    Exclusive = frida_gum_sys::GumMemoryAccess_GUM_MEMORY_ACCESS_EXCLUSIVE as _,
 }
 
 impl<'a> StalkerIterator<'a> {

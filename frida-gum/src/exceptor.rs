@@ -28,11 +28,11 @@ use std::{boxed::Box, string::String};
 pub enum ExceptorMode {
     /// Full handling: signals are caught and dispatched to registered handlers,
     /// and Gum's `try_catch` mechanism is also functional.
-    Full = gum_sys::GumExceptorMode_GUM_EXCEPTOR_MODE_FULL,
+    Full = gum_sys::GumExceptorMode_GUM_EXCEPTOR_MODE_FULL as _,
     /// Only registered handlers receive signals; `try_catch` is disabled.
-    HandlerOnly = gum_sys::GumExceptorMode_GUM_EXCEPTOR_MODE_HANDLER_ONLY,
+    HandlerOnly = gum_sys::GumExceptorMode_GUM_EXCEPTOR_MODE_HANDLER_ONLY as _,
     /// The exceptor is fully disabled.
-    Off = gum_sys::GumExceptorMode_GUM_EXCEPTOR_MODE_OFF,
+    Off = gum_sys::GumExceptorMode_GUM_EXCEPTOR_MODE_OFF as _,
 }
 
 /// Types of exceptions that can be caught.
@@ -40,23 +40,23 @@ pub enum ExceptorMode {
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum ExceptionType {
     /// Abort/terminate signal
-    Abort = gum_sys::_GumExceptionType_GUM_EXCEPTION_ABORT,
+    Abort = gum_sys::_GumExceptionType_GUM_EXCEPTION_ABORT as _,
     /// Access violation / segmentation fault
-    AccessViolation = gum_sys::_GumExceptionType_GUM_EXCEPTION_ACCESS_VIOLATION,
+    AccessViolation = gum_sys::_GumExceptionType_GUM_EXCEPTION_ACCESS_VIOLATION as _,
     /// Guard page violation
-    GuardPage = gum_sys::_GumExceptionType_GUM_EXCEPTION_GUARD_PAGE,
+    GuardPage = gum_sys::_GumExceptionType_GUM_EXCEPTION_GUARD_PAGE as _,
     /// Illegal instruction
-    IllegalInstruction = gum_sys::_GumExceptionType_GUM_EXCEPTION_ILLEGAL_INSTRUCTION,
+    IllegalInstruction = gum_sys::_GumExceptionType_GUM_EXCEPTION_ILLEGAL_INSTRUCTION as _,
     /// Stack overflow
-    StackOverflow = gum_sys::_GumExceptionType_GUM_EXCEPTION_STACK_OVERFLOW,
+    StackOverflow = gum_sys::_GumExceptionType_GUM_EXCEPTION_STACK_OVERFLOW as _,
     /// Arithmetic exception
-    Arithmetic = gum_sys::_GumExceptionType_GUM_EXCEPTION_ARITHMETIC,
+    Arithmetic = gum_sys::_GumExceptionType_GUM_EXCEPTION_ARITHMETIC as _,
     /// Breakpoint
-    Breakpoint = gum_sys::_GumExceptionType_GUM_EXCEPTION_BREAKPOINT,
+    Breakpoint = gum_sys::_GumExceptionType_GUM_EXCEPTION_BREAKPOINT as _,
     /// Single step
-    SingleStep = gum_sys::_GumExceptionType_GUM_EXCEPTION_SINGLE_STEP,
+    SingleStep = gum_sys::_GumExceptionType_GUM_EXCEPTION_SINGLE_STEP as _,
     /// System exception
-    System = gum_sys::_GumExceptionType_GUM_EXCEPTION_SYSTEM,
+    System = gum_sys::_GumExceptionType_GUM_EXCEPTION_SYSTEM as _,
 }
 
 /// Exception handler interface.

@@ -22,7 +22,7 @@ use cstr_core::CString;
 use frida_gum_sys::GumThreadFlags_GUM_THREAD_FLAGS_ALL;
 
 #[cfg(any(target_os = "linux", target_os = "freebsd"))]
-extern "C" {
+unsafe extern "C" {
     pub fn _frida_g_get_home_dir() -> *const c_char;
     pub fn _frida_g_get_current_dir() -> *const c_char;
     pub fn _frida_g_get_tmp_dir() -> *const c_char;
@@ -47,9 +47,9 @@ pub enum CodeSigningPolicy {
 #[repr(i32)]
 pub enum TeardownRequirement {
     /// Complete teardown of all internal state.
-    Full = gum_sys::GumTeardownRequirement_GUM_TEARDOWN_REQUIREMENT_FULL,
+    Full = gum_sys::GumTeardownRequirement_GUM_TEARDOWN_REQUIREMENT_FULL as _,
     /// Minimal teardown, intended for short-lived processes.
-    Minimal = gum_sys::GumTeardownRequirement_GUM_TEARDOWN_REQUIREMENT_MINIMAL,
+    Minimal = gum_sys::GumTeardownRequirement_GUM_TEARDOWN_REQUIREMENT_MINIMAL as _,
 }
 
 #[derive(Clone, FromPrimitive, Debug)]

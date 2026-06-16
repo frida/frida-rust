@@ -264,8 +264,12 @@ impl ThreadOps {
 
 bitflags! {
     /// Conditions under which a hardware watchpoint fires.
+    ///
+    /// Backed by the binding's own `GumWatchConditions` type so the flag values
+    /// and `bits()` match the FFI parameter on every platform (bindgen types
+    /// this enum as `i32` on MSVC and `u32` on clang targets).
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub struct WatchConditions: i32 {
+    pub struct WatchConditions: gum_sys::GumWatchConditions {
         /// Fire on reads.
         const READ = gum_sys::GumWatchConditions_GUM_WATCH_READ;
         /// Fire on writes.
