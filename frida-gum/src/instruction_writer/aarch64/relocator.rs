@@ -10,7 +10,7 @@ pub struct Aarch64Relocator {
 
 impl Relocator for Aarch64Relocator {
     fn new(input_code: u64, output: &mut Aarch64InstructionWriter) -> Self {
-        extern "C" {
+        unsafe extern "C" {
             fn gum_arm64_relocator_new(
                 input_code: *const c_void,
                 output: *mut c_void,
@@ -24,7 +24,7 @@ impl Relocator for Aarch64Relocator {
     }
 
     fn read_one(&mut self) -> (u32, Insn) {
-        extern "C" {
+        unsafe extern "C" {
             fn gum_arm64_relocator_read_one(
                 relocator: *mut c_void,
                 instruction: *mut *const cs_insn,
@@ -37,7 +37,7 @@ impl Relocator for Aarch64Relocator {
     }
 
     fn eoi(&mut self) -> bool {
-        extern "C" {
+        unsafe extern "C" {
             fn gum_arm64_relocator_eoi(relocator: *mut c_void) -> u32;
         }
 
@@ -45,7 +45,7 @@ impl Relocator for Aarch64Relocator {
     }
 
     fn write_all(&mut self) {
-        extern "C" {
+        unsafe extern "C" {
             fn gum_arm64_relocator_write_all(relocator: *mut c_void);
         }
 
@@ -53,7 +53,7 @@ impl Relocator for Aarch64Relocator {
     }
 
     fn write_one(&mut self) -> bool {
-        extern "C" {
+        unsafe extern "C" {
             fn gum_arm64_relocator_write_one(relocator: *mut c_void) -> i32;
         }
 
@@ -61,7 +61,7 @@ impl Relocator for Aarch64Relocator {
     }
 
     fn skip_one(&mut self) -> bool {
-        extern "C" {
+        unsafe extern "C" {
             fn gum_arm64_relocator_skip_one(relocator: *mut c_void) -> i32;
         }
 
@@ -71,7 +71,7 @@ impl Relocator for Aarch64Relocator {
 
 impl Drop for Aarch64Relocator {
     fn drop(&mut self) {
-        extern "C" {
+        unsafe extern "C" {
             fn gum_arm64_relocator_unref(relocator: *mut c_void);
         }
 
