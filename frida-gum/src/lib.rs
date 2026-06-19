@@ -78,6 +78,8 @@ pub mod instruction_writer;
 mod module;
 pub use module::*;
 
+pub mod elf_module;
+
 mod module_map;
 pub use module_map::*;
 
