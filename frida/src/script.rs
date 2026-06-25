@@ -147,7 +147,7 @@ unsafe extern "C" fn call_on_message<I: ScriptHandler>(
                 }
             }
         }
-    } // end unsafe
+    }
 }
 
 fn on_message(cb_handler: &mut CallbackHandler, message: Message) {
