@@ -14,7 +14,7 @@ extern crate alloc;
 use {
     crate::MemoryRange,
     core::{
-        ffi::{c_void, CStr},
+        ffi::{CStr, c_void},
         fmt,
         marker::PhantomData,
     },
@@ -34,6 +34,8 @@ pub enum PageProtection {
     Execute = gum_sys::_GumPageProtection_GUM_PAGE_EXECUTE as u32,
     ReadWrite = gum_sys::_GumPageProtection_GUM_PAGE_READ as u32
         | gum_sys::_GumPageProtection_GUM_PAGE_WRITE as u32,
+    WriteExecute = gum_sys::_GumPageProtection_GUM_PAGE_WRITE as u32
+        | gum_sys::_GumPageProtection_GUM_PAGE_EXECUTE as u32,
     ReadExecute = gum_sys::_GumPageProtection_GUM_PAGE_READ as u32
         | gum_sys::_GumPageProtection_GUM_PAGE_EXECUTE as u32,
     ReadWriteExecute = gum_sys::_GumPageProtection_GUM_PAGE_READ as u32
@@ -49,6 +51,7 @@ impl fmt::Display for PageProtection {
             PageProtection::Write => write!(fmt, "-w-"),
             PageProtection::Execute => write!(fmt, "--e"),
             PageProtection::ReadWrite => write!(fmt, "rw-"),
+            PageProtection::WriteExecute => write!(fmt, "-we"),
             PageProtection::ReadExecute => write!(fmt, "r-e"),
             PageProtection::ReadWriteExecute => write!(fmt, "rwe"),
         }
@@ -105,28 +108,32 @@ unsafe extern "C" fn save_range_details_by_address(
     details: *const gum_sys::GumRangeDetails,
     context: *mut c_void,
 ) -> i32 {
-    let context = &mut *(context as *mut SaveRangeDetailsByAddressContext);
-    let range = (*details).range;
-    let start = (*range).base_address as u64;
-    let end = start + (*range).size as u64;
-    if start <= context.address && context.address < end {
-        context.details = Some(RangeDetails::from_raw(details));
-        return 0;
-    }
+    unsafe {
+        let context = &mut *(context as *mut SaveRangeDetailsByAddressContext);
+        let range = (*details).range;
+        let start = (*range).base_address as u64;
+        let end = start + (*range).size as u64;
+        if start <= context.address && context.address < end {
+            context.details = Some(RangeDetails::from_raw(details));
+            return 0;
+        }
 
-    1
+        1
+    }
 }
 
 unsafe extern "C" fn enumerate_ranges_stub(
     details: *const gum_sys::GumRangeDetails,
     context: *mut c_void,
 ) -> i32 {
-    if !(*(context as *mut Box<&mut dyn FnMut(&RangeDetails) -> bool>))(&RangeDetails::from_raw(
-        details,
-    )) {
-        return 0;
+    unsafe {
+        if !(*(context as *mut Box<&mut dyn FnMut(&RangeDetails) -> bool>))(
+            &RangeDetails::from_raw(details),
+        ) {
+            return 0;
+        }
+        1
     }
-    1
 }
 
 /// Details a range of virtual memory.
@@ -142,7 +149,11 @@ impl<'a> RangeDetails<'a> {
         unsafe {
             Self {
                 range: MemoryRange::from_raw((*range_details).range),
-                protection: num::FromPrimitive::from_u32((*range_details).protection).unwrap(),
+                // Frida only reports combinations of R/W/X (0..=7); fall back to
+                // NoAccess rather than panicking inside this FFI callback if an
+                // unexpected value is ever encountered.
+                protection: num::FromPrimitive::from_u32((*range_details).protection)
+                    .unwrap_or(PageProtection::NoAccess),
                 file: FileMapping::from_raw((*range_details).file),
                 phantom: PhantomData,
             }

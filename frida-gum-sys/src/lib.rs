@@ -42,8 +42,10 @@ impl Insn {
     ///
     /// The caller is fully responsible for the backing allocations lifetime, including freeing.
     pub unsafe fn from_raw(insn: *const cs_insn) -> Self {
-        Self {
-            insn: core::ptr::read(insn),
+        unsafe {
+            Self {
+                insn: core::ptr::read(insn),
+            }
         }
     }
 

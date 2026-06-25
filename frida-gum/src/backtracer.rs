@@ -12,7 +12,7 @@ use {core::mem::MaybeUninit, frida_gum_sys as gum_sys};
 
 // The following function is not exposed through the `frida-gum.h` header, so we don't have an
 // auto-generated binding for it. This may change in a future version.
-extern "C" {
+unsafe extern "C" {
     // On some platforms `ucontext` contains a u128 which does not have a defined ABI. In this case,
     // we disable the error as we assume the behaviour is correct (all other platforms are unaffected).
     #[cfg(target_os = "linux")]
@@ -109,7 +109,7 @@ impl Backtracer {
     /// Generate a fuzzy backtrace as a list of return addresses for the supplied cpu
     /// context.
     pub fn fuzzy_with_context(context: &gum_sys::GumCpuContext) -> Vec<usize> {
-        Self::fuzzy_with_context_and_limit(&context, gum_sys::GUM_MAX_BACKTRACE_DEPTH)
+        Self::fuzzy_with_context_and_limit(context, gum_sys::GUM_MAX_BACKTRACE_DEPTH)
     }
 
     /// Generate a fuzzy backtrace as a list of return addresses for the supplied cpu

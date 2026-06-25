@@ -27,7 +27,7 @@ unsafe extern "C" fn call_on_enter<I: InvocationListener>(
     user_data: *mut c_void,
     context: *mut gum_sys::GumInvocationContext,
 ) {
-    let listener: &mut I = &mut *(user_data as *mut I);
+    let listener: &mut I = unsafe { &mut *(user_data as *mut I) };
     listener.on_enter(InvocationContext::from_raw(context));
 }
 
@@ -35,7 +35,7 @@ unsafe extern "C" fn call_on_leave<I: InvocationListener>(
     user_data: *mut c_void,
     context: *mut gum_sys::GumInvocationContext,
 ) {
-    let listener: &mut I = &mut *(user_data as *mut I);
+    let listener: &mut I = unsafe { &mut *(user_data as *mut I) };
     listener.on_leave(InvocationContext::from_raw(context));
 }
 
@@ -59,7 +59,7 @@ unsafe extern "C" fn call_on_hit<I: ProbeListener>(
     user_data: *mut c_void,
     context: *mut gum_sys::GumInvocationContext,
 ) {
-    let listener: &mut I = &mut *(user_data as *mut I);
+    let listener: &mut I = unsafe { &mut *(user_data as *mut I) };
     listener.on_hit(InvocationContext::from_raw(context));
 }
 
@@ -154,6 +154,40 @@ impl<'a> InvocationContext<'a> {
         } else {
             Some(NativePointer(replacement_data))
         }
+    }
+
+    /// Get the per-function listener data set via
+    /// [`crate::interceptor::AttachOptions::listener_function_data`].
+    ///
+    /// Returns `None` if no function data was associated with this listener.
+    pub fn listener_function_data(&self) -> Option<NativePointer> {
+        let data =
+            unsafe { gum_sys::gum_invocation_context_get_listener_function_data(self.context) };
+        if data.is_null() {
+            None
+        } else {
+            Some(NativePointer(data))
+        }
+    }
+
+    /// Get scratch storage of `size` bytes that is private to this listener and
+    /// the calling thread, zero-initialised on first access.
+    ///
+    /// The returned pointer is valid for the duration of the invocation.
+    pub fn listener_thread_data(&self, size: usize) -> NativePointer {
+        NativePointer(unsafe {
+            gum_sys::gum_invocation_context_get_listener_thread_data(self.context, size as u64)
+        })
+    }
+
+    /// Get scratch storage of `size` bytes that is private to this listener and
+    /// this single invocation, shared between the enter and leave callbacks.
+    ///
+    /// The returned pointer is valid for the duration of the invocation.
+    pub fn listener_invocation_data(&self, size: usize) -> NativePointer {
+        NativePointer(unsafe {
+            gum_sys::gum_invocation_context_get_listener_invocation_data(self.context, size as u64)
+        })
     }
 
     /// Get the thread ID of the currently executing function.

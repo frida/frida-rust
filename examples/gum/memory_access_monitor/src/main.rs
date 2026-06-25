@@ -11,10 +11,10 @@ fn main() {
     let gum = unsafe { frida_gum::Gum::obtain() };
     let mam = MemoryAccessMonitor::new(
         &gum,
-        vec![range],
+        &[range],
         frida_gum::PageProtection::Write,
         true,
-        |_, details| {
+        |details| {
             println!(
                 "[monitor callback] hit: {}, details: {}",
                 HIT.fetch_add(1, std::sync::atomic::Ordering::SeqCst),

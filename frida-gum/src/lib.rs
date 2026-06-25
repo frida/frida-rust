@@ -59,7 +59,7 @@ extern crate num;
 extern crate num_derive;
 
 use core::{
-    ffi::{c_char, c_void, CStr},
+    ffi::{CStr, c_char, c_void},
     fmt::{Debug, Display, Formatter, LowerHex, UpperHex},
 };
 
@@ -78,6 +78,8 @@ pub mod instruction_writer;
 mod module;
 pub use module::*;
 
+pub mod elf_module;
+
 mod module_map;
 pub use module_map::*;
 
@@ -95,8 +97,46 @@ mod memory_access_monitor;
 #[cfg(feature = "memory-access-monitor")]
 pub use memory_access_monitor::*;
 
+mod memory;
+pub use memory::Memory;
+
 mod memory_range;
 pub use memory_range::*;
+
+mod api_resolver;
+pub use api_resolver::*;
+
+mod exceptor;
+pub use exceptor::*;
+
+mod code_allocator;
+pub use code_allocator::*;
+
+mod code_segment;
+pub use code_segment::*;
+
+mod symbol_util;
+pub use symbol_util::*;
+
+mod cloak;
+pub use cloak::*;
+
+mod glib_compat;
+
+mod query;
+pub use query::*;
+
+mod control_flow_graph;
+pub use control_flow_graph::*;
+
+mod unwind_broker;
+pub use unwind_broker::*;
+
+mod tls;
+pub use tls::*;
+
+mod registry;
+pub use registry::*;
 
 mod range_details;
 pub use range_details::*;
