@@ -59,7 +59,7 @@ extern crate num;
 extern crate num_derive;
 
 use core::{
-    ffi::{c_char, c_void, CStr},
+    ffi::{CStr, c_char, c_void},
     fmt::{Debug, Display, Formatter, LowerHex, UpperHex},
 };
 

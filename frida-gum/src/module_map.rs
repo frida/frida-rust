@@ -42,8 +42,10 @@ impl ModuleMap {
             details: *mut gum_sys::GumModule,
             callback: *mut c_void,
         ) -> i32 {
-            let callback = &mut *(callback as *mut Box<&mut dyn FnMut(Module) -> bool>);
-            i32::from((callback)(Module::from_raw(details)))
+            unsafe {
+                let callback = &mut *(callback as *mut Box<&mut dyn FnMut(Module) -> bool>);
+                i32::from((callback)(Module::from_raw(details)))
+            }
         }
         Self::from_raw(unsafe {
             gum_sys::gum_module_map_new_filtered(

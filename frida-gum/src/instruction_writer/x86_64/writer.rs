@@ -2,7 +2,7 @@ use {
     crate::instruction_writer::{Argument, InstructionWriter, X86BranchCondition, X86Register},
     core::ffi::c_void,
     frida_gum_sys as gum_sys,
-    gum_sys::{gssize, GumArgument, GumBranchHint},
+    gum_sys::{GumArgument, GumBranchHint, gssize},
 };
 
 #[cfg(not(any(

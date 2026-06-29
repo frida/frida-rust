@@ -10,7 +10,7 @@ use crate::{FileMapping, Module, NativePointer, Thread};
 
 use {
     crate::{Gum, PageProtection, RangeDetails},
-    core::ffi::{c_char, c_void, CStr},
+    core::ffi::{CStr, c_char, c_void},
     core::{fmt, fmt::Debug},
     frida_gum_sys as gum_sys,
     frida_gum_sys::{gboolean, gpointer},
@@ -22,14 +22,14 @@ use cstr_core::CString;
 use frida_gum_sys::GumThreadFlags_GUM_THREAD_FLAGS_ALL;
 
 #[cfg(any(target_os = "linux", target_os = "freebsd"))]
-extern "C" {
+unsafe extern "C" {
     pub fn _frida_g_get_home_dir() -> *const c_char;
     pub fn _frida_g_get_current_dir() -> *const c_char;
     pub fn _frida_g_get_tmp_dir() -> *const c_char;
 }
 
 #[cfg(not(any(target_os = "linux", target_os = "freebsd")))]
-extern "C" {
+unsafe extern "C" {
     pub fn g_get_home_dir() -> *const c_char;
     pub fn g_get_current_dir() -> *const c_char;
     pub fn g_get_tmp_dir() -> *const c_char;
@@ -185,23 +185,25 @@ impl<'a> Process<'a> {
             details: *const gum_sys::GumRangeDetails,
             user_data: gpointer,
         ) -> gboolean {
-            let res = &mut *(user_data as *mut CallbackData);
-            let r_details = RangeDetails::from_raw(details);
+            unsafe {
+                let res = &mut *(user_data as *mut CallbackData);
+                let r_details = RangeDetails::from_raw(details);
 
-            let prot = r_details.protection();
-            if res.protection == prot {
-                let m_range = r_details.memory_range();
-                let file_map = r_details.file_mapping();
+                let prot = r_details.protection();
+                if res.protection == prot {
+                    let m_range = r_details.memory_range();
+                    let file_map = r_details.file_mapping();
 
-                res.ranges.push(Range {
-                    base: m_range.base_address(),
-                    size: m_range.size(),
-                    protection: prot,
-                    file: file_map,
-                });
+                    res.ranges.push(Range {
+                        base: m_range.base_address(),
+                        size: m_range.size(),
+                        protection: prot,
+                        file: file_map,
+                    });
+                }
+
+                1
             }
-
-            1
         }
 
         let callback_data = CallbackData {
@@ -230,10 +232,12 @@ impl<'a> Process<'a> {
             details: *mut gum_sys::GumModule,
             user_data: gpointer,
         ) -> gboolean {
-            let res = &mut *(user_data as *mut CallbackData);
-            res.modules.push(Module::from_raw(details));
+            unsafe {
+                let res = &mut *(user_data as *mut CallbackData);
+                res.modules.push(Module::from_raw(details));
 
-            1
+                1
+            }
         }
 
         let callback_data = CallbackData {
@@ -256,12 +260,14 @@ impl<'a> Process<'a> {
             details: *const gum_sys::GumThreadDetails,
             user_data: gpointer,
         ) -> gboolean {
-            let res = &mut *(user_data as *mut Vec<Thread>);
-            res.push(Thread::from_raw(details));
+            unsafe {
+                let res = &mut *(user_data as *mut Vec<Thread>);
+                res.push(Thread::from_raw(details));
 
-            // if this value is zero, the iteration ends
-            // subprojects/frida-gum/gum/gumthreadregistry.c
-            1
+                // if this value is zero, the iteration ends
+                // subprojects/frida-gum/gum/gumthreadregistry.c
+                1
+            }
         }
 
         let callback_data = Vec::new();

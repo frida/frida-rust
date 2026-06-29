@@ -27,16 +27,20 @@ unsafe extern "C" fn call_on_enter<I: InvocationListener>(
     user_data: *mut c_void,
     context: *mut gum_sys::GumInvocationContext,
 ) {
-    let listener: &mut I = &mut *(user_data as *mut I);
-    listener.on_enter(InvocationContext::from_raw(context));
+    unsafe {
+        let listener: &mut I = &mut *(user_data as *mut I);
+        listener.on_enter(InvocationContext::from_raw(context));
+    }
 }
 
 unsafe extern "C" fn call_on_leave<I: InvocationListener>(
     user_data: *mut c_void,
     context: *mut gum_sys::GumInvocationContext,
 ) {
-    let listener: &mut I = &mut *(user_data as *mut I);
-    listener.on_leave(InvocationContext::from_raw(context));
+    unsafe {
+        let listener: &mut I = &mut *(user_data as *mut I);
+        listener.on_leave(InvocationContext::from_raw(context));
+    }
 }
 
 pub(crate) fn invocation_listener_transform<I: InvocationListener>(
@@ -59,8 +63,10 @@ unsafe extern "C" fn call_on_hit<I: ProbeListener>(
     user_data: *mut c_void,
     context: *mut gum_sys::GumInvocationContext,
 ) {
-    let listener: &mut I = &mut *(user_data as *mut I);
-    listener.on_hit(InvocationContext::from_raw(context));
+    unsafe {
+        let listener: &mut I = &mut *(user_data as *mut I);
+        listener.on_hit(InvocationContext::from_raw(context));
+    }
 }
 
 pub(crate) fn probe_listener_transform<I: ProbeListener>(
