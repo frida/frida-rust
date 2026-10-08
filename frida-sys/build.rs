@@ -42,7 +42,12 @@ fn main() {
         }
     }
 
-    let bindings = bindgen::Builder::default();
+    let bindings = bindgen::Builder::default()
+        // Prevent clang from substituting its own prototypes for builtins such
+        // as memcpy() and strlen(), which map `size_t` to c_uint/c_ulonglong
+        // instead of usize and trip the `suspicious_runtime_symbol_definitions`
+        // lint on 32-bit targets.
+        .clang_arg("-fno-builtin");
 
     #[cfg(feature = "auto-download")]
     let bindings = bindings.clang_arg(format!("-I{include_dir}"));

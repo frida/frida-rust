@@ -80,6 +80,11 @@ fn main() {
 
     let bindings = bindgen::Builder::default()
         .use_core()
+        // Prevent clang from substituting its own prototypes for builtins such
+        // as memcpy() and strlen(), which map `size_t` to c_uint/c_ulonglong
+        // instead of usize and trip the `suspicious_runtime_symbol_definitions`
+        // lint on 32-bit targets.
+        .clang_arg("-fno-builtin")
         .formatter(bindgen::Formatter::Prettyplease);
 
     #[cfg(feature = "auto-download")]
